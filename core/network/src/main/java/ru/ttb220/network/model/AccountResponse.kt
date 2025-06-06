@@ -1,6 +1,6 @@
-package ru.ttb220.model
+package ru.ttb220.network.model
 
-data class Account(
+data class AccountResponse(
     val id: Int,
     val userId: Int,
     val name: String,
