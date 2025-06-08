@@ -7,10 +7,10 @@
       </SelectionState>
       <SelectionState runConfigName="demo">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-06-08T09:01:19.054132300Z">
+        <DropdownSelection timestamp="2025-06-08T09:46:09.809696700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Razida\.android\avd\Test_Device_2.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Razida\.android\avd\test.avd" />
             </handle>
           </Target>
         </DropdownSelection>
