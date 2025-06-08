@@ -26,81 +26,79 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.ttb220.mock.mockExpenseResources
 import ru.ttb220.model.ExpenseResource
 import ru.ttb220.ui.R
 import ru.ttb220.ui.theme.Roboto
 
-// TODO: На макете выглядит потемнее
 private val DEFAULT_ICON_TINT = Color(0xFF3C3C43).copy(alpha = 0.3f)
 
-// TODO: Стоит переделать на LazyColumn.
-@Composable
-fun ExpensesList(
-    expenses: List<ExpenseResource>,
-    expensesTotal: String,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp)
-    ) {
-        TotalAmountHeader(expensesTotal)
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            expenses.forEach {
-                ExpenseColumnItem(it)
-            }
-        }
-    }
+sealed interface LeadingIcon {
+    data class Emoji(@DrawableRes val emojiId: Int) : LeadingIcon
+    // name.split(" ").map { it[0] }.take(2).joinToString("").uppercase()
+    data class Letters(val letters: String) : LeadingIcon
 }
 
+/**
+ * implicitly sets height to 70
+ */
 @Composable
-private fun ExpenseColumnItem(
-    expense: ExpenseResource,
-    modifier: Modifier = Modifier
+fun ColumnListItem(
+    leadingIcon: LeadingIcon,
+    title: String,
+    trailingText: String,
+    @DrawableRes trailingIcon: Int,
+    modifier: Modifier = Modifier,
+    description: String? = null,
+    shouldShowLeadingDivider: Boolean = false,
+    shouldShowTrailingDivider: Boolean = false,
 ) {
     Column(
         modifier = modifier
             .height(70.dp)
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface),
-        verticalArrangement = Arrangement.Bottom
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
+        if (shouldShowLeadingDivider)
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                // TODO: заменить на fillMaxSize() отрисовав перед этим все нужные divider-ы
-                .height(69.dp)
+                .weight(1f)
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Draws either an emoji or first two letters of the name uppercase
             LeadingIcon(
-                emojiId = expense.emojiId,
-                expenseName = expense.name,
+                leadingIcon = leadingIcon,
                 modifier = Modifier
             )
+
             Spacer(Modifier.width(16.dp))
+
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start,
             ) {
                 Text(
-                    text = expense.name,
+                    text = title,
                     modifier = Modifier,
                     color = MaterialTheme.colorScheme.onSurface,
                     softWrap = false,
                     maxLines = 1,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                expense.shortDescription?.let {
+                description?.let {
                     Text(
                         text = it,
                         modifier = Modifier,
@@ -111,9 +109,11 @@ private fun ExpenseColumnItem(
                     )
                 }
             }
+
             Spacer(Modifier.width(16.dp))
+
             Text(
-                text = expense.amount,
+                text = trailingText,
                 modifier = Modifier,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.End,
@@ -121,36 +121,40 @@ private fun ExpenseColumnItem(
                 maxLines = 1,
                 style = MaterialTheme.typography.bodyLarge
             )
+
             Spacer(Modifier.width(16.dp))
+
             Icon(
-                painterResource(R.drawable.more_right),
+                painterResource(trailingIcon),
                 null,
                 tint = DEFAULT_ICON_TINT
             )
         }
-        HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant,
-        )
+
+        if (shouldShowTrailingDivider)
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant,
+            )
     }
 }
 
 @Composable
 private fun LeadingIcon(
-    @DrawableRes emojiId: Int?,
-    expenseName: String,
+    leadingIcon: LeadingIcon,
     modifier: Modifier = Modifier,
 ) {
-    emojiId?.let {
-        EmojiIcon(
-            emojiId = emojiId,
+    when (leadingIcon) {
+        is LeadingIcon.Emoji -> EmojiIcon(
+            emojiId = leadingIcon.emojiId,
             modifier = modifier
         )
-    } ?: TextIcon(
-        letters = expenseName,
-        modifier = Modifier
-    )
+
+        is LeadingIcon.Letters -> TextIcon(
+            leadingIcon.letters
+        )
+    }
 }
 
 @Composable
@@ -190,15 +194,5 @@ private fun EmojiIcon(
         contentDescription = null,
         modifier = modifier.size(24.dp),
         alignment = Alignment.Center
-    )
-}
-
-@Preview
-@Composable
-private fun ExpensesListPreview() {
-    ExpensesList(
-        expenses = mockExpenseResources,
-        expensesTotal = "436 558 ₽",
-        modifier = Modifier,
     )
 }
