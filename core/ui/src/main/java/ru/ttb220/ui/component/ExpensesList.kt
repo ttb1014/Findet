@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,9 +33,13 @@ import androidx.compose.ui.unit.sp
 import ru.ttb220.mock.mockExpenseResources
 import ru.ttb220.model.ExpenseResource
 import ru.ttb220.mock.mockTotalExpenses
+import ru.ttb220.ui.R
 import ru.ttb220.ui.theme.Roboto
 
 val DEFAULT_TOTAL_AMOUNT_HEADER_FILL = Color(0xFFD4FAE6)
+
+// TODO: На макете выглядит потемнее
+val DEFAULT_ICON_TINT = Color(0xFF3C3C43).copy(alpha = 0.3f)
 
 // TODO: Стоит переделать на LazyColumn.
 @Composable
@@ -86,7 +92,7 @@ fun ExpenseColumnItem(
             )
             Spacer(Modifier.width(16.dp))
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start,
             ) {
@@ -109,6 +115,22 @@ fun ExpenseColumnItem(
                     )
                 }
             }
+            Spacer(Modifier.width(16.dp))
+            Text(
+                text = expense.amount,
+                modifier = Modifier,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.End,
+                softWrap = false,
+                maxLines = 1,
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Spacer(Modifier.width(16.dp))
+            Icon(
+                painterResource(R.drawable.more_right),
+                null,
+                tint = DEFAULT_ICON_TINT
+            )
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),

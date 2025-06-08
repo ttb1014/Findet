@@ -1,47 +1,36 @@
 package ru.ttb220.demo
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.systemGesturesPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import ru.ttb220.mock.mockExpenseResources
 import ru.ttb220.mock.mockTotalExpenses
-import ru.ttb220.ui.component.TopAppBar
-import ru.ttb220.ui.theme.Green
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.BottomBar
+import ru.ttb220.ui.component.ButtonCircle
 import ru.ttb220.ui.component.ExpensesList
+import ru.ttb220.ui.component.TopAppBar
 import ru.ttb220.ui.model.DestinationResource
 import ru.ttb220.ui.model.TopLevelDestination
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(
-                lightScrim = ,
-                darkScrim = ,
-            ),
-            navigationBarStyle = SystemBarStyle.auto(
-                lightScrim = ,
-                darkScrim = ,
-            )
-        )
+        enableEdgeToEdge()
         setContent {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                window.statusBarColor = Green.toArgb()
-                window.navigationBarColor = MaterialTheme.colorScheme.surface.toArgb()
-            }
+            // TODO: change color of status and navigation bars
             Scaffold(
                 modifier = Modifier,
                 topBar = {
@@ -50,6 +39,10 @@ class MainActivity : ComponentActivity() {
                         leadingIcon = null,
                         trailingIcon = R.drawable.history,
                         modifier = Modifier
+                            .windowInsetsPadding(
+                                WindowInsets.systemBars
+                                    .only(WindowInsetsSides.Top)
+                            )
                     )
                 },
                 bottomBar = {
@@ -61,8 +54,15 @@ class MainActivity : ComponentActivity() {
                             )
                         },
                         modifier = Modifier
+                            .windowInsetsPadding(
+                                WindowInsets.systemBars
+                                    .only(WindowInsetsSides.Bottom)
+                            )
                     )
                 },
+                // TODO: investigate whether it places button correctly according to design (surely no)
+                floatingActionButton = { ButtonCircle() },
+                floatingActionButtonPosition = FabPosition.End,
                 containerColor = MaterialTheme.colorScheme.surface,
             ) { padding ->
                 ExpensesList(
@@ -70,6 +70,10 @@ class MainActivity : ComponentActivity() {
                     expensesTotal = mockTotalExpenses,
                     modifier = Modifier
                         .padding(padding)
+                        .consumeWindowInsets(padding)
+                        .windowInsetsPadding(
+                            WindowInsets.systemBars
+                        ),
                 )
             }
         }

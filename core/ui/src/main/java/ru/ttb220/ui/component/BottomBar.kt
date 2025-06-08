@@ -32,7 +32,7 @@ fun BottomBar(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(horizontal = 8.dp),
