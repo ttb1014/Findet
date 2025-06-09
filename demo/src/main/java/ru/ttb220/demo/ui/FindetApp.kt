@@ -11,19 +11,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import ru.ttb220.demo.FindetNavHost
+import ru.ttb220.demo.ui.navigation.FindetNavHost
+import ru.ttb220.demo.ui.navigation.Destination
+import ru.ttb220.model.NavigationResource
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.BottomBar
 import ru.ttb220.ui.component.ButtonCircle
 import ru.ttb220.ui.component.TopAppBar
-import ru.ttb220.ui.model.DestinationResource
-import ru.ttb220.ui.model.TopLevelDestination
 
 @Composable
 fun FindetApp(
     navHostController: NavHostController,
+    currentRoute: String,
     modifier: Modifier = Modifier
 ) {
     // TODO: change color of status and navigation bars
@@ -39,16 +39,16 @@ fun FindetApp(
                         WindowInsets.systemBars
                             .only(WindowInsetsSides.Top)
                     )
-                    // только на тестовом эмуляторе!!!
-                    .padding(top = 28.dp)
             )
         },
         bottomBar = {
             BottomBar(
-                destinations = TopLevelDestination.entries.map {
-                    DestinationResource(
-                        destination = it,
-                        isActive = false,
+                destinations = Destination.entries.map {
+                    NavigationResource(
+                        route = it.name,
+                        iconId = it.iconId,
+                        textId = it.textId,
+                        isSelected = currentRoute == it.name
                     )
                 },
                 modifier = Modifier

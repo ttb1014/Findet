@@ -1,4 +1,4 @@
-package ru.ttb220.demo
+package ru.ttb220.demo.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,27 +7,35 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.ttb220.mock.mockExpenseResources
 import ru.ttb220.mock.mockTotalExpenses
-import ru.ttb220.ui.component.ExpensesList
-import ru.ttb220.ui.model.TopLevelDestination
+import ru.ttb220.ui.screen.ExpensesScreen
+import ru.ttb220.ui.screen.IncomesScreen
 
 @Composable
 fun FindetNavHost(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = TopLevelDestination.EXPENSES.name
+    startRoute: String = Destination.EXPENSES.name
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = startDestination,
+        startDestination = startRoute,
         modifier = modifier
     ) {
         composable(
-            route = TopLevelDestination.EXPENSES.name
+            route = Destination.EXPENSES.name
         ) {
-            ExpensesList(
+            ExpensesScreen(
                 expenses = mockExpenseResources,
                 expensesTotal = mockTotalExpenses,
                 modifier = Modifier
+            )
+        }
+        composable(
+            route = Destination.INCOMES.name
+        ) {
+            IncomesScreen(
+                incomesScreenResource = mockIncomesResource,
+                modifier = Modifier,
             )
         }
     }

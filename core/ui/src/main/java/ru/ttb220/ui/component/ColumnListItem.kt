@@ -1,19 +1,14 @@
 package ru.ttb220.ui.component
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,42 +18,51 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import ru.ttb220.model.ExpenseResource
-import ru.ttb220.ui.R
-import ru.ttb220.ui.theme.Roboto
 
 private val DEFAULT_ICON_TINT = Color(0xFF3C3C43).copy(alpha = 0.3f)
+private val DEFAULT_ICON_BACKGROUND = Color(0xFFD4FAE6)
 
-sealed interface LeadingIcon {
-    data class Emoji(@DrawableRes val emojiId: Int) : LeadingIcon
-    // name.split(" ").map { it[0] }.take(2).joinToString("").uppercase()
-    data class Letters(val letters: String) : LeadingIcon
+// name.split(" ").map { it[0] }.take(2).joinToString("").uppercase()
+sealed class LeadingIcon(
+    val background: Color
+) {
+    class Emoji(
+        @DrawableRes val emojiId: Int,
+        background: Color = DEFAULT_ICON_BACKGROUND
+    ) : LeadingIcon(background)
+
+    class Letters(
+        val letters: String,
+        background: Color = DEFAULT_ICON_BACKGROUND
+    ) : LeadingIcon(
+        background
+    )
 }
 
 /**
- * implicitly sets height to 70
+ * Wraps content height by default
  */
 @Composable
 fun ColumnListItem(
-    leadingIcon: LeadingIcon,
     title: String,
     trailingText: String,
-    @DrawableRes trailingIcon: Int,
     modifier: Modifier = Modifier,
+    background: Color = MaterialTheme.colorScheme.surface,
+    leadingIcon: LeadingIcon? = null,
+    @DrawableRes trailingIcon: Int? = null,
+    trailingIconTint: Color = DEFAULT_ICON_TINT,
     description: String? = null,
+    trailingTextDescription: String? = null,
     shouldShowLeadingDivider: Boolean = false,
     shouldShowTrailingDivider: Boolean = false,
 ) {
     Column(
         modifier = modifier
-            .height(70.dp)
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface),
+            .background(background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -78,12 +82,14 @@ fun ColumnListItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Draws either an emoji or first two letters of the name uppercase
-            LeadingIcon(
-                leadingIcon = leadingIcon,
-                modifier = Modifier
-            )
+            leadingIcon?.let {
+                LeadingIcon(
+                    leadingIcon = leadingIcon,
+                    modifier = Modifier
+                )
 
-            Spacer(Modifier.width(16.dp))
+                Spacer(Modifier.width(16.dp))
+            }
 
             Column(
                 modifier = Modifier.weight(1f),
@@ -112,23 +118,42 @@ fun ColumnListItem(
 
             Spacer(Modifier.width(16.dp))
 
-            Text(
-                text = trailingText,
+            Column(
                 modifier = Modifier,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.End,
-                softWrap = false,
-                maxLines = 1,
-                style = MaterialTheme.typography.bodyLarge
-            )
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    text = trailingText,
+                    modifier = Modifier,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.End,
+                    softWrap = false,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                trailingTextDescription?.let {
+                    Text(
+                        text = trailingTextDescription,
+                        modifier = Modifier,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.End,
+                        softWrap = false,
+                        maxLines = 1,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+            }
 
-            Spacer(Modifier.width(16.dp))
+            trailingIcon?.let {
+                Spacer(Modifier.width(16.dp))
 
-            Icon(
-                painterResource(trailingIcon),
-                null,
-                tint = DEFAULT_ICON_TINT
-            )
+                Icon(
+                    painterResource(trailingIcon),
+                    null,
+                    tint = trailingIconTint
+                )
+            }
         }
 
         if (shouldShowTrailingDivider)
@@ -148,51 +173,23 @@ private fun LeadingIcon(
     when (leadingIcon) {
         is LeadingIcon.Emoji -> EmojiIcon(
             emojiId = leadingIcon.emojiId,
-            modifier = modifier
+            modifier = modifier,
+            iconBackground = leadingIcon.background
         )
 
         is LeadingIcon.Letters -> TextIcon(
-            leadingIcon.letters
+            letters = leadingIcon.letters,
+            modifier = modifier,
+            iconBackground = leadingIcon.background
         )
     }
 }
 
+@Preview
 @Composable
-private fun TextIcon(
-    letters: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .size(24.dp)
-            .background(Color(0xFFD4FAE6), CircleShape),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = letters,
-            modifier = Modifier,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 10.sp,
-            fontStyle = FontStyle.Normal,
-            fontWeight = FontWeight.Medium,
-            fontFamily = Roboto,
-            letterSpacing = 0.sp,
-            lineHeight = 22.sp,
-            softWrap = false,
-            maxLines = 1,
-        )
-    }
-}
-
-@Composable
-private fun EmojiIcon(
-    @DrawableRes emojiId: Int,
-    modifier: Modifier = Modifier
-) {
-    Image(
-        painter = painterResource(emojiId),
-        contentDescription = null,
-        modifier = modifier.size(24.dp),
-        alignment = Alignment.Center
+private fun ColumnListItemPreview() {
+    ColumnListItem(
+        title = "Всего",
+        trailingText = "123123 P",
     )
 }

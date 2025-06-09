@@ -24,17 +24,17 @@ import androidx.compose.ui.unit.dp
 import ru.ttb220.ui.R
 import ru.ttb220.ui.theme.Green
 
-val DEFAULT_TRAILING_ICON_TINT = Color(0xFF49454F)
+private val DEFAULT_TRAILING_ICON_TINT = Color(0xFF49454F)
 
 /**
- * @param text Должен вмещаться в контейнер, иначе ???
+ * @param text Должен вмещаться в контейнер
  */
 @Composable
 fun TopAppBar(
     text: String,
-    @DrawableRes trailingIcon: Int,
     modifier: Modifier = Modifier,
     @DrawableRes leadingIcon: Int? = null,
+    @DrawableRes trailingIcon: Int? = null,
 ) {
     Row(
         modifier = modifier
@@ -51,6 +51,7 @@ fun TopAppBar(
                 MaterialTheme.colorScheme.onSurface
             )
         } ?: Spacer(Modifier.size(48.dp))
+
         Text(
             text = text,
             modifier = Modifier,
@@ -60,10 +61,13 @@ fun TopAppBar(
             maxLines = 1,
             style = MaterialTheme.typography.titleLarge
         )
-        TopAppBarIcon(
-            trailingIcon,
-            DEFAULT_TRAILING_ICON_TINT
-        )
+
+        trailingIcon?.let {
+            TopAppBarIcon(
+                trailingIcon,
+                DEFAULT_TRAILING_ICON_TINT
+            )
+        } ?: Spacer(Modifier.size(48.dp))
     }
 }
 
@@ -79,21 +83,15 @@ private fun TopAppBarIcon(
     ) {
         // container
         Box(
-            modifier = Modifier,
+            modifier = Modifier.padding(12.dp),
             contentAlignment = Alignment.Center
         ) {
-            // state-layer
-            Box(
-                modifier = Modifier.padding(8.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(iconId),
-                    contentDescription = null,
-                    modifier = Modifier,
-                    tint = tint
-                )
-            }
+            Icon(
+                painter = painterResource(iconId),
+                contentDescription = null,
+                modifier = Modifier,
+                tint = tint
+            )
         }
     }
 }

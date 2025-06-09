@@ -1,30 +1,31 @@
-package ru.ttb220.ui.model
+package ru.ttb220.demo.ui.navigation
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import ru.ttb220.ui.R
 
-enum class TopLevelDestination(
+enum class Destination(
     @DrawableRes val iconId: Int,
-    val destinationName: String,
+    @StringRes val textId: Int,
 ) {
     EXPENSES(
         R.drawable.downtrend,
-        "Расходы"
+        ru.ttb220.demo.R.string.expenses,
     ),
     INCOMES(
         R.drawable.uptrend,
-        "Доходы",
+        ru.ttb220.demo.R.string.incomes,
     ),
     ACCOUNT(
         R.drawable.calculator,
-        "Счет"
+        ru.ttb220.demo.R.string.account,
     ),
     ARTICLES(
         R.drawable.barchartside,
-        "Статьи"
+        ru.ttb220.demo.R.string.articles,
     ),
     SETTINGS(
         R.drawable.settings,
-        "Настройки"
+        ru.ttb220.demo.R.string.settings,
     )
 }

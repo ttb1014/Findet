@@ -1,6 +1,7 @@
 package ru.ttb220.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,17 +20,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.ui.model.DestinationResource
-import ru.ttb220.ui.model.TopLevelDestination
+import ru.ttb220.model.NavigationResource
+import ru.ttb220.ui.R
+
+private val DEFAULT_ACTIVE_DESTINATION_HIGHLIGHT = Color(0xFFD4FAE6)
+private val DEFAULT_ACTIVE_DESTINATION_ICON_TINT = Color(0xFF2AE881)
 
 @Composable
 fun BottomBar(
-    destinations: List<DestinationResource>,
-    modifier: Modifier = Modifier
+    destinations: List<NavigationResource>,
+    modifier: Modifier = Modifier,
+    onNavigateTo: (String) -> Unit = {},
 ) {
     Row(
         modifier = modifier
@@ -40,8 +46,9 @@ fun BottomBar(
     ) {
         destinations.forEachIndexed { index, it ->
             BottomBarItem(
-                destination = it,
-                modifier = Modifier.weight(1f)
+                navigationResource = it,
+                modifier = Modifier.weight(1f),
+                onNavigateTo = onNavigateTo
             )
             if (index != destinations.lastIndex)
                 Spacer(Modifier.width(8.dp))
@@ -49,20 +56,21 @@ fun BottomBar(
     }
 }
 
-val DEFAULT_ACTIVE_DESTINATION_HIGHLIGHT = Color(0xFFD4FAE6)
-val DEFAULT_ACTIVE_DESTINATION_ICON_TINT = Color(0xFF2AE881)
-
 /**
  * Hugs content by default
  */
 @Composable
 private fun BottomBarItem(
-    destination: DestinationResource,
+    navigationResource: NavigationResource,
     modifier: Modifier = Modifier,
+    onNavigateTo: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
-            .padding(top = 12.dp, bottom = 16.dp),
+            .padding(top = 12.dp, bottom = 16.dp)
+            .clickable {
+                onNavigateTo(navigationResource.route)
+            },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -78,25 +86,25 @@ private fun BottomBarItem(
                     height = 32.dp
                 )
                 .let {
-                    if (destination.isActive)
+                    if (navigationResource.isSelected)
                         it.then(backgroundModifier) else it
                 },
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                painter = painterResource(destination.destination.iconId),
+                painter = painterResource(navigationResource.iconId),
                 null,
                 Modifier,
-                tint = if (destination.isActive) DEFAULT_ACTIVE_DESTINATION_ICON_TINT else
+                tint = if (navigationResource.isSelected) DEFAULT_ACTIVE_DESTINATION_ICON_TINT else
                     MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Text(
-            text = destination.destination.destinationName,
+            text = stringResource(navigationResource.textId),
             modifier = Modifier,
-            color = if (destination.isActive) MaterialTheme.colorScheme.onSurfaceVariant else
+            color = if (navigationResource.isSelected) MaterialTheme.colorScheme.onSurfaceVariant else
                 MaterialTheme.colorScheme.onSurface,
-            fontWeight = if (destination.isActive) FontWeight.SemiBold else null,
+            fontWeight = if (navigationResource.isSelected) FontWeight.SemiBold else null,
             textAlign = TextAlign.Center,
             softWrap = false,
             maxLines = 1,
@@ -109,11 +117,36 @@ private fun BottomBarItem(
 @Composable
 private fun BottomBarPreview() {
     BottomBar(
-        destinations = TopLevelDestination.entries.mapIndexed { index, element ->
-            DestinationResource(
-                element,
-                if (index == 0) true else false
-            )
-        },
+        destinations = listOf(
+            NavigationResource(
+                route = "",
+                iconId = R.drawable.downtrend,
+                textId = ru.ttb220.mock.R.string.expenses,
+                isSelected = true,
+            ),
+            NavigationResource(
+                route = "",
+                iconId = R.drawable.uptrend,
+                textId = ru.ttb220.mock.R.string.incomes,
+                isSelected = false,
+            ),
+            NavigationResource(
+                route = "",
+                iconId = R.drawable.calculator,
+                textId = ru.ttb220.mock.R.string.account,
+                isSelected = false,
+            ),
+            NavigationResource(
+                route = "",
+                iconId = R.drawable.barchartside,
+                textId = ru.ttb220.mock.R.string.articles,
+                isSelected = false,
+            ),NavigationResource(
+                route = "",
+                iconId = R.drawable.settings,
+                textId = ru.ttb220.mock.R.string.settings,
+                isSelected = false,
+            ),
+        )
     )
 }

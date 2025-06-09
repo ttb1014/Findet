@@ -1,11 +1,12 @@
 package ru.ttb220.demo.ui
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import ru.ttb220.ui.model.TopLevelDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 class AppState(
     private val navController: NavController,
 ) {
-    val currentTopLevelDestination: TopLevelDestination? =
-        navController.currentDestination?.route?.let { TopLevelDestination.valueOf(it) }
+    val currentRoute: String?
+        @Composable get() = navController.currentBackStackEntryAsState().value?.destination?.route
 }

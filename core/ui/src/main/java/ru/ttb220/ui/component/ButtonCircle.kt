@@ -1,15 +1,9 @@
 package ru.ttb220.ui.component
 
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +17,8 @@ import ru.ttb220.ui.theme.Green
 
 @Composable
 fun ButtonCircle(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
@@ -43,7 +38,7 @@ fun ButtonCircle(
                     start = Offset(centerX - lineLength / 2, centerY),
                     end = Offset(centerX + lineLength / 2, centerY),
                     strokeWidth = lineWidth,
-                    cap= StrokeCap.Round
+                    cap = StrokeCap.Round
                 )
 
                 drawLine(
@@ -51,7 +46,7 @@ fun ButtonCircle(
                     start = Offset(centerX, centerY - lineLength / 2),
                     end = Offset(centerX, centerY + lineLength / 2),
                     strokeWidth = lineWidth,
-                    cap= StrokeCap.Round
+                    cap = StrokeCap.Round
                 )
             },
         contentAlignment = Alignment.Center
