@@ -3,6 +3,7 @@ package ru.ttb220.ui.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ru.ttb220.mock.mockIncomesScreenResource
 import ru.ttb220.model.IncomesScreenResource
 
 @Composable
