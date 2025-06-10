@@ -48,6 +48,8 @@ fun TopAppBar(
     ) {
         Row(
             modifier = modifier
+                // Только для тестового эмулятора
+//                .padding(top = 24.dp)
                 .windowInsetsPadding(
                     WindowInsets.systemBars
                         .only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
