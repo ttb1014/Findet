@@ -1,17 +1,57 @@
 package ru.ttb220.ui.screen
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockIncomesScreenResource
+import ru.ttb220.model.IncomeResource
 import ru.ttb220.model.IncomesScreenResource
+import ru.ttb220.ui.R
+import ru.ttb220.ui.component.ColumnListItem
+
+private val DEFAULT_BACKGROUND = Color(0xFFD4FAE6)
 
 @Composable
 fun IncomesScreen(
     incomesScreenResource: IncomesScreenResource,
     modifier: Modifier = Modifier
 ) {
+    Column(
+        modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp)
+    ) {
+        Header(incomesScreenResource.totalAmount)
+        incomesScreenResource.incomes.forEachIndexed { index: Int, incomeResource: IncomeResource ->
+            ColumnListItem(
+                title = incomeResource.title,
+                trailingText = incomeResource.amount,
+                modifier = Modifier.height(73.dp),
+                trailingIcon = R.drawable.more_right,
+                shouldShowLeadingDivider = index == 0,
+                shouldShowTrailingDivider = true
+            )
+        }
+    }
+}
 
+@Composable
+private fun Header(
+    totalAmount: String,
+    modifier: Modifier = Modifier
+) {
+    ColumnListItem(
+        title = "Всего",
+        trailingText = totalAmount,
+        modifier = modifier.height(56.dp),
+        background = DEFAULT_BACKGROUND
+    )
 }
 
 @Preview
