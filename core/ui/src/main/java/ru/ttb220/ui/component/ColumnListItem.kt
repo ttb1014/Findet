@@ -48,10 +48,10 @@ sealed class LeadingIcon(
 @Composable
 fun ColumnListItem(
     title: String,
-    trailingText: String,
     modifier: Modifier = Modifier,
     background: Color = MaterialTheme.colorScheme.surface,
     leadingIcon: LeadingIcon? = null,
+    trailingText: String? = null,
     @DrawableRes trailingIcon: Int? = null,
     trailingIconTint: Color = DEFAULT_ICON_TINT,
     description: String? = null,
@@ -118,23 +118,14 @@ fun ColumnListItem(
 
             Spacer(Modifier.width(16.dp))
 
-            Column(
-                modifier = Modifier,
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.Start,
-            ) {
-                Text(
-                    text = trailingText,
+            trailingText?.let {
+                Column(
                     modifier = Modifier,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.End,
-                    softWrap = false,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                trailingTextDescription?.let {
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start,
+                ) {
                     Text(
-                        text = trailingTextDescription,
+                        text = trailingText,
                         modifier = Modifier,
                         color = MaterialTheme.colorScheme.onSurface,
                         textAlign = TextAlign.End,
@@ -142,6 +133,17 @@ fun ColumnListItem(
                         maxLines = 1,
                         style = MaterialTheme.typography.bodyLarge
                     )
+                    trailingTextDescription?.let {
+                        Text(
+                            text = trailingTextDescription,
+                            modifier = Modifier,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.End,
+                            softWrap = false,
+                            maxLines = 1,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
                 }
             }
 

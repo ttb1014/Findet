@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_color">Основной цвет</string>
+    <string name="sounds">Звуки</string>
+    <string name="haptics">Хаптики</string>
+    <string name="password">Код пароль</string>
+    <string name="sync">Синхронизация</string>
+    <string name="lang">Язык</string>
+    <string name="info">О программе</string>
+</resources>

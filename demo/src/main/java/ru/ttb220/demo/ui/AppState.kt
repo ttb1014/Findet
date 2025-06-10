@@ -1,12 +1,28 @@
 package ru.ttb220.demo.ui
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import ru.ttb220.demo.navigation.Destination
 
+@Composable
+fun rememberAppState(
+    navController: NavHostController = rememberNavController()
+) = remember {
+    AppState(navController)
+}
+
+@Stable
 class AppState(
-    private val navController: NavController,
+    val navHostController: NavHostController,
 ) {
     val currentRoute: String?
-        @Composable get() = navController.currentBackStackEntryAsState().value?.destination?.route
+        @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
+
+    fun navigateTo(destination: String) {
+        navHostController.navigate(destination)
+    }
 }

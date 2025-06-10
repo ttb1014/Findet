@@ -1,4 +1,4 @@
-package ru.ttb220.demo.ui.navigation
+package ru.ttb220.demo.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

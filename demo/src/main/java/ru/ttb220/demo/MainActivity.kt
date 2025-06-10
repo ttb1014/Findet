@@ -6,7 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import ru.ttb220.demo.ui.FindetApp
-import ru.ttb220.demo.ui.navigation.Destination
+import ru.ttb220.demo.navigation.Destination
+import ru.ttb220.demo.ui.rememberAppState
 import ru.ttb220.ui.theme.FindetTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,10 +16,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FindetTheme {
-                val navHostController = rememberNavController()
+                val appState = rememberAppState()
                 FindetApp(
-                    navHostController,
-                    Destination.EXPENSES.name
+                    appState,
+                    Destination.ACCOUNT.name
                 )
             }
         }
