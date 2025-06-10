@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">demo</string>
     <string name="expenses">Расходы</string>
+    <string name="top_expenses">Расходы сегодня</string>
     <string name="incomes">Доходы</string>
+    <string name="top_incomes">Доходы сегодня</string>
     <string name="account">Счет</string>
+    <string name="top_account">Мой счет</string>
     <string name="articles">Статьи</string>
+    <string name="top_articles">Мои статьи</string>
     <string name="settings">Настройки</string>
+    <string name="top_settings">Настройки</string>
 </resources>

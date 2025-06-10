@@ -14,7 +14,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 
-private val DarkColorScheme = darkColorScheme()
+private val DarkColorScheme = darkColorScheme(
+
+)
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF65558F),

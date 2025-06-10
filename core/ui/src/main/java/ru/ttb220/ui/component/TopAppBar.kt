@@ -6,12 +6,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,38 +42,47 @@ fun TopAppBar(
     @DrawableRes leadingIcon: Int? = null,
     @DrawableRes trailingIcon: Int? = null,
 ) {
-    Row(
-        modifier = modifier
-            .height(64.dp)
-            .fillMaxWidth()
-            .background(Green)
-            .padding(horizontal = 4.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+    Surface(
+        modifier = modifier,
+        color = Green,
     ) {
-        leadingIcon?.let {
-            TopAppBarIcon(
-                leadingIcon,
-                MaterialTheme.colorScheme.onSurface
-            )
-        } ?: Spacer(Modifier.size(48.dp))
+        Row(
+            modifier = modifier
+                .windowInsetsPadding(
+                    WindowInsets.systemBars
+                        .only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
+                )
+                .height(64.dp)
+                .fillMaxWidth()
+                .background(Green)
+                .padding(horizontal = 4.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            leadingIcon?.let {
+                TopAppBarIcon(
+                    leadingIcon,
+                    MaterialTheme.colorScheme.onSurface
+                )
+            } ?: Spacer(Modifier.size(48.dp))
 
-        Text(
-            text = text,
-            modifier = Modifier,
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
-            softWrap = false,
-            maxLines = 1,
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        trailingIcon?.let {
-            TopAppBarIcon(
-                trailingIcon,
-                DEFAULT_TRAILING_ICON_TINT
+            Text(
+                text = text,
+                modifier = Modifier,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+                softWrap = false,
+                maxLines = 1,
+                style = MaterialTheme.typography.titleLarge
             )
-        } ?: Spacer(Modifier.size(48.dp))
+
+            trailingIcon?.let {
+                TopAppBarIcon(
+                    trailingIcon,
+                    DEFAULT_TRAILING_ICON_TINT
+                )
+            } ?: Spacer(Modifier.size(48.dp))
+        }
     }
 }
 
