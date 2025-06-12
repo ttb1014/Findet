@@ -20,6 +20,7 @@ import ru.ttb220.presentation_model.util.Emoji
 import ru.ttb220.ui.theme.GreenHighlight
 import ru.ttb220.ui.theme.Roboto
 
+// Либо эмодзи либо текст
 sealed class DynamicIconResource(
     val background: Color
 ) {
@@ -59,6 +60,7 @@ private fun EmojiIcon(
     emojiIconResource: DynamicIconResource.EmojiIconResource,
     modifier: Modifier = Modifier,
 ) {
+    // Эмодзи сама по себе либо текстовая-дефолтная, либо из ресурсов (сделал, чтобы отображение совпадало с макетом)
     when (emojiIconResource.emoji) {
         is Emoji.Resource -> Image(
             painter = painterResource(emojiIconResource.emoji.emojiId),

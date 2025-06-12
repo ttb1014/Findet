@@ -1,5 +1,6 @@
 package ru.ttb220.ui.util
 
-val EmojiToResourceMapper = emptyMap<String, Int>(
-
+// Маппер стандартных эмодзи на эмодзи из ресурсов.
+val EmojiToResourceMapper = mapOf<String, Int>(
+    TODO()
 )

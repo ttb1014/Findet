@@ -41,6 +41,7 @@ enum class Destination(
     )
 }
 
+// Экраны, на которых отображается FloatingActionButton
 val FloatingActionButtonDestinations = listOf(
     Destination.EXPENSES,
     Destination.INCOMES,

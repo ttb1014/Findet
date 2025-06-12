@@ -22,6 +22,7 @@ class AppState(
     val currentRoute: String?
         @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
 
+    // Текущий активный экран
     val currentDestination: Destination?
         @Composable get() {
             return Destination.entries.firstOrNull { it.name == currentRoute }

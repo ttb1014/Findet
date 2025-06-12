@@ -16,15 +16,19 @@ import ru.ttb220.ui.theme.FindetTheme
 
 class MainActivity : ComponentActivity() {
 
+    // Управляет состоянием сплеш-скрина
     private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Устанавливаем сплеш скрин
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 !mainViewModel.isReady.value
             }
+
+            // Анимация на выходе из сплеша
             setOnExitAnimationListener { screen ->
                 val scaleX = ObjectAnimator.ofFloat(
                     screen.iconView,
@@ -51,6 +55,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FindetTheme {
+                // Сохраняем состояние между рекомпозициями
                 val appState = rememberAppState()
                 FindetApp(
                     appState,

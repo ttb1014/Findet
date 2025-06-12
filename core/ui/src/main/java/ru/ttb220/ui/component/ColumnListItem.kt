@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import ru.ttb220.ui.theme.LightGreyIconTint
 
 /**
- * Wraps content height by default
+ * Wraps content height by default. Should explicitly specify via [modifier]
  */
 @Composable
 fun ColumnListItem(
