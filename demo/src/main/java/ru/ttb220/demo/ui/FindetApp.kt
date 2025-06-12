@@ -10,7 +10,6 @@ import androidx.compose.ui.res.stringResource
 import ru.ttb220.demo.navigation.Destination
 import ru.ttb220.demo.navigation.FindetNavHost
 import ru.ttb220.model.NavigationResource
-import ru.ttb220.ui.R
 import ru.ttb220.ui.component.BottomBar
 import ru.ttb220.ui.component.ButtonCircle
 import ru.ttb220.ui.component.TopAppBar
@@ -25,15 +24,11 @@ fun FindetApp(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                text = appState.currentRoute?.let {
-                    stringResource(
-                        Destination.valueOf(
-                            it
-                        ).topAppBarTextId
-                    )
+                text = appState.currentDestination?.let {
+                    stringResource(it.topAppBarTextId)
                 } ?: "",
-                leadingIcon = null,
-                trailingIcon = R.drawable.history,
+                leadingIcon = appState.currentDestination?.topAppBarLeadingIconInt,
+                trailingIcon = appState.currentDestination?.topAppBarTrailingIconInt,
             )
         },
         bottomBar = {

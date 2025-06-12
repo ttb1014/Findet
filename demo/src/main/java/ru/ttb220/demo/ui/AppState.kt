@@ -22,6 +22,11 @@ class AppState(
     val currentRoute: String?
         @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
 
+    val currentDestination: Destination?
+        @Composable get() {
+            return Destination.entries.firstOrNull { it.name == currentRoute }
+        }
+
     fun navigateTo(destination: String) {
         navHostController.navigate(destination)
     }
