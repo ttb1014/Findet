@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,13 +19,18 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import ru.ttb220.mock.mockBarChartData
 import ru.ttb220.ui.theme.Green
 import ru.ttb220.ui.theme.Orange
+import ru.ttb220.ui.theme.Roboto
 
 data class BarChartResource(
     val bars: List<BarResource>,
@@ -96,6 +101,8 @@ fun BarChart(
                 }
         )
 
+        Spacer(Modifier.height(4.dp))
+
         // labels
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -118,13 +125,17 @@ private fun XLabel(
 ) {
     Text(
         text = label,
-        modifier = modifier,
-        color = Color.Black,
+        modifier = modifier.padding(horizontal = 6.dp),
+        color = Color.Black.copy(alpha = 0.9f),
         textAlign = TextAlign.Center,
         softWrap = false,
         maxLines = 1,
-        // TODO: В макете другой стиль - SF Pro Text Regular 9 100% 0%
-        style = MaterialTheme.typography.labelMedium
+        fontSize = 9.sp,
+        fontStyle = FontStyle.Normal,
+        fontWeight = FontWeight.Normal,
+        fontFamily = Roboto,
+        letterSpacing = 0.sp,
+        lineHeight = 1.em,
     )
 }
 
