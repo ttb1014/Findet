@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                 val appState = rememberAppState()
                 FindetApp(
                     appState,
-                    Destination.ACCOUNT.name
+                    Destination.EXPENSES.name
                 )
             }
         }

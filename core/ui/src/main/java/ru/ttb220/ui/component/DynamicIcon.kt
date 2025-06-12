@@ -1,6 +1,5 @@
 package ru.ttb220.ui.component
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,6 +16,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.ttb220.presentation_model.util.Emoji
 import ru.ttb220.ui.theme.GreenHighlight
 import ru.ttb220.ui.theme.Roboto
 
@@ -24,7 +24,7 @@ sealed class DynamicIconResource(
     val background: Color
 ) {
     class EmojiIconResource(
-        @DrawableRes val emojiId: Int,
+        val emoji: Emoji,
         background: Color = GreenHighlight
     ) : DynamicIconResource(background)
 
@@ -42,7 +42,7 @@ fun DynamicIcon(
     modifier: Modifier = Modifier,
 ) {
     when (dynamicIconResource) {
-        is DynamicIconResource.EmojiIconResource -> EmojiResourceIcon(
+        is DynamicIconResource.EmojiIconResource -> EmojiIcon(
             emojiIconResource = dynamicIconResource,
             modifier = modifier,
         )
@@ -55,18 +55,34 @@ fun DynamicIcon(
 }
 
 @Composable
-private fun EmojiResourceIcon(
+private fun EmojiIcon(
     emojiIconResource: DynamicIconResource.EmojiIconResource,
     modifier: Modifier = Modifier,
 ) {
-    Image(
-        painter = painterResource(emojiIconResource.emojiId),
-        contentDescription = null,
-        modifier = modifier
-            .size(24.dp)
-            .background(emojiIconResource.background, CircleShape),
-        alignment = Alignment.Center
-    )
+    when (emojiIconResource.emoji) {
+        is Emoji.Resource -> Image(
+            painter = painterResource(emojiIconResource.emoji.emojiId),
+            contentDescription = null,
+            modifier = modifier
+                .size(24.dp)
+                .background(emojiIconResource.background, CircleShape),
+            alignment = Alignment.Center
+        )
+
+        is Emoji.Text -> Text(
+            text = emojiIconResource.emoji.emojiString,
+            modifier = Modifier,
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 10.sp,
+            fontStyle = FontStyle.Normal,
+            fontWeight = FontWeight.Medium,
+            fontFamily = Roboto,
+            letterSpacing = 0.sp,
+            lineHeight = 22.sp,
+            softWrap = false,
+            maxLines = 1,
+        )
+    }
 }
 
 @Composable

@@ -1,9 +1,8 @@
 package ru.ttb220.presentation_model
 
-import androidx.annotation.DrawableRes
+import ru.ttb220.presentation_model.util.Emoji
 
 data class CategoryResource(
-    // TODO: Изменить способ хранения эмодзи
-    @DrawableRes val emojiId: Int? = null,
+    val emoji: Emoji? = null,
     val name: String
 )

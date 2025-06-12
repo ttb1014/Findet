@@ -12,6 +12,7 @@ import ru.ttb220.mock.mockAccountScreenResource
 import ru.ttb220.mock.mockBarChartData
 import ru.ttb220.presentation_model.screen.AccountScreenResource
 import ru.ttb220.presentation_model.util.Currency
+import ru.ttb220.presentation_model.util.Emoji
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.BarChart
 import ru.ttb220.ui.component.BarChartResource
@@ -63,7 +64,7 @@ fun BalanceItem(
         modifier = modifier.height(DEFAULT_LIST_ITEM_HEIGHT),
         background = GreenHighlight,
         dynamicIconResource = DynamicIconResource.EmojiIconResource(
-            emojiId = leadingIconId,
+            emoji = Emoji.Resource(leadingIconId),
             background = Color.White
         ),
         trailingIcon = R.drawable.more_right,

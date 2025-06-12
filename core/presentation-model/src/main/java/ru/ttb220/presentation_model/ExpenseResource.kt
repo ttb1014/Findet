@@ -1,10 +1,9 @@
 package ru.ttb220.presentation_model
 
-import androidx.annotation.DrawableRes
+import ru.ttb220.presentation_model.util.Emoji
 
-// TODO: изменить способ хранения эмодзи
 data class ExpenseResource(
-    @DrawableRes val emojiId: Int? = null,
+    val emojiId: Emoji? = null,
     val name: String,
     val shortDescription: String? = null,
     val amount: String,

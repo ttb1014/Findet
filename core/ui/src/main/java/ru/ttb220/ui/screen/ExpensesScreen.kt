@@ -58,7 +58,7 @@ private fun ExpenseColumnItem(
 ) {
     val dynamicIconResource = expenseResource.emojiId
         // Рисуем либо эмодзи из ресурса
-        ?.let { DynamicIconResource.EmojiIconResource(emojiId = it) }
+        ?.let { DynamicIconResource.EmojiIconResource(emoji = it) }
         // либо первые две буквы названия
         ?: DynamicIconResource.TextIconResource(expenseResource.name
             .split(" ")

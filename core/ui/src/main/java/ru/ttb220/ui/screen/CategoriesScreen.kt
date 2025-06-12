@@ -82,7 +82,7 @@ fun CategoryItem(
     ColumnListItem(
         title = categoryResource.name,
         modifier = modifier.height(70.dp),
-        dynamicIconResource = categoryResource.emojiId?.let {
+        dynamicIconResource = categoryResource.emoji?.let {
             DynamicIconResource.EmojiIconResource(
                 it
             )
