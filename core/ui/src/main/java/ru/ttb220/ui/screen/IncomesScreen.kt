@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockIncomesScreenResource
 import ru.ttb220.presentation_model.IncomeResource
-import ru.ttb220.presentation_model.IncomesScreenResource
+import ru.ttb220.presentation_model.screen.IncomesScreenResource
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.ColumnListItem
 import ru.ttb220.ui.theme.GreenHighlight

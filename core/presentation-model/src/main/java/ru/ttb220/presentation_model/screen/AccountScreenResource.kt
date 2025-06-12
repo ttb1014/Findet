@@ -1,4 +1,4 @@
-package ru.ttb220.presentation_model
+package ru.ttb220.presentation_model.screen
 
 import androidx.annotation.DrawableRes
 import ru.ttb220.presentation_model.util.Currency

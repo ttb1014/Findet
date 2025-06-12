@@ -1,4 +1,4 @@
-package ru.ttb220.presentation_model.expense
+package ru.ttb220.presentation_model
 
 data class ExpenseDetailedResource(
     val account: String,

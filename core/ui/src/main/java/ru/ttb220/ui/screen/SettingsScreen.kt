@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockSettingsScreenResource
-import ru.ttb220.presentation_model.SettingsScreenResource
+import ru.ttb220.presentation_model.screen.SettingsScreenResource
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.ColumnListItem
 

@@ -1,17 +1,17 @@
 package ru.ttb220.mock
 
-import ru.ttb220.presentation_model.AccountScreenResource
+import ru.ttb220.presentation_model.screen.AccountScreenResource
 import ru.ttb220.presentation_model.CategoryResource
 import ru.ttb220.presentation_model.IncomeResource
-import ru.ttb220.presentation_model.IncomesScreenResource
-import ru.ttb220.presentation_model.SettingsScreenResource
-import ru.ttb220.presentation_model.expense.ExpenseAnalysisResource
-import ru.ttb220.presentation_model.expense.ExpenseDetailedResource
-import ru.ttb220.presentation_model.expense.ExpenseHistoryResource
-import ru.ttb220.presentation_model.expense.ExpenseResource
-import ru.ttb220.presentation_model.expense.ExpensesAnalysisScreenResource
-import ru.ttb220.presentation_model.expense.ExpensesHistoryScreenResource
-import ru.ttb220.presentation_model.expense.ExpensesScreenResource
+import ru.ttb220.presentation_model.screen.IncomesScreenResource
+import ru.ttb220.presentation_model.screen.SettingsScreenResource
+import ru.ttb220.presentation_model.ExpenseAnalysisResource
+import ru.ttb220.presentation_model.ExpenseDetailedResource
+import ru.ttb220.presentation_model.ExpenseHistoryResource
+import ru.ttb220.presentation_model.ExpenseResource
+import ru.ttb220.presentation_model.screen.ExpensesAnalysisScreenResource
+import ru.ttb220.presentation_model.screen.ExpensesHistoryScreenResource
+import ru.ttb220.presentation_model.screen.ExpensesScreenResource
 import ru.ttb220.presentation_model.util.Currency
 
 val mockExpensesScreenResource = ExpensesScreenResource(

@@ -1,4 +1,4 @@
-package ru.ttb220.presentation_model
+package ru.ttb220.presentation_model.screen
 
 data class SettingsScreenResource(
     val isDarkThemeEnabled: Boolean,

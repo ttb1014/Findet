@@ -1,4 +1,6 @@
-package ru.ttb220.presentation_model.expense
+package ru.ttb220.presentation_model.screen
+
+import ru.ttb220.presentation_model.ExpenseHistoryResource
 
 data class ExpensesHistoryScreenResource(
     val startDate: String,

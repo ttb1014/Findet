@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockExpensesScreenResource
-import ru.ttb220.presentation_model.expense.ExpenseResource
-import ru.ttb220.presentation_model.expense.ExpensesScreenResource
+import ru.ttb220.presentation_model.ExpenseResource
+import ru.ttb220.presentation_model.screen.ExpensesScreenResource
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.ColumnListItem
 import ru.ttb220.ui.component.DynamicIconResource
