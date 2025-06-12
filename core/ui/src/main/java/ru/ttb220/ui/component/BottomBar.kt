@@ -35,8 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.presentation_model.NavigationResource
 import ru.ttb220.ui.R
-import ru.ttb220.ui.theme.GreenHighlight
 import ru.ttb220.ui.theme.Green
+import ru.ttb220.ui.theme.GreenHighlight
 
 @Composable
 fun BottomBar(

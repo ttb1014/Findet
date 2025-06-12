@@ -1,6 +1,5 @@
 package ru.ttb220.presentation_model
 
-import androidx.annotation.DrawableRes
 import ru.ttb220.presentation_model.util.Emoji
 
 data class ExpenseAnalysisResource(
