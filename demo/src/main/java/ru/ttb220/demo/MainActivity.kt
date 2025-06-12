@@ -1,10 +1,13 @@
 package ru.ttb220.demo
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import ru.ttb220.demo.navigation.Destination
 import ru.ttb220.demo.ui.FindetApp
@@ -21,6 +24,26 @@ class MainActivity : ComponentActivity() {
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 !mainViewModel.isReady.value
+            }
+            setOnExitAnimationListener { screen ->
+                val scaleX = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_X,
+                    0.4f,
+                    0.0f
+                )
+                val scaleY = ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_Y,
+                    0.4f,
+                    0.0f
+                )
+                scaleX.duration = 500L
+                scaleY.duration = 500L
+
+                scaleX.start()
+                scaleY.start()
+                scaleX.doOnEnd { screen.remove() }
             }
         }
 

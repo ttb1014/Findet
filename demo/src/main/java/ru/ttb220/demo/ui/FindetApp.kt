@@ -1,5 +1,6 @@
 package ru.ttb220.demo.ui
 
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +55,9 @@ fun FindetApp(
     ) { padding ->
         FindetNavHost(
             navHostController = appState.navHostController,
-            modifier = Modifier.padding(padding),
+            modifier = Modifier
+                .padding(padding)
+                .consumeWindowInsets(padding),
             startRoute
         )
     }
