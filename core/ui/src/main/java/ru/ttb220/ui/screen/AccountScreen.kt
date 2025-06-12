@@ -16,19 +16,20 @@ import ru.ttb220.ui.R
 import ru.ttb220.ui.component.BarChart
 import ru.ttb220.ui.component.BarChartResource
 import ru.ttb220.ui.component.ColumnListItem
-import ru.ttb220.ui.component.DEFAULT_BAR_COLOR1
-import ru.ttb220.ui.component.DEFAULT_BAR_COLOR2
-import ru.ttb220.ui.component.LeadingIcon
+import ru.ttb220.ui.component.DynamicIconResource
+import ru.ttb220.ui.theme.Green
+import ru.ttb220.ui.theme.GreenHighlight
+import ru.ttb220.ui.theme.Orange
 
-private val DEFAULT_BACKGROUND = Color(0xFFD4FAE6)
+private val DEFAULT_LIST_ITEM_HEIGHT = 56.dp
 
 @Composable
 fun AccountScreen(
     accountScreenResource: AccountScreenResource,
     modifier: Modifier = Modifier
 ) {
-    Column() {
-        Column() {
+    Column {
+        Column {
             BalanceItem(
                 balance = accountScreenResource.balance,
                 leadingIconId = accountScreenResource.leadingIconId,
@@ -40,7 +41,7 @@ fun AccountScreen(
                 bars = mockBarChartData.first.map { barData ->
                     BarChartResource.BarResource(
                         fill = barData.first,
-                        color = if (barData.second == 1) DEFAULT_BAR_COLOR2 else DEFAULT_BAR_COLOR1,
+                        color = if (barData.second == 1) Green else Orange,
                     )
                 },
                 xLabels = mockBarChartData.second
@@ -59,9 +60,9 @@ fun BalanceItem(
     ColumnListItem(
         title = "Баланс",
         trailingText = balance,
-        modifier = modifier.height(56.dp),
-        background = DEFAULT_BACKGROUND,
-        leadingIcon = LeadingIcon.Emoji(
+        modifier = modifier.height(DEFAULT_LIST_ITEM_HEIGHT),
+        background = GreenHighlight,
+        dynamicIconResource = DynamicIconResource.EmojiIconResource(
             emojiId = leadingIconId,
             background = Color.White
         ),
@@ -75,12 +76,11 @@ fun CurrencyItem(
     currency: Currency,
     modifier: Modifier = Modifier
 ) {
-    // TODO: resolve trailing text
     ColumnListItem(
         title = "Валюта",
         trailingText = currency.symbol?.toString() ?: "",
-        modifier = modifier.height(56.dp),
-        background = DEFAULT_BACKGROUND,
+        modifier = modifier.height(DEFAULT_LIST_ITEM_HEIGHT),
+        background = GreenHighlight,
         trailingIcon = R.drawable.more_right,
     )
 }

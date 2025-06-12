@@ -1,11 +1,14 @@
 package ru.ttb220.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -16,10 +19,12 @@ import androidx.compose.ui.unit.dp
 import ru.ttb220.ui.theme.Green
 
 @Composable
-fun ButtonCircle(
+fun FloatingActionButtonAdd(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Box(
         modifier = modifier
             .size(56.dp)
@@ -48,14 +53,17 @@ fun ButtonCircle(
                     strokeWidth = lineWidth,
                     cap = StrokeCap.Round
                 )
-            },
-        contentAlignment = Alignment.Center
-    ) {
-    }
+            }
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick,
+            ),
+    )
 }
 
 @Preview
 @Composable
 private fun ButtonCirclePreview() {
-    ButtonCircle()
+    FloatingActionButtonAdd()
 }

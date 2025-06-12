@@ -14,27 +14,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockArticleScreenResource
-import ru.ttb220.model.ArticleResource
-import ru.ttb220.model.ArticlesScreenResource
+import ru.ttb220.model.CategoryResource
+import ru.ttb220.model.CategoriesScreenResource
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.ColumnListItem
-import ru.ttb220.ui.component.LeadingIcon
+import ru.ttb220.ui.component.DynamicIconResource
 
 @Composable
-fun ArticlesScreen(
-    articlesScreenResource: ArticlesScreenResource,
+fun CategoriesScreen(
+    categoriesScreenResource: CategoriesScreenResource,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
     ) {
         SearchBar()
-        articlesScreenResource.forEachIndexed { index, item ->
-            ArticleItem(
-                articleResource = item,
+        categoriesScreenResource.forEachIndexed { index, item ->
+            CategoryItem(
+                categoryResource = item,
                 shouldShowLeadingDivider = index == 0
             )
         }
@@ -55,7 +56,7 @@ private fun SearchBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Найти статью",
+            text = stringResource(R.string.find_category),
             modifier = Modifier
                 .padding(start = 4.dp)
                 .weight(1f),
@@ -73,20 +74,20 @@ private fun SearchBar(
 }
 
 @Composable
-fun ArticleItem(
-    articleResource: ArticleResource,
+fun CategoryItem(
+    categoryResource: CategoryResource,
     modifier: Modifier = Modifier,
     shouldShowLeadingDivider: Boolean = false,
 ) {
     ColumnListItem(
-        title = articleResource.name,
+        title = categoryResource.name,
         modifier = modifier.height(70.dp),
-        leadingIcon = articleResource.emojiId?.let {
-            LeadingIcon.Emoji(
+        dynamicIconResource = categoryResource.emojiId?.let {
+            DynamicIconResource.EmojiIconResource(
                 it
             )
-        } ?: LeadingIcon.Letters(
-            articleResource.name
+        } ?: DynamicIconResource.TextIconResource(
+            categoryResource.name
                 .split(" ")
                 .map { it[0] }
                 .joinToString("")
@@ -99,8 +100,8 @@ fun ArticleItem(
 
 @Preview
 @Composable
-private fun ArticlesScreenPreview() {
-    ArticlesScreen(
-        articlesScreenResource = mockArticleScreenResource,
+private fun CategoriesScreenPreview() {
+    CategoriesScreen(
+        categoriesScreenResource = mockArticleScreenResource,
     )
 }

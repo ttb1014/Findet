@@ -9,9 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.ttb220.demo.navigation.Destination
 import ru.ttb220.demo.navigation.FindetNavHost
+import ru.ttb220.demo.navigation.FloatingActionButtonDestinations
 import ru.ttb220.model.NavigationResource
 import ru.ttb220.ui.component.BottomBar
-import ru.ttb220.ui.component.ButtonCircle
+import ru.ttb220.ui.component.FloatingActionButtonAdd
 import ru.ttb220.ui.component.TopAppBar
 
 @Composable
@@ -44,7 +45,10 @@ fun FindetApp(
                 onNavigateTo = appState::navigateTo
             )
         },
-        floatingActionButton = { ButtonCircle() },
+        floatingActionButton = {
+            if (FloatingActionButtonDestinations.contains(appState.currentDestination))
+                FloatingActionButtonAdd()
+        },
         floatingActionButtonPosition = FabPosition.End,
         containerColor = MaterialTheme.colorScheme.surface,
     ) { padding ->

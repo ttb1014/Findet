@@ -7,12 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.ttb220.mock.mockAccountScreenResource
 import ru.ttb220.mock.mockArticleScreenResource
-import ru.ttb220.mock.mockExpenseResources
+import ru.ttb220.mock.mockExpensesScreenResource
 import ru.ttb220.mock.mockIncomesScreenResource
 import ru.ttb220.mock.mockSettingsScreenResource
-import ru.ttb220.mock.mockTotalExpenses
 import ru.ttb220.ui.screen.AccountScreen
-import ru.ttb220.ui.screen.ArticlesScreen
+import ru.ttb220.ui.screen.CategoriesScreen
 import ru.ttb220.ui.screen.ExpensesScreen
 import ru.ttb220.ui.screen.IncomesScreen
 import ru.ttb220.ui.screen.SettingsScreen
@@ -32,8 +31,7 @@ fun FindetNavHost(
             route = Destination.EXPENSES.name
         ) {
             ExpensesScreen(
-                expenses = mockExpenseResources,
-                expensesTotal = mockTotalExpenses,
+                expensesScreenResource = mockExpensesScreenResource,
             )
         }
         composable(
@@ -53,7 +51,7 @@ fun FindetNavHost(
         composable(
             route = Destination.ARTICLES.name
         ) {
-            ArticlesScreen(mockArticleScreenResource)
+            CategoriesScreen(mockArticleScreenResource)
         }
         composable(
             route = Destination.SETTINGS.name

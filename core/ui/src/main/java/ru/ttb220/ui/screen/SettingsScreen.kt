@@ -44,13 +44,13 @@ private enum class SettingsDestination(
         R.string.password
     ),
     SYNCHRONIZATION(
-        R.string.sync
+        R.string.synchronization
     ),
     LANGUAGE(
-        R.string.lang
+        R.string.language
     ),
     INFO(
-        R.string.info
+        R.string.information
     )
 }
 
@@ -62,7 +62,9 @@ fun SettingsScreen(
     Column(
         modifier = modifier.fillMaxWidth(),
     ) {
-        LightDarkAutoTheme()
+        LightDarkAutoTheme(
+            settingsScreenResource.isDarkThemeEnabled
+        )
         SettingsDestination.entries.forEach {
             SettingsItem(it)
         }
@@ -71,6 +73,7 @@ fun SettingsScreen(
 
 @Composable
 fun LightDarkAutoTheme(
+    isDarkThemeEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -95,7 +98,7 @@ fun LightDarkAutoTheme(
                 style = MaterialTheme.typography.bodyLarge
             )
 
-            Switch()
+            Switch(isDarkThemeEnabled)
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -107,6 +110,7 @@ fun LightDarkAutoTheme(
 
 @Composable
 private fun Switch(
+    isEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {
     Box(

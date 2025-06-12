@@ -21,26 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
-private val DEFAULT_ICON_TINT = Color(0xFF3C3C43).copy(alpha = 0.3f)
-private val DEFAULT_ICON_BACKGROUND = Color(0xFFD4FAE6)
-
-// name.split(" ").map { it[0] }.take(2).joinToString("").uppercase()
-sealed class LeadingIcon(
-    val background: Color
-) {
-    class Emoji(
-        @DrawableRes val emojiId: Int,
-        background: Color = DEFAULT_ICON_BACKGROUND
-    ) : LeadingIcon(background)
-
-    class Letters(
-        val letters: String,
-        background: Color = DEFAULT_ICON_BACKGROUND
-    ) : LeadingIcon(
-        background
-    )
-}
+import ru.ttb220.ui.theme.LightGreyIconTint
 
 /**
  * Wraps content height by default
@@ -50,10 +31,10 @@ fun ColumnListItem(
     title: String,
     modifier: Modifier = Modifier,
     background: Color = MaterialTheme.colorScheme.surface,
-    leadingIcon: LeadingIcon? = null,
+    dynamicIconResource: DynamicIconResource? = null,
     trailingText: String? = null,
     @DrawableRes trailingIcon: Int? = null,
-    trailingIconTint: Color = DEFAULT_ICON_TINT,
+    trailingIconTint: Color = LightGreyIconTint,
     description: String? = null,
     trailingTextDescription: String? = null,
     shouldShowLeadingDivider: Boolean = false,
@@ -81,10 +62,10 @@ fun ColumnListItem(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Draws either an emoji or first two letters of the name uppercase
-            leadingIcon?.let {
-                LeadingIcon(
-                    leadingIcon = leadingIcon,
+            // Рисует либо эмодзи, либо первые 2 буквы названия
+            dynamicIconResource?.let {
+                DynamicIcon(
+                    dynamicIconResource = dynamicIconResource,
                     modifier = Modifier
                 )
 
@@ -164,26 +145,6 @@ fun ColumnListItem(
                 thickness = 1.dp,
                 color = MaterialTheme.colorScheme.outlineVariant,
             )
-    }
-}
-
-@Composable
-private fun LeadingIcon(
-    leadingIcon: LeadingIcon,
-    modifier: Modifier = Modifier,
-) {
-    when (leadingIcon) {
-        is LeadingIcon.Emoji -> EmojiIcon(
-            emojiId = leadingIcon.emojiId,
-            modifier = modifier,
-            iconBackground = leadingIcon.background
-        )
-
-        is LeadingIcon.Letters -> TextIcon(
-            letters = leadingIcon.letters,
-            modifier = modifier,
-            iconBackground = leadingIcon.background
-        )
     }
 }
 

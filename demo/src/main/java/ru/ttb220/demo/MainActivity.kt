@@ -1,13 +1,10 @@
 package ru.ttb220.demo
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import ru.ttb220.demo.navigation.Destination
 import ru.ttb220.demo.ui.FindetApp
@@ -16,7 +13,7 @@ import ru.ttb220.ui.theme.FindetTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val mainViewModel by viewModels<MainActivityViewModel>()
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

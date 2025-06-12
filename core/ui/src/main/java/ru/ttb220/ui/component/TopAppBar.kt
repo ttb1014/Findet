@@ -30,8 +30,6 @@ import androidx.compose.ui.unit.dp
 import ru.ttb220.ui.R
 import ru.ttb220.ui.theme.Green
 
-private val DEFAULT_TRAILING_ICON_TINT = Color(0xFF49454F)
-
 /**
  * @param text Должен вмещаться в контейнер
  */
@@ -79,7 +77,7 @@ fun TopAppBar(
             trailingIcon?.let {
                 TopAppBarIcon(
                     trailingIcon,
-                    DEFAULT_TRAILING_ICON_TINT
+                    MaterialTheme.colorScheme.onSurfaceVariant
                 )
             } ?: Spacer(Modifier.size(48.dp))
         }
@@ -93,27 +91,23 @@ private fun TopAppBarIcon(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.size(48.dp),
+        modifier = modifier
+            .size(48.dp)
+            .padding(12.dp),
         contentAlignment = Alignment.Center
     ) {
-        // container
-        Box(
-            modifier = Modifier.padding(12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(iconId),
-                contentDescription = null,
-                modifier = Modifier,
-                tint = tint
-            )
-        }
+        Icon(
+            painter = painterResource(iconId),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp),
+            tint = tint
+        )
     }
 }
 
 @Preview
 @Composable
-private fun TopAppbarPreview() {
+private fun TopAppBarPreview() {
     TopAppBar(
         text = "Мои расходы",
         leadingIcon = R.drawable.cross,

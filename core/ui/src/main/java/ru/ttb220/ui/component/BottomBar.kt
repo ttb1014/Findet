@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,9 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.model.NavigationResource
 import ru.ttb220.ui.R
-
-private val DEFAULT_ACTIVE_DESTINATION_HIGHLIGHT = Color(0xFFD4FAE6)
-private val DEFAULT_ACTIVE_DESTINATION_ICON_TINT = Color(0xFF2AE881)
+import ru.ttb220.ui.theme.GreenHighlight
+import ru.ttb220.ui.theme.Green
 
 @Composable
 fun BottomBar(
@@ -96,7 +94,7 @@ private fun BottomBarItem(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val backgroundModifier = Modifier.background(
-            DEFAULT_ACTIVE_DESTINATION_HIGHLIGHT,
+            GreenHighlight,
             RoundedCornerShape(16.dp)
         )
         // icon-container
@@ -116,7 +114,7 @@ private fun BottomBarItem(
                 painter = painterResource(navigationResource.iconId),
                 null,
                 Modifier.size(24.dp),
-                tint = if (navigationResource.isSelected) DEFAULT_ACTIVE_DESTINATION_ICON_TINT else
+                tint = if (navigationResource.isSelected) Green else
                     MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

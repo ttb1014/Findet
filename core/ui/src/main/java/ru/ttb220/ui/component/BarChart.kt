@@ -24,9 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockBarChartData
-
-val DEFAULT_BAR_COLOR1 = Color(0xFFFF5F00)
-val DEFAULT_BAR_COLOR2 = Color(0xFF2AE881)
+import ru.ttb220.ui.theme.Green
+import ru.ttb220.ui.theme.Orange
 
 data class BarChartResource(
     val bars: List<BarResource>,
@@ -36,7 +35,7 @@ data class BarChartResource(
     data class BarResource(
         @FloatRange(from = 0.0, to = 1.0)
         val fill: Float,
-        val color: Color = DEFAULT_BAR_COLOR1,
+        val color: Color = Orange,
         val width: Dp = 6.dp
     )
 }
@@ -54,10 +53,10 @@ fun BarChart(
                 end = 16.dp
             )
     ) {
+        // bars
         Box(
             Modifier
                 .fillMaxWidth()
-//                .fillMaxHeight()
                 .weight(1f)
                 .drawWithCache {
                     onDrawBehind {
@@ -68,7 +67,7 @@ fun BarChart(
                             .toPx()
                                 ) / (barChartResource.bars.size - 1)
 
-                        barChartResource.bars.foldIndexed(0f) { index, offsetX, barResource ->
+                        barChartResource.bars.fold(0f) { offsetX, barResource ->
                             val barHeightPx = size.height * barResource.fill
                             val barWidthPx = barResource.width.toPx()
                             val offsetY = size.height - barHeightPx
@@ -96,6 +95,8 @@ fun BarChart(
                     }
                 }
         )
+
+        // labels
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -122,7 +123,7 @@ private fun XLabel(
         textAlign = TextAlign.Center,
         softWrap = false,
         maxLines = 1,
-        // TODO: В макете другой стиль
+        // TODO: В макете другой стиль - SF Pro Text Regular 9 100% 0%
         style = MaterialTheme.typography.labelMedium
     )
 }
@@ -136,7 +137,7 @@ private fun BarChartPreview() {
                 .map { (fill, colorId) ->
                     BarChartResource.BarResource(
                         fill = fill,
-                        color = if (colorId == 1) DEFAULT_BAR_COLOR2 else DEFAULT_BAR_COLOR1,
+                        color = if (colorId == 1) Green else Orange,
                     )
                 },
             xLabels = mockBarChartData.second
