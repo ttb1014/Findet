@@ -44,6 +44,8 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:mock"))
 
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
