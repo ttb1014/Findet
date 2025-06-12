@@ -1,6 +1,7 @@
 package ru.ttb220.ui.screen
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -119,6 +120,7 @@ private fun Switch(
                 width = 52.dp,
                 height = 32.dp
             )
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest, RoundedCornerShape(100.dp))
             .border(2.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(100.dp))
             .padding(horizontal = 8.dp, vertical = 2.dp),
         contentAlignment = Alignment.Center,
