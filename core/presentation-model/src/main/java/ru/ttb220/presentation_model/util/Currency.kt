@@ -1,8 +1,8 @@
-package ru.ttb220.model.util
+package ru.ttb220.presentation_model.util
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import ru.ttb220.model.R
+import ru.ttb220.presentation_model.R
 
 enum class Currency(
     @DrawableRes val iconId: Int,

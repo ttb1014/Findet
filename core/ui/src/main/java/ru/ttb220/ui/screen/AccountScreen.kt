@@ -10,8 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockAccountScreenResource
 import ru.ttb220.mock.mockBarChartData
-import ru.ttb220.model.AccountScreenResource
-import ru.ttb220.model.util.Currency
+import ru.ttb220.presentation_model.AccountScreenResource
+import ru.ttb220.presentation_model.util.Currency
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.BarChart
 import ru.ttb220.ui.component.BarChartResource

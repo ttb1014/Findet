@@ -41,7 +41,7 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
-    implementation(project(":core:model"))
+    implementation(project(":core:presentation-model"))
     implementation(project(":core:mock"))
 
     implementation(libs.androidx.core.splashscreen)

@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
+    implementation(project(":core:presentation-model"))
     debugImplementation(project(":core:mock"))
 
     implementation(libs.androidx.activity.compose)

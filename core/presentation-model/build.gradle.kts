@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.ttb220.model"
+    namespace = "ru.ttb220.presentation_model"
     compileSdk = 35
 
     defaultConfig {

@@ -1,7 +1,7 @@
-package ru.ttb220.model
+package ru.ttb220.presentation_model
 
 import androidx.annotation.DrawableRes
-import ru.ttb220.model.util.Currency
+import ru.ttb220.presentation_model.util.Currency
 
 data class AccountScreenResource(
     @DrawableRes val leadingIconId: Int,
