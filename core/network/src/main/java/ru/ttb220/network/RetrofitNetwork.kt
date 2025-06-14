@@ -83,8 +83,8 @@ internal interface NetworkApi {
     @GET("transactions/account/{accountId}/period")
     suspend fun getAccountTransactionsForPeriod(
         @Path("accountId") accountId: Int,
-        @Query("startDate") startDate: LocalDateTime,
-        @Query("endDate") endDate: LocalDateTime,
+        @Query("startDate") startDate: LocalDateTime?,
+        @Query("endDate") endDate: LocalDateTime?,
     ): List<TransactionDetailedResponse>
 }
 
@@ -106,7 +106,7 @@ internal class RetrofitNetwork @Inject constructor(
         .create(NetworkApi::class.java)
 
     companion object {
-        const val DEFAULT_API_URL = BuildConfig.apiurl
+        const val DEFAULT_API_URL = BuildConfig.BACKEND_URL
         const val DEFAULT_MEDIA_TYPE = "application/json"
     }
 
@@ -154,8 +154,8 @@ internal class RetrofitNetwork @Inject constructor(
 
     override suspend fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
+        startDate: LocalDateTime?,
+        endDate: LocalDateTime?
     ): List<TransactionDetailedResponse> =
         networkApi.getAccountTransactionsForPeriod(
             accountId,

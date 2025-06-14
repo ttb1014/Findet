@@ -59,7 +59,7 @@ interface RemoteDataSource {
 
     suspend fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
+        startDate: LocalDateTime? = null,
+        endDate: LocalDateTime? = null,
     ): List<TransactionDetailedResponse>
 }
