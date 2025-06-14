@@ -1,9 +1,11 @@
 package ru.ttb220.network.model.response
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 import ru.ttb220.network.model.Account
 import ru.ttb220.network.model.Category
 
+@Serializable
 data class TransactionDetailedResponse(
     val id: Int,
     val account: Account,

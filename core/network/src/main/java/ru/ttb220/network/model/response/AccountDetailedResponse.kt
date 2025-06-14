@@ -1,7 +1,9 @@
 package ru.ttb220.network.model.response
 
+import kotlinx.serialization.Serializable
 import ru.ttb220.network.model.StatItem
 
+@Serializable
 data class AccountDetailedResponse(
     val id: String,
     val name: String,

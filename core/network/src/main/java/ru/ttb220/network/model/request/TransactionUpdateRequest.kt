@@ -1,16 +1,13 @@
-package ru.ttb220.network.model.response
+package ru.ttb220.network.model.request
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TransactionResponse(
-    val id: Int,
+data class TransactionUpdateRequest(
     val accountId: Int,
     val categoryId: Int,
     val amount: String,
     val transactionDate: LocalDateTime,
-    val comment: String?,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
+    val comment: String?
 )

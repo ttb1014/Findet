@@ -1,7 +1,9 @@
 package ru.ttb220.network.model
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AccountHistoryEntry(
     val id: Int,
     val accountId: Int,
