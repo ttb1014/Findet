@@ -4,7 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.json.Json
 import okhttp3.Call
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -24,6 +24,9 @@ import ru.ttb220.network.model.response.TransactionResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Все доступные запросы к серверу
+ */
 internal interface NetworkApi {
     @GET("accounts")
     suspend fun getAllAccounts(): List<AccountResponse>
@@ -33,9 +36,9 @@ internal interface NetworkApi {
         @Body accountCreateRequest: AccountCreateRequest
     ): AccountResponse
 
-    @GET("accounts")
+    @GET("accounts/{id}")
     suspend fun getAccountById(
-        @Query("id") id: Int
+        @Path("id") id: Int
     ): AccountDetailedResponse
 
     @POST("accounts/{id}")
@@ -96,10 +99,14 @@ internal class RetrofitNetwork @Inject constructor(
 
     private val networkApi = Retrofit.Builder()
         .baseUrl(DEFAULT_API_URL)
-        .callFactory { okhttpCallFactory.get().newCall(it) }
+        // Фабирка запросов к сети. Токен подставляется автоматически.
+        .callFactory {
+            okhttpCallFactory.get().newCall(it)
+        }
+        // Конвертер из/в JSON Kotlin-классов
         .addConverterFactory(
             networkJson.asConverterFactory(
-                MediaType.get(DEFAULT_MEDIA_TYPE)
+                DEFAULT_MEDIA_TYPE.toMediaType()
             )
         )
         .build()
@@ -116,17 +123,14 @@ internal class RetrofitNetwork @Inject constructor(
     override suspend fun createNewAccount(accountCreateRequest: AccountCreateRequest): AccountResponse =
         networkApi.createNewAccount(accountCreateRequest)
 
-
     override suspend fun getAccountById(id: Int): AccountDetailedResponse =
         networkApi.getAccountById(id)
-
 
     override suspend fun updateAccountById(
         id: Int,
         accountCreateRequest: AccountCreateRequest
     ): AccountResponse =
         networkApi.updateAccountById(id, accountCreateRequest)
-
 
     override suspend fun getAccountHistoryById(id: Int): AccountHistoryResponse =
         networkApi.getAccountHistoryById(id)

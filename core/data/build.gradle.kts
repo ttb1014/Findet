@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

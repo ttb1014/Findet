@@ -4,10 +4,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.ttb220.network.exception.ApiException
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -34,16 +36,28 @@ class RetrofitNetworkInstrumentedTest {
     }
 
     @Test
+    fun handles404() = runBlocking {
+        try {
+            remoteDataSource.getAccountById(-1)
+            fail("Ожидалась ошибка")
+        } catch (e: ApiException) {
+            println("Обработалcя код ${e.code}: ${e.message}")
+        }
+    }
+
+
+    @Test
     fun getAllTransactionsForThisMonth() = runBlocking {
         val accounts = remoteDataSource.getAllAccounts()
         accounts.forEach { account ->
             val transactions = remoteDataSource.getAccountTransactionsForPeriod(
                 account.id
             )
+            println(transactions)
         }
     }
 
     companion object {
-        private const val TAG = "Retrofit test"
+        private const val TAG = "Retrofit"
     }
 }
