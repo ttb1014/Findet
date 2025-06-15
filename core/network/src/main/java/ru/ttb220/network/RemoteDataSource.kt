@@ -10,8 +10,6 @@ import ru.ttb220.network.model.response.AccountHistoryResponse
 import ru.ttb220.network.model.response.AccountResponse
 import ru.ttb220.network.model.response.TransactionDetailedResponse
 import ru.ttb220.network.model.response.TransactionResponse
-import java.io.IOException
-import kotlin.jvm.Throws
 
 /**
  * Абстракция над HTTP запросами. Методы выбрасывают исключения
