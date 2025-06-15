@@ -10,9 +10,15 @@ import ru.ttb220.network.model.response.AccountHistoryResponse
 import ru.ttb220.network.model.response.AccountResponse
 import ru.ttb220.network.model.response.TransactionDetailedResponse
 import ru.ttb220.network.model.response.TransactionResponse
+import java.io.IOException
+import kotlin.jvm.Throws
 
 /**
- * Abstraction over HTTP requests
+ * Абстракция над HTTP запросами. Методы выбрасывают исключения
+ * @throws ApiException
+ * @throws JsonDecodingException
+ * @see HttpCodeInterceptor
+ * @see AuthInterceptor
  */
 interface RemoteDataSource {
     suspend fun getAllAccounts(): List<AccountResponse>
