@@ -1,7 +1,7 @@
 package ru.ttb220.network
 
-import kotlinx.datetime.LocalDateTime
-import ru.ttb220.network.model.Category
+import kotlinx.datetime.Instant
+import ru.ttb220.network.model.CategoryDto
 import ru.ttb220.network.model.request.AccountCreateRequest
 import ru.ttb220.network.model.request.TransactionCreateRequest
 import ru.ttb220.network.model.request.TransactionUpdateRequest
@@ -34,15 +34,19 @@ interface RemoteDataSource {
         accountCreateRequest: AccountCreateRequest
     ): AccountResponse
 
+    suspend fun deleteAccountById(
+        id: Int
+    )
+
     suspend fun getAccountHistoryById(
         id: Int
     ): AccountHistoryResponse
 
-    suspend fun getAllCategories(): List<Category>
+    suspend fun getAllCategories(): List<CategoryDto>
 
     suspend fun getAllCategoriesByType(
         isIncome: Boolean
-    ): List<Category>
+    ): List<CategoryDto>
 
     suspend fun createNewTransaction(
         transactionCreateRequest: TransactionCreateRequest
@@ -57,13 +61,16 @@ interface RemoteDataSource {
         transactionUpdateRequest: TransactionUpdateRequest
     ): TransactionDetailedResponse
 
+    /**
+     * Either deletes transaction or throws an exception
+     */
     suspend fun deleteTransactionById(
         id: Int,
     )
 
     suspend fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: LocalDateTime? = null,
-        endDate: LocalDateTime? = null,
+        startDate: Instant? = null,
+        endDate: Instant? = null,
     ): List<TransactionDetailedResponse>
 }

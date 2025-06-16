@@ -1,10 +1,9 @@
-package ru.ttb220.network.model
+package ru.ttb220.network.model.request
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Account(
-    val id: Int,
+data class AccountUpdateRequest(
     val name: String,
     val balance: String,
     val currency: String,

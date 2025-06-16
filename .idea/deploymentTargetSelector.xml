@@ -16,16 +16,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="SettingsScreenPreview">
+      <SelectionState runConfigName="testGetAllAccounts()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="getAllAccountsSuccess()">
+      <SelectionState runConfigName="testGetTransactions()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="getAllTransactionsForThisMonth()">
+      <SelectionState runConfigName="RepositoryInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="getAccountByFaultyId()">
+      <SelectionState runConfigName="testRetry()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testWithRetry()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

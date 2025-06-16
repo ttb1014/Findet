@@ -1,7 +1,7 @@
 package ru.ttb220.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
@@ -12,7 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.ttb220.network.model.Category
+import ru.ttb220.network.model.CategoryDto
 import ru.ttb220.network.model.request.AccountCreateRequest
 import ru.ttb220.network.model.request.TransactionCreateRequest
 import ru.ttb220.network.model.request.TransactionUpdateRequest
@@ -47,6 +47,11 @@ internal interface NetworkApi {
         @Body accountCreateRequest: AccountCreateRequest
     ): AccountResponse
 
+    @DELETE("accounts/{id}")
+    suspend fun deleteAccountById(
+        @Path("id") id: Int,
+    ): Unit
+
     @GET("accounts/{id}/history")
     suspend fun getAccountHistoryById(
         @Path("id") id: Int
@@ -54,12 +59,12 @@ internal interface NetworkApi {
 
 
     @GET("categories")
-    suspend fun getAllCategories(): List<Category>
+    suspend fun getAllCategories(): List<CategoryDto>
 
     @GET("categories/type/{isIncome}")
     suspend fun getAllCategoriesByType(
         @Path("isIncome") isIncome: Boolean
-    ): List<Category>
+    ): List<CategoryDto>
 
 
     @POST("transactions")
@@ -86,8 +91,8 @@ internal interface NetworkApi {
     @GET("transactions/account/{accountId}/period")
     suspend fun getAccountTransactionsForPeriod(
         @Path("accountId") accountId: Int,
-        @Query("startDate") startDate: LocalDateTime?,
-        @Query("endDate") endDate: LocalDateTime?,
+        @Query("startDate") startDate: Instant?,
+        @Query("endDate") endDate: Instant?,
     ): List<TransactionDetailedResponse>
 }
 
@@ -132,13 +137,16 @@ internal class RetrofitNetwork @Inject constructor(
     ): AccountResponse =
         networkApi.updateAccountById(id, accountCreateRequest)
 
+    override suspend fun deleteAccountById(id: Int) =
+        networkApi.deleteAccountById(id)
+
     override suspend fun getAccountHistoryById(id: Int): AccountHistoryResponse =
         networkApi.getAccountHistoryById(id)
 
-    override suspend fun getAllCategories(): List<Category> =
+    override suspend fun getAllCategories(): List<CategoryDto> =
         networkApi.getAllCategories()
 
-    override suspend fun getAllCategoriesByType(isIncome: Boolean): List<Category> =
+    override suspend fun getAllCategoriesByType(isIncome: Boolean): List<CategoryDto> =
         networkApi.getAllCategoriesByType(isIncome)
 
     override suspend fun createNewTransaction(transactionCreateRequest: TransactionCreateRequest): TransactionResponse =
@@ -158,8 +166,8 @@ internal class RetrofitNetwork @Inject constructor(
 
     override suspend fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: LocalDateTime?,
-        endDate: LocalDateTime?
+        startDate: Instant?,
+        endDate: Instant?
     ): List<TransactionDetailedResponse> =
         networkApi.getAccountTransactionsForPeriod(
             accountId,

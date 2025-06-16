@@ -1,18 +1,18 @@
 package ru.ttb220.network.model.response
 
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import ru.ttb220.network.model.Account
-import ru.ttb220.network.model.Category
+import ru.ttb220.network.model.AccountDto
+import ru.ttb220.network.model.CategoryDto
 
 @Serializable
 data class TransactionDetailedResponse(
     val id: Int,
-    val account: Account,
-    val category: Category,
+    val accountDto: AccountDto,
+    val categoryDto: CategoryDto,
     val amount: String,
-    val transactionDate: LocalDateTime,
+    val transactionDate: Instant,
     val comment: String?,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
+    val createdAt: Instant,
+    val updatedAt: Instant,
 )

@@ -1,7 +1,7 @@
 package ru.ttb220.network.model.response
 
 import kotlinx.serialization.Serializable
-import ru.ttb220.network.model.AccountHistoryEntry
+import ru.ttb220.network.model.AccountHistoryEntryDto
 
 @Serializable
 data class AccountHistoryResponse(
@@ -9,5 +9,5 @@ data class AccountHistoryResponse(
     val accountName: String,
     val currency: String,
     val currentBalance: String,
-    val history: List<AccountHistoryEntry>,
+    val history: List<AccountHistoryEntryDto>,
 )

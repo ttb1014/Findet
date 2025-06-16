@@ -33,26 +33,22 @@ class HttpCodeInterceptor @Inject constructor(
 
         when (response.code) {
             400 -> throw IncorrectInputFormatException(
-                code = 400,
                 message = errorMessage,
                 responseBody = bodyString
             )
 
             401 -> throw UnauthorizedException(
-                code = 401,
                 message = errorMessage,
                 responseBody = bodyString
             )
 
             // в теории никогда не выбросится
             403 -> throw ForbiddenException(
-                code = 403,
                 message = errorMessage,
                 responseBody = bodyString
             )
 
             404 -> throw NotFoundException(
-                code = 404,
                 message = errorMessage,
                 responseBody = bodyString
             )

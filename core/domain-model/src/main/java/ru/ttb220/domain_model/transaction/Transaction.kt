@@ -1,10 +1,8 @@
-package ru.ttb220.network.model.response
+package ru.ttb220.domain_model.transaction
 
 import kotlinx.datetime.Instant
-import kotlinx.serialization.Serializable
 
-@Serializable
-data class TransactionResponse(
+data class Transaction(
     val id: Int,
     val accountId: Int,
     val categoryId: Int,
