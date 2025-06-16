@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockIncomesScreenState
+import ru.ttb220.mock.mockIncomesScreenContent
 import ru.ttb220.presentation.model.IncomeState
 import ru.ttb220.presentation.model.screen.IncomesScreenState
-import ru.ttb220.ui.R
-import ru.ttb220.ui.component.ColumnListItem
-import ru.ttb220.ui.theme.GreenHighlight
+import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.ui.component.ColumnListItem
+import ru.ttb220.presentation.ui.theme.GreenHighlight
 
 @Composable
 fun IncomesScreen(
@@ -56,6 +56,6 @@ private fun TotalAmountHeader(
 @Composable
 private fun IncomesScreenPreview() {
     IncomesScreen(
-        incomesScreenState = mockIncomesScreenState,
+        incomesScreenState = mockIncomesScreenContent,
     )
 }

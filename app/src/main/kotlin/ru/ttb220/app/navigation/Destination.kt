@@ -2,7 +2,7 @@ package ru.ttb220.app.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import ru.ttb220.ui.R
+import ru.ttb220.presentation.ui.R
 
 enum class Destination(
     @DrawableRes val iconId: Int,

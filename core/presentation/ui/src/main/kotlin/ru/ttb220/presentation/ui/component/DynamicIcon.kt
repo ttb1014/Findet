@@ -1,4 +1,4 @@
-package ru.ttb220.ui.component
+package ru.ttb220.presentation.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.ttb220.presentation.model.util.Emoji
-import ru.ttb220.ui.theme.GreenHighlight
-import ru.ttb220.ui.theme.Roboto
+import ru.ttb220.presentation.ui.theme.GreenHighlight
+import ru.ttb220.presentation.ui.theme.Roboto
 
 // Либо эмодзи либо текст
 sealed class DynamicIconResource(

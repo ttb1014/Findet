@@ -12,9 +12,9 @@ import ru.ttb220.app.navigation.Destination
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.FloatingActionButtonDestinations
 import ru.ttb220.presentation.model.NavigationState
-import ru.ttb220.ui.component.BottomBar
-import ru.ttb220.ui.component.FloatingActionButtonAdd
-import ru.ttb220.ui.component.TopAppBar
+import ru.ttb220.presentation.ui.component.BottomBar
+import ru.ttb220.presentation.ui.component.FloatingActionButtonAdd
+import ru.ttb220.presentation.ui.component.TopAppBar
 
 @Composable
 fun FindetApp(

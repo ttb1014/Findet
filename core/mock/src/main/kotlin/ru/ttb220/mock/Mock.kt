@@ -9,13 +9,13 @@ import ru.ttb220.presentation.model.IncomeState
 import ru.ttb220.presentation.model.screen.AccountScreenState
 import ru.ttb220.presentation.model.screen.ExpensesAnalysisScreenState
 import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenState
-import ru.ttb220.presentation.model.screen.ExpensesScreenState
+import ru.ttb220.presentation.model.screen.ExpensesScreenContent
 import ru.ttb220.presentation.model.screen.IncomesScreenState
 import ru.ttb220.presentation.model.screen.SettingsScreenState
 import ru.ttb220.presentation.model.util.Currency
 import ru.ttb220.presentation.model.util.Emoji
 
-val mockExpensesScreenState = ExpensesScreenState(
+val mockExpensesScreenContent = ExpensesScreenContent(
     expenses = listOf(
         ExpenseState(
             emojiId = Emoji.Resource(R.drawable.house_with_garden),
@@ -62,7 +62,7 @@ val mockExpensesScreenState = ExpensesScreenState(
     totalAmount = "436 558 ₽"
 )
 
-val mockIncomesScreenState = IncomesScreenState(
+val mockIncomesScreenContent = IncomesScreenState(
     incomes = listOf(
         IncomeState(
             title = "Зарплата",
@@ -76,13 +76,13 @@ val mockIncomesScreenState = IncomesScreenState(
     totalAmount = "600 000 ₽"
 )
 
-val mockAccountScreenState = AccountScreenState(
+val mockAccountScreenContent = AccountScreenState(
     leadingIconId = R.drawable.money_bag,
     balance = "-670 000 ₽",
     currency = Currency.RUSSIAN_RUBLE
 )
 
-val mockArticleScreenState = listOf(
+val mockArticleScreenContent = listOf(
     CategoryState(
         emoji = Emoji.Resource(R.drawable.house_with_garden),
         name = "Аренда квартиры",
@@ -116,7 +116,7 @@ val mockArticleScreenState = listOf(
     )
 )
 
-val mockSettingsScreenState = SettingsScreenState(
+val mockSettingsScreenContent = SettingsScreenState(
     isDarkThemeEnabled = false
 )
 
@@ -187,7 +187,36 @@ val mockExpensesAnalysisScreenState = ExpensesAnalysisScreenState(
     )
 )
 
-private val fills = listOf(9f, 93f, 24f, 45f, 69f, 24f, 24f, 188f, 56f, 106f, 14f, 14f, 56f, 24f, 137f, 24f, 24f, 40f, 14f, 14f, 14f, 14f, 14f, 14f, 24f, 24f, 24f, 24f)
+private val fills = listOf(
+    9f,
+    93f,
+    24f,
+    45f,
+    69f,
+    24f,
+    24f,
+    188f,
+    56f,
+    106f,
+    14f,
+    14f,
+    56f,
+    24f,
+    137f,
+    24f,
+    24f,
+    40f,
+    14f,
+    14f,
+    14f,
+    14f,
+    14f,
+    14f,
+    24f,
+    24f,
+    24f,
+    24f
+)
     .map { it / 220 }
 private val indices = listOf(10, 11, 18, 19, 20, 21, 22, 23)
 private val xLabels = listOf("01.02", "14.01", "28.02")

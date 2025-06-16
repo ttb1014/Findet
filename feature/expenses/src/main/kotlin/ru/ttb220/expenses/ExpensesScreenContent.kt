@@ -8,18 +8,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockExpensesScreenState
+import ru.ttb220.mock.mockExpensesScreenContent
 import ru.ttb220.presentation.model.ExpenseState
-import ru.ttb220.presentation.model.screen.ExpensesScreenState
-import ru.ttb220.ui.R
-import ru.ttb220.ui.component.ColumnListItem
-import ru.ttb220.ui.component.DynamicIconResource
-import ru.ttb220.ui.theme.GreenHighlight
+import ru.ttb220.presentation.model.screen.ExpensesScreenContent
+import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.ui.component.ColumnListItem
+import ru.ttb220.presentation.ui.component.DynamicIconResource
+import ru.ttb220.presentation.ui.theme.GreenHighlight
 
-// TODO: Переделать на LazyColumn. Должен ли фиксироваться item с общей суммой?
 @Composable
 fun ExpensesScreen(
     expensesScreenState: ExpensesScreenState,
+    modifier: Modifier = Modifier
+) {
+    TODO()
+}
+
+// TODO: Переделать на LazyColumn. Должен ли фиксироваться item с общей суммой?
+@Composable
+fun ExpensesScreenContent(
+    expensesScreenContent: ExpensesScreenContent,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -27,11 +35,11 @@ fun ExpensesScreen(
             .fillMaxWidth()
             .padding(bottom = 16.dp)
     ) {
-        TotalAmountHeader(expensesScreenState.totalAmount)
+        TotalAmountHeader(expensesScreenContent.totalAmount)
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            expensesScreenState.expenses.forEach {
+            expensesScreenContent.expenses.forEach {
                 ExpenseColumnItem(it)
             }
         }
@@ -82,8 +90,8 @@ private fun ExpenseColumnItem(
 @Preview
 @Composable
 private fun ExpensesListPreview() {
-    ExpensesScreen(
-        expensesScreenState = mockExpensesScreenState,
+    ExpensesScreenContent(
+        expensesScreenContent = mockExpensesScreenContent,
         modifier = Modifier,
     )
 }

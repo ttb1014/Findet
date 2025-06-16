@@ -7,12 +7,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.ttb220.account.AccountScreen
 import ru.ttb220.categories.CategoriesScreen
-import ru.ttb220.mock.mockAccountScreenState
-import ru.ttb220.mock.mockArticleScreenState
-import ru.ttb220.mock.mockExpensesScreenState
-import ru.ttb220.mock.mockIncomesScreenState
-import ru.ttb220.mock.mockSettingsScreenState
-import ru.ttb220.expenses.ExpensesScreen
+import ru.ttb220.mock.mockAccountScreenContent
+import ru.ttb220.mock.mockArticleScreenContent
+import ru.ttb220.mock.mockExpensesScreenContent
+import ru.ttb220.mock.mockIncomesScreenContent
+import ru.ttb220.mock.mockSettingsScreenContent
+import ru.ttb220.expenses.ExpensesScreenContent
 import ru.ttb220.incomes.IncomesScreen
 import ru.ttb220.settings.SettingsScreen
 
@@ -30,33 +30,33 @@ fun FindetNavHost(
         composable(
             route = Destination.EXPENSES.name
         ) {
-            ExpensesScreen(
-                expensesScreenState = mockExpensesScreenState,
+            ExpensesScreenContent(
+                expensesScreenContent = mockExpensesScreenContent,
             )
         }
         composable(
             route = Destination.INCOMES.name
         ) {
             IncomesScreen(
-                incomesScreenState = mockIncomesScreenState,
+                incomesScreenState = mockIncomesScreenContent,
             )
         }
         composable(
             route = Destination.ACCOUNT.name
         ) {
             AccountScreen(
-                accountScreenState = mockAccountScreenState,
+                accountScreenState = mockAccountScreenContent,
             )
         }
         composable(
             route = Destination.ARTICLES.name
         ) {
-            CategoriesScreen(mockArticleScreenState)
+            CategoriesScreen(mockArticleScreenContent)
         }
         composable(
             route = Destination.SETTINGS.name
         ) {
-            SettingsScreen(mockSettingsScreenState)
+            SettingsScreen(mockSettingsScreenContent)
         }
     }
 }

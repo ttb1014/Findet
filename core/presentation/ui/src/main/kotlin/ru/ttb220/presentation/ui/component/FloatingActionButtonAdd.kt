@@ -1,4 +1,4 @@
-package ru.ttb220.ui.component
+package ru.ttb220.presentation.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.ui.theme.Green
+import ru.ttb220.presentation.ui.theme.Green
 
 @Composable
 fun FloatingActionButtonAdd(

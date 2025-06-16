@@ -12,7 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import ru.ttb220.app.navigation.Destination
 import ru.ttb220.app.ui.FindetApp
 import ru.ttb220.app.ui.rememberAppState
-import ru.ttb220.ui.theme.FindetTheme
+import ru.ttb220.presentation.ui.theme.FindetTheme
 
 class MainActivity : ComponentActivity() {
 

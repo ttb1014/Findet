@@ -1,4 +1,4 @@
-package ru.ttb220.ui.theme
+package ru.ttb220.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

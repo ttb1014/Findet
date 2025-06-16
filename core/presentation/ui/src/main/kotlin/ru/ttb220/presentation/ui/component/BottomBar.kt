@@ -1,4 +1,4 @@
-package ru.ttb220.ui.component
+package ru.ttb220.presentation.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,10 +33,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.ttb220.mock.R as mockR
 import ru.ttb220.presentation.model.NavigationState
-import ru.ttb220.ui.R
-import ru.ttb220.ui.theme.Green
-import ru.ttb220.ui.theme.GreenHighlight
+import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.ui.theme.Green
+import ru.ttb220.presentation.ui.theme.GreenHighlight
 
 @Composable
 fun BottomBar(
@@ -143,31 +144,31 @@ private fun BottomBarPreview() {
             NavigationState(
                 route = "",
                 iconId = R.drawable.downtrend,
-                textId = ru.ttb220.mock.R.string.expenses,
+                textId = mockR.string.expenses,
                 isSelected = true,
             ),
             NavigationState(
                 route = "",
                 iconId = R.drawable.uptrend,
-                textId = ru.ttb220.mock.R.string.incomes,
+                textId = mockR.string.incomes,
                 isSelected = false,
             ),
             NavigationState(
                 route = "",
                 iconId = R.drawable.calculator,
-                textId = ru.ttb220.mock.R.string.account,
+                textId = mockR.string.account,
                 isSelected = false,
             ),
             NavigationState(
                 route = "",
                 iconId = R.drawable.barchartside,
-                textId = ru.ttb220.mock.R.string.articles,
+                textId = mockR.string.articles,
                 isSelected = false,
             ),
             NavigationState(
                 route = "",
                 iconId = R.drawable.settings,
-                textId = ru.ttb220.mock.R.string.settings,
+                textId = mockR.string.settings,
                 isSelected = false,
             ),
         )

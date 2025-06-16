@@ -17,12 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockArticleScreenState
+import ru.ttb220.mock.mockArticleScreenContent
 import ru.ttb220.presentation.model.CategoryState
 import ru.ttb220.presentation.model.screen.CategoriesScreenResource
-import ru.ttb220.ui.R
-import ru.ttb220.ui.component.ColumnListItem
-import ru.ttb220.ui.component.DynamicIconResource
+import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.ui.component.ColumnListItem
+import ru.ttb220.presentation.ui.component.DynamicIconResource
 
 @Composable
 fun CategoriesScreen(
@@ -102,6 +102,6 @@ fun CategoryItem(
 @Composable
 private fun CategoriesScreenPreview() {
     CategoriesScreen(
-        categoriesScreenResource = mockArticleScreenState,
+        categoriesScreenResource = mockArticleScreenContent,
     )
 }

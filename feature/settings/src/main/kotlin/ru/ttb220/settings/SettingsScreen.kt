@@ -24,10 +24,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockSettingsScreenState
+import ru.ttb220.mock.mockSettingsScreenContent
 import ru.ttb220.presentation.model.screen.SettingsScreenState
-import ru.ttb220.ui.R
-import ru.ttb220.ui.component.ColumnListItem
+import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.ui.component.ColumnListItem
 
 private enum class SettingsDestination(
     @StringRes val textId: Int
@@ -166,5 +166,5 @@ private fun SettingsItem(
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen(mockSettingsScreenState)
+    SettingsScreen(mockSettingsScreenContent)
 }

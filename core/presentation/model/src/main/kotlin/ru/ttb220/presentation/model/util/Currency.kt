@@ -2,8 +2,10 @@ package ru.ttb220.presentation.model.util
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Immutable
 import ru.ttb220.presentation.model.R
 
+@Immutable
 enum class Currency(
     @DrawableRes val iconId: Int,
     @StringRes val fullNameId: Int,

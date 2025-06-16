@@ -1,4 +1,4 @@
-package ru.ttb220.ui.util
+package ru.ttb220.presentation.ui.util
 
 // Маппер стандартных эмодзи на эмодзи из ресурсов.
 val EmojiToResourceMapper = mapOf<String, Int>(

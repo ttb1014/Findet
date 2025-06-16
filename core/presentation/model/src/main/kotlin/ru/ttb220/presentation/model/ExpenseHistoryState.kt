@@ -1,7 +1,9 @@
 package ru.ttb220.presentation.model
 
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Immutable
 
+@Immutable
 data class ExpenseHistoryState(
     @DrawableRes val emojiId: Int? = null,
     val name: String,

@@ -8,19 +8,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockAccountScreenState
+import ru.ttb220.mock.mockAccountScreenContent
 import ru.ttb220.mock.mockBarChartData
 import ru.ttb220.presentation.model.screen.AccountScreenState
 import ru.ttb220.presentation.model.util.Currency
 import ru.ttb220.presentation.model.util.Emoji
-import ru.ttb220.ui.R
-import ru.ttb220.ui.component.BarChart
-import ru.ttb220.ui.component.BarChartResource
-import ru.ttb220.ui.component.ColumnListItem
-import ru.ttb220.ui.component.DynamicIconResource
-import ru.ttb220.ui.theme.Green
-import ru.ttb220.ui.theme.GreenHighlight
-import ru.ttb220.ui.theme.Orange
+import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.ui.component.BarChart
+import ru.ttb220.presentation.ui.component.BarChartResource
+import ru.ttb220.presentation.ui.component.ColumnListItem
+import ru.ttb220.presentation.ui.component.DynamicIconResource
+import ru.ttb220.presentation.ui.theme.Green
+import ru.ttb220.presentation.ui.theme.GreenHighlight
+import ru.ttb220.presentation.ui.theme.Orange
 
 private val DEFAULT_LIST_ITEM_HEIGHT = 56.dp
 
@@ -90,6 +90,6 @@ fun CurrencyItem(
 @Composable
 private fun AccountScreenPreview() {
     AccountScreen(
-        accountScreenState = mockAccountScreenState,
+        accountScreenState = mockAccountScreenContent,
     )
 }

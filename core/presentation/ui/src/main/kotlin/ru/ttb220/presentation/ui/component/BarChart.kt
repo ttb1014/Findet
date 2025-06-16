@@ -1,4 +1,4 @@
-package ru.ttb220.ui.component
+package ru.ttb220.presentation.ui.component
 
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import ru.ttb220.mock.mockBarChartData
-import ru.ttb220.ui.theme.Green
-import ru.ttb220.ui.theme.Orange
-import ru.ttb220.ui.theme.Roboto
+import ru.ttb220.presentation.ui.theme.Green
+import ru.ttb220.presentation.ui.theme.Orange
+import ru.ttb220.presentation.ui.theme.Roboto
 
 data class BarChartResource(
     val bars: List<BarResource>,

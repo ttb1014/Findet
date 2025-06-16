@@ -1,6 +1,6 @@
 @file:Suppress("Warnings")
 
-package ru.ttb220.ui.theme
+package ru.ttb220.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

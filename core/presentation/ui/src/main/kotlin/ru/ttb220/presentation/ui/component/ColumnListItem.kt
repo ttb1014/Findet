@@ -1,4 +1,4 @@
-package ru.ttb220.ui.component
+package ru.ttb220.presentation.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.ui.theme.LightGreyIconTint
+import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 
 /**
  * Wraps content height by default. Should explicitly specify via [modifier]
