@@ -19,16 +19,16 @@
       <SelectionState runConfigName="testGetAllAccounts()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testGetTransactions()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="RepositoryInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testRetry()">
+      <SelectionState runConfigName="testWithRetry()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testWithRetry()">
+      <SelectionState runConfigName="testWrapToResult()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testWrapToResultSuccess()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
