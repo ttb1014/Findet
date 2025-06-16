@@ -43,6 +43,12 @@ dependencies {
     implementation(project(":core:presentation:ui"))
     implementation(project(":core:presentation:model"))
     implementation(project(":core:mock"))
+    implementation(project(":feature:expenses"))
+    implementation(project(":feature:incomes"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:account"))
+    implementation(project(":feature:categories"))
+
 
     implementation(libs.androidx.core.splashscreen)
 

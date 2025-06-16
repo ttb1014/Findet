@@ -7,11 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.ttb220.account.AccountScreen
 import ru.ttb220.categories.CategoriesScreen
-import ru.ttb220.mock.mockAccountScreenResource
-import ru.ttb220.mock.mockArticleScreenResource
-import ru.ttb220.mock.mockExpensesScreenResource
-import ru.ttb220.mock.mockIncomesScreenResource
-import ru.ttb220.mock.mockSettingsScreenResource
+import ru.ttb220.mock.mockAccountScreenState
+import ru.ttb220.mock.mockArticleScreenState
+import ru.ttb220.mock.mockExpensesScreenState
+import ru.ttb220.mock.mockIncomesScreenState
+import ru.ttb220.mock.mockSettingsScreenState
 import ru.ttb220.expenses.ExpensesScreen
 import ru.ttb220.incomes.IncomesScreen
 import ru.ttb220.settings.SettingsScreen
@@ -31,32 +31,32 @@ fun FindetNavHost(
             route = Destination.EXPENSES.name
         ) {
             ExpensesScreen(
-                expensesScreenResource = mockExpensesScreenResource,
+                expensesScreenState = mockExpensesScreenState,
             )
         }
         composable(
             route = Destination.INCOMES.name
         ) {
             IncomesScreen(
-                incomesScreenResource = mockIncomesScreenResource,
+                incomesScreenState = mockIncomesScreenState,
             )
         }
         composable(
             route = Destination.ACCOUNT.name
         ) {
             AccountScreen(
-                accountScreenResource = mockAccountScreenResource,
+                accountScreenState = mockAccountScreenState,
             )
         }
         composable(
             route = Destination.ARTICLES.name
         ) {
-            CategoriesScreen(mockArticleScreenResource)
+            CategoriesScreen(mockArticleScreenState)
         }
         composable(
             route = Destination.SETTINGS.name
         ) {
-            SettingsScreen(mockSettingsScreenResource)
+            SettingsScreen(mockSettingsScreenState)
         }
     }
 }

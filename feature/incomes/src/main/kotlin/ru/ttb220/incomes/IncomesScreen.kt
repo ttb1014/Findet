@@ -8,16 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockIncomesScreenResource
-import ru.ttb220.presentation.model.IncomeResource
-import ru.ttb220.presentation.model.screen.IncomesScreenResource
+import ru.ttb220.mock.mockIncomesScreenState
+import ru.ttb220.presentation.model.IncomeState
+import ru.ttb220.presentation.model.screen.IncomesScreenState
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.ColumnListItem
 import ru.ttb220.ui.theme.GreenHighlight
 
 @Composable
 fun IncomesScreen(
-    incomesScreenResource: IncomesScreenResource,
+    incomesScreenState: IncomesScreenState,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -25,11 +25,11 @@ fun IncomesScreen(
             .fillMaxWidth()
             .padding(bottom = 16.dp)
     ) {
-        TotalAmountHeader(incomesScreenResource.totalAmount)
-        incomesScreenResource.incomes.forEachIndexed { index: Int, incomeResource: IncomeResource ->
+        TotalAmountHeader(incomesScreenState.totalAmount)
+        incomesScreenState.incomes.forEachIndexed { index: Int, incomeState: IncomeState ->
             ColumnListItem(
-                title = incomeResource.title,
-                trailingText = incomeResource.amount,
+                title = incomeState.title,
+                trailingText = incomeState.amount,
                 modifier = Modifier.height(73.dp),
                 trailingIcon = R.drawable.more_right,
                 shouldShowLeadingDivider = index == 0,
@@ -56,6 +56,6 @@ private fun TotalAmountHeader(
 @Composable
 private fun IncomesScreenPreview() {
     IncomesScreen(
-        incomesScreenResource = mockIncomesScreenResource,
+        incomesScreenState = mockIncomesScreenState,
     )
 }

@@ -24,8 +24,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockSettingsScreenResource
-import ru.ttb220.presentation.model.screen.SettingsScreenResource
+import ru.ttb220.mock.mockSettingsScreenState
+import ru.ttb220.presentation.model.screen.SettingsScreenState
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.ColumnListItem
 
@@ -57,14 +57,14 @@ private enum class SettingsDestination(
 
 @Composable
 fun SettingsScreen(
-    settingsScreenResource: SettingsScreenResource,
+    settingsScreenState: SettingsScreenState,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
     ) {
         LightDarkAutoTheme(
-            settingsScreenResource.isDarkThemeEnabled
+            settingsScreenState.isDarkThemeEnabled
         )
         SettingsDestination.entries.forEach {
             SettingsItem(it)
@@ -166,5 +166,5 @@ private fun SettingsItem(
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen(mockSettingsScreenResource)
+    SettingsScreen(mockSettingsScreenState)
 }

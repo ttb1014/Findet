@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockAccountScreenResource
+import ru.ttb220.mock.mockAccountScreenState
 import ru.ttb220.mock.mockBarChartData
-import ru.ttb220.presentation.model.screen.AccountScreenResource
+import ru.ttb220.presentation.model.screen.AccountScreenState
 import ru.ttb220.presentation.model.util.Currency
 import ru.ttb220.presentation.model.util.Emoji
 import ru.ttb220.ui.R
@@ -26,16 +26,16 @@ private val DEFAULT_LIST_ITEM_HEIGHT = 56.dp
 
 @Composable
 fun AccountScreen(
-    accountScreenResource: AccountScreenResource,
+    accountScreenState: AccountScreenState,
     modifier: Modifier = Modifier
 ) {
     Column {
         Column {
             BalanceItem(
-                balance = accountScreenResource.balance,
-                leadingIconId = accountScreenResource.leadingIconId,
+                balance = accountScreenState.balance,
+                leadingIconId = accountScreenState.leadingIconId,
             )
-            CurrencyItem(accountScreenResource.currency)
+            CurrencyItem(accountScreenState.currency)
         }
         BarChart(
             barChartResource = BarChartResource(
@@ -90,6 +90,6 @@ fun CurrencyItem(
 @Composable
 private fun AccountScreenPreview() {
     AccountScreen(
-        accountScreenResource = mockAccountScreenResource,
+        accountScreenState = mockAccountScreenState,
     )
 }

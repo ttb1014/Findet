@@ -2,7 +2,7 @@ package ru.ttb220.presentation.model
 
 import androidx.annotation.DrawableRes
 
-data class ExpenseHistoryResource(
+data class ExpenseHistoryState(
     @DrawableRes val emojiId: Int? = null,
     val name: String,
     val description: String? = null,

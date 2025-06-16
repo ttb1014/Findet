@@ -17,8 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockArticleScreenResource
-import ru.ttb220.presentation.model.CategoryResource
+import ru.ttb220.mock.mockArticleScreenState
+import ru.ttb220.presentation.model.CategoryState
 import ru.ttb220.presentation.model.screen.CategoriesScreenResource
 import ru.ttb220.ui.R
 import ru.ttb220.ui.component.ColumnListItem
@@ -35,7 +35,7 @@ fun CategoriesScreen(
         SearchBar()
         categoriesScreenResource.forEachIndexed { index, item ->
             CategoryItem(
-                categoryResource = item,
+                categoryState = item,
                 shouldShowLeadingDivider = index == 0
             )
         }
@@ -75,19 +75,19 @@ private fun SearchBar(
 
 @Composable
 fun CategoryItem(
-    categoryResource: CategoryResource,
+    categoryState: CategoryState,
     modifier: Modifier = Modifier,
     shouldShowLeadingDivider: Boolean = false,
 ) {
     ColumnListItem(
-        title = categoryResource.name,
+        title = categoryState.name,
         modifier = modifier.height(70.dp),
-        dynamicIconResource = categoryResource.emoji?.let {
+        dynamicIconResource = categoryState.emoji?.let {
             DynamicIconResource.EmojiIconResource(
                 it
             )
         } ?: DynamicIconResource.TextIconResource(
-            categoryResource.name
+            categoryState.name
                 .split(" ")
                 .map { it[0] }
                 .joinToString("")
@@ -102,6 +102,6 @@ fun CategoryItem(
 @Composable
 private fun CategoriesScreenPreview() {
     CategoriesScreen(
-        categoriesScreenResource = mockArticleScreenResource,
+        categoriesScreenResource = mockArticleScreenState,
     )
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import ru.ttb220.demo.navigation.Destination
 import ru.ttb220.demo.navigation.FindetNavHost
 import ru.ttb220.demo.navigation.FloatingActionButtonDestinations
-import ru.ttb220.presentation.model.NavigationResource
+import ru.ttb220.presentation.model.NavigationState
 import ru.ttb220.ui.component.BottomBar
 import ru.ttb220.ui.component.FloatingActionButtonAdd
 import ru.ttb220.ui.component.TopAppBar
@@ -36,7 +36,7 @@ fun FindetApp(
         bottomBar = {
             BottomBar(
                 destinations = Destination.entries.map {
-                    NavigationResource(
+                    NavigationState(
                         route = it.name,
                         iconId = it.iconId,
                         textId = it.textId,
