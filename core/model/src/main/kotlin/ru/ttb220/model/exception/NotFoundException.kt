@@ -1,10 +1,10 @@
-package ru.ttb220.network.exception
+package ru.ttb220.model.exception
 
-class IncorrectInputFormatException(
+class NotFoundException(
     message: String? = null,
     responseBody: String? = null
 ) : ClientErrorException(
-    code = 400,
+    code = 404,
     message,
     responseBody
 )

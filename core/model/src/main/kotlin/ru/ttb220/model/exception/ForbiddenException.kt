@@ -1,4 +1,4 @@
-package ru.ttb220.network.exception
+package ru.ttb220.model.exception
 
 /**
  * В теории, никогда не выбросится

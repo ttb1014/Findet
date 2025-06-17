@@ -44,6 +44,7 @@ secrets {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     implementation(libs.retrofit)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.kotlin.serialization)

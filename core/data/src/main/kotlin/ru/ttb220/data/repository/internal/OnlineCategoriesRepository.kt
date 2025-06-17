@@ -14,20 +14,17 @@ internal class OnlineCategoriesRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : CategoriesRepository {
 
-    override fun getAllCategories(): Flow<Result<List<Category>>> = flow<List<Category>> {
+    override fun getAllCategories(): Flow<List<Category>> = flow<List<Category>> {
         emit(remoteDataSource.getAllCategories().map { it.toCategory() })
     }.withRetry()
-        .wrapToResult()
 
-    override fun getAllIncomeCategories(): Flow<Result<List<Category>>> = flow<List<Category>> {
+    override fun getAllIncomeCategories(): Flow<List<Category>> = flow<List<Category>> {
         emit(remoteDataSource.getAllCategoriesByType(true).map { it.toCategory() })
     }.withRetry()
-        .wrapToResult()
 
-    override fun getAllExpenseCategories(): Flow<Result<List<Category>>> = flow<List<Category>> {
+    override fun getAllExpenseCategories(): Flow<List<Category>> = flow<List<Category>> {
         emit(remoteDataSource.getAllCategoriesByType(false).map { it.toCategory() })
     }.withRetry()
-        .wrapToResult()
 }
 
 private fun CategoryDto.toCategory() = Category(

@@ -7,15 +7,15 @@ import ru.ttb220.model.account.AccountDetailed
 import ru.ttb220.model.account.AccountHistory
 
 interface AccountsRepository {
-    fun getAllAccounts(): Flow<Result<List<Account>>>
+    fun getAllAccounts(): Flow<List<Account>>
 
-    fun createNewAccount(account: AccountBrief): Flow<Result<Account>>
+    fun createNewAccount(account: AccountBrief): Flow<Account>
 
-    fun getAccountById(id: Int): Flow<Result<AccountDetailed>>
+    fun getAccountById(id: Int): Flow<AccountDetailed>
 
-    fun updateAccountById(id: Int, account: AccountBrief): Flow<Result<Account>>
+    fun updateAccountById(id: Int, account: AccountBrief): Flow<Account>
 
-    fun deleteAccountById(id: Int): Flow<Result<Unit>>
+    fun deleteAccountById(id: Int): Flow<Unit>
 
-    fun getAccountHistoryById(id: Int): Flow<Result<AccountHistory>>
+    fun getAccountHistoryById(id: Int): Flow<AccountHistory>
 }

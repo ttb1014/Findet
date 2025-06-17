@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.ttb220.network.exception.ApiException
+import ru.ttb220.model.exception.ApiException
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -40,7 +40,7 @@ class RetrofitNetworkInstrumentedTest {
         try {
             remoteDataSource.getAccountById(-1)
             fail("Ожидалась ошибка")
-        } catch (e: ApiException) {
+        } catch (e: ru.ttb220.model.exception.ApiException) {
             println("Обработалcя код ${e.code}: ${e.message}")
         }
     }

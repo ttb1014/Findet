@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Instant
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.util.withRetry
-import ru.ttb220.data.util.wrapToResult
 import ru.ttb220.model.account.Account
 import ru.ttb220.model.account.AccountBrief
 import ru.ttb220.model.account.AccountChangeType
@@ -29,41 +28,35 @@ internal class OnlineAccountRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
 ) : AccountsRepository {
 
-    override fun getAllAccounts(): Flow<Result<List<Account>>> = flow<List<Account>> {
+    override fun getAllAccounts(): Flow<List<Account>> = flow<List<Account>> {
         emit(remoteDataSource.getAllAccounts().map { it.toAccount() })
     }.withRetry()
-        .wrapToResult()
 
-    override fun createNewAccount(account: AccountBrief): Flow<Result<Account>> =
+    override fun createNewAccount(account: AccountBrief): Flow<Account> =
         flow<Account> {
             emit(remoteDataSource.createNewAccount(account.toAccountCreateRequest()).toAccount())
         }.withRetry()
-            .wrapToResult()
 
-    override fun getAccountById(id: Int): Flow<Result<AccountDetailed>> =
+    override fun getAccountById(id: Int): Flow<AccountDetailed> =
         flow<AccountDetailed> {
             emit(remoteDataSource.getAccountById(id).toAccountDetailed())
         }.withRetry()
-            .wrapToResult()
 
-    override fun updateAccountById(id: Int, account: AccountBrief): Flow<Result<Account>> =
+    override fun updateAccountById(id: Int, account: AccountBrief): Flow<Account> =
         flow<Account> {
             emit(
                 remoteDataSource.updateAccountById(id, account.toAccountCreateRequest()).toAccount()
             )
         }.withRetry()
-            .wrapToResult()
 
-    override fun deleteAccountById(id: Int): Flow<Result<Unit>> = flow {
+    override fun deleteAccountById(id: Int): Flow<Unit> = flow {
         emit(remoteDataSource.deleteAccountById(id))
     }.withRetry()
-        .wrapToResult()
 
-    override fun getAccountHistoryById(id: Int): Flow<Result<AccountHistory>> =
+    override fun getAccountHistoryById(id: Int): Flow<AccountHistory> =
         flow<AccountHistory> {
             emit(remoteDataSource.getAccountHistoryById(id).toAccountHistory())
         }.withRetry()
-            .wrapToResult()
 }
 
 // TODO: move mappings to original class files

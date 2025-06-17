@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.ttb220.data.DefaultTimeProvider
+import ru.ttb220.data.TimeProvider
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.CategoriesRepository
 import ru.ttb220.data.repository.TransactionsRepository
@@ -29,4 +31,9 @@ abstract class DataModule {
     internal abstract fun bindsTransactionsRepository(
         onlineTransactionsRepository: OnlineTransactionsRepository
     ): TransactionsRepository
+
+    @Binds
+    internal abstract fun bindsTimeProvider(
+        timeProvider: DefaultTimeProvider
+    ): TimeProvider
 }

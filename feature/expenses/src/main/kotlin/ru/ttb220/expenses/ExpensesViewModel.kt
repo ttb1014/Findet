@@ -2,60 +2,74 @@ package ru.ttb220.expenses
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.TransactionsRepository
+import ru.ttb220.domain.GetTransactionsForAllAccountsUseCase
+import ru.ttb220.model.exception.IncorrectInputFormatException
+import ru.ttb220.model.exception.ServerErrorException
+import ru.ttb220.model.exception.UnauthorizedException
+import ru.ttb220.model.transaction.TransactionDetailed
+import ru.ttb220.presentation.model.ExpenseState
+import ru.ttb220.presentation.model.screen.ExpensesScreenContent
+import ru.ttb220.presentation.model.util.Emoji
+import ru.ttb220.presentation.ui.util.EmojiToResourceMapper
 import javax.inject.Inject
 
 class ExpensesViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val accountsRepository: AccountsRepository,
+    private val getTransactionsForAllAccountsUseCase: GetTransactionsForAllAccountsUseCase,
 ) : ViewModel() {
 
     private var _expensesScreenState: MutableStateFlow<ExpensesScreenState> =
         MutableStateFlow(ExpensesScreenState.Loading)
     val expensesScreenState = _expensesScreenState.asStateFlow()
 
-    private fun CoroutineScope.getTodayTransactions(): Job = launch {
-        accountsRepository.getAllAccounts().collect { accountResult ->
-            accountResult.getOrNull()?.let { accounts ->
+    init {
+        viewModelScope.launch {
+            val transactionsFlow = getTransactionsForAllAccountsUseCase.invoke(false)
 
-                val allTransactionResults = accounts.map { account ->
-                    transactionsRepository
-                        .getAccountTransactionsForPeriod(accountId = account.id)
-                }.map { it.first() }
+            try {
+                transactionsFlow.collect { transactions ->
+                    val totalAmount = transactions.fold(0) { acc, transaction ->
+                        acc + transaction.amount.toInt()
+                    }.toString()
 
-                if (allTransactionResults.any { it.isFailure }) {
-                    val firstFailure = allTransactionResults.first { it.isFailure }
-                    _expensesScreenState.value =
-                        ExpensesScreenState.Error(
-                            firstFailure.exceptionOrNull()?.message ?: UNKNOWN_ERROR_MESSAGE
+                    _expensesScreenState.value = ExpensesScreenState.Loaded(
+                        data = ExpensesScreenContent(
+                            expenses = transactions.map { it.toExpenseState() },
+                            totalAmount = totalAmount,
                         )
+                    )
                 }
-
-//                _expensesScreenState.apply {
-//                    value = ExpensesScreenState.Loaded(
-//                        data = ru.ttb220.presentation.model.screen.ExpensesScreenContent(
-//                            expenses =,
-//                            totalAmount = allTransactionResults
-//                        )
-//                    )
-//                }
+            } catch (e: UnauthorizedException) {
+                TODO()
+            } catch (e: IncorrectInputFormatException) {
+                TODO()
+            } catch (e: ServerErrorException) {
+                TODO()
+            } catch (e: Exception) {
                 TODO()
             }
         }
     }
 
-    init {
-        viewModelScope.launch{
-            val transactions = getTodayTransactions()
-        }
-    }
+    private fun TransactionDetailed.toExpenseState() = ExpenseState(
+        emojiId = category.emoji.let emoji@{ emojiString ->
+            val emojiRes = EmojiToResourceMapper[emojiString]
+            emojiRes?.let { res ->
+                return@emoji Emoji.Resource(res)
+            }
+
+            Emoji.Text(emojiString)
+        },
+        name = category.name,
+        shortDescription = comment,
+        amount = amount,
+    )
 
     companion object {
         private const val UNKNOWN_ERROR_MESSAGE = "Unknown error"

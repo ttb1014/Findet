@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import ru.ttb220.model.Category
 
 interface CategoriesRepository {
-    fun getAllCategories(): Flow<Result<List<Category>>>
+    fun getAllCategories(): Flow<List<Category>>
 
-    fun getAllIncomeCategories(): Flow<Result<List<Category>>>
+    fun getAllIncomeCategories(): Flow<List<Category>>
 
-    fun getAllExpenseCategories(): Flow<Result<List<Category>>>
+    fun getAllExpenseCategories(): Flow<List<Category>>
 }

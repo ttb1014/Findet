@@ -3,13 +3,13 @@ package ru.ttb220.network
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.ttb220.network.exception.ClientErrorException
-import ru.ttb220.network.exception.ForbiddenException
-import ru.ttb220.network.exception.IncorrectInputFormatException
-import ru.ttb220.network.exception.JsonDecodingException
-import ru.ttb220.network.exception.NotFoundException
-import ru.ttb220.network.exception.ServerErrorException
-import ru.ttb220.network.exception.UnauthorizedException
+import ru.ttb220.model.exception.ClientErrorException
+import ru.ttb220.model.exception.ForbiddenException
+import ru.ttb220.model.exception.IncorrectInputFormatException
+import ru.ttb220.model.exception.JsonDecodingException
+import ru.ttb220.model.exception.NotFoundException
+import ru.ttb220.model.exception.ServerErrorException
+import ru.ttb220.model.exception.UnauthorizedException
 import ru.ttb220.network.model.response.ErrorResponse
 import javax.inject.Inject
 

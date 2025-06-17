@@ -4,7 +4,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.retry
-import ru.ttb220.network.exception.ServerErrorException
+import ru.ttb220.model.exception.ServerErrorException
 
 const val DEFAULT_RETRY_ATTEMPTS = 3L
 const val DEFAULT_RETRY_DELAY = 2000L

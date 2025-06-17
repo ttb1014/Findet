@@ -7,20 +7,20 @@ import ru.ttb220.model.transaction.TransactionBrief
 import ru.ttb220.model.transaction.TransactionDetailed
 
 interface TransactionsRepository {
-    fun createNewTransaction(transaction: TransactionBrief): Flow<Result<Transaction>>
+    fun createNewTransaction(transaction: TransactionBrief): Flow<Transaction>
 
-    fun getTransactionById(id: Int): Flow<Result<TransactionDetailed>>
+    fun getTransactionById(id: Int): Flow<TransactionDetailed>
 
     fun updateTransactionById(
         id: Int,
         transaction: TransactionBrief
-    ): Flow<Result<TransactionDetailed>>
+    ): Flow<TransactionDetailed>
 
-    fun deleteTransactionById(id: Int): Flow<Result<Unit>>
+    fun deleteTransactionById(id: Int): Flow<Unit>
 
     fun getAccountTransactionsForPeriod(
         accountId: Int,
         startDate: Instant? = null,
         endDate: Instant? = null,
-    ): Flow<Result<List<TransactionDetailed>>>
+    ): Flow<List<TransactionDetailed>>
 }

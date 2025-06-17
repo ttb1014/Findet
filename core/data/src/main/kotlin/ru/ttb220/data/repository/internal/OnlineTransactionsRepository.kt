@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Instant
 import ru.ttb220.data.repository.TransactionsRepository
 import ru.ttb220.data.util.withRetry
-import ru.ttb220.data.util.wrapToResult
 import ru.ttb220.model.Category
 import ru.ttb220.model.account.AccountState
 import ru.ttb220.model.transaction.Transaction
@@ -24,46 +23,41 @@ internal class OnlineTransactionsRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : TransactionsRepository {
 
-    override fun createNewTransaction(transaction: TransactionBrief): Flow<Result<Transaction>> =
+    override fun createNewTransaction(transaction: TransactionBrief): Flow<Transaction> =
         flow<Transaction> {
             emit(
                 remoteDataSource.createNewTransaction(transaction.toTransactionCreateRequest())
                     .toTransaction()
             )
         }.withRetry()
-            .wrapToResult()
 
-    override fun getTransactionById(id: Int): Flow<Result<TransactionDetailed>> =
+    override fun getTransactionById(id: Int): Flow<TransactionDetailed> =
         flow<TransactionDetailed> {
             emit(remoteDataSource.getTransactionById(id).toTransactionDetailed())
         }.withRetry()
-            .wrapToResult()
 
     override fun updateTransactionById(
         id: Int, transaction: TransactionBrief
-    ): Flow<Result<TransactionDetailed>> = flow<TransactionDetailed> {
+    ): Flow<TransactionDetailed> = flow<TransactionDetailed> {
         emit(
             remoteDataSource.updateTransactionById(id, transaction.toTransactionUpdateRequest())
                 .toTransactionDetailed()
         )
     }.withRetry()
-        .wrapToResult()
 
-    override fun deleteTransactionById(id: Int): Flow<Result<Unit>> = flow<Unit> {
+    override fun deleteTransactionById(id: Int): Flow<Unit> = flow<Unit> {
         emit(remoteDataSource.deleteTransactionById(id))
     }.withRetry()
-        .wrapToResult()
 
     override fun getAccountTransactionsForPeriod(
         accountId: Int,
         startDate: Instant?,
         endDate: Instant?
-    ): Flow<Result<List<TransactionDetailed>>> = flow<List<TransactionDetailed>> {
+    ): Flow<List<TransactionDetailed>> = flow<List<TransactionDetailed>> {
         emit(remoteDataSource.getAccountTransactionsForPeriod(
             accountId, startDate, endDate
         ).map { it.toTransactionDetailed() })
     }.withRetry()
-        .wrapToResult()
 }
 
 private fun TransactionDetailedResponse.toTransactionDetailed(): TransactionDetailed =
