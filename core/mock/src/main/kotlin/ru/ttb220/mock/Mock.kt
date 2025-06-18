@@ -3,12 +3,12 @@ package ru.ttb220.mock
 import ru.ttb220.presentation.model.CategoryState
 import ru.ttb220.presentation.model.ExpenseAnalysisState
 import ru.ttb220.presentation.model.ExpenseDetailedState
-import ru.ttb220.presentation.model.ExpenseHistoryState
+import ru.ttb220.presentation.model.ExpenseHistoryEntry
 import ru.ttb220.presentation.model.ExpenseState
 import ru.ttb220.presentation.model.IncomeState
 import ru.ttb220.presentation.model.screen.AccountScreenState
 import ru.ttb220.presentation.model.screen.ExpensesAnalysisScreenState
-import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenState
+import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenContent
 import ru.ttb220.presentation.model.screen.ExpensesScreenContent
 import ru.ttb220.presentation.model.screen.IncomesScreenState
 import ru.ttb220.presentation.model.screen.SettingsScreenState
@@ -129,37 +129,37 @@ val mockExpenseDetailedState = ExpenseDetailedState(
     description = "Ремонт - фурнитура для дверей"
 )
 
-val mockExpensesHistoryScreenState = ExpensesHistoryScreenState(
+val mockExpensesHistoryScreenContent = ExpensesHistoryScreenContent(
     startDate = "Февраль 2025",
     endDate = "23:41",
     totalAmount = "125 868 ₽",
     expenses = listOf(
-        ExpenseHistoryState(
+        ExpenseHistoryEntry(
             name = "Ремонт квартиры",
             description = "Ремонт - фурнитура для дверей",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryState(
-            emojiId = R.drawable.doggy,
+        ExpenseHistoryEntry(
+            emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryState(
-            emojiId = R.drawable.doggy,
+        ExpenseHistoryEntry(
+            emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryState(
-            emojiId = R.drawable.doggy,
+        ExpenseHistoryEntry(
+            emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryState(
-            emojiId = R.drawable.doggy,
+        ExpenseHistoryEntry(
+            emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"

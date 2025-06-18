@@ -13,4 +13,8 @@
     <string name="error_not_found">Не найдено</string>
     <string name="error_bad_data">Некорректные данные</string>
     <string name="error_no_internet">Нет интернета</string>
+
+    <string name="start">Начало</string>
+    <string name="end">Конец</string>
+    <string name="total">Сумма</string>
 </resources>

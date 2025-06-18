@@ -19,9 +19,6 @@
       <SelectionState runConfigName="RepositoryInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ErrorDialogPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="ExpensesScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -29,6 +26,9 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="getAllTransactionsForThisMonth()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="ExpensesHistoryScreenContentPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
