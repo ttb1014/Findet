@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class AccountHistoryEntryDto(
     val id: Int,
     val accountId: Int,
-    val changeTypeDto: ChangeTypeDto,
+    val changeType: ChangeTypeDto,
     val previousState: AccountStateDto?,
     val newState: AccountStateDto,
     val changeTimeStamp: Instant,

@@ -8,8 +8,8 @@ import ru.ttb220.network.model.CategoryDto
 @Serializable
 data class TransactionDetailedResponse(
     val id: Int,
-    val accountDto: AccountDto,
-    val categoryDto: CategoryDto,
+    val account: AccountDto,
+    val category: CategoryDto,
     val amount: String,
     val transactionDate: Instant,
     val comment: String?,

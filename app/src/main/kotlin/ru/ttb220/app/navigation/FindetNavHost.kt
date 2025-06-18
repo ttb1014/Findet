@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.ttb220.account.AccountScreen
 import ru.ttb220.categories.CategoriesScreen
+import ru.ttb220.expenses.ExpensesScreen
 import ru.ttb220.expenses.ExpensesScreenContent
 import ru.ttb220.incomes.IncomesScreen
 import ru.ttb220.mock.mockAccountScreenContent
@@ -30,9 +31,7 @@ fun FindetNavHost(
         composable(
             route = Destination.EXPENSES.name
         ) {
-            ExpensesScreenContent(
-                expensesScreenState = mockExpensesScreenContent,
-            )
+            ExpensesScreen()
         }
         composable(
             route = Destination.INCOMES.name

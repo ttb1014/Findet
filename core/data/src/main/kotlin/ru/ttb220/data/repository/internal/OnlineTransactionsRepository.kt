@@ -3,6 +3,7 @@ package ru.ttb220.data.repository.internal
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import ru.ttb220.data.repository.TransactionsRepository
 import ru.ttb220.data.util.withRetry
 import ru.ttb220.model.Category
@@ -51,8 +52,8 @@ internal class OnlineTransactionsRepository @Inject constructor(
 
     override fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: Instant?,
-        endDate: Instant?
+        startDate: LocalDate?,
+        endDate: LocalDate?
     ): Flow<List<TransactionDetailed>> = flow<List<TransactionDetailed>> {
         emit(remoteDataSource.getAccountTransactionsForPeriod(
             accountId, startDate, endDate
@@ -63,8 +64,8 @@ internal class OnlineTransactionsRepository @Inject constructor(
 private fun TransactionDetailedResponse.toTransactionDetailed(): TransactionDetailed =
     TransactionDetailed(
         id = id,
-        account = accountDto.toAccountState(),
-        category = categoryDto.toCategory(),
+        account = account.toAccountState(),
+        category = category.toCategory(),
         amount = amount,
         transactionDate = transactionDate,
         comment = comment,

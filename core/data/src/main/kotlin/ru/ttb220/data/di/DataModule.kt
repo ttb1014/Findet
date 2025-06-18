@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.ttb220.data.DefaultTimeProvider
+import ru.ttb220.data.internal.DefaultTimeProvider
 import ru.ttb220.data.TimeProvider
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.CategoriesRepository
@@ -34,6 +34,6 @@ abstract class DataModule {
 
     @Binds
     internal abstract fun bindsTimeProvider(
-        timeProvider: DefaultTimeProvider
+        defaultTimeProvider: DefaultTimeProvider
     ): TimeProvider
 }

@@ -9,11 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import dagger.hilt.android.AndroidEntryPoint
 import ru.ttb220.app.navigation.Destination
 import ru.ttb220.app.ui.FindetApp
 import ru.ttb220.app.ui.rememberAppState
 import ru.ttb220.presentation.ui.theme.FindetTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     // Управляет состоянием сплеш-скрина

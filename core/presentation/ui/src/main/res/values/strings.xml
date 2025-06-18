@@ -8,4 +8,9 @@
     <string name="language">Язык</string>
     <string name="information">О программе</string>
     <string name="find_category">Найти статью</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+    <string name="error_unauthorized">Ошибка авторизации</string>
+    <string name="error_not_found">Не найдено</string>
+    <string name="error_bad_data">Некорректные данные</string>
+    <string name="error_no_internet">Нет интернета</string>
 </resources>

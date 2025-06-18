@@ -1,23 +1,29 @@
 package ru.ttb220.expenses
 
+import android.icu.text.DecimalFormat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.TransactionsRepository
 import ru.ttb220.domain.GetTransactionsForAllAccountsUseCase
+import ru.ttb220.model.exception.ForbiddenException
 import ru.ttb220.model.exception.IncorrectInputFormatException
-import ru.ttb220.model.exception.ServerErrorException
+import ru.ttb220.model.exception.JsonDecodingException
+import ru.ttb220.model.exception.NotFoundException
 import ru.ttb220.model.exception.UnauthorizedException
 import ru.ttb220.model.transaction.TransactionDetailed
 import ru.ttb220.presentation.model.ExpenseState
 import ru.ttb220.presentation.model.screen.ExpensesScreenContent
 import ru.ttb220.presentation.model.util.Emoji
+import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.util.EmojiToResourceMapper
 import javax.inject.Inject
 
+@HiltViewModel
 class ExpensesViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val accountsRepository: AccountsRepository,
@@ -34,9 +40,10 @@ class ExpensesViewModel @Inject constructor(
 
             try {
                 transactionsFlow.collect { transactions ->
-                    val totalAmount = transactions.fold(0) { acc, transaction ->
-                        acc + transaction.amount.toInt()
-                    }.toString()
+                    val totalAmountDouble = transactions.fold(0.0) { acc, transaction ->
+                        acc + transaction.amount.toDouble()
+                    }
+                    val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)
 
                     _expensesScreenState.value = ExpensesScreenState.Loaded(
                         data = ExpensesScreenContent(
@@ -45,14 +52,34 @@ class ExpensesViewModel @Inject constructor(
                         )
                     )
                 }
-            } catch (e: UnauthorizedException) {
-                TODO()
-            } catch (e: IncorrectInputFormatException) {
-                TODO()
-            } catch (e: ServerErrorException) {
-                TODO()
             } catch (e: Exception) {
-                TODO()
+                _expensesScreenState.value = when (e) {
+                    is UnauthorizedException, is ForbiddenException -> {
+                        ExpensesScreenState.ErrorResource(
+                            messageId = R.string.error_unauthorized
+                        )
+                    }
+
+                    is NotFoundException -> {
+                        ExpensesScreenState.ErrorResource(
+                            R.string.error_not_found
+                        )
+                    }
+
+                    is IncorrectInputFormatException, is JsonDecodingException -> {
+                        ExpensesScreenState.ErrorResource(
+                            R.string.error_bad_data
+                        )
+                    }
+
+                    else -> e.message?.let {
+                        ExpensesScreenState.Error(
+                            message = it
+                        )
+                    } ?: ExpensesScreenState.ErrorResource(
+                        messageId = R.string.error_unknown
+                    )
+                }
             }
         }
     }
@@ -71,7 +98,11 @@ class ExpensesViewModel @Inject constructor(
         amount = amount,
     )
 
+    fun errorDialogDismiss() {
+
+    }
+
     companion object {
-        private const val UNKNOWN_ERROR_MESSAGE = "Unknown error"
+        private val DEFAULT_DECIMAL_FORMAT = DecimalFormat("#.00")
     }
 }

@@ -20,9 +20,6 @@ class RetrofitNetworkInstrumentedTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    internal lateinit var retrofitNetwork: RetrofitNetwork
-
-    @Inject
     lateinit var remoteDataSource: RemoteDataSource
 
     @Before

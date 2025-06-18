@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.transform
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import ru.ttb220.data.TimeProvider
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.TransactionsRepository
@@ -20,8 +21,8 @@ class GetTransactionsForAllAccountsUseCase @Inject constructor(
 ) {
     operator fun invoke(
         isIncome: Boolean,
-        startDate: Instant = timeProvider.startOfToday(),
-        endDate: Instant = timeProvider.now()
+        startDate: LocalDate = timeProvider.today(),
+        endDate: LocalDate = timeProvider.today()
     ): Flow<List<TransactionDetailed>> =
         accountsRepository.getAllAccounts().transform { accounts ->
             val result = coroutineScope {

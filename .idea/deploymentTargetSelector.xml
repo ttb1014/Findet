@@ -16,19 +16,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="testGetAllAccounts()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="RepositoryInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testWithRetry()">
+      <SelectionState runConfigName="ErrorDialogPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testWrapToResult()">
+      <SelectionState runConfigName="ExpensesScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testWrapToResultSuccess()">
+      <SelectionState runConfigName="RetrofitNetworkInstrumentedTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="getAllTransactionsForThisMonth()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

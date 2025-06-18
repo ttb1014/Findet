@@ -2,6 +2,7 @@ package ru.ttb220.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import ru.ttb220.model.transaction.Transaction
 import ru.ttb220.model.transaction.TransactionBrief
 import ru.ttb220.model.transaction.TransactionDetailed
@@ -20,7 +21,7 @@ interface TransactionsRepository {
 
     fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: Instant? = null,
-        endDate: Instant? = null,
+        startDate: LocalDate? = null,
+        endDate: LocalDate? = null,
     ): Flow<List<TransactionDetailed>>
 }

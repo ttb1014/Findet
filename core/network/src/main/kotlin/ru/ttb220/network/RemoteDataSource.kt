@@ -1,6 +1,7 @@
 package ru.ttb220.network
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import ru.ttb220.network.model.CategoryDto
 import ru.ttb220.network.model.request.AccountCreateRequest
 import ru.ttb220.network.model.request.TransactionCreateRequest
@@ -70,7 +71,7 @@ interface RemoteDataSource {
 
     suspend fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: Instant? = null,
-        endDate: Instant? = null,
+        startDate: LocalDate? = null,
+        endDate: LocalDate? = null,
     ): List<TransactionDetailedResponse>
 }

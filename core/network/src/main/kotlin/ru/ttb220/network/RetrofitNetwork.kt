@@ -2,6 +2,7 @@ package ru.ttb220.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
@@ -91,8 +92,8 @@ internal interface NetworkApi {
     @GET("transactions/account/{accountId}/period")
     suspend fun getAccountTransactionsForPeriod(
         @Path("accountId") accountId: Int,
-        @Query("startDate") startDate: Instant?,
-        @Query("endDate") endDate: Instant?,
+        @Query("startDate") startDate: LocalDate?,
+        @Query("endDate") endDate: LocalDate?,
     ): List<TransactionDetailedResponse>
 }
 
@@ -166,8 +167,8 @@ internal class RetrofitNetwork @Inject constructor(
 
     override suspend fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: Instant?,
-        endDate: Instant?
+        startDate: LocalDate?,
+        endDate: LocalDate?
     ): List<TransactionDetailedResponse> =
         networkApi.getAccountTransactionsForPeriod(
             accountId,

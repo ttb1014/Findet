@@ -1,27 +1,62 @@
 package ru.ttb220.expenses
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockExpensesScreenContent
 import ru.ttb220.presentation.model.ExpenseState
 import ru.ttb220.presentation.model.screen.ExpensesScreenContent
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
+import ru.ttb220.presentation.ui.component.ErrorDialog
+import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 
 @Composable
 fun ExpensesScreen(
-    expensesScreenState: ExpensesScreenState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ExpensesViewModel = hiltViewModel(),
 ) {
-    TODO()
+    val expensesScreenState: ExpensesScreenState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
+
+    when (expensesScreenState) {
+        is ExpensesScreenState.Error -> ErrorDialog(
+            message = (expensesScreenState as ExpensesScreenState.Error).message,
+            modifier = Modifier,
+            onDismiss = viewModel::errorDialogDismiss
+        )
+
+        is ExpensesScreenState.Loaded -> ExpensesScreenContent(
+            expensesScreenContent = (expensesScreenState as ExpensesScreenState.Loaded).data,
+            modifier = modifier
+        )
+
+        ExpensesScreenState.Loading -> Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            LoadingWheel(Modifier.size(160.dp))
+        }
+
+        is ExpensesScreenState.ErrorResource -> ErrorDialog(
+            messageId = (expensesScreenState as ExpensesScreenState.ErrorResource).messageId,
+            modifier = Modifier,
+            onDismiss = viewModel::errorDialogDismiss
+        )
+    }
 }
 
 // TODO: Переделать на LazyColumn. Должен ли фиксироваться item с общей суммой?
@@ -94,4 +129,10 @@ private fun ExpensesListPreview() {
         expensesScreenContent = mockExpensesScreenContent,
         modifier = Modifier,
     )
+}
+
+@Preview
+@Composable
+private fun ExpensesScreenPreview() {
+    ExpensesScreen()
 }

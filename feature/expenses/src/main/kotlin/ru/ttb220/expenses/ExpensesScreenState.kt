@@ -1,5 +1,6 @@
 package ru.ttb220.expenses
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 import ru.ttb220.presentation.model.screen.ExpensesScreenContent
 
@@ -13,5 +14,9 @@ sealed interface ExpensesScreenState {
 
     data class Error(
         val message: String
+    ) : ExpensesScreenState
+
+    data class ErrorResource(
+        @StringRes val messageId: Int
     ) : ExpensesScreenState
 }
