@@ -1,4 +1,4 @@
-package ru.ttb220.expenses
+package ru.ttb220.incomes
 
 import android.icu.text.DecimalFormat
 import androidx.lifecycle.ViewModel
@@ -16,27 +16,25 @@ import ru.ttb220.model.exception.JsonDecodingException
 import ru.ttb220.model.exception.NotFoundException
 import ru.ttb220.model.exception.UnauthorizedException
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.presentation.model.ExpenseState
-import ru.ttb220.presentation.model.screen.ExpensesScreenContent
-import ru.ttb220.presentation.model.util.Emoji
+import ru.ttb220.presentation.model.IncomeState
 import ru.ttb220.presentation.ui.R
-import ru.ttb220.presentation.ui.util.EmojiToResourceMapper
 import javax.inject.Inject
 
+// TODO: Вынести TransactionsScreen в отдельный модуль и убрать копипасту
 @HiltViewModel
-class ExpensesViewModel @Inject constructor(
+class IncomesVewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val accountsRepository: AccountsRepository,
     private val getTransactionsForAllAccountsUseCase: GetTransactionsForAllAccountsUseCase,
 ) : ViewModel() {
 
-    private var _expensesScreenState: MutableStateFlow<ExpensesScreenState> =
-        MutableStateFlow(ExpensesScreenState.Loading)
-    val expensesScreenState = _expensesScreenState.asStateFlow()
+    private var _incomesScreenState: MutableStateFlow<IncomesScreenState> =
+        MutableStateFlow(IncomesScreenState.Loading)
+    val incomesScreenState = _incomesScreenState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val transactionsFlow = getTransactionsForAllAccountsUseCase.invoke(false)
+            val transactionsFlow = getTransactionsForAllAccountsUseCase.invoke(true)
 
             try {
                 transactionsFlow.collect { transactions ->
@@ -45,38 +43,38 @@ class ExpensesViewModel @Inject constructor(
                     }
                     val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)
 
-                    _expensesScreenState.value = ExpensesScreenState.Loaded(
-                        data = ExpensesScreenContent(
-                            expenses = transactions.map { it.toExpenseState() },
+                    _incomesScreenState.value = IncomesScreenState.Loaded(
+                        data = ru.ttb220.presentation.model.screen.IncomesScreenContent(
+                            incomes = transactions.map { it.toIncomeState() },
                             totalAmount = totalAmount,
                         )
                     )
                 }
             } catch (e: Exception) {
-                _expensesScreenState.value = when (e) {
+                _incomesScreenState.value = when (e) {
                     is UnauthorizedException, is ForbiddenException -> {
-                        ExpensesScreenState.ErrorResource(
+                        IncomesScreenState.ErrorResource(
                             messageId = R.string.error_unauthorized
                         )
                     }
 
                     is NotFoundException -> {
-                        ExpensesScreenState.ErrorResource(
+                        IncomesScreenState.ErrorResource(
                             R.string.error_not_found
                         )
                     }
 
                     is IncorrectInputFormatException, is JsonDecodingException -> {
-                        ExpensesScreenState.ErrorResource(
+                        IncomesScreenState.ErrorResource(
                             R.string.error_bad_data
                         )
                     }
 
                     else -> e.message?.let {
-                        ExpensesScreenState.Error(
+                        IncomesScreenState.Error(
                             message = it
                         )
-                    } ?: ExpensesScreenState.ErrorResource(
+                    } ?: IncomesScreenState.ErrorResource(
                         messageId = R.string.error_unknown
                     )
                 }
@@ -84,17 +82,8 @@ class ExpensesViewModel @Inject constructor(
         }
     }
 
-    private fun TransactionDetailed.toExpenseState() = ExpenseState(
-        emojiId = category.emoji.let emoji@{ emojiString ->
-            val emojiRes = EmojiToResourceMapper[emojiString]
-            emojiRes?.let { res ->
-                return@emoji Emoji.Resource(res)
-            }
-
-            Emoji.Text(emojiString)
-        },
-        name = category.name,
-        shortDescription = comment,
+    private fun TransactionDetailed.toIncomeState() = IncomeState(
+        title = category.name,
         amount = amount,
     )
 

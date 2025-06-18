@@ -6,11 +6,11 @@ import ru.ttb220.presentation.model.ExpenseDetailedState
 import ru.ttb220.presentation.model.ExpenseHistoryEntry
 import ru.ttb220.presentation.model.ExpenseState
 import ru.ttb220.presentation.model.IncomeState
-import ru.ttb220.presentation.model.screen.AccountScreenState
+import ru.ttb220.presentation.model.screen.AccountScreenContent
 import ru.ttb220.presentation.model.screen.ExpensesAnalysisScreenState
 import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenContent
 import ru.ttb220.presentation.model.screen.ExpensesScreenContent
-import ru.ttb220.presentation.model.screen.IncomesScreenState
+import ru.ttb220.presentation.model.screen.IncomesScreenContent
 import ru.ttb220.presentation.model.screen.SettingsScreenState
 import ru.ttb220.presentation.model.util.Currency
 import ru.ttb220.presentation.model.util.Emoji
@@ -62,7 +62,7 @@ val mockExpensesScreenContent = ExpensesScreenContent(
     totalAmount = "436 558 ₽"
 )
 
-val mockIncomesScreenContent = IncomesScreenState(
+val mockIncomesScreenContent = IncomesScreenContent(
     incomes = listOf(
         IncomeState(
             title = "Зарплата",
@@ -76,7 +76,7 @@ val mockIncomesScreenContent = IncomesScreenState(
     totalAmount = "600 000 ₽"
 )
 
-val mockAccountScreenContent = AccountScreenState(
+val mockAccountScreenContent = AccountScreenContent(
     leadingIconId = R.drawable.money_bag,
     balance = "-670 000 ₽",
     currency = Currency.RUSSIAN_RUBLE

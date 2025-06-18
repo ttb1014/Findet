@@ -36,7 +36,6 @@ fun ExpensesScreen(
         is ExpensesScreenState.Error -> ErrorDialog(
             message = (expensesScreenState as ExpensesScreenState.Error).message,
             modifier = Modifier,
-            onDismiss = viewModel::errorDialogDismiss
         )
 
         is ExpensesScreenState.Loaded -> ExpensesScreenContent(
@@ -54,7 +53,6 @@ fun ExpensesScreen(
         is ExpensesScreenState.ErrorResource -> ErrorDialog(
             messageId = (expensesScreenState as ExpensesScreenState.ErrorResource).messageId,
             modifier = Modifier,
-            onDismiss = viewModel::errorDialogDismiss
         )
     }
 }
