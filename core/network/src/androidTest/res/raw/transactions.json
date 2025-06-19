@@ -348,5 +348,75 @@
     "amount": "9082.96",
     "transactionDate": "2025-05-13T05:10:00Z",
     "comment": "Сувениры"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 1,
+    "amount": "84234.50",
+    "transactionDate": "2025-06-19T10:35:00Z",
+    "comment": "Аванс за проект"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 2,
+    "amount": "21500.00",
+    "transactionDate": "2025-06-19T12:20:00Z",
+    "comment": "Финансовая помощь от родителей"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 4,
+    "amount": "3200.75",
+    "transactionDate": "2025-06-19T14:00:00Z",
+    "comment": "Проценты по накопительному счёту"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 5,
+    "amount": "15000.00",
+    "transactionDate": "2025-06-19T15:15:00Z",
+    "comment": "Возврат от друга"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 6,
+    "amount": "54000.00",
+    "transactionDate": "2025-06-19T17:05:00Z",
+    "comment": "Продал старый велосипед"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 8,
+    "amount": "2300.00",
+    "transactionDate": "2025-06-19T09:00:00Z",
+    "comment": "Покупка продуктов"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 9,
+    "amount": "1800.00",
+    "transactionDate": "2025-06-19T11:00:00Z",
+    "comment": "Заправка"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 11,
+    "amount": "3200.00",
+    "transactionDate": "2025-06-19T13:00:00Z",
+    "comment": "Обед в кафе"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "5600.00",
+    "transactionDate": "2025-06-19T16:00:00Z",
+    "comment": "Оплата коммуналки"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 18,
+    "amount": "799.00",
+    "transactionDate": "2025-06-19T18:30:00Z",
+    "comment": "Подписка на музыку"
   }
 ]

@@ -61,7 +61,7 @@ class RetrofitNetworkInstrumentedTest {
         }
     }
 
-    private fun deleteOldTransactionsForAccount(accountID: Int) = runBlocking {
+    private fun deleteAllOldTransactionsForAccount(accountID: Int) = runBlocking {
         val transactions = remoteDataSource.getAccountTransactionsForPeriod(
             accountID
         )
@@ -74,7 +74,7 @@ class RetrofitNetworkInstrumentedTest {
     fun createFakeTransactions() = runBlocking {
         val accountID = remoteDataSource.getAllAccounts()[0].id
 
-        deleteOldTransactionsForAccount(accountID)
+        deleteAllOldTransactionsForAccount(accountID)
 
         val context = InstrumentationRegistry.getInstrumentation().context
         val text = context.resources.openRawResource(R.raw.transactions)
