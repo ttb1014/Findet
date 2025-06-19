@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockExpensesHistoryScreenContent
-import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenContent
+import ru.ttb220.mock.mockExpensesHistoryScreenData
+import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIcon
@@ -31,7 +31,7 @@ import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 
 @Composable
 fun ExpensesHistoryScreenContent(
-    expensesHistoryScreenContent: ExpensesHistoryScreenContent,
+    expensesHistoryScreenData: ExpensesHistoryScreenData,
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
@@ -41,24 +41,24 @@ fun ExpensesHistoryScreenContent(
     ) {
         TimeCard(
             R.string.start,
-            expensesHistoryScreenContent.startDate
+            expensesHistoryScreenData.startDate
         )
         TimeCard(
             R.string.end,
-            expensesHistoryScreenContent.endDate
+            expensesHistoryScreenData.endDate
         )
         ColumnListItem(
             title = stringResource(R.string.total),
             modifier = Modifier.height(56.dp),
             background = GreenHighlight,
-            trailingText = expensesHistoryScreenContent.totalAmount,
+            trailingText = expensesHistoryScreenData.totalAmount,
         )
 
-        val expenses = expensesHistoryScreenContent.expenses
+        val expenses = expensesHistoryScreenData.expenses
         LazyColumn(
             state = lazyListState,
         ) {
-            items(expensesHistoryScreenContent.expenses.size) { index ->
+            items(expensesHistoryScreenData.expenses.size) { index ->
 
                 val expense = expenses[index]
 
@@ -154,6 +154,6 @@ fun TimeCard(
 @Composable
 private fun ExpensesHistoryScreenContentPreview() {
     ExpensesHistoryScreenContent(
-        mockExpensesHistoryScreenContent
+        mockExpensesHistoryScreenData
     )
 }

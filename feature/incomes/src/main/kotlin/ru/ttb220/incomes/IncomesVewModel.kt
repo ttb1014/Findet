@@ -16,7 +16,7 @@ import ru.ttb220.model.exception.JsonDecodingException
 import ru.ttb220.model.exception.NotFoundException
 import ru.ttb220.model.exception.UnauthorizedException
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.presentation.model.IncomeState
+import ru.ttb220.presentation.model.IncomeData
 import ru.ttb220.presentation.ui.R
 import javax.inject.Inject
 
@@ -44,7 +44,7 @@ class IncomesVewModel @Inject constructor(
                     val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)
 
                     _incomesScreenState.value = IncomesScreenState.Loaded(
-                        data = ru.ttb220.presentation.model.screen.IncomesScreenContent(
+                        data = ru.ttb220.presentation.model.screen.IncomesScreenData(
                             incomes = transactions.map { it.toIncomeState() },
                             totalAmount = totalAmount,
                         )
@@ -82,7 +82,7 @@ class IncomesVewModel @Inject constructor(
         }
     }
 
-    private fun TransactionDetailed.toIncomeState() = IncomeState(
+    private fun TransactionDetailed.toIncomeState() = IncomeData(
         title = category.name,
         amount = amount,
     )

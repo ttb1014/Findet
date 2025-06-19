@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockSettingsScreenContent
-import ru.ttb220.presentation.model.screen.SettingsScreenState
+import ru.ttb220.presentation.model.screen.SettingsScreenData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 
@@ -57,14 +57,14 @@ private enum class SettingsDestination(
 
 @Composable
 fun SettingsScreen(
-    settingsScreenState: SettingsScreenState,
+    settingsScreenData: SettingsScreenData,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
     ) {
         LightDarkAutoTheme(
-            settingsScreenState.isDarkThemeEnabled
+            settingsScreenData.isDarkThemeEnabled
         )
         SettingsDestination.entries.forEach {
             SettingsItem(it)

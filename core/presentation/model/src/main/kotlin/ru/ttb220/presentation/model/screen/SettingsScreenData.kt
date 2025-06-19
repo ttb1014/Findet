@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 
 // TODO: в макете 3 состояния или 2 - светлая, темная, авто?
 @Immutable
-data class SettingsScreenState(
+data class SettingsScreenData(
     val isDarkThemeEnabled: Boolean,
     // some other user data
 )

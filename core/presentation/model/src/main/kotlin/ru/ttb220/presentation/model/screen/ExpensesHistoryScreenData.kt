@@ -1,12 +1,12 @@
 package ru.ttb220.presentation.model.screen
 
 import androidx.compose.runtime.Immutable
-import ru.ttb220.presentation.model.ExpenseHistoryEntry
+import ru.ttb220.presentation.model.ExpenseHistoryData
 
 @Immutable
-data class ExpensesHistoryScreenContent(
+data class ExpensesHistoryScreenData(
     val startDate: String,
     val endDate: String,
     val totalAmount: String,
-    val expenses: List<ExpenseHistoryEntry>
+    val expenses: List<ExpenseHistoryData>
 )

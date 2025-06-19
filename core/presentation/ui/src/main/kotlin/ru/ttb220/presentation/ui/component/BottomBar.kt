@@ -34,14 +34,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.R as mockR
-import ru.ttb220.presentation.model.NavigationState
+import ru.ttb220.presentation.model.NavigationData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.theme.Green
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 
 @Composable
 fun BottomBar(
-    destinations: List<NavigationState>,
+    destinations: List<NavigationData>,
     modifier: Modifier = Modifier,
     onNavigateTo: (String) -> Unit = {},
 ) {
@@ -60,7 +60,7 @@ fun BottomBar(
         ) {
             destinations.forEachIndexed { index, it ->
                 BottomBarItem(
-                    navigationState = it,
+                    navigationData = it,
                     modifier = Modifier.weight(1f),
                     onNavigateTo = onNavigateTo
                 )
@@ -76,7 +76,7 @@ fun BottomBar(
  */
 @Composable
 private fun BottomBarItem(
-    navigationState: NavigationState,
+    navigationData: NavigationData,
     modifier: Modifier = Modifier,
     onNavigateTo: (String) -> Unit,
 ) {
@@ -89,7 +89,7 @@ private fun BottomBarItem(
                 interactionSource,
                 null
             ) {
-                onNavigateTo(navigationState.route)
+                onNavigateTo(navigationData.route)
             },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -106,16 +106,16 @@ private fun BottomBarItem(
                     height = 32.dp
                 )
                 .let {
-                    if (navigationState.isSelected)
+                    if (navigationData.isSelected)
                         it.then(backgroundModifier) else it
                 },
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                painter = painterResource(navigationState.iconId),
+                painter = painterResource(navigationData.iconId),
                 null,
                 Modifier.size(24.dp),
-                tint = if (navigationState.isSelected) Green else
+                tint = if (navigationData.isSelected) Green else
                     MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
@@ -123,11 +123,11 @@ private fun BottomBarItem(
         Spacer(Modifier.height(4.dp))
 
         Text(
-            text = stringResource(navigationState.textId),
+            text = stringResource(navigationData.textId),
             modifier = Modifier,
-            color = if (navigationState.isSelected) MaterialTheme.colorScheme.onSurface else
+            color = if (navigationData.isSelected) MaterialTheme.colorScheme.onSurface else
                 MaterialTheme.colorScheme.onSurfaceVariant,
-            fontWeight = if (navigationState.isSelected) FontWeight.SemiBold else null,
+            fontWeight = if (navigationData.isSelected) FontWeight.SemiBold else null,
             textAlign = TextAlign.Center,
             softWrap = false,
             maxLines = 1,
@@ -141,31 +141,31 @@ private fun BottomBarItem(
 private fun BottomBarPreview() {
     BottomBar(
         destinations = listOf(
-            NavigationState(
+            NavigationData(
                 route = "",
                 iconId = R.drawable.downtrend,
                 textId = mockR.string.expenses,
                 isSelected = true,
             ),
-            NavigationState(
+            NavigationData(
                 route = "",
                 iconId = R.drawable.uptrend,
                 textId = mockR.string.incomes,
                 isSelected = false,
             ),
-            NavigationState(
+            NavigationData(
                 route = "",
                 iconId = R.drawable.calculator,
                 textId = mockR.string.account,
                 isSelected = false,
             ),
-            NavigationState(
+            NavigationData(
                 route = "",
                 iconId = R.drawable.barchartside,
                 textId = mockR.string.articles,
                 isSelected = false,
             ),
-            NavigationState(
+            NavigationData(
                 route = "",
                 iconId = R.drawable.settings,
                 textId = mockR.string.settings,

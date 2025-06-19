@@ -4,10 +4,9 @@ import androidx.compose.runtime.Immutable
 import ru.ttb220.presentation.model.util.Emoji
 
 @Immutable
-data class ExpenseHistoryEntry(
-    val emoji: Emoji? = null,
+data class ExpenseData(
+    val emojiId: Emoji? = null,
     val name: String,
-    val description: String? = null,
+    val shortDescription: String? = null,
     val amount: String,
-    val time: String,
 )

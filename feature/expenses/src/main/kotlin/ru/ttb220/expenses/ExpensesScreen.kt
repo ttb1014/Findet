@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.mock.mockExpensesScreenContent
-import ru.ttb220.presentation.model.ExpenseState
-import ru.ttb220.presentation.model.screen.ExpensesScreenContent
+import ru.ttb220.mock.mockExpensesScreenData
+import ru.ttb220.presentation.model.ExpenseData
+import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
@@ -39,7 +39,7 @@ fun ExpensesScreen(
         )
 
         is ExpensesScreenState.Loaded -> ExpensesScreenContent(
-            expensesScreenContent = (expensesScreenState as ExpensesScreenState.Loaded).data,
+            expensesScreenData = (expensesScreenState as ExpensesScreenState.Loaded).data,
             modifier = modifier
         )
 
@@ -60,7 +60,7 @@ fun ExpensesScreen(
 // TODO: Переделать на LazyColumn. Должен ли фиксироваться item с общей суммой?
 @Composable
 fun ExpensesScreenContent(
-    expensesScreenContent: ExpensesScreenContent,
+    expensesScreenData: ExpensesScreenData,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -68,11 +68,11 @@ fun ExpensesScreenContent(
             .fillMaxWidth()
             .padding(bottom = 16.dp)
     ) {
-        TotalAmountHeader(expensesScreenContent.totalAmount)
+        TotalAmountHeader(expensesScreenData.totalAmount)
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            expensesScreenContent.expenses.forEach {
+            expensesScreenData.expenses.forEach {
                 ExpenseColumnItem(it)
             }
         }
@@ -94,14 +94,14 @@ private fun TotalAmountHeader(
 
 @Composable
 private fun ExpenseColumnItem(
-    expenseState: ExpenseState,
+    expenseData: ExpenseData,
     modifier: Modifier = Modifier,
 ) {
-    val dynamicIconResource = expenseState.emojiId
+    val dynamicIconResource = expenseData.emojiId
         // Рисуем либо эмодзи из ресурса
         ?.let { DynamicIconResource.EmojiIconResource(emoji = it) }
     // либо первые две буквы названия
-        ?: DynamicIconResource.TextIconResource(expenseState.name
+        ?: DynamicIconResource.TextIconResource(expenseData.name
             .split(" ")
             .map { it[0] }
             .take(2)
@@ -111,11 +111,11 @@ private fun ExpenseColumnItem(
 
     ColumnListItem(
         dynamicIconResource = dynamicIconResource,
-        title = expenseState.name,
-        trailingText = expenseState.amount,
+        title = expenseData.name,
+        trailingText = expenseData.amount,
         trailingIcon = R.drawable.more_right,
         modifier = modifier.height(70.dp),
-        description = expenseState.shortDescription,
+        description = expenseData.shortDescription,
         shouldShowTrailingDivider = true
     )
 }
@@ -124,7 +124,7 @@ private fun ExpenseColumnItem(
 @Composable
 private fun ExpensesListPreview() {
     ExpensesScreenContent(
-        expensesScreenContent = mockExpensesScreenContent,
+        expensesScreenData = mockExpensesScreenData,
         modifier = Modifier,
     )
 }

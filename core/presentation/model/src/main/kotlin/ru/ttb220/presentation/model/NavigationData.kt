@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class NavigationState(
+data class NavigationData(
     val route: String,
     @DrawableRes val iconId: Int,
     @StringRes val textId: Int,

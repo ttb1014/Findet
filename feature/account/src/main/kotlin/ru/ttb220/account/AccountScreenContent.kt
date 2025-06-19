@@ -1,16 +1,23 @@
 package ru.ttb220.account
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockAccountScreenContent
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.ttb220.mock.mockAccountScreenData
 import ru.ttb220.mock.mockBarChartData
-import ru.ttb220.presentation.model.screen.AccountScreenState
+import ru.ttb220.presentation.model.screen.AccountScreenData
 import ru.ttb220.presentation.model.util.Currency
 import ru.ttb220.presentation.model.util.Emoji
 import ru.ttb220.presentation.ui.R
@@ -18,6 +25,8 @@ import ru.ttb220.presentation.ui.component.BarChart
 import ru.ttb220.presentation.ui.component.BarChartResource
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
+import ru.ttb220.presentation.ui.component.ErrorDialog
+import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.Green
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 import ru.ttb220.presentation.ui.theme.Orange
@@ -26,16 +35,45 @@ private val DEFAULT_LIST_ITEM_HEIGHT = 56.dp
 
 @Composable
 fun AccountScreen(
-    accountScreenState: AccountScreenState,
+    modifier: Modifier = Modifier,
+    viewModel: AccountViewModel = hiltViewModel()
+) {
+    val accountScreenState by viewModel.accountScreenState.collectAsStateWithLifecycle()
+
+    when (accountScreenState) {
+        is AccountScreenState.Error -> ErrorDialog(
+            (accountScreenState as AccountScreenState.Error).message
+        )
+
+        is AccountScreenState.ErrorResource -> ErrorDialog(
+            (accountScreenState as AccountScreenState.ErrorResource).messageId
+        )
+
+        is AccountScreenState.Loaded -> AccountScreenContent(
+            (accountScreenState as AccountScreenState.Loaded).data
+        )
+
+        AccountScreenState.Loading -> Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            LoadingWheel(Modifier.size(160.dp))
+        }
+    }
+}
+
+@Composable
+fun AccountScreenContent(
+    accountScreenData: AccountScreenData,
     modifier: Modifier = Modifier
 ) {
     Column {
         Column {
             BalanceItem(
-                balance = accountScreenState.balance,
-                leadingIconId = accountScreenState.leadingIconId,
+                balance = accountScreenData.balance,
+                leadingIconId = accountScreenData.leadingIconId,
             )
-            CurrencyItem(accountScreenState.currency)
+            CurrencyItem(accountScreenData.currency)
         }
         BarChart(
             barChartResource = BarChartResource(
@@ -89,7 +127,7 @@ fun CurrencyItem(
 @Preview
 @Composable
 private fun AccountScreenPreview() {
-    AccountScreen(
-        accountScreenState = mockAccountScreenContent,
+    AccountScreenContent(
+        accountScreenData = mockAccountScreenData,
     )
 }

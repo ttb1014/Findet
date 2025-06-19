@@ -16,8 +16,8 @@ import ru.ttb220.model.exception.JsonDecodingException
 import ru.ttb220.model.exception.NotFoundException
 import ru.ttb220.model.exception.UnauthorizedException
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.presentation.model.ExpenseState
-import ru.ttb220.presentation.model.screen.ExpensesScreenContent
+import ru.ttb220.presentation.model.ExpenseData
+import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.model.util.Emoji
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.util.EmojiToResourceMapper
@@ -46,7 +46,7 @@ class ExpensesViewModel @Inject constructor(
                     val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)
 
                     _expensesScreenState.value = ExpensesScreenState.Loaded(
-                        data = ExpensesScreenContent(
+                        data = ExpensesScreenData(
                             expenses = transactions.map { it.toExpenseState() },
                             totalAmount = totalAmount,
                         )
@@ -84,7 +84,7 @@ class ExpensesViewModel @Inject constructor(
         }
     }
 
-    private fun TransactionDetailed.toExpenseState() = ExpenseState(
+    private fun TransactionDetailed.toExpenseState() = ExpenseData(
         emojiId = category.emoji.let emoji@{ emojiString ->
             val emojiRes = EmojiToResourceMapper[emojiString]
             emojiRes?.let { res ->

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Instant
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.util.withRetry
+import ru.ttb220.data.util.wrapToResult
 import ru.ttb220.model.account.Account
 import ru.ttb220.model.account.AccountBrief
 import ru.ttb220.model.account.AccountChangeType

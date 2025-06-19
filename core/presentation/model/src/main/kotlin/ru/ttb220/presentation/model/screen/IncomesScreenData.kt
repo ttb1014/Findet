@@ -1,10 +1,10 @@
 package ru.ttb220.presentation.model.screen
 
 import androidx.compose.runtime.Immutable
-import ru.ttb220.presentation.model.IncomeState
+import ru.ttb220.presentation.model.IncomeData
 
 @Immutable
-data class IncomesScreenContent(
-    val incomes: List<IncomeState>,
+data class IncomesScreenData(
+    val incomes: List<IncomeData>,
     val totalAmount: String,
 )

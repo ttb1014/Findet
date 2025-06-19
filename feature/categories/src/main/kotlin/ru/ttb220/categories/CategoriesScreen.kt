@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockArticleScreenContent
-import ru.ttb220.presentation.model.CategoryState
+import ru.ttb220.presentation.model.CategoryData
 import ru.ttb220.presentation.model.screen.CategoriesScreenResource
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
@@ -35,7 +35,7 @@ fun CategoriesScreen(
         SearchBar()
         categoriesScreenResource.forEachIndexed { index, item ->
             CategoryItem(
-                categoryState = item,
+                categoryData = item,
                 shouldShowLeadingDivider = index == 0
             )
         }
@@ -75,19 +75,19 @@ private fun SearchBar(
 
 @Composable
 fun CategoryItem(
-    categoryState: CategoryState,
+    categoryData: CategoryData,
     modifier: Modifier = Modifier,
     shouldShowLeadingDivider: Boolean = false,
 ) {
     ColumnListItem(
-        title = categoryState.name,
+        title = categoryData.name,
         modifier = modifier.height(70.dp),
-        dynamicIconResource = categoryState.emoji?.let {
+        dynamicIconResource = categoryData.emoji?.let {
             DynamicIconResource.EmojiIconResource(
                 it
             )
         } ?: DynamicIconResource.TextIconResource(
-            categoryState.name
+            categoryData.name
                 .split(" ")
                 .map { it[0] }
                 .joinToString("")

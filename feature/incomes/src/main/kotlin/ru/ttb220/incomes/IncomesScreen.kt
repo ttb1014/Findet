@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.mock.mockIncomesScreenContent
-import ru.ttb220.presentation.model.IncomeState
-import ru.ttb220.presentation.model.screen.IncomesScreenContent
+import ru.ttb220.mock.mockIncomesScreenData
+import ru.ttb220.presentation.model.IncomeData
+import ru.ttb220.presentation.model.screen.IncomesScreenData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.ErrorDialog
@@ -38,7 +38,7 @@ fun IncomesScreen(
         )
 
         is IncomesScreenState.Loaded -> IncomesScreenContent(
-            incomesScreenContent = (incomesScreenState as IncomesScreenState.Loaded).data,
+            incomesScreenData = (incomesScreenState as IncomesScreenState.Loaded).data,
             modifier = modifier
         )
 
@@ -58,7 +58,7 @@ fun IncomesScreen(
 
 @Composable
 fun IncomesScreenContent(
-    incomesScreenContent: IncomesScreenContent,
+    incomesScreenData: IncomesScreenData,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -66,11 +66,11 @@ fun IncomesScreenContent(
             .fillMaxWidth()
             .padding(bottom = 16.dp)
     ) {
-        TotalAmountHeader(incomesScreenContent.totalAmount)
-        incomesScreenContent.incomes.forEachIndexed { index: Int, incomeState: IncomeState ->
+        TotalAmountHeader(incomesScreenData.totalAmount)
+        incomesScreenData.incomes.forEachIndexed { index: Int, incomeData: IncomeData ->
             ColumnListItem(
-                title = incomeState.title,
-                trailingText = incomeState.amount,
+                title = incomeData.title,
+                trailingText = incomeData.amount,
                 modifier = Modifier.height(73.dp),
                 trailingIcon = R.drawable.more_right,
                 shouldShowLeadingDivider = index == 0,
@@ -97,6 +97,6 @@ private fun TotalAmountHeader(
 @Composable
 private fun IncomesScreenPreview() {
     IncomesScreenContent(
-        incomesScreenContent = mockIncomesScreenContent,
+        incomesScreenData = mockIncomesScreenData,
     )
 }
