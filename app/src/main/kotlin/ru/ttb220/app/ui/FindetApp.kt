@@ -58,7 +58,7 @@ fun FindetApp(
             BottomBar(
                 destinations = TopLevelDestination.entries.filter {
                     it.name != TopLevelDestination.EXPENSES_HISTORY.name &&
-                    it.name != TopLevelDestination.INCOMES_HISTORY.name
+                            it.name != TopLevelDestination.INCOMES_HISTORY.name
                 },
                 currentTopLevelDestination = appState.currentTopLevelDestination,
                 onNavigateTo = appState::navigateTo
@@ -114,7 +114,6 @@ private fun BottomBar(
                 ) {
                     isSelected = true
                 }
-
 
                 val navigationData = NavigationData(
                     route = topLevelDestination.route,

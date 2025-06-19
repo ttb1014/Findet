@@ -1,0 +1,352 @@
+[
+  {
+    "accountId": 54,
+    "categoryId": 17,
+    "amount": "33951.17",
+    "transactionDate": "2025-05-05T16:57:00Z",
+    "comment": "Билеты в Сочи"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 22,
+    "amount": "113484.28",
+    "transactionDate": "2025-05-31T20:20:00Z",
+    "comment": "Ветклиника"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "53111.26",
+    "transactionDate": "2025-05-18T16:54:00Z",
+    "comment": "Интернет"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 16,
+    "amount": "15198.15",
+    "transactionDate": "2025-06-03T21:31:00Z",
+    "comment": "Подписка на Stepik"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "33055.31",
+    "transactionDate": "2025-05-03T08:04:00Z",
+    "comment": "Коммуналка"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 8,
+    "amount": "93996.21",
+    "transactionDate": "2025-05-15T01:12:00Z",
+    "comment": "Пятёрочка"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 13,
+    "amount": "2669.21",
+    "transactionDate": "2025-06-18T21:27:00Z",
+    "comment": "Аптечка"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 12,
+    "amount": "85248.07",
+    "transactionDate": "2025-06-09T10:37:00Z",
+    "comment": "Подарок себе"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 23,
+    "amount": "38632.23",
+    "transactionDate": "2025-06-04T07:06:00Z",
+    "comment": "Хобби-магазин"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 6,
+    "amount": "148327.97",
+    "transactionDate": "2025-05-01T11:22:00Z",
+    "comment": "Продажа ноутбука"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 7,
+    "amount": "79451.91",
+    "transactionDate": "2025-06-19T10:44:00Z",
+    "comment": "Комната за июнь"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 23,
+    "amount": "35675.25",
+    "transactionDate": "2025-06-14T17:23:00Z",
+    "comment": "Краски и холст"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "44677.21",
+    "transactionDate": "2025-06-05T06:56:00Z",
+    "comment": "Интернет"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 21,
+    "amount": "133640.14",
+    "transactionDate": "2025-06-04T19:23:00Z",
+    "comment": "Фитнес-клуб"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "43522.67",
+    "transactionDate": "2025-06-11T02:59:00Z",
+    "comment": "Интернет"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 2,
+    "amount": "94523.75",
+    "transactionDate": "2025-06-08T09:25:00Z",
+    "comment": "Проект на Upwork"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "59138.58",
+    "transactionDate": "2025-05-20T00:20:00Z",
+    "comment": "Свет и вода"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "31257.66",
+    "transactionDate": "2025-06-01T16:36:00Z",
+    "comment": "Интернет"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 19,
+    "amount": "6675.94",
+    "transactionDate": "2025-05-02T03:07:00Z",
+    "comment": "Подарок маме"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 15,
+    "amount": "66141.18",
+    "transactionDate": "2025-05-11T04:21:00Z",
+    "comment": "Наушники"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 2,
+    "amount": "1873.04",
+    "transactionDate": "2025-05-24T05:49:00Z",
+    "comment": "Проект на Upwork"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 22,
+    "amount": "66224.91",
+    "transactionDate": "2025-05-03T23:54:00Z",
+    "comment": "Ветклиника"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 20,
+    "amount": "80181.74",
+    "transactionDate": "2025-05-17T10:16:00Z",
+    "comment": "Косметика"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 2,
+    "amount": "113191.60",
+    "transactionDate": "2025-06-17T01:47:00Z",
+    "comment": "Проект на Upwork"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 18,
+    "amount": "84186.83",
+    "transactionDate": "2025-05-13T16:30:00Z",
+    "comment": "Netflix"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 10,
+    "amount": "21191.31",
+    "transactionDate": "2025-05-21T01:28:00Z",
+    "comment": "Кинотеатр"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 10,
+    "amount": "78302.38",
+    "transactionDate": "2025-05-31T04:31:00Z",
+    "comment": "Билеты на концерт"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 10,
+    "amount": "98753.95",
+    "transactionDate": "2025-06-06T09:22:00Z",
+    "comment": "Аттракционы в парке"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 22,
+    "amount": "53642.94",
+    "transactionDate": "2025-06-16T10:50:00Z",
+    "comment": "Корм для кота"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "43414.00",
+    "transactionDate": "2025-06-08T16:03:00Z",
+    "comment": "Интернет"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "118976.02",
+    "transactionDate": "2025-05-15T02:30:00Z",
+    "comment": "Свет и вода"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 5,
+    "amount": "82424.59",
+    "transactionDate": "2025-06-14T22:36:00Z",
+    "comment": "Задолженность погашена"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 6,
+    "amount": "105377.38",
+    "transactionDate": "2025-05-02T13:02:00Z",
+    "comment": "Продажа ноутбука"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 13,
+    "amount": "140315.93",
+    "transactionDate": "2025-06-10T09:00:00Z",
+    "comment": "Медосмотр"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 18,
+    "amount": "69186.61",
+    "transactionDate": "2025-06-01T05:59:00Z",
+    "comment": "Netflix"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 9,
+    "amount": "76021.03",
+    "transactionDate": "2025-05-11T23:05:00Z",
+    "comment": "Такси на работу"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 14,
+    "amount": "141409.91",
+    "transactionDate": "2025-05-31T07:30:00Z",
+    "comment": "Коммуналка"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 12,
+    "amount": "113481.62",
+    "transactionDate": "2025-05-29T04:13:00Z",
+    "comment": "Подарок себе"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 10,
+    "amount": "32875.48",
+    "transactionDate": "2025-05-07T16:38:00Z",
+    "comment": "Кинотеатр"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 21,
+    "amount": "39498.07",
+    "transactionDate": "2025-05-02T14:57:00Z",
+    "comment": "Гантели"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 1,
+    "amount": "24812.02",
+    "transactionDate": "2025-05-05T01:12:00Z",
+    "comment": "ЗП от работодателя"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 18,
+    "amount": "106022.25",
+    "transactionDate": "2025-06-08T01:02:00Z",
+    "comment": "Netflix"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 1,
+    "amount": "141000.59",
+    "transactionDate": "2025-05-01T07:38:00Z",
+    "comment": "ЗП от работодателя"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 4,
+    "amount": "85544.75",
+    "transactionDate": "2025-05-31T10:57:00Z",
+    "comment": "Доход от депозита"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 8,
+    "amount": "58038.66",
+    "transactionDate": "2025-05-19T16:10:00Z",
+    "comment": "Пятёрочка"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 5,
+    "amount": "123642.82",
+    "transactionDate": "2025-06-04T07:10:00Z",
+    "comment": "Задолженность погашена"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 5,
+    "amount": "53061.39",
+    "transactionDate": "2025-05-31T02:05:00Z",
+    "comment": "Задолженность погашена"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 10,
+    "amount": "106577.29",
+    "transactionDate": "2025-05-22T14:05:00Z",
+    "comment": "Билеты на концерт"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 6,
+    "amount": "2054.62",
+    "transactionDate": "2025-05-21T01:49:00Z",
+    "comment": "Продал старую камеру"
+  },
+  {
+    "accountId": 54,
+    "categoryId": 17,
+    "amount": "9082.96",
+    "transactionDate": "2025-05-13T05:10:00Z",
+    "comment": "Сувениры"
+  }
+]

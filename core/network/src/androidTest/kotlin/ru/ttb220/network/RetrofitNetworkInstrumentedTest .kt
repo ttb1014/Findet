@@ -1,15 +1,19 @@
 package ru.ttb220.network
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.ttb220.model.exception.ApiException
+import ru.ttb220.network.model.request.TransactionCreateRequest
+import ru.ttb220.network.test.R
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -21,6 +25,9 @@ class RetrofitNetworkInstrumentedTest {
 
     @Inject
     lateinit var remoteDataSource: RemoteDataSource
+
+    @Inject
+    internal lateinit var json: Json
 
     @Before
     fun setup() {
@@ -37,7 +44,7 @@ class RetrofitNetworkInstrumentedTest {
         try {
             remoteDataSource.getAccountById(-1)
             fail("Ожидалась ошибка")
-        } catch (e: ru.ttb220.model.exception.ApiException) {
+        } catch (e: ApiException) {
             println("Обработалcя код ${e.code}: ${e.message}")
         }
     }
@@ -51,6 +58,35 @@ class RetrofitNetworkInstrumentedTest {
                 account.id
             )
             println(transactions)
+        }
+    }
+
+    private fun deleteOldTransactionsForAccount(accountID: Int) = runBlocking {
+        val transactions = remoteDataSource.getAccountTransactionsForPeriod(
+            accountID
+        )
+        transactions.forEach { transaction ->
+            remoteDataSource.deleteTransactionById(transaction.id)
+        }
+    }
+
+    @Test
+    fun createFakeTransactions() = runBlocking {
+        val accountID = remoteDataSource.getAllAccounts()[0].id
+
+        deleteOldTransactionsForAccount(accountID)
+
+        val context = InstrumentationRegistry.getInstrumentation().context
+        val text = context.resources.openRawResource(R.raw.transactions)
+            .bufferedReader().use { it.readText() }
+        val transactions: List<TransactionCreateRequest> =
+            json.decodeFromString<List<TransactionCreateRequest>>(text)
+                .map {
+                    it.copy(accountId = accountID)
+                }
+
+        for (transaction in transactions) {
+            remoteDataSource.createNewTransaction(transaction)
         }
     }
 
