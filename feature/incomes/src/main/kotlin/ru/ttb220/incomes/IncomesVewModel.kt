@@ -4,9 +4,12 @@ import android.icu.text.DecimalFormat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.domain.GetTodayIncomesForActiveAccountUseCase
 import ru.ttb220.model.exception.ForbiddenException
 import ru.ttb220.model.exception.IncorrectInputFormatException
@@ -21,14 +24,21 @@ import javax.inject.Inject
 @HiltViewModel
 class IncomesVewModel @Inject constructor(
     private val getTodayIncomesForActiveAccountUseCase: GetTodayIncomesForActiveAccountUseCase,
+    private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,
 ) : ViewModel() {
 
     private var _incomesScreenState: MutableStateFlow<IncomesScreenState> =
         MutableStateFlow(IncomesScreenState.Loading)
     val incomesScreenState = _incomesScreenState.asStateFlow()
 
+    private val activeCurrency = getActiveAccountCurrencyUseCase.invoke()
+
     init {
         viewModelScope.launch {
+            val currencyDeferred = async {
+                activeCurrency.first()
+            }
+
             val transactionsFlow = getTodayIncomesForActiveAccountUseCase.invoke()
 
             try {
@@ -36,7 +46,9 @@ class IncomesVewModel @Inject constructor(
                     val totalAmountDouble = transactions.fold(0.0) { acc, transaction ->
                         acc + transaction.amount.toDouble()
                     }
-                    val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)
+                    val currencyName = currencyDeferred.await()
+                    val currency = currencyMap[currencyName] ?: currencyName
+                    val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)  + " $currency"
 
                     _incomesScreenState.value = IncomesScreenState.Loaded(
                         data = ru.ttb220.presentation.model.screen.IncomesScreenData(
@@ -84,5 +96,11 @@ class IncomesVewModel @Inject constructor(
 
     companion object {
         private val DEFAULT_DECIMAL_FORMAT = DecimalFormat("0.00")
+
+        // TODO: move out to domain
+        private val currencyMap = mapOf(
+            "RUB" to "₽",
+            "USD" to "$"
+        )
     }
 }

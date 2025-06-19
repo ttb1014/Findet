@@ -4,10 +4,13 @@ import android.icu.text.DecimalFormat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import ru.ttb220.data.repository.AccountsRepository
+import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.domain.GetTodayExpensesForActiveAccountUseCase
 import ru.ttb220.model.exception.ForbiddenException
 import ru.ttb220.model.exception.IncorrectInputFormatException
@@ -24,31 +27,43 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExpensesViewModel @Inject constructor(
+    private val accountsRepository: AccountsRepository,
     private val getTodayExpensesForActiveAccountUseCase: GetTodayExpensesForActiveAccountUseCase,
+    private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,
 ) : ViewModel() {
 
     private var _expensesScreenState: MutableStateFlow<ExpensesScreenState> =
         MutableStateFlow(ExpensesScreenState.Loading)
     val expensesScreenState = _expensesScreenState.asStateFlow()
 
+    private val activeCurrency = getActiveAccountCurrencyUseCase.invoke()
+
     init {
         viewModelScope.launch {
+            val currencyDeferred = async {
+                activeCurrency.first()
+            }
+
             val transactionsFlow = getTodayExpensesForActiveAccountUseCase.invoke()
 
             try {
-                transactionsFlow.collect { transactions ->
-                    val totalAmountDouble = transactions.fold(0.0) { acc, transaction ->
-                        acc + transaction.amount.toDouble()
-                    }
-                    val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)
+                transactionsFlow
+                    .collect { transactions ->
+                        val currencyName = currencyDeferred.await()
+                        val currency = currencyMap[currencyName] ?: currencyName
+                        val totalAmountDouble = transactions.fold(0.0) { acc, transaction ->
+                            acc + transaction.amount.toDouble()
+                        }
+                        val totalAmount =
+                            DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble) + " $currency"
 
-                    _expensesScreenState.value = ExpensesScreenState.Loaded(
-                        data = ExpensesScreenData(
-                            expenses = transactions.map { it.toExpenseState() },
-                            totalAmount = totalAmount,
+                        _expensesScreenState.value = ExpensesScreenState.Loaded(
+                            data = ExpensesScreenData(
+                                expenses = transactions.map { it.toExpenseState() },
+                                totalAmount = totalAmount,
+                            )
                         )
-                    )
-                }
+                    }
             } catch (e: Exception) {
                 _expensesScreenState.value = when (e) {
                     is UnauthorizedException, is ForbiddenException -> {
@@ -97,5 +112,9 @@ class ExpensesViewModel @Inject constructor(
 
     companion object {
         private val DEFAULT_DECIMAL_FORMAT = DecimalFormat("0.00")
+        private val currencyMap = mapOf(
+            "RUB" to "₽",
+            "USD" to "$"
+        )
     }
 }

@@ -6,13 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.TimeProvider
+import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.domain.GetTransactionsForActiveAccountPeriodUseCase
 import ru.ttb220.model.transaction.TransactionDetailed
 import ru.ttb220.presentation.model.TransactionHistoryData
@@ -25,6 +28,7 @@ import javax.inject.Inject
 class ExpensesHistoryViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val getTransactionsForActiveAccountPeriodUseCase: GetTransactionsForActiveAccountPeriodUseCase,
+    private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
 
@@ -32,7 +36,13 @@ class ExpensesHistoryViewModel @Inject constructor(
         MutableStateFlow(ExpensesHistoryScreenState.Loading)
     val historyScreenState = _expensesHistoryScreenState.asStateFlow()
 
+    private val activeCurrency = getActiveAccountCurrencyUseCase.invoke()
+
     private suspend fun populate() = coroutineScope {
+        val currencyDeferred = async {
+            activeCurrency.first()
+        }
+
         val startDate = timeProvider.startOfAMonth()
         val endDate = timeProvider.today()
 
@@ -44,14 +54,16 @@ class ExpensesHistoryViewModel @Inject constructor(
             val totalAmount = transactions.fold(0.0) { acc, transaction ->
                 acc + transaction.amount.toDouble()
             }
-            val totalAmountString = DEFAULT_DECIMAL_FORMAT.format(totalAmount)
+            val currencyName = currencyDeferred.await()
+            val currency = currencyMap[currencyName] ?: currencyName
+            val totalAmountString = DEFAULT_DECIMAL_FORMAT.format(totalAmount) + " $currency"
 
             _expensesHistoryScreenState.value = ExpensesHistoryScreenState.Loaded(
                 data = HistoryScreenData(
                     startDate = startDate.toString(),
                     endDate = endDate.toString(),
                     totalAmount = totalAmountString,
-                    expenses = transactions.map { it.toPresentation() }
+                    expenses = transactions.map { it.toPresentation(currency) }
                 )
             )
         }
@@ -63,7 +75,7 @@ class ExpensesHistoryViewModel @Inject constructor(
         }
     }
 
-    private fun TransactionDetailed.toPresentation(): TransactionHistoryData {
+    private fun TransactionDetailed.toPresentation(currency: String): TransactionHistoryData {
         val emojiId = EmojiToResourceMapper[category.emoji]
         val emoji = emojiId?.let {
             Emoji.Resource(it)
@@ -81,14 +93,19 @@ class ExpensesHistoryViewModel @Inject constructor(
             emoji = emoji,
             name = category.name,
             description = comment,
-            amount = amount,
+            amount = "$amount $currency",
             time = transactionTime
         )
     }
 
     companion object {
-        private const val IS_INCOME_KEY = "isIncome"
         private val DEFAULT_DECIMAL_FORMAT = DecimalFormat("0.00")
         private val DEFAULT_TIME_FORMAT = DecimalFormat("00")
+
+        // TODO: move out to domain
+        private val currencyMap = mapOf(
+            "RUB" to "₽",
+            "USD" to "$"
+        )
     }
 }

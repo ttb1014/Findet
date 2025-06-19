@@ -34,7 +34,7 @@ class AddAccountViewModel @Inject constructor(
     }
 
     companion object {
-        private const val DEFAULT_NAME = "name"
+        private const val DEFAULT_NAME = "Willy Wonka"
         private const val DEFAULT_BALANCE = "1000"
         private const val DEFAULT_CURRENCY = "$"
     }
