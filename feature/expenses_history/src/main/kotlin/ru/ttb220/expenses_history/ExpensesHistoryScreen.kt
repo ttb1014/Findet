@@ -27,6 +27,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockHistoryScreenData
 import ru.ttb220.presentation.model.screen.HistoryScreenData
+import ru.ttb220.presentation.model.util.Emoji
+import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIcon
 import ru.ttb220.presentation.ui.component.DynamicIconResource
@@ -78,15 +80,15 @@ fun ExpensesHistoryScreenContent(
         modifier.fillMaxSize()
     ) {
         TimeCard(
-            ru.ttb220.presentation.ui.R.string.start,
+            R.string.start,
             historyScreenData.startDate
         )
         TimeCard(
-            ru.ttb220.presentation.ui.R.string.end,
+            R.string.end,
             historyScreenData.endDate
         )
         ColumnListItem(
-            title = stringResource(ru.ttb220.presentation.ui.R.string.total),
+            title = stringResource(R.string.total),
             modifier = Modifier.height(56.dp),
             background = GreenHighlight,
             trailingText = historyScreenData.totalAmount,
@@ -111,65 +113,112 @@ fun ExpensesHistoryScreenContent(
                 )
 
                 // использовал другую перегрузку, т.к. отличается стиль текста в description
-                ColumnListItem(
-                    modifier = Modifier.height(70.dp),
-                    shouldShowTrailingDivider = true,
-                    leadingContent = @Composable {
-                        DynamicIcon(
-                            dynamicIconResource = iconResource,
-                        )
-                    },
-                    trailingContent = @Composable {
-                        Column(
-                            modifier = Modifier,
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.End,
-                        ) {
-                            Text(
-                                text = expense.amount + "\n" + expense.time,
-                                modifier = Modifier,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                textAlign = TextAlign.End,
-                                maxLines = 2,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
-                        }
-                        Spacer(Modifier.width(16.dp))
-                        Icon(
-                            painter = painterResource(ru.ttb220.presentation.ui.R.drawable.more_right),
-                            contentDescription = null,
-                            tint = LightGreyIconTint,
-                        )
-                    },
-                    centerContent = @Composable { modifierWeight ->
-                        Column(
-                            modifier = modifierWeight,
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.Start,
-                        ) {
-                            Text(
-                                text = expense.name,
-                                modifier = Modifier,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                softWrap = false,
-                                maxLines = 1,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
-                            expense.description?.let { description ->
-                                Text(
-                                    text = description,
-                                    modifier = Modifier,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    softWrap = false,
-                                    maxLines = 1,
-                                    style = MaterialTheme.typography.labelMedium
-                                )
-                            }
-                        }
-                    }
+                HistoryColumnItem(
+                    iconResource,
+                    expense.name,
+                    expense.description,
+                    expense.amount,
+                    expense.time
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun HistoryColumnItem(
+    iconResource: DynamicIconResource,
+    name: String,
+    description: String?,
+    amount: String,
+    time: String,
+    modifier: Modifier = Modifier
+) {
+    ColumnListItem(
+        modifier = Modifier.height(70.dp),
+        shouldShowTrailingDivider = true,
+        leadingContent = @Composable {
+            DynamicIcon(
+                dynamicIconResource = iconResource,
+                Modifier.size(24.dp)
+            )
+        },
+        trailingContent = @Composable {
+            Column(
+                modifier = Modifier,
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.End,
+            ) {
+                Text(
+                    text = amount + "\n" + time,
+                    modifier = Modifier,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.End,
+                    maxLines = 2,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            Spacer(Modifier.width(16.dp))
+            Icon(
+                painter = painterResource(R.drawable.more_right),
+                contentDescription = null,
+                tint = LightGreyIconTint,
+            )
+        },
+        centerContent = @Composable { modifierWeight ->
+            Column(
+                modifier = modifierWeight,
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    text = name,
+                    modifier = Modifier,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    softWrap = false,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                description?.let { description ->
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = description,
+                        modifier = Modifier,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        softWrap = false,
+                        maxLines = 1,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+private fun HistoryColumnItemPreview() {
+    Column() {
+        HistoryColumnItem(
+            iconResource = DynamicIconResource.EmojiIconResource(
+                emoji = Emoji.Text("\uD83D\uDC3B"),
+            ),
+            name = "Ремонт квартиры",
+            description = "Ремонт - фурнитура для дверей",
+            amount = "100 000 $",
+            time = "22:01",
+            modifier = Modifier
+        )
+        HistoryColumnItem(
+            iconResource = DynamicIconResource.EmojiIconResource(
+                emoji = Emoji.Resource(R.drawable.doggy),
+            ),
+            name = "Ремонт квартиры",
+            description = "Ремонт - фурнитура для дверей",
+            amount = "100 000 $",
+            time = "22:01",
+            modifier = Modifier
+        )
     }
 }
 

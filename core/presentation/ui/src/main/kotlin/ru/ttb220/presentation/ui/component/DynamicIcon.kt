@@ -3,8 +3,10 @@ package ru.ttb220.presentation.ui.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,9 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.ttb220.presentation.model.util.Emoji
+import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 import ru.ttb220.presentation.ui.theme.Roboto
 
@@ -71,18 +76,39 @@ private fun EmojiIcon(
             alignment = Alignment.Center
         )
 
+        // подогнано вручную
         is Emoji.Text -> Text(
             text = emojiIconResource.emoji.emojiString,
-            modifier = Modifier,
+            modifier = Modifier
+                .size(24.dp)
+                .background(emojiIconResource.background, RoundedCornerShape(100.dp)),
             color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 10.sp,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center,
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Medium,
             fontFamily = Roboto,
             letterSpacing = 0.sp,
-            lineHeight = 22.sp,
+            lineHeight = 24.sp,
             softWrap = false,
             maxLines = 1,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun EmojiIconPreview() {
+    Column() {
+        EmojiIcon(
+            emojiIconResource = DynamicIconResource.EmojiIconResource(
+                emoji = Emoji.Text("\uD83D\uDC3B"),
+            ),
+        )
+        EmojiIcon(
+            emojiIconResource = DynamicIconResource.EmojiIconResource(
+                emoji = Emoji.Resource(R.drawable.doggy),
+            ),
         )
     }
 }
