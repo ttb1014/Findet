@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_color">Основной цвет</string>
+    <string name="sounds">Звуки</string>
+    <string name="haptics">Хаптики</string>
+    <string name="password">Код пароль</string>
+    <string name="synchronization">Синхронизация</string>
+    <string name="language">Язык</string>
+    <string name="information">О программе</string>
+    <string name="find_category">Найти статью</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+    <string name="error_unauthorized">Ошибка авторизации</string>
+    <string name="error_not_found">Не найдено</string>
+    <string name="error_bad_data">Некорректные данные</string>
+    <string name="error_no_internet">Нет интернета</string>
+
+    <string name="name">Название</string>
+    <string name="balance">Баланс</string>
+    <string name="currency">Валюта</string>
+
+    <string name="start">Начало</string>
+    <string name="end">Конец</string>
+    <string name="total">Сумма</string>
+</resources>

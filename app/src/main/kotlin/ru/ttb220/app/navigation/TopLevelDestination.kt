@@ -1,0 +1,79 @@
+package ru.ttb220.app.navigation
+
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import ru.ttb220.account.ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.account.ADD_ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.expenses.EXPENSES_SCREEN_ROUTE
+import ru.ttb220.incomes.INCOMES_SCREEN_ROUTE
+import ru.ttb220.presentation.ui.R
+
+enum class TopLevelDestination(
+    @DrawableRes val iconId: Int,
+    @StringRes val textId: Int,
+    @StringRes val topAppBarTextId: Int,
+    val route: String,
+    @DrawableRes val topAppBarLeadingIconInt: Int? = null,
+    @DrawableRes val topAppBarTrailingIconInt: Int? = null,
+) {
+    EXPENSES(
+        iconId = R.drawable.downtrend,
+        textId = ru.ttb220.app.R.string.expenses,
+        topAppBarTextId = ru.ttb220.app.R.string.expenses_today,
+        route = EXPENSES_SCREEN_ROUTE,
+        topAppBarTrailingIconInt = R.drawable.history,
+    ),
+    INCOMES(
+        R.drawable.uptrend,
+        ru.ttb220.app.R.string.incomes,
+        ru.ttb220.app.R.string.incomes_today,
+        route = INCOMES_SCREEN_ROUTE,
+        topAppBarTrailingIconInt = R.drawable.history,
+    ),
+    ACCOUNT(
+        R.drawable.calculator,
+        ru.ttb220.app.R.string.account,
+        ru.ttb220.app.R.string.my_account,
+        route = ACCOUNT_SCREEN_ROUTE,
+        topAppBarTrailingIconInt = R.drawable.edit,
+    ),
+    ARTICLES(
+        R.drawable.barchartside,
+        ru.ttb220.app.R.string.categories,
+        ru.ttb220.app.R.string.my_categories,
+        route = "articles"
+    ),
+    SETTINGS(
+        R.drawable.settings,
+        ru.ttb220.app.R.string.settings,
+        ru.ttb220.app.R.string.settings,
+        route = "settings"
+    ),
+    INCOMES_HISTORY(
+        topAppBarTextId = ru.ttb220.app.R.string.my_history,
+        iconId = R.drawable.cross,
+        textId = ru.ttb220.app.R.string.my_history,
+        route = "incomes_history"
+    ),
+    EXPENSES_HISTORY(
+        topAppBarTextId = ru.ttb220.app.R.string.my_history,
+        iconId = R.drawable.cross,
+        textId = ru.ttb220.app.R.string.my_history,
+        route = "expenses_history"
+    ),
+    ADD_ACCOUNT(
+        iconId = R.drawable.cross,
+        textId = ru.ttb220.app.R.string.new_account,
+        topAppBarTextId = ru.ttb220.app.R.string.new_account,
+        route = ADD_ACCOUNT_SCREEN_ROUTE,
+        topAppBarLeadingIconInt = R.drawable.cross,
+        topAppBarTrailingIconInt = R.drawable.check
+    )
+}
+
+// Экраны, на которых отображается FloatingActionButton
+val FloatingActionButtonDestinations = listOf(
+    TopLevelDestination.EXPENSES,
+    TopLevelDestination.INCOMES,
+    TopLevelDestination.ACCOUNT,
+)

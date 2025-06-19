@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:presentation-model"))
+    implementation(project(":core:presentation:model"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
