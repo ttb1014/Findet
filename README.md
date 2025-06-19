@@ -43,10 +43,10 @@
 ## Скриншоты
 
 ### 📉 Экран «История»
-![Расходы](screenshots/expenses.png)
+![Расходы](screenshots/history.png)
 
 ### 📈 Экран «Доходы»
-![Доходы](screenshots/incomes.png)
+![Доходы](screenshots/incomes_today.png)
 
 ### 🧾 Экран «Расходы»
-![Счет](screenshots/account.png)
+![Счет](screenshots/expenses_today.png)
