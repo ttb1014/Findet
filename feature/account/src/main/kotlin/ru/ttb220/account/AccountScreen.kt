@@ -25,7 +25,7 @@ import ru.ttb220.presentation.ui.component.BarChart
 import ru.ttb220.presentation.ui.component.BarChartResource
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
-import ru.ttb220.presentation.ui.component.ErrorDialog
+import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.Green
 import ru.ttb220.presentation.ui.theme.GreenHighlight
@@ -41,13 +41,23 @@ fun AccountScreen(
     val accountScreenState by viewModel.accountScreenState.collectAsStateWithLifecycle()
 
     when (accountScreenState) {
-        is AccountScreenState.Error -> ErrorDialog(
-            (accountScreenState as AccountScreenState.Error).message
-        )
+        is AccountScreenState.Error -> Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            ErrorBox(
+                (accountScreenState as AccountScreenState.Error).message
+            )
+        }
 
-        is AccountScreenState.ErrorResource -> ErrorDialog(
-            (accountScreenState as AccountScreenState.ErrorResource).messageId
-        )
+        is AccountScreenState.ErrorResource -> Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            ErrorBox(
+                (accountScreenState as AccountScreenState.ErrorResource).messageId
+            )
+        }
 
         is AccountScreenState.Loaded -> AccountScreenContent(
             (accountScreenState as AccountScreenState.Loaded).data

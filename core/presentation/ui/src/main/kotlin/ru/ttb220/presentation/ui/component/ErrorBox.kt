@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,15 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.presentation.ui.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ErrorDialog(
+fun ErrorBox(
     message: String,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
 ) {
     Box(
-//        onDismissRequest = onDismiss,
         modifier = modifier,
     ) {
         Column(
@@ -54,15 +51,12 @@ fun ErrorDialog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ErrorDialog(
+fun ErrorBox(
     @StringRes messageId: Int,
     modifier: Modifier = Modifier,
-    onDismiss: () -> Unit = {},
 ) {
     Box(
-//        onDismissRequest = onDismiss,
         modifier = modifier,
     ) {
         Column(
@@ -89,5 +83,5 @@ fun ErrorDialog(
 @Preview
 @Composable
 private fun ErrorDialogPreview() {
-    ErrorDialog("No connection") {}
+    ErrorBox("No connection") {}
 }

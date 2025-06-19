@@ -7,9 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.TransactionsRepository
-import ru.ttb220.domain.GetTransactionsForAllAccountsUseCase
+import ru.ttb220.domain.GetTodayIncomesForActiveAccountUseCase
 import ru.ttb220.model.exception.ForbiddenException
 import ru.ttb220.model.exception.IncorrectInputFormatException
 import ru.ttb220.model.exception.JsonDecodingException
@@ -20,12 +18,9 @@ import ru.ttb220.presentation.model.IncomeData
 import ru.ttb220.presentation.ui.R
 import javax.inject.Inject
 
-// TODO: Вынести TransactionsScreen в отдельный модуль и убрать копипасту
 @HiltViewModel
 class IncomesVewModel @Inject constructor(
-    private val transactionsRepository: TransactionsRepository,
-    private val accountsRepository: AccountsRepository,
-    private val getTransactionsForAllAccountsUseCase: GetTransactionsForAllAccountsUseCase,
+    private val getTodayIncomesForActiveAccountUseCase: GetTodayIncomesForActiveAccountUseCase,
 ) : ViewModel() {
 
     private var _incomesScreenState: MutableStateFlow<IncomesScreenState> =
@@ -34,7 +29,7 @@ class IncomesVewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val transactionsFlow = getTransactionsForAllAccountsUseCase.invoke(true)
+            val transactionsFlow = getTodayIncomesForActiveAccountUseCase.invoke()
 
             try {
                 transactionsFlow.collect { transactions ->

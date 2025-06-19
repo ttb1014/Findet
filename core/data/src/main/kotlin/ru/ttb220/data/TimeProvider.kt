@@ -16,4 +16,6 @@ interface TimeProvider {
      * Method should be called just in time
      */
     fun today(): LocalDate
+
+    fun startOfAMonth(): LocalDate
 }

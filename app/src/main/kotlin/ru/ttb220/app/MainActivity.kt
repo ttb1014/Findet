@@ -7,10 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import ru.ttb220.app.navigation.Destination
 import ru.ttb220.app.ui.FindetApp
 import ru.ttb220.app.ui.rememberAppState
 import ru.ttb220.presentation.ui.theme.FindetTheme
@@ -18,7 +19,7 @@ import ru.ttb220.presentation.ui.theme.FindetTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    // Управляет состоянием сплеш-скрина
+    // Управляет состоянием сплеш-скрина и активным аккаунтом
     private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,11 +58,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FindetTheme {
-                // Сохраняем состояние между рекомпозициями
-                val appState = rememberAppState()
+                val activeAccountId by mainViewModel.activeAccountId.collectAsStateWithLifecycle()
+
+                val appState = rememberAppState(
+                    activeAccountId = activeAccountId,
+                )
                 FindetApp(
                     appState,
-                    Destination.EXPENSES.name
                 )
             }
         }

@@ -18,7 +18,7 @@ internal class DefaultTimeProvider @Inject constructor(
     override fun now(): Instant = Clock.System.now()
 
     override fun startOfToday(): Instant {
-        val today = now().toLocalDateTime(timeZone).date
+        val today = today()
         return today.atStartOfDayIn(timeZone)
     }
 
@@ -26,5 +26,10 @@ internal class DefaultTimeProvider @Inject constructor(
     override fun today(): LocalDate {
         val today = now().toLocalDateTime(timeZone).date.plus(DatePeriod(days = 2))
         return today
+    }
+
+    override fun startOfAMonth(): LocalDate {
+        val today = today()
+        return LocalDate(today.year, today.month, 1)
     }
 }

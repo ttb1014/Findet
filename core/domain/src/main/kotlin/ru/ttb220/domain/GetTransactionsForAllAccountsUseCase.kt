@@ -34,7 +34,6 @@ class GetTransactionsForAllAccountsUseCase @Inject constructor(
                             endDate = endDate,
                         )
                     }
-                    // TODO: test async
                     .map { flow ->
                         async { flow.first() }
                     }

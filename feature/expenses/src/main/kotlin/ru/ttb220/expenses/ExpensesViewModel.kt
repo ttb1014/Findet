@@ -7,9 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.TransactionsRepository
-import ru.ttb220.domain.GetTransactionsForAllAccountsUseCase
+import ru.ttb220.domain.GetTodayExpensesForActiveAccountUseCase
 import ru.ttb220.model.exception.ForbiddenException
 import ru.ttb220.model.exception.IncorrectInputFormatException
 import ru.ttb220.model.exception.JsonDecodingException
@@ -25,9 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExpensesViewModel @Inject constructor(
-    private val transactionsRepository: TransactionsRepository,
-    private val accountsRepository: AccountsRepository,
-    private val getTransactionsForAllAccountsUseCase: GetTransactionsForAllAccountsUseCase,
+    private val getTodayExpensesForActiveAccountUseCase: GetTodayExpensesForActiveAccountUseCase,
 ) : ViewModel() {
 
     private var _expensesScreenState: MutableStateFlow<ExpensesScreenState> =
@@ -36,7 +32,7 @@ class ExpensesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val transactionsFlow = getTransactionsForAllAccountsUseCase.invoke(false)
+            val transactionsFlow = getTodayExpensesForActiveAccountUseCase.invoke()
 
             try {
                 transactionsFlow.collect { transactions ->

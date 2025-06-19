@@ -1,11 +1,13 @@
-package ru.ttb220.expenses
+package ru.ttb220.expenses_history
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -13,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,18 +23,53 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.mock.mockExpensesHistoryScreenData
-import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenData
-import ru.ttb220.presentation.ui.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.ttb220.mock.mockHistoryScreenData
+import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIcon
 import ru.ttb220.presentation.ui.component.DynamicIconResource
+import ru.ttb220.presentation.ui.component.ErrorBox
+import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 
 @Composable
+fun ExpensesHistoryScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ExpensesHistoryViewModel = hiltViewModel()
+) {
+    val historyScreenState by viewModel.historyScreenState.collectAsStateWithLifecycle()
+
+    when (historyScreenState) {
+        is ExpensesHistoryScreenState.Error -> Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            ErrorBox(
+                message = (historyScreenState as ExpensesHistoryScreenState.Error).message,
+                modifier = Modifier,
+            )
+        }
+
+        is ExpensesHistoryScreenState.Loaded -> ExpensesHistoryScreenContent(
+            historyScreenData = (historyScreenState as ExpensesHistoryScreenState.Loaded).data,
+            modifier = modifier
+        )
+
+        ExpensesHistoryScreenState.Loading -> Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            LoadingWheel(Modifier.size(160.dp))
+        }
+    }
+}
+
+@Composable
 fun ExpensesHistoryScreenContent(
-    expensesHistoryScreenData: ExpensesHistoryScreenData,
+    historyScreenData: HistoryScreenData,
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
@@ -40,25 +78,25 @@ fun ExpensesHistoryScreenContent(
         modifier.fillMaxSize()
     ) {
         TimeCard(
-            R.string.start,
-            expensesHistoryScreenData.startDate
+            ru.ttb220.presentation.ui.R.string.start,
+            historyScreenData.startDate
         )
         TimeCard(
-            R.string.end,
-            expensesHistoryScreenData.endDate
+            ru.ttb220.presentation.ui.R.string.end,
+            historyScreenData.endDate
         )
         ColumnListItem(
-            title = stringResource(R.string.total),
+            title = stringResource(ru.ttb220.presentation.ui.R.string.total),
             modifier = Modifier.height(56.dp),
             background = GreenHighlight,
-            trailingText = expensesHistoryScreenData.totalAmount,
+            trailingText = historyScreenData.totalAmount,
         )
 
-        val expenses = expensesHistoryScreenData.expenses
+        val expenses = historyScreenData.expenses
         LazyColumn(
             state = lazyListState,
         ) {
-            items(expensesHistoryScreenData.expenses.size) { index ->
+            items(historyScreenData.expenses.size) { index ->
 
                 val expense = expenses[index]
 
@@ -98,7 +136,7 @@ fun ExpensesHistoryScreenContent(
                         }
                         Spacer(Modifier.width(16.dp))
                         Icon(
-                            painter = painterResource(R.drawable.more_right),
+                            painter = painterResource(ru.ttb220.presentation.ui.R.drawable.more_right),
                             contentDescription = null,
                             tint = LightGreyIconTint,
                         )
@@ -154,6 +192,6 @@ fun TimeCard(
 @Composable
 private fun ExpensesHistoryScreenContentPreview() {
     ExpensesHistoryScreenContent(
-        mockExpensesHistoryScreenData
+        mockHistoryScreenData
     )
 }

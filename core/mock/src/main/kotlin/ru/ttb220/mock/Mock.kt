@@ -1,19 +1,25 @@
+@file:Suppress("Warnings")
+
 package ru.ttb220.mock
 
 import ru.ttb220.presentation.model.CategoryData
 import ru.ttb220.presentation.model.ExpenseAnalysisData
-import ru.ttb220.presentation.model.ExpenseDetailedData
-import ru.ttb220.presentation.model.ExpenseHistoryData
 import ru.ttb220.presentation.model.ExpenseData
+import ru.ttb220.presentation.model.ExpenseDetailedData
 import ru.ttb220.presentation.model.IncomeData
+import ru.ttb220.presentation.model.TransactionHistoryData
 import ru.ttb220.presentation.model.screen.AccountScreenData
 import ru.ttb220.presentation.model.screen.ExpensesAnalysisScreenData
-import ru.ttb220.presentation.model.screen.ExpensesHistoryScreenData
 import ru.ttb220.presentation.model.screen.ExpensesScreenData
+import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.screen.IncomesScreenData
 import ru.ttb220.presentation.model.screen.SettingsScreenData
 import ru.ttb220.presentation.model.util.Currency
 import ru.ttb220.presentation.model.util.Emoji
+
+val mockActiveAccountId = 54
+
+val mockIsDarkThemeEnabled = false
 
 val mockExpensesScreenData = ExpensesScreenData(
     expenses = listOf(
@@ -129,36 +135,36 @@ val mockExpenseDetailedData = ExpenseDetailedData(
     description = "Ремонт - фурнитура для дверей"
 )
 
-val mockExpensesHistoryScreenData = ExpensesHistoryScreenData(
+val mockHistoryScreenData = HistoryScreenData(
     startDate = "Февраль 2025",
     endDate = "23:41",
     totalAmount = "125 868 ₽",
     expenses = listOf(
-        ExpenseHistoryData(
+        TransactionHistoryData(
             name = "Ремонт квартиры",
             description = "Ремонт - фурнитура для дверей",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryData(
+        TransactionHistoryData(
             emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryData(
+        TransactionHistoryData(
             emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryData(
+        TransactionHistoryData(
             emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
-        ExpenseHistoryData(
+        TransactionHistoryData(
             emoji = Emoji.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",

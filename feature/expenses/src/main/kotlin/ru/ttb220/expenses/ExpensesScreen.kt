@@ -21,7 +21,7 @@ import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
-import ru.ttb220.presentation.ui.component.ErrorDialog
+import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 
@@ -33,8 +33,13 @@ fun ExpensesScreen(
     val expensesScreenState: ExpensesScreenState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
 
     when (expensesScreenState) {
-        is ExpensesScreenState.Error -> ErrorDialog(
+        is ExpensesScreenState.Error -> ErrorBox(
             message = (expensesScreenState as ExpensesScreenState.Error).message,
+            modifier = Modifier,
+        )
+
+        is ExpensesScreenState.ErrorResource -> ErrorBox(
+            messageId = (expensesScreenState as ExpensesScreenState.ErrorResource).messageId,
             modifier = Modifier,
         )
 
@@ -49,11 +54,6 @@ fun ExpensesScreen(
         ) {
             LoadingWheel(Modifier.size(160.dp))
         }
-
-        is ExpensesScreenState.ErrorResource -> ErrorDialog(
-            messageId = (expensesScreenState as ExpensesScreenState.ErrorResource).messageId,
-            modifier = Modifier,
-        )
     }
 }
 

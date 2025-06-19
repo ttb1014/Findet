@@ -49,7 +49,10 @@ dependencies {
     implementation(project(":feature:incomes"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:account"))
+    implementation(project(":feature:expenses_history"))
+    implementation(project(":feature:incomes_history"))
     implementation(project(":feature:categories"))
+    implementation(project(":core:data"))
 
 
     implementation(libs.androidx.core.splashscreen)

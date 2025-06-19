@@ -39,6 +39,7 @@ import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.theme.Green
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 
+@Deprecated("Использую другую перегрузку")
 @Composable
 fun BottomBar(
     destinations: List<NavigationData>,
@@ -58,9 +59,9 @@ fun BottomBar(
                 .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.Start,
         ) {
-            destinations.forEachIndexed { index, it ->
+            destinations.forEachIndexed { index, navigationData ->
                 BottomBarItem(
-                    navigationData = it,
+                    navigationData = navigationData,
                     modifier = Modifier.weight(1f),
                     onNavigateTo = onNavigateTo
                 )
@@ -75,7 +76,7 @@ fun BottomBar(
  * Hugs content by default
  */
 @Composable
-private fun BottomBarItem(
+fun BottomBarItem(
     navigationData: NavigationData,
     modifier: Modifier = Modifier,
     onNavigateTo: (String) -> Unit,

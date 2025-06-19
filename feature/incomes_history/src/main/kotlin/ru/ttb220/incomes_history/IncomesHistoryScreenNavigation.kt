@@ -1,4 +1,4 @@
-package ru.ttb220.account
+package ru.ttb220.incomes_history
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -8,28 +8,30 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 
 const val ACTIVE_ACCOUNT_ID = "accountId"
-const val ACCOUNT_SCREEN_ROUTE_BASE = "account"
-const val ACCOUNT_SCREEN_ROUTE = "$ACCOUNT_SCREEN_ROUTE_BASE?$ACTIVE_ACCOUNT_ID={$ACTIVE_ACCOUNT_ID}"
+const val HISTORY_SCREEN_ROUTE_BASE = "incomes_history"
+const val HISTORY_SCREEN_ROUTE =
+    "$HISTORY_SCREEN_ROUTE_BASE?$ACTIVE_ACCOUNT_ID={$ACTIVE_ACCOUNT_ID}"
 
-fun NavController.navigateToAccount(
+fun NavController.navigateToIncomesHistory(
     accountId: Int? = null,
     navOptions: NavOptions? = null
 ) {
-    val route = "${ACCOUNT_SCREEN_ROUTE_BASE}?$ACTIVE_ACCOUNT_ID=$accountId"
+    val route = HISTORY_SCREEN_ROUTE_BASE + "?" +
+            "$ACTIVE_ACCOUNT_ID=$accountId"
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.accountScreen(navController: NavController? = null) {
+fun NavGraphBuilder.incomesHistoryScreen() {
     composable(
-        route = ACCOUNT_SCREEN_ROUTE,
+        route = HISTORY_SCREEN_ROUTE,
         arguments = listOf(
             navArgument(ACTIVE_ACCOUNT_ID) {
                 type = NavType.StringType
                 nullable = true
                 defaultValue = null
-            }
+            },
         ),
     ) {
-        AccountScreen()
+        IncomesHistoryScreen()
     }
 }

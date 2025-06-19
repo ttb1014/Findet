@@ -20,7 +20,7 @@ import ru.ttb220.presentation.model.IncomeData
 import ru.ttb220.presentation.model.screen.IncomesScreenData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
-import ru.ttb220.presentation.ui.component.ErrorDialog
+import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 
@@ -32,10 +32,23 @@ fun IncomesScreen(
     val incomesScreenState: IncomesScreenState by viewModel.incomesScreenState.collectAsStateWithLifecycle()
 
     when (incomesScreenState) {
-        is IncomesScreenState.Error -> ErrorDialog(
-            message = (incomesScreenState as IncomesScreenState.Error).message,
-            modifier = Modifier,
-        )
+        is IncomesScreenState.Error -> Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            ErrorBox(
+                message = (incomesScreenState as IncomesScreenState.Error).message,
+            )
+        }
+
+        is IncomesScreenState.ErrorResource -> Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            ErrorBox(
+                messageId = (incomesScreenState as IncomesScreenState.ErrorResource).messageId,
+            )
+        }
 
         is IncomesScreenState.Loaded -> IncomesScreenContent(
             incomesScreenData = (incomesScreenState as IncomesScreenState.Loaded).data,
@@ -48,11 +61,6 @@ fun IncomesScreen(
         ) {
             LoadingWheel(Modifier.size(160.dp))
         }
-
-        is IncomesScreenState.ErrorResource -> ErrorDialog(
-            messageId = (incomesScreenState as IncomesScreenState.ErrorResource).messageId,
-            modifier = Modifier,
-        )
     }
 }
 

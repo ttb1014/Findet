@@ -5,10 +5,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.ttb220.account.AccountScreen
+import ru.ttb220.account.accountScreen
 import ru.ttb220.categories.CategoriesScreen
-import ru.ttb220.expenses.ExpensesScreen
-import ru.ttb220.incomes.IncomesScreen
+import ru.ttb220.expenses.expensesScreen
+import ru.ttb220.expenses_history.expensesHistoryScreen
+import ru.ttb220.incomes.incomesScreen
+import ru.ttb220.incomes_history.incomesHistoryScreen
 import ru.ttb220.mock.mockArticleScreenContent
 import ru.ttb220.mock.mockSettingsScreenContent
 import ru.ttb220.settings.SettingsScreen
@@ -17,35 +19,28 @@ import ru.ttb220.settings.SettingsScreen
 fun FindetNavHost(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    startRoute: String = Destination.EXPENSES.name
+    startRoute: String = TopLevelDestination.EXPENSES.route
 ) {
     NavHost(
         navController = navHostController,
         startDestination = startRoute,
         modifier = modifier
     ) {
+        expensesScreen()
+        incomesScreen()
+        accountScreen()
+
+        expensesHistoryScreen()
+        incomesHistoryScreen()
+
+        // 2 экрана остаются моковыми
         composable(
-            route = Destination.EXPENSES.name
-        ) {
-            ExpensesScreen()
-        }
-        composable(
-            route = Destination.INCOMES.name
-        ) {
-            IncomesScreen()
-        }
-        composable(
-            route = Destination.ACCOUNT.name
-        ) {
-            AccountScreen()
-        }
-        composable(
-            route = Destination.ARTICLES.name
+            route = TopLevelDestination.ARTICLES.route
         ) {
             CategoriesScreen(mockArticleScreenContent)
         }
         composable(
-            route = Destination.SETTINGS.name
+            route = TopLevelDestination.SETTINGS.route
         ) {
             SettingsScreen(mockSettingsScreenContent)
         }
