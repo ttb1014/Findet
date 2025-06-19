@@ -48,11 +48,12 @@ class IncomesVewModel @Inject constructor(
                     }
                     val currencyName = currencyDeferred.await()
                     val currency = currencyMap[currencyName] ?: currencyName
-                    val totalAmount = DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble)  + " $currency"
+                    val totalAmount =
+                        DEFAULT_DECIMAL_FORMAT.format(totalAmountDouble) + " $currency"
 
                     _incomesScreenState.value = IncomesScreenState.Loaded(
                         data = ru.ttb220.presentation.model.screen.IncomesScreenData(
-                            incomes = transactions.map { it.toIncomeState() },
+                            incomes = transactions.map { it.toIncomeState(currency) },
                             totalAmount = totalAmount,
                         )
                     )
@@ -89,9 +90,9 @@ class IncomesVewModel @Inject constructor(
         }
     }
 
-    private fun TransactionDetailed.toIncomeState() = IncomeData(
+    private fun TransactionDetailed.toIncomeState(currency: String) = IncomeData(
         title = category.name,
-        amount = amount,
+        amount = "$amount $currency",
     )
 
     companion object {

@@ -59,7 +59,7 @@ class ExpensesViewModel @Inject constructor(
 
                         _expensesScreenState.value = ExpensesScreenState.Loaded(
                             data = ExpensesScreenData(
-                                expenses = transactions.map { it.toExpenseState() },
+                                expenses = transactions.map { it.toExpenseState(currency) },
                                 totalAmount = totalAmount,
                             )
                         )
@@ -96,7 +96,7 @@ class ExpensesViewModel @Inject constructor(
         }
     }
 
-    private fun TransactionDetailed.toExpenseState() = ExpenseData(
+    private fun TransactionDetailed.toExpenseState(currency: String) = ExpenseData(
         emojiId = category.emoji.let emoji@{ emojiString ->
             val emojiRes = EmojiToResourceMapper[emojiString]
             emojiRes?.let { res ->
@@ -107,7 +107,7 @@ class ExpensesViewModel @Inject constructor(
         },
         name = category.name,
         shortDescription = comment,
-        amount = amount,
+        amount = "$amount $currency",
     )
 
     companion object {

@@ -46,7 +46,7 @@
 ![Расходы](screenshots/history.png)
 
 ### 📈 Экран «Доходы»
-![Доходы](screenshots/incomes_today.png)
+![Доходы](screenshots/expenses_today.png)
 
 ### 🧾 Экран «Расходы»
 ![Счет](screenshots/expenses_today.png)

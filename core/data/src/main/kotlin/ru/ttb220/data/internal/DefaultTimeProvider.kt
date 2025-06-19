@@ -23,8 +23,9 @@ internal class DefaultTimeProvider @Inject constructor(
     }
 
     // FIXME: Возвращает пред-предыдущий день
+    // Если вдруг экран расходы сегодня пустой, то виноват он
     override fun today(): LocalDate {
-        val today = now().toLocalDateTime(timeZone).date.plus(DatePeriod(days = 2))
+        val today = now().toLocalDateTime(timeZone).date.plus(DatePeriod(days = 0))
         return today
     }
 
