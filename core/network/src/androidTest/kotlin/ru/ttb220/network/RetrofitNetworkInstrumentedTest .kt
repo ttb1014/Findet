@@ -71,6 +71,13 @@ class RetrofitNetworkInstrumentedTest {
     }
 
     @Test
+    fun deleteAllTransactions() = runBlocking {
+        val accountID = remoteDataSource.getAllAccounts()[0].id
+
+        deleteAllOldTransactionsForAccount(accountID)
+    }
+
+    @Test
     fun createFakeTransactions() = runBlocking {
         val accountID = remoteDataSource.getAllAccounts()[0].id
 

@@ -42,6 +42,7 @@ fun TopAppBar(
     modifier: Modifier = Modifier,
     @DrawableRes leadingIcon: Int? = null,
     @DrawableRes trailingIcon: Int? = null,
+    onLeadingIconClick: () -> Unit = {},
     onTrailingIconClick: () -> Unit = {},
 ) {
     Surface(
@@ -62,9 +63,16 @@ fun TopAppBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             leadingIcon?.let {
+                val interactionSource = remember { MutableInteractionSource() }
+
                 TopAppBarIcon(
                     leadingIcon,
-                    MaterialTheme.colorScheme.onSurface
+                    MaterialTheme.colorScheme.onSurface,
+                    Modifier.clickable (
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onLeadingIconClick
+                    )
                 )
             } ?: Spacer(Modifier.size(48.dp))
 

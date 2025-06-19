@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.ttb220.account.accountScreen
+import ru.ttb220.account.addAccountScreen
 import ru.ttb220.categories.CategoriesScreen
 import ru.ttb220.expenses.expensesScreen
 import ru.ttb220.expenses_history.expensesHistoryScreen
@@ -28,7 +29,9 @@ fun FindetNavHost(
     ) {
         expensesScreen()
         incomesScreen()
+
         accountScreen()
+        addAccountScreen()
 
         expensesHistoryScreen()
         incomesHistoryScreen()

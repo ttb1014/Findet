@@ -18,9 +18,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
+import ru.ttb220.account.AddAccountViewModel
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.FloatingActionButtonDestinations
 import ru.ttb220.app.navigation.TopLevelDestination
@@ -35,6 +39,12 @@ fun FindetApp(
     modifier: Modifier = Modifier
 ) {
     val currentTopLevelDestination = appState.currentTopLevelDestination
+    val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
+    // 😬
+    val viewModel = navBackStackEntry?.let { entry ->
+        val viewModel: AddAccountViewModel = hiltViewModel(entry)
+        viewModel
+    }
 
     Scaffold(
         modifier = modifier,
@@ -45,20 +55,34 @@ fun FindetApp(
                 } ?: "",
                 leadingIcon = currentTopLevelDestination?.topAppBarLeadingIconInt,
                 trailingIcon = currentTopLevelDestination?.topAppBarTrailingIconInt,
+                onLeadingIconClick = {
+                    when (currentTopLevelDestination) {
+                        TopLevelDestination.ADD_ACCOUNT -> appState.popBackStack()
+                        else -> {}
+                    }
+                },
                 onTrailingIconClick = {
                     when (currentTopLevelDestination) {
+                        TopLevelDestination.ADD_ACCOUNT -> {
+                            // 😬
+                            viewModel?.onAddAccount()
+                            appState.popBackStack()
+                        }
+
                         TopLevelDestination.EXPENSES -> appState.navigateToHistory(false)
                         TopLevelDestination.INCOMES -> appState.navigateToHistory(true)
-                        else -> TODO()
+                        TopLevelDestination.ACCOUNT -> {}
+                        else -> {}
                     }
-                }
+                },
             )
         },
         bottomBar = {
             BottomBar(
                 destinations = TopLevelDestination.entries.filter {
-                    it.name != TopLevelDestination.EXPENSES_HISTORY.name &&
-                            it.name != TopLevelDestination.INCOMES_HISTORY.name
+                    it != TopLevelDestination.EXPENSES_HISTORY &&
+                            it != TopLevelDestination.INCOMES_HISTORY &&
+                            it != TopLevelDestination.ADD_ACCOUNT
                 },
                 currentTopLevelDestination = appState.currentTopLevelDestination,
                 onNavigateTo = appState::navigateTo
@@ -66,7 +90,15 @@ fun FindetApp(
         },
         floatingActionButton = {
             if (FloatingActionButtonDestinations.contains(appState.currentTopLevelDestination))
-                FloatingActionButtonAdd()
+                FloatingActionButtonAdd() {
+                    when (currentTopLevelDestination) {
+                        TopLevelDestination.ACCOUNT ->
+                            appState.navigateTo(TopLevelDestination.ADD_ACCOUNT)
+
+                        // TODO: Добавить экраны
+                        else -> {}
+                    }
+                }
         },
         floatingActionButtonPosition = FabPosition.End,
         containerColor = MaterialTheme.colorScheme.surface,
@@ -111,6 +143,12 @@ private fun BottomBar(
 
                 if (currentTopLevelDestination == TopLevelDestination.EXPENSES_HISTORY &&
                     topLevelDestination == TopLevelDestination.EXPENSES
+                ) {
+                    isSelected = true
+                }
+
+                if (currentTopLevelDestination == TopLevelDestination.ADD_ACCOUNT &&
+                    topLevelDestination == TopLevelDestination.ACCOUNT
                 ) {
                     isSelected = true
                 }

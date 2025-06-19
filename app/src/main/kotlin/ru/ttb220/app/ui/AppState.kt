@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.ttb220.account.navigateToAccount
+import ru.ttb220.account.navigateToAddAccount
 import ru.ttb220.app.navigation.TopLevelDestination
 import ru.ttb220.expenses.navigateToExpenses
 import ru.ttb220.expenses_history.navigateToExpensesHistory
@@ -42,6 +43,8 @@ class AppState(
             }
         }
 
+    fun popBackStack() = navHostController.popBackStack()
+
     fun navigateTo(topLevelDestination: TopLevelDestination) {
         when (topLevelDestination) {
             TopLevelDestination.EXPENSES ->
@@ -70,6 +73,9 @@ class AppState(
 
             TopLevelDestination.EXPENSES_HISTORY ->
                 navHostController.navigateToExpensesHistory()
+
+            TopLevelDestination.ADD_ACCOUNT ->
+                navHostController.navigateToAddAccount()
         }
     }
 

@@ -3,6 +3,7 @@ package ru.ttb220.app.navigation
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import ru.ttb220.account.ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.account.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.expenses.EXPENSES_SCREEN_ROUTE
 import ru.ttb220.incomes.INCOMES_SCREEN_ROUTE
 import ru.ttb220.presentation.ui.R
@@ -59,6 +60,14 @@ enum class TopLevelDestination(
         iconId = R.drawable.cross,
         textId = ru.ttb220.app.R.string.my_history,
         route = "expenses_history"
+    ),
+    ADD_ACCOUNT(
+        iconId = R.drawable.cross,
+        textId = ru.ttb220.app.R.string.new_account,
+        topAppBarTextId = ru.ttb220.app.R.string.new_account,
+        route = ADD_ACCOUNT_SCREEN_ROUTE,
+        topAppBarLeadingIconInt = R.drawable.cross,
+        topAppBarTrailingIconInt = R.drawable.check
     )
 }
 
