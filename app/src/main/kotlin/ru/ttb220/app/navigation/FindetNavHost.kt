@@ -8,11 +8,11 @@ import androidx.navigation.compose.composable
 import ru.ttb220.account.accountScreen
 import ru.ttb220.account.addAccountScreen
 import ru.ttb220.categories.CategoriesScreen
-import ru.ttb220.expenses.expensesScreen
-import ru.ttb220.expenses_history.expensesHistoryScreen
-import ru.ttb220.incomes.incomesScreen
-import ru.ttb220.incomes_history.incomesHistoryScreen
-import ru.ttb220.mock.mockArticleScreenContent
+import ru.ttb220.expenses.today.expensesScreen
+import ru.ttb220.expenses.history.expensesHistoryScreen
+import ru.ttb220.incomes.today.incomesScreen
+import ru.ttb220.incomes.history.incomesHistoryScreen
+import ru.ttb220.mock.mockCategoriesScreenContent
 import ru.ttb220.mock.mockSettingsScreenContent
 import ru.ttb220.settings.SettingsScreen
 
@@ -40,7 +40,7 @@ fun FindetNavHost(
         composable(
             route = TopLevelDestination.ARTICLES.route
         ) {
-            CategoriesScreen(mockArticleScreenContent)
+            CategoriesScreen(mockCategoriesScreenContent)
         }
         composable(
             route = TopLevelDestination.SETTINGS.route

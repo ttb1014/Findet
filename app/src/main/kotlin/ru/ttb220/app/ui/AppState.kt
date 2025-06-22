@@ -9,10 +9,10 @@ import androidx.navigation.compose.rememberNavController
 import ru.ttb220.account.navigateToAccount
 import ru.ttb220.account.navigateToAddAccount
 import ru.ttb220.app.navigation.TopLevelDestination
-import ru.ttb220.expenses.navigateToExpenses
-import ru.ttb220.expenses_history.navigateToExpensesHistory
-import ru.ttb220.incomes.navigateToIncomes
-import ru.ttb220.incomes_history.navigateToIncomesHistory
+import ru.ttb220.expenses.today.navigateToExpenses
+import ru.ttb220.expenses.history.navigateToExpensesHistory
+import ru.ttb220.incomes.today.navigateToIncomes
+import ru.ttb220.incomes.history.navigateToIncomesHistory
 
 @Composable
 fun rememberAppState(

@@ -1,12 +1,13 @@
 package ru.ttb220.data.internal
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
-import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.TimeProvider
 import javax.inject.Inject
@@ -15,22 +16,22 @@ internal class DefaultTimeProvider @Inject constructor(
     private val timeZone: TimeZone
 ) : TimeProvider {
 
-    override fun now(): Instant = Clock.System.now()
-
-    override fun startOfToday(): Instant {
-        val today = today()
-        return today.atStartOfDayIn(timeZone)
+    override fun now(): Flow<Instant> = flow {
+        emit(Clock.System.now())
     }
 
-    // FIXME: Возвращает пред-предыдущий день
-    // Если вдруг экран расходы сегодня пустой, то виноват он
-    override fun today(): LocalDate {
-        val today = now().toLocalDateTime(timeZone).date.plus(DatePeriod(days = 0))
-        return today
+    override fun startOfToday(): Flow<Instant> = flow {
+        val today = today().first()
+        emit(today.atStartOfDayIn(timeZone))
     }
 
-    override fun startOfAMonth(): LocalDate {
-        val today = today()
-        return LocalDate(today.year, today.month, 1)
+    override fun today(): Flow<LocalDate> = flow {
+        val today = now().first().toLocalDateTime(timeZone).date
+        emit(today)
+    }
+
+    override fun startOfAMonth(): Flow<LocalDate> = flow {
+        val today = today().first()
+        emit(LocalDate(today.year, today.month, 1))
     }
 }

@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.ttb220.presentation.model.util.Emoji
+import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 import ru.ttb220.presentation.ui.theme.Roboto
@@ -30,7 +30,7 @@ sealed class DynamicIconResource(
     val background: Color
 ) {
     class EmojiIconResource(
-        val emoji: Emoji,
+        val emojiData: EmojiData,
         background: Color = GreenHighlight
     ) : DynamicIconResource(background)
 
@@ -66,9 +66,9 @@ private fun EmojiIcon(
     modifier: Modifier = Modifier,
 ) {
     // Эмодзи сама по себе либо текстовая-дефолтная, либо из ресурсов (сделал, чтобы отображение совпадало с макетом)
-    when (emojiIconResource.emoji) {
-        is Emoji.Resource -> Image(
-            painter = painterResource(emojiIconResource.emoji.emojiId),
+    when (emojiIconResource.emojiData) {
+        is EmojiData.Resource -> Image(
+            painter = painterResource(emojiIconResource.emojiData.emojiId),
             contentDescription = null,
             modifier = modifier
                 .size(24.dp)
@@ -77,8 +77,8 @@ private fun EmojiIcon(
         )
 
         // подогнано вручную
-        is Emoji.Text -> Text(
-            text = emojiIconResource.emoji.emojiString,
+        is EmojiData.Text -> Text(
+            text = emojiIconResource.emojiData.emojiString,
             modifier = Modifier
                 .size(24.dp)
                 .background(emojiIconResource.background, RoundedCornerShape(100.dp)),
@@ -102,12 +102,12 @@ private fun EmojiIconPreview() {
     Column() {
         EmojiIcon(
             emojiIconResource = DynamicIconResource.EmojiIconResource(
-                emoji = Emoji.Text("\uD83D\uDC3B"),
+                emojiData = EmojiData.Text("\uD83D\uDC3B"),
             ),
         )
         EmojiIcon(
             emojiIconResource = DynamicIconResource.EmojiIconResource(
-                emoji = Emoji.Resource(R.drawable.doggy),
+                emojiData = EmojiData.Resource(ru.ttb220.presentation.model.R.drawable.doggy),
             ),
         )
     }

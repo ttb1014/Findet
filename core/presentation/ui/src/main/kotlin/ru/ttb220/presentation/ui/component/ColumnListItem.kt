@@ -26,7 +26,6 @@ import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 /**
  * Wraps content height by default. Should explicitly specify via [modifier]
  */
-@Deprecated("Use another overload")
 @Composable
 fun ColumnListItem(
     title: String,
@@ -138,54 +137,6 @@ fun ColumnListItem(
                     tint = trailingIconTint
                 )
             }
-        }
-
-        if (shouldShowTrailingDivider)
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant,
-            )
-    }
-}
-
-@Composable
-fun ColumnListItem(
-    modifier: Modifier = Modifier,
-    background: Color = MaterialTheme.colorScheme.surface,
-    shouldShowLeadingDivider: Boolean = false,
-    shouldShowTrailingDivider: Boolean = false,
-    leadingContent: @Composable () -> Unit = {},
-    trailingContent: @Composable () -> Unit = {},
-    centerContent: @Composable (modifier: Modifier) -> Unit = {},
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (shouldShowLeadingDivider)
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            leadingContent()
-            Spacer(Modifier.width(16.dp))
-            centerContent(Modifier.weight(1f))
-            Spacer(Modifier.width(16.dp))
-            trailingContent()
         }
 
         if (shouldShowTrailingDivider)

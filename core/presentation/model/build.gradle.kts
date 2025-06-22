@@ -34,6 +34,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
+
     // TODO: remove unnecessary
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

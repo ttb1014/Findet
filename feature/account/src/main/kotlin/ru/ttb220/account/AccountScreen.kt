@@ -17,12 +17,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockAccountScreenData
 import ru.ttb220.mock.mockBarChartData
+import ru.ttb220.presentation.model.BarChartData
 import ru.ttb220.presentation.model.screen.AccountScreenData
-import ru.ttb220.presentation.model.util.Currency
-import ru.ttb220.presentation.model.util.Emoji
+import ru.ttb220.presentation.model.CurrencyData
+import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.BarChart
-import ru.ttb220.presentation.ui.component.BarChartResource
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
 import ru.ttb220.presentation.ui.component.ErrorBox
@@ -83,12 +83,12 @@ fun AccountScreenContent(
                 balance = accountScreenData.balance,
                 leadingIconId = accountScreenData.leadingIconId,
             )
-            CurrencyItem(accountScreenData.currency)
+            CurrencyItem(accountScreenData.currencyData)
         }
         BarChart(
-            barChartResource = BarChartResource(
+            barChartData = BarChartData(
                 bars = mockBarChartData.first.map { barData ->
-                    BarChartResource.BarResource(
+                    BarChartData.BarData(
                         fill = barData.first,
                         color = if (barData.second == 1) Green else Orange,
                     )
@@ -112,7 +112,7 @@ fun BalanceItem(
         modifier = modifier.height(DEFAULT_LIST_ITEM_HEIGHT),
         background = GreenHighlight,
         dynamicIconResource = DynamicIconResource.EmojiIconResource(
-            emoji = Emoji.Resource(leadingIconId),
+            emojiData = EmojiData.Resource(leadingIconId),
             background = Color.White
         ),
         trailingIcon = R.drawable.more_right,
@@ -122,12 +122,12 @@ fun BalanceItem(
 
 @Composable
 fun CurrencyItem(
-    currency: Currency,
+    currencyData: CurrencyData,
     modifier: Modifier = Modifier
 ) {
     ColumnListItem(
         title = "Валюта",
-        trailingText = currency.symbol?.toString() ?: "",
+        trailingText = currencyData.symbol?.toString() ?: "",
         modifier = modifier.height(DEFAULT_LIST_ITEM_HEIGHT),
         background = GreenHighlight,
         trailingIcon = R.drawable.more_right,

@@ -28,9 +28,9 @@ import ru.ttb220.account.AddAccountViewModel
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.FloatingActionButtonDestinations
 import ru.ttb220.app.navigation.TopLevelDestination
-import ru.ttb220.presentation.model.NavigationData
+import ru.ttb220.presentation.model.BottomBarItemData
 import ru.ttb220.presentation.ui.component.BottomBarItem
-import ru.ttb220.presentation.ui.component.FloatingActionButtonAdd
+import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.TopAppBar
 
 @Composable
@@ -40,7 +40,6 @@ fun FindetApp(
 ) {
     val currentTopLevelDestination = appState.currentTopLevelDestination
     val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
-    // 😬
     val viewModel = navBackStackEntry?.let { entry ->
         val viewModel: AddAccountViewModel = hiltViewModel(entry)
         viewModel
@@ -64,7 +63,6 @@ fun FindetApp(
                 onTrailingIconClick = {
                     when (currentTopLevelDestination) {
                         TopLevelDestination.ADD_ACCOUNT -> {
-                            // 😬
                             viewModel?.onAddAccount()
                             appState.popBackStack()
                         }
@@ -90,12 +88,11 @@ fun FindetApp(
         },
         floatingActionButton = {
             if (FloatingActionButtonDestinations.contains(appState.currentTopLevelDestination))
-                FloatingActionButtonAdd() {
+                AddFab() {
                     when (currentTopLevelDestination) {
                         TopLevelDestination.ACCOUNT ->
                             appState.navigateTo(TopLevelDestination.ADD_ACCOUNT)
 
-                        // TODO: Добавить экраны
                         else -> {}
                     }
                 }
@@ -153,7 +150,7 @@ private fun BottomBar(
                     isSelected = true
                 }
 
-                val navigationData = NavigationData(
+                val bottomBarItemData = BottomBarItemData(
                     route = topLevelDestination.route,
                     iconId = topLevelDestination.iconId,
                     textId = topLevelDestination.textId,
@@ -161,7 +158,7 @@ private fun BottomBar(
                 )
 
                 BottomBarItem(
-                    navigationData = navigationData,
+                    bottomBarItemData = bottomBarItemData,
                     modifier = Modifier.weight(1f),
                     onNavigateTo = {
                         onNavigateTo(topLevelDestination)

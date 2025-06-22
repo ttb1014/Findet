@@ -3,4 +3,13 @@
     <string name="ruble">Российский рубль</string>
     <string name="american_dollar">Американский доллар</string>
     <string name="euro">Евро</string>
+
+    <string name="error_no_internet">Нет подключения к интернету</string>
+    <string name="error_unauthorized">Необходима авторизация</string>
+    <string name="error_not_found">Не найдено</string>
+    <string name="error_invalid_input">Неверный ввод</string>
+    <string name="error_server_error">Ошибка сервера</string>
+    <string name="error_timeout">Превышено время ожидания</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+    <string name="error_disconnected">Нет подключения к интернету</string>
 </resources>

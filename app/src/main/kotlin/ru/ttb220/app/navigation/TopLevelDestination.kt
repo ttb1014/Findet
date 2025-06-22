@@ -4,8 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import ru.ttb220.account.ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.ADD_ACCOUNT_SCREEN_ROUTE
-import ru.ttb220.expenses.EXPENSES_SCREEN_ROUTE
-import ru.ttb220.incomes.INCOMES_SCREEN_ROUTE
+import ru.ttb220.expenses.today.EXPENSES_SCREEN_ROUTE
+import ru.ttb220.incomes.today.INCOMES_SCREEN_ROUTE
 import ru.ttb220.presentation.ui.R
 
 enum class TopLevelDestination(

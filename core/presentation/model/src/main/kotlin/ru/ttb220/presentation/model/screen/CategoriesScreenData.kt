@@ -1,6 +1,9 @@
 package ru.ttb220.presentation.model.screen
 
+import androidx.compose.runtime.Immutable
 import ru.ttb220.presentation.model.CategoryData
 
-// TODO: replace with @Immutable data class. Causes recompositions
-typealias CategoriesScreenResource = List<CategoryData>
+@Immutable
+data class CategoriesScreenData(
+    val data: List<CategoryData>
+)

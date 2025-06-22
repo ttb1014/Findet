@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -68,7 +69,7 @@ fun TopAppBar(
                 TopAppBarIcon(
                     leadingIcon,
                     MaterialTheme.colorScheme.onSurface,
-                    Modifier.clickable (
+                    Modifier.clickable(
                         interactionSource = interactionSource,
                         indication = null,
                         onClick = onLeadingIconClick

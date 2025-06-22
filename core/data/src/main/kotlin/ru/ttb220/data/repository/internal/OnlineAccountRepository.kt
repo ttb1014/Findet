@@ -2,119 +2,61 @@ package ru.ttb220.data.repository.internal
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Instant
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.util.withRetry
-import ru.ttb220.data.util.wrapToResult
+import ru.ttb220.data.util.wrapToSafeResult
+import ru.ttb220.model.SafeResult
 import ru.ttb220.model.account.Account
 import ru.ttb220.model.account.AccountBrief
-import ru.ttb220.model.account.AccountChangeType
 import ru.ttb220.model.account.AccountDetailed
 import ru.ttb220.model.account.AccountHistory
-import ru.ttb220.model.account.AccountHistoryEntry
-import ru.ttb220.model.account.AccountState
-import ru.ttb220.model.transaction.TransactionStat
 import ru.ttb220.network.RemoteDataSource
-import ru.ttb220.network.model.AccountHistoryEntryDto
-import ru.ttb220.network.model.AccountStateDto
-import ru.ttb220.network.model.ChangeTypeDto
-import ru.ttb220.network.model.StatItemDto
-import ru.ttb220.network.model.request.AccountCreateRequest
-import ru.ttb220.network.model.response.AccountDetailedResponse
-import ru.ttb220.network.model.response.AccountHistoryResponse
-import ru.ttb220.network.model.response.AccountResponse
+import ru.ttb220.network.model.request.AccountCreateRequestDto
+import ru.ttb220.network.model.response.toAccount
+import ru.ttb220.network.model.response.toAccountDetailed
+import ru.ttb220.network.model.response.toAccountHistory
 import javax.inject.Inject
 
 internal class OnlineAccountRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
 ) : AccountsRepository {
 
-    override fun getAllAccounts(): Flow<List<Account>> = flow<List<Account>> {
+    override fun getAllAccounts(): Flow<SafeResult<List<Account>>> = flow<List<Account>> {
         emit(remoteDataSource.getAllAccounts().map { it.toAccount() })
     }.withRetry()
+        .wrapToSafeResult()
 
-    override fun createNewAccount(account: AccountBrief): Flow<Account> =
+    override fun createNewAccount(account: AccountBrief): Flow<SafeResult<Account>> =
         flow<Account> {
-            emit(remoteDataSource.createNewAccount(account.toAccountCreateRequest()).toAccount())
+            emit(remoteDataSource.createNewAccount(account.toAccountCreateRequestDto()).toAccount())
         }.withRetry()
+            .wrapToSafeResult()
 
-    override fun getAccountById(id: Int): Flow<AccountDetailed> =
+    override fun getAccountById(id: Int): Flow<SafeResult<AccountDetailed>> =
         flow<AccountDetailed> {
             emit(remoteDataSource.getAccountById(id).toAccountDetailed())
         }.withRetry()
+            .wrapToSafeResult()
 
-    override fun updateAccountById(id: Int, account: AccountBrief): Flow<Account> =
+    override fun updateAccountById(id: Int, account: AccountBrief): Flow<SafeResult<Account>> =
         flow<Account> {
             emit(
-                remoteDataSource.updateAccountById(id, account.toAccountCreateRequest()).toAccount()
+                remoteDataSource.updateAccountById(id, account.toAccountCreateRequestDto()).toAccount()
             )
         }.withRetry()
+            .wrapToSafeResult()
 
-    override fun deleteAccountById(id: Int): Flow<Unit> = flow {
+    override fun deleteAccountById(id: Int): Flow<SafeResult<Unit>> = flow {
         emit(remoteDataSource.deleteAccountById(id))
     }.withRetry()
+        .wrapToSafeResult()
 
-    override fun getAccountHistoryById(id: Int): Flow<AccountHistory> =
+    override fun getAccountHistoryById(id: Int): Flow<SafeResult<AccountHistory>> =
         flow<AccountHistory> {
             emit(remoteDataSource.getAccountHistoryById(id).toAccountHistory())
-        }.withRetry()
+        }.withRetry().wrapToSafeResult()
 }
 
-// TODO: move mappings to original class files
-private fun AccountHistoryResponse.toAccountHistory(): AccountHistory =
-    AccountHistory(accountId = accountId,
-        accountName = accountName,
-        currency = currency,
-        currentBalance = currentBalance,
-        history = history.map { it.toAccountHistoryEntry() })
-
-private fun AccountHistoryEntryDto.toAccountHistoryEntry() = AccountHistoryEntry(
-    id = id,
-    accountId = accountId,
-    changeType = changeType.toAccountChangeType(),
-    previousState = previousState?.toAccountState(),
-    newState = newState.toAccountState(),
-    changeTimestamp = changeTimeStamp,
-    createdAt = createdAt
-)
-
-private fun AccountStateDto.toAccountState(): AccountState = AccountState(
-    id = id,
-    name = name,
-    balance = balance,
-    currency = currency,
-)
-
-private fun ChangeTypeDto.toAccountChangeType(): AccountChangeType = when (this) {
-    ChangeTypeDto.CREATION -> AccountChangeType.CREATION
-    ChangeTypeDto.MODIFICATION -> AccountChangeType.MODIFICATION
-}
-
-private fun AccountDetailedResponse.toAccountDetailed(): AccountDetailed = AccountDetailed(
-    id = id,
-    name = name,
-    balance = balance,
-    currency = currency,
-    incomes = incomeStats.map { it.toTransactionStat() },
-    expenses = expenseStats.map { it.toTransactionStat() },
-    createdAt = Instant.parse(createdAt),
-    updatedAt = Instant.parse(updatedAt),
-)
-
-private fun StatItemDto.toTransactionStat() = TransactionStat(
-    categoryId = categoryId, categoryName = categoryName, emoji = emoji, amount = amount
-)
-
-private fun AccountResponse.toAccount(): Account = Account(
-    id = id,
-    userId = userId,
-    name = name,
-    balance = balance,
-    currency = currency,
-    createdAt = Instant.parse(createdAt),
-    updatedAt = Instant.parse(updatedAt),
-)
-
-fun AccountBrief.toAccountCreateRequest() = AccountCreateRequest(
+fun AccountBrief.toAccountCreateRequestDto() = AccountCreateRequestDto(
     name = name, balance = balance, currency = currency
 )
