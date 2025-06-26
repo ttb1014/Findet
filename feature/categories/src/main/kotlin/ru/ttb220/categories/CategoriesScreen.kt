@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockCategoriesScreenContent
 import ru.ttb220.presentation.model.CategoryData
 import ru.ttb220.presentation.model.screen.CategoriesScreenData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
 

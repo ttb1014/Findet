@@ -1,6 +1,5 @@
 package ru.ttb220.settings
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -26,34 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.mock.mockSettingsScreenContent
 import ru.ttb220.presentation.model.screen.SettingsScreenData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
-
-private enum class SettingsDestination(
-    @StringRes val textId: Int
-) {
-    MAIN_COLOR(
-        R.string.main_color
-    ),
-    SOUNDS(
-        R.string.sounds
-    ),
-    HAPTICS(
-        R.string.haptics
-    ),
-    PASSWORD(
-        R.string.password
-    ),
-    SYNCHRONIZATION(
-        R.string.synchronization
-    ),
-    LANGUAGE(
-        R.string.language
-    ),
-    INFO(
-        R.string.information
-    )
-}
+import ru.ttb220.presentation.ui.component.TopAppBar
 
 @Composable
 fun SettingsScreen(

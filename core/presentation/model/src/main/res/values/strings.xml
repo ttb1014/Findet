@@ -12,4 +12,34 @@
     <string name="error_timeout">Превышено время ожидания</string>
     <string name="error_unknown">Неизвестная ошибка</string>
     <string name="error_disconnected">Нет подключения к интернету</string>
+
+    <string name="expenses">Расходы</string>
+    <string name="incomes">Доходы</string>
+    <string name="account">Счет</string>
+    <string name="categories">Статьи</string>
+    <string name="settings">Настройки</string>
+
+    <string name="expenses_today">Расходы сегодня</string>
+    <string name="incomes_today">Доходы сегодня</string>
+    <string name="my_account">Мой счет</string>
+    <string name="my_history">Моя история</string>
+    <string name="new_account">Новый cчет</string>
+    <string name="my_categories">Мои статьи</string>
+
+    <string name="main_color">Основной цвет</string>
+    <string name="sounds">Звуки</string>
+    <string name="haptics">Хаптики</string>
+    <string name="password">Код пароль</string>
+    <string name="synchronization">Синхронизация</string>
+    <string name="language">Язык</string>
+    <string name="information">О программе</string>
+    <string name="find_category">Найти статью</string>
+
+    <string name="name">Название</string>
+    <string name="balance">Баланс</string>
+    <string name="currency">Валюта</string>
+
+    <string name="start">Начало</string>
+    <string name="end">Конец</string>
+    <string name="total">Сумма</string>
 </resources>

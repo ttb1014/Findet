@@ -28,7 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockHistoryScreenData
 import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.screen.HistoryScreenData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.ThreeComponentListItem
 import ru.ttb220.presentation.ui.component.DynamicIcon

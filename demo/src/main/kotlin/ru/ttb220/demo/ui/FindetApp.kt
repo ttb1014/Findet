@@ -26,7 +26,7 @@ import ru.ttb220.demo.navigation.Destination
 import ru.ttb220.demo.navigation.FindetNavHost
 import ru.ttb220.demo.navigation.FloatingActionButtonDestinations
 import ru.ttb220.presentation.model.BottomBarItemData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.BottomBarItem
 import ru.ttb220.presentation.ui.component.TopAppBar

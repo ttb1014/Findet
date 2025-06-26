@@ -10,8 +10,11 @@ import ru.ttb220.account.add.addAccountScreen
 import ru.ttb220.categories.CategoriesScreen
 import ru.ttb220.expenses.today.expensesTodayScreen
 import ru.ttb220.expenses.history.expensesHistoryScreen
+import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE
+import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.today.incomesTodayScreen
 import ru.ttb220.incomes.history.incomesHistoryScreen
+import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.mock.mockCategoriesScreenContent
 import ru.ttb220.mock.mockSettingsScreenContent
 import ru.ttb220.settings.SettingsScreen
@@ -20,7 +23,7 @@ import ru.ttb220.settings.SettingsScreen
 fun FindetNavHost(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    startRoute: String = TopLevelDestination.ACCOUNT.route
+    startRoute: String = EXPENSES_TODAY_SCREEN_ROUTE_BASE
 ) {
     NavHost(
         navController = navHostController,

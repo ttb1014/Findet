@@ -22,7 +22,7 @@ import ru.ttb220.presentation.model.BarChartData
 import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.screen.AccountScreenData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.BarChart
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
@@ -80,11 +80,6 @@ fun AccountScreenContent(
     modifier: Modifier = Modifier
 ) {
     Column {
-        TopAppBar(
-            text = stringResource(ru.ttb220.account.R.string.my_account),
-            trailingIcon = R.drawable.edit,
-            onTrailingIconClick = { },
-        )
         Column {
             BalanceItem(
                 balance = accountScreenData.balance,

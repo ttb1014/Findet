@@ -2,50 +2,41 @@ package ru.ttb220.app.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import ru.ttb220.account.common.TOP_LEVEL_ACCOUNT_ROUTE
 import ru.ttb220.account.main.ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.expenses.common.TOP_LEVEL_EXPENSES_ROUTE
+import ru.ttb220.incomes.common.TOP_LEVEL_INCOMES_ROUTE
 import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 
 enum class TopLevelDestination(
     @DrawableRes val iconId: Int,
     @StringRes val textId: Int,
-    @StringRes val topAppBarTextId: Int,
     val route: String,
-    @DrawableRes val topAppBarLeadingIconInt: Int? = null,
-    @DrawableRes val topAppBarTrailingIconInt: Int? = null,
 ) {
     EXPENSES(
         iconId = R.drawable.downtrend,
-        textId = ru.ttb220.app.R.string.expenses,
-        topAppBarTextId = ru.ttb220.app.R.string.expenses_today,
+        textId = R.string.expenses,
         route = TOP_LEVEL_EXPENSES_ROUTE,
-        topAppBarTrailingIconInt = R.drawable.history,
     ),
     INCOMES(
-        R.drawable.uptrend,
-        ru.ttb220.app.R.string.incomes,
-        ru.ttb220.app.R.string.incomes_today,
-        route = INCOMES_TODAY_SCREEN_ROUTE_BASE,
-        topAppBarTrailingIconInt = R.drawable.history,
+        iconId = R.drawable.uptrend,
+        textId = R.string.incomes,
+        route = TOP_LEVEL_INCOMES_ROUTE,
     ),
     ACCOUNT(
-        R.drawable.calculator,
-        ru.ttb220.app.R.string.account,
-        ru.ttb220.app.R.string.my_account,
-        route = ACCOUNT_SCREEN_ROUTE,
-        topAppBarTrailingIconInt = R.drawable.edit,
+        iconId = R.drawable.calculator,
+        textId = R.string.account,
+        route = TOP_LEVEL_ACCOUNT_ROUTE,
     ),
     CATEGORIES(
-        R.drawable.barchartside,
-        ru.ttb220.app.R.string.categories,
-        ru.ttb220.app.R.string.my_categories,
-        route = "articles"
+        iconId = R.drawable.barchartside,
+        textId = R.string.categories,
+        route = "categories"
     ),
     SETTINGS(
-        R.drawable.settings,
-        ru.ttb220.app.R.string.settings,
-        ru.ttb220.app.R.string.settings,
+        iconId = R.drawable.settings,
+        textId = R.string.settings,
         route = "settings"
     ),
 }

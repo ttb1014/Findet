@@ -11,10 +11,16 @@ import androidx.navigation.compose.rememberNavController
 import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.add.AddAccountViewModel
 import ru.ttb220.account.main.navigateToAccount
+import ru.ttb220.app.navigation.RouteToTabDataMapper
+import ru.ttb220.app.navigation.TopAppBarData
 import ru.ttb220.app.navigation.TopLevelDestination
+import ru.ttb220.expenses.history.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.history.navigateToExpensesHistory
+import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.today.navigateToExpensesToday
+import ru.ttb220.incomes.history.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.history.navigateToIncomesHistory
+import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.today.navigateToIncomesToday
 
 @Composable
@@ -36,7 +42,6 @@ class AppState(
     val currentRoute: String?
         @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
 
-    // Текущий активный экран
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() {
             return currentRoute?.let { route ->
@@ -85,16 +90,18 @@ class AppState(
     }
 
     @Composable
-    fun onLeadingIconClick(): () -> Unit {
-        if (currentRoute == ADD_ACCOUNT_SCREEN_ROUTE)
+    fun onTabLeadingIconClick(): () -> Unit {
+        if (currentRoute == ADD_ACCOUNT_SCREEN_ROUTE ||
+            currentRoute?.contains(EXPENSES_HISTORY_SCREEN_ROUTE_BASE) == true ||
+            currentRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true
+        )
             return { popBackStack() }
 
         return {}
     }
 
-
     @Composable
-    fun onTrailingIconClick(navBackStackEntry: NavBackStackEntry?): () -> Unit {
+    fun onTabTrailingIconClick(navBackStackEntry: NavBackStackEntry?): () -> Unit {
         if (currentRoute == ADD_ACCOUNT_SCREEN_ROUTE) {
             val viewModel = navBackStackEntry?.let { entry ->
                 val viewModel: AddAccountViewModel = hiltViewModel(entry)
@@ -107,18 +114,29 @@ class AppState(
             }
         }
 
-        return when (currentTopLevelDestination) {
-            TopLevelDestination.EXPENSES -> {
-                { navigateToHistory(false) }
-            }
-
-            TopLevelDestination.INCOMES -> {
-                { navigateToHistory(true) }
-            }
-
-            else -> {
-                { }
+        if (currentRoute?.contains(EXPENSES_TODAY_SCREEN_ROUTE_BASE) == true) {
+            return {
+                navigateToHistory(false)
             }
         }
+
+        if (currentRoute?.contains(INCOMES_TODAY_SCREEN_ROUTE_BASE) == true) {
+            return {
+                navigateToHistory(true)
+            }
+        }
+
+        return { }
+    }
+
+    @Composable
+    fun topAppBarData(): TopAppBarData? {
+        val cachedRoute = currentRoute
+        RouteToTabDataMapper.entries.forEach { (route, data) ->
+            if (cachedRoute?.contains(route) == true)
+                return data
+        }
+
+        return null
     }
 }

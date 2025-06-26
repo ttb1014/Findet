@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockIncomesScreenData
 import ru.ttb220.presentation.model.IncomeData
 import ru.ttb220.presentation.model.screen.IncomesScreenData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel

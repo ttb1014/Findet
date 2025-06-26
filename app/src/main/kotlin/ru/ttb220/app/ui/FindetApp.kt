@@ -1,5 +1,6 @@
 package ru.ttb220.app.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
@@ -30,7 +32,7 @@ import ru.ttb220.app.navigation.TopLevelDestination
 import ru.ttb220.presentation.model.BottomBarItemData
 import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.BottomBarItem
-import ru.ttb220.presentation.ui.theme.Green
+import ru.ttb220.presentation.ui.component.TopAppBar
 
 @Composable
 fun FindetApp(
@@ -41,15 +43,27 @@ fun FindetApp(
     val currentTopLevelDestination = appState.currentTopLevelDestination
     val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
 
-    val onTrailingIconClick: () -> Unit = appState.onTrailingIconClick(navBackStackEntry)
-    val onLeadingIconClick: () -> Unit = appState.onLeadingIconClick()
+    val onTrailingIconClick: () -> Unit = appState.onTabTrailingIconClick(navBackStackEntry)
+    val onLeadingIconClick: () -> Unit = appState.onTabLeadingIconClick()
+
+    val topAppBarData = appState.topAppBarData()
 
     Scaffold(
         modifier = modifier,
         topBar = {
-            Surface(
-                modifier = Modifier.background(Green)
-            ) {}
+            if(topAppBarData == null) {
+                Log.d(":SADAS", "FindetApp: :SDAS")
+            }
+
+            topAppBarData?.let {
+                TopAppBar(
+                    text = stringResource(topAppBarData.textId),
+                    leadingIcon = topAppBarData.leadingIconId,
+                    trailingIcon = topAppBarData.trailingIconId,
+                    onLeadingIconClick = onLeadingIconClick,
+                    onTrailingIconClick = onTrailingIconClick
+                )
+            }
         },
         bottomBar = {
             BottomBar(

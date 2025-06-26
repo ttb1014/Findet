@@ -27,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockHistoryScreenData
 import ru.ttb220.presentation.model.screen.HistoryScreenData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.ThreeComponentListItem
 import ru.ttb220.presentation.ui.component.DynamicIcon
@@ -98,7 +98,7 @@ fun IncomesHistoryScreenContent(
             historyScreenData.endDate
         )
         ColumnListItem(
-            title = stringResource(ru.ttb220.presentation.ui.R.string.total),
+            title = stringResource(ru.ttb220.presentation.model.R.string.total),
             modifier = Modifier.height(56.dp),
             background = GreenHighlight,
             trailingText = historyScreenData.totalAmount,
@@ -148,7 +148,7 @@ fun IncomesHistoryScreenContent(
                         }
                         Spacer(Modifier.width(16.dp))
                         Icon(
-                            painter = painterResource(ru.ttb220.presentation.ui.R.drawable.more_right),
+                            painter = painterResource(ru.ttb220.presentation.model.R.drawable.more_right),
                             contentDescription = null,
                             tint = LightGreyIconTint,
                         )

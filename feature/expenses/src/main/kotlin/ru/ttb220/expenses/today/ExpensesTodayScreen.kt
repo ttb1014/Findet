@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockExpensesScreenData
 import ru.ttb220.presentation.model.ExpenseData
 import ru.ttb220.presentation.model.screen.ExpensesScreenData
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
 import ru.ttb220.presentation.ui.component.ErrorBox
