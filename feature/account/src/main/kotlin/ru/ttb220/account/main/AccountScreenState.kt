@@ -1,4 +1,4 @@
-package ru.ttb220.account
+package ru.ttb220.account.main
 
 import androidx.annotation.StringRes
 import ru.ttb220.presentation.model.screen.AccountScreenData

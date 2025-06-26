@@ -1,4 +1,4 @@
-package ru.ttb220.account
+package ru.ttb220.account.add
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column

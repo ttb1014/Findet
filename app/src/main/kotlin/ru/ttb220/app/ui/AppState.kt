@@ -3,16 +3,19 @@ package ru.ttb220.app.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.ttb220.account.navigateToAccount
-import ru.ttb220.account.navigateToAddAccount
+import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.account.add.AddAccountViewModel
+import ru.ttb220.account.main.navigateToAccount
 import ru.ttb220.app.navigation.TopLevelDestination
-import ru.ttb220.expenses.today.navigateToExpenses
 import ru.ttb220.expenses.history.navigateToExpensesHistory
-import ru.ttb220.incomes.today.navigateToIncomes
+import ru.ttb220.expenses.today.navigateToExpensesToday
 import ru.ttb220.incomes.history.navigateToIncomesHistory
+import ru.ttb220.incomes.today.navigateToIncomesToday
 
 @Composable
 fun rememberAppState(
@@ -48,12 +51,12 @@ class AppState(
     fun navigateTo(topLevelDestination: TopLevelDestination) {
         when (topLevelDestination) {
             TopLevelDestination.EXPENSES ->
-                navHostController.navigateToExpenses(
+                navHostController.navigateToExpensesToday(
                     activeAccountId
                 )
 
             TopLevelDestination.INCOMES ->
-                navHostController.navigateToIncomes(
+                navHostController.navigateToIncomesToday(
                     activeAccountId
                 )
 
@@ -62,20 +65,11 @@ class AppState(
                     activeAccountId
                 )
 
-            TopLevelDestination.ARTICLES ->
-                navigateTo(TopLevelDestination.ARTICLES.route)
+            TopLevelDestination.CATEGORIES ->
+                navigateTo(TopLevelDestination.CATEGORIES.route)
 
             TopLevelDestination.SETTINGS ->
                 navigateTo(TopLevelDestination.SETTINGS.route)
-
-            TopLevelDestination.INCOMES_HISTORY ->
-                navHostController.navigateToIncomesHistory()
-
-            TopLevelDestination.EXPENSES_HISTORY ->
-                navHostController.navigateToExpensesHistory()
-
-            TopLevelDestination.ADD_ACCOUNT ->
-                navHostController.navigateToAddAccount()
         }
     }
 
@@ -86,7 +80,45 @@ class AppState(
         }
     }
 
-    private fun navigateTo(destination: String) {
-        navHostController.navigate(destination)
+    fun navigateTo(route: String) {
+        navHostController.navigate(route)
+    }
+
+    @Composable
+    fun onLeadingIconClick(): () -> Unit {
+        if (currentRoute == ADD_ACCOUNT_SCREEN_ROUTE)
+            return { popBackStack() }
+
+        return {}
+    }
+
+
+    @Composable
+    fun onTrailingIconClick(navBackStackEntry: NavBackStackEntry?): () -> Unit {
+        if (currentRoute == ADD_ACCOUNT_SCREEN_ROUTE) {
+            val viewModel = navBackStackEntry?.let { entry ->
+                val viewModel: AddAccountViewModel = hiltViewModel(entry)
+                viewModel
+            }
+
+            return {
+                viewModel?.onAddAccount()
+                popBackStack()
+            }
+        }
+
+        return when (currentTopLevelDestination) {
+            TopLevelDestination.EXPENSES -> {
+                { navigateToHistory(false) }
+            }
+
+            TopLevelDestination.INCOMES -> {
+                { navigateToHistory(true) }
+            }
+
+            else -> {
+                { }
+            }
+        }
     }
 }

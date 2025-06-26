@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.ttb220.account.AccountScreenContent
+import ru.ttb220.account.main.AccountScreenContent
 import ru.ttb220.categories.CategoriesScreen
 import ru.ttb220.mock.mockAccountScreenData
 import ru.ttb220.mock.mockCategoriesScreenContent

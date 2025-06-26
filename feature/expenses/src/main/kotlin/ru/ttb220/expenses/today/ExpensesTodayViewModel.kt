@@ -20,20 +20,20 @@ import ru.ttb220.presentation.model.util.NumberToStringMapper
 import javax.inject.Inject
 
 @HiltViewModel
-class ExpensesViewModel @Inject constructor(
+class ExpensesTodayViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val getTodayExpensesForActiveAccountUseCase: GetTodayExpensesForActiveAccountUseCase,
     private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,
 ) : ViewModel() {
 
-    private var _expensesScreenState: MutableStateFlow<ExpensesScreenState> =
-        MutableStateFlow(ExpensesScreenState.Loading)
-    val expensesScreenState = _expensesScreenState.asStateFlow()
+    private var _expensesTodayScreenState: MutableStateFlow<ExpensesTodayScreenState> =
+        MutableStateFlow(ExpensesTodayScreenState.Loading)
+    val expensesScreenState = _expensesTodayScreenState.asStateFlow()
 
     private fun tryLoadAndUpdateState() = viewModelScope.launch {
         val isOnline = networkMonitor.isOnline.first()
         if (!isOnline) {
-            _expensesScreenState.value = ExpensesScreenState.ErrorResource(
+            _expensesTodayScreenState.value = ExpensesTodayScreenState.ErrorResource(
                 ru.ttb220.presentation.model.R.string.error_disconnected
             )
             return@launch
@@ -47,7 +47,7 @@ class ExpensesViewModel @Inject constructor(
             .collect { transactionsResult ->
                 when (transactionsResult) {
                     is SafeResult.Failure -> {
-                        _expensesScreenState.value = ExpensesScreenState.ErrorResource(
+                        _expensesTodayScreenState.value = ExpensesTodayScreenState.ErrorResource(
                             DomainErrorMessageMapper.toMessageRes(transactionsResult.cause)
                         )
                     }
@@ -61,7 +61,7 @@ class ExpensesViewModel @Inject constructor(
 
                         // if we get an error while collecting currency code -> show error and return
                         if (currencyCodeResult is SafeResult.Failure) {
-                            _expensesScreenState.value = ExpensesScreenState.ErrorResource(
+                            _expensesTodayScreenState.value = ExpensesTodayScreenState.ErrorResource(
                                 DomainErrorMessageMapper.toMessageRes(currencyCodeResult.cause)
                             )
 
@@ -76,7 +76,7 @@ class ExpensesViewModel @Inject constructor(
                         val totalAmountString =
                             NumberToStringMapper.map(totalAmountDouble, currencySymbol)
 
-                        _expensesScreenState.value = ExpensesScreenState.Loaded(
+                        _expensesTodayScreenState.value = ExpensesTodayScreenState.Loaded(
                             data = ExpensesScreenData(
                                 transactionsResult.data.map { it.toExpenseState(currencySymbol) },
                                 totalAmount = totalAmountString

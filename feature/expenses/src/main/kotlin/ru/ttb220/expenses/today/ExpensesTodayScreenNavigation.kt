@@ -1,4 +1,4 @@
-package ru.ttb220.expenses.history
+package ru.ttb220.expenses.today
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -9,23 +9,22 @@ import androidx.navigation.navArgument
 import ru.ttb220.expenses.common.ACTIVE_ACCOUNT_ID
 import ru.ttb220.expenses.common.TOP_LEVEL_EXPENSES_ROUTE
 
-const val EXPENSES_HISTORY_SCREEN_ROUTE_BASE = "$TOP_LEVEL_EXPENSES_ROUTE/history"
-const val EXPENSES_HISTORY_SCREEN_ROUTE = EXPENSES_HISTORY_SCREEN_ROUTE_BASE + "?" +
+const val EXPENSES_TODAY_SCREEN_ROUTE_BASE = "$TOP_LEVEL_EXPENSES_ROUTE/today"
+const val EXPENSES_TODAY_SCREEN_ROUTE = EXPENSES_TODAY_SCREEN_ROUTE_BASE + "?" +
         "$ACTIVE_ACCOUNT_ID={$ACTIVE_ACCOUNT_ID}"
 
-fun NavController.navigateToExpensesHistory(
+fun NavController.navigateToExpensesToday(
     accountId: Int? = null,
     navOptions: NavOptions? = null
 ) {
-    val route = EXPENSES_HISTORY_SCREEN_ROUTE_BASE + "?" +
+    val route = EXPENSES_TODAY_SCREEN_ROUTE_BASE + "?" +
             "$ACTIVE_ACCOUNT_ID=$accountId"
-
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.expensesHistoryScreen() {
+fun NavGraphBuilder.expensesTodayScreen() {
     composable(
-        route = EXPENSES_HISTORY_SCREEN_ROUTE,
+        route = EXPENSES_TODAY_SCREEN_ROUTE,
         arguments = listOf(
             navArgument(ACTIVE_ACCOUNT_ID) {
                 type = NavType.StringType
@@ -34,6 +33,6 @@ fun NavGraphBuilder.expensesHistoryScreen() {
             },
         ),
     ) {
-        ExpensesHistoryScreen()
+        ExpensesTodayScreen()
     }
 }

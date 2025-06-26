@@ -1,13 +1,12 @@
-package ru.ttb220.account
+package ru.ttb220.account.add
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import ru.ttb220.account.common.TOP_LEVEL_ACCOUNT_ROUTE
 
-const val ADD_ACCOUNT_SCREEN_ROUTE = "account/add"
+const val ADD_ACCOUNT_SCREEN_ROUTE = "$TOP_LEVEL_ACCOUNT_ROUTE/add"
 
 fun NavController.navigateToAddAccount(
     navOptions: NavOptions? = null
@@ -16,7 +15,7 @@ fun NavController.navigateToAddAccount(
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.addAccountScreen(navController: NavController? = null) {
+fun NavGraphBuilder.addAccountScreen() {
     composable(
         route = ADD_ACCOUNT_SCREEN_ROUTE,
     ) {

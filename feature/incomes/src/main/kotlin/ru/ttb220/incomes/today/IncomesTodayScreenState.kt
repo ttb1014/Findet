@@ -5,18 +5,18 @@ import androidx.compose.runtime.Immutable
 import ru.ttb220.presentation.model.screen.IncomesScreenData
 
 @Immutable
-sealed interface IncomesScreenState {
-    data object Loading : IncomesScreenState
+sealed interface IncomesTodayScreenState {
+    data object Loading : IncomesTodayScreenState
 
     data class Loaded(
         val data: IncomesScreenData
-    ) : IncomesScreenState
+    ) : IncomesTodayScreenState
 
     data class Error(
         val message: String
-    ) : IncomesScreenState
+    ) : IncomesTodayScreenState
 
     data class ErrorResource(
         @StringRes val messageId: Int
-    ) : IncomesScreenState
+    ) : IncomesTodayScreenState
 }

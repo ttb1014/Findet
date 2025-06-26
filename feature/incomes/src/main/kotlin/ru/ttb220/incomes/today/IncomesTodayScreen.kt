@@ -25,37 +25,37 @@ import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 
 @Composable
-fun IncomesScreen(
+fun IncomesTodayScreen(
     modifier: Modifier = Modifier,
-    viewModel: IncomesVewModel = hiltViewModel(),
+    viewModel: IncomesTodayVewModel = hiltViewModel(),
 ) {
-    val incomesScreenState: IncomesScreenState by viewModel.incomesScreenState.collectAsStateWithLifecycle()
+    val incomesTodayScreenState: IncomesTodayScreenState by viewModel.incomesScreenState.collectAsStateWithLifecycle()
 
-    when (incomesScreenState) {
-        is IncomesScreenState.Error -> Box(
+    when (incomesTodayScreenState) {
+        is IncomesTodayScreenState.Error -> Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             ErrorBox(
-                message = (incomesScreenState as IncomesScreenState.Error).message,
+                message = (incomesTodayScreenState as IncomesTodayScreenState.Error).message,
             )
         }
 
-        is IncomesScreenState.ErrorResource -> Box(
+        is IncomesTodayScreenState.ErrorResource -> Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             ErrorBox(
-                messageId = (incomesScreenState as IncomesScreenState.ErrorResource).messageId,
+                messageId = (incomesTodayScreenState as IncomesTodayScreenState.ErrorResource).messageId,
             )
         }
 
-        is IncomesScreenState.Loaded -> IncomesScreenContent(
-            incomesScreenData = (incomesScreenState as IncomesScreenState.Loaded).data,
+        is IncomesTodayScreenState.Loaded -> IncomesTodayScreenContent(
+            incomesScreenData = (incomesTodayScreenState as IncomesTodayScreenState.Loaded).data,
             modifier = modifier
         )
 
-        IncomesScreenState.Loading -> Box(
+        IncomesTodayScreenState.Loading -> Box(
             Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -65,7 +65,7 @@ fun IncomesScreen(
 }
 
 @Composable
-fun IncomesScreenContent(
+fun IncomesTodayScreenContent(
     incomesScreenData: IncomesScreenData,
     modifier: Modifier = Modifier
 ) {
@@ -103,8 +103,8 @@ private fun TotalAmountHeader(
 
 @Preview
 @Composable
-private fun IncomesScreenPreview() {
-    IncomesScreenContent(
+private fun IncomesTodayScreenPreview() {
+    IncomesTodayScreenContent(
         incomesScreenData = mockIncomesScreenData,
     )
 }

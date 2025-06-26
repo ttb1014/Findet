@@ -26,39 +26,39 @@ import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 
 @Composable
-fun ExpensesScreen(
+fun ExpensesTodayScreen(
     modifier: Modifier = Modifier,
-    viewModel: ExpensesViewModel = hiltViewModel(),
+    viewModel: ExpensesTodayViewModel = hiltViewModel(),
 ) {
-    val expensesScreenState: ExpensesScreenState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
+    val expensesTodayScreenState: ExpensesTodayScreenState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
 
-    when (expensesScreenState) {
-        is ExpensesScreenState.Error -> Box(
+    when (expensesTodayScreenState) {
+        is ExpensesTodayScreenState.Error -> Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             ErrorBox(
-                message = (expensesScreenState as ExpensesScreenState.Error).message,
+                message = (expensesTodayScreenState as ExpensesTodayScreenState.Error).message,
                 modifier = Modifier,
             )
         }
 
-        is ExpensesScreenState.ErrorResource -> Box(
+        is ExpensesTodayScreenState.ErrorResource -> Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             ErrorBox(
-                messageId = (expensesScreenState as ExpensesScreenState.ErrorResource).messageId,
+                messageId = (expensesTodayScreenState as ExpensesTodayScreenState.ErrorResource).messageId,
                 modifier = Modifier,
             )
         }
 
-        is ExpensesScreenState.Loaded -> ExpensesScreenContent(
-            expensesScreenData = (expensesScreenState as ExpensesScreenState.Loaded).data,
+        is ExpensesTodayScreenState.Loaded -> ExpensesTodayScreenContent(
+            expensesScreenData = (expensesTodayScreenState as ExpensesTodayScreenState.Loaded).data,
             modifier = modifier
         )
 
-        ExpensesScreenState.Loading -> Box(
+        ExpensesTodayScreenState.Loading -> Box(
             Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -69,7 +69,7 @@ fun ExpensesScreen(
 
 // TODO: Переделать на LazyColumn. Должен ли фиксироваться item с общей суммой?
 @Composable
-fun ExpensesScreenContent(
+fun ExpensesTodayScreenContent(
     expensesScreenData: ExpensesScreenData,
     modifier: Modifier = Modifier
 ) {
@@ -133,7 +133,7 @@ private fun ExpenseColumnItem(
 @Preview
 @Composable
 private fun ExpensesListPreview() {
-    ExpensesScreenContent(
+    ExpensesTodayScreenContent(
         expensesScreenData = mockExpensesScreenData,
         modifier = Modifier,
     )
@@ -142,5 +142,5 @@ private fun ExpensesListPreview() {
 @Preview
 @Composable
 private fun ExpensesScreenPreview() {
-    ExpensesScreen()
+    ExpensesTodayScreen()
 }

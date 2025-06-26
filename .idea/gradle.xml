@@ -26,9 +26,7 @@
             <option value="$PROJECT_DIR$/feature/account" />
             <option value="$PROJECT_DIR$/feature/categories" />
             <option value="$PROJECT_DIR$/feature/expenses" />
-            <option value="$PROJECT_DIR$/feature/expenses_history" />
             <option value="$PROJECT_DIR$/feature/incomes" />
-            <option value="$PROJECT_DIR$/feature/incomes_history" />
             <option value="$PROJECT_DIR$/feature/settings" />
           </set>
         </option>

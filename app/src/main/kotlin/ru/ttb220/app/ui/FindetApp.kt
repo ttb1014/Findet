@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -20,78 +21,49 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
-import ru.ttb220.account.AddAccountViewModel
+import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.app.navigation.FabRoutes
 import ru.ttb220.app.navigation.FindetNavHost
-import ru.ttb220.app.navigation.FloatingActionButtonDestinations
 import ru.ttb220.app.navigation.TopLevelDestination
 import ru.ttb220.presentation.model.BottomBarItemData
-import ru.ttb220.presentation.ui.component.BottomBarItem
 import ru.ttb220.presentation.ui.component.AddFab
-import ru.ttb220.presentation.ui.component.TopAppBar
+import ru.ttb220.presentation.ui.component.BottomBarItem
+import ru.ttb220.presentation.ui.theme.Green
 
 @Composable
 fun FindetApp(
     appState: AppState,
     modifier: Modifier = Modifier
 ) {
+    val currentRoute = appState.currentRoute
     val currentTopLevelDestination = appState.currentTopLevelDestination
     val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
-    val viewModel = navBackStackEntry?.let { entry ->
-        val viewModel: AddAccountViewModel = hiltViewModel(entry)
-        viewModel
-    }
+
+    val onTrailingIconClick: () -> Unit = appState.onTrailingIconClick(navBackStackEntry)
+    val onLeadingIconClick: () -> Unit = appState.onLeadingIconClick()
 
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
-                text = currentTopLevelDestination?.let {
-                    stringResource(it.topAppBarTextId)
-                } ?: "",
-                leadingIcon = currentTopLevelDestination?.topAppBarLeadingIconInt,
-                trailingIcon = currentTopLevelDestination?.topAppBarTrailingIconInt,
-                onLeadingIconClick = {
-                    when (currentTopLevelDestination) {
-                        TopLevelDestination.ADD_ACCOUNT -> appState.popBackStack()
-                        else -> {}
-                    }
-                },
-                onTrailingIconClick = {
-                    when (currentTopLevelDestination) {
-                        TopLevelDestination.ADD_ACCOUNT -> {
-                            viewModel?.onAddAccount()
-                            appState.popBackStack()
-                        }
-
-                        TopLevelDestination.EXPENSES -> appState.navigateToHistory(false)
-                        TopLevelDestination.INCOMES -> appState.navigateToHistory(true)
-                        TopLevelDestination.ACCOUNT -> {}
-                        else -> {}
-                    }
-                },
-            )
+            Surface(
+                modifier = Modifier.background(Green)
+            ) {}
         },
         bottomBar = {
             BottomBar(
-                destinations = TopLevelDestination.entries.filter {
-                    it != TopLevelDestination.EXPENSES_HISTORY &&
-                            it != TopLevelDestination.INCOMES_HISTORY &&
-                            it != TopLevelDestination.ADD_ACCOUNT
-                },
+                destinations = TopLevelDestination.entries,
                 currentTopLevelDestination = appState.currentTopLevelDestination,
                 onNavigateTo = appState::navigateTo
             )
         },
         floatingActionButton = {
-            if (FloatingActionButtonDestinations.contains(appState.currentTopLevelDestination))
-                AddFab() {
+            if (FabRoutes.any { currentRoute?.contains(it) == true })
+                AddFab {
                     when (currentTopLevelDestination) {
                         TopLevelDestination.ACCOUNT ->
-                            appState.navigateTo(TopLevelDestination.ADD_ACCOUNT)
+                            appState.navigateTo(ADD_ACCOUNT_SCREEN_ROUTE)
 
                         else -> {}
                     }
@@ -104,7 +76,12 @@ fun FindetApp(
             navHostController = appState.navHostController,
             modifier = Modifier
                 .padding(padding)
-                .consumeWindowInsets(padding),
+                .consumeWindowInsets(padding)
+                .windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(
+                        WindowInsetsSides.Horizontal,
+                    ),
+                ),
         )
     }
 }
@@ -113,8 +90,8 @@ fun FindetApp(
 private fun BottomBar(
     destinations: List<TopLevelDestination>,
     currentTopLevelDestination: TopLevelDestination?,
-    onNavigateTo: (TopLevelDestination) -> Unit = {},
     modifier: Modifier = Modifier,
+    onNavigateTo: (TopLevelDestination) -> Unit = {},
 ) {
     Surface(
         modifier = modifier.windowInsetsPadding(
@@ -130,31 +107,11 @@ private fun BottomBar(
             horizontalArrangement = Arrangement.Start,
         ) {
             destinations.forEachIndexed { index, topLevelDestination ->
-                var isSelected = currentTopLevelDestination == topLevelDestination
-
-                if (currentTopLevelDestination == TopLevelDestination.INCOMES_HISTORY &&
-                    topLevelDestination == TopLevelDestination.INCOMES
-                ) {
-                    isSelected = true
-                }
-
-                if (currentTopLevelDestination == TopLevelDestination.EXPENSES_HISTORY &&
-                    topLevelDestination == TopLevelDestination.EXPENSES
-                ) {
-                    isSelected = true
-                }
-
-                if (currentTopLevelDestination == TopLevelDestination.ADD_ACCOUNT &&
-                    topLevelDestination == TopLevelDestination.ACCOUNT
-                ) {
-                    isSelected = true
-                }
-
                 val bottomBarItemData = BottomBarItemData(
                     route = topLevelDestination.route,
                     iconId = topLevelDestination.iconId,
                     textId = topLevelDestination.textId,
-                    isSelected = isSelected
+                    isSelected = currentTopLevelDestination == topLevelDestination
                 )
 
                 BottomBarItem(

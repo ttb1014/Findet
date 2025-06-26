@@ -1,4 +1,4 @@
-package ru.ttb220.account
+package ru.ttb220.account.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +12,7 @@ import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.SettingsRepository
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.CurrencyData
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.AccountScreenData
 import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class AccountViewModel @Inject constructor(
         val isOnline = networkMonitor.isOnline.first()
         if (!isOnline) {
             _accountScreenState.value = AccountScreenState.ErrorResource(
-                ru.ttb220.presentation.model.R.string.error_disconnected
+                R.string.error_disconnected
             )
             return@launch
         }
@@ -50,7 +51,7 @@ class AccountViewModel @Inject constructor(
                 is SafeResult.Success -> {
                     _accountScreenState.value = AccountScreenState.Loaded(
                         data = AccountScreenData(
-                            leadingIconId = ru.ttb220.presentation.model.R.drawable.money_bag,
+                            leadingIconId = R.drawable.money_bag,
                             balance = accountDetailedResult.data.balance,
                             currencyData = CurrencyData.RUSSIAN_RUBLE
                         )

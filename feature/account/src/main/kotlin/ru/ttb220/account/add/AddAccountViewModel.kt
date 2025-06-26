@@ -1,4 +1,4 @@
-package ru.ttb220.account
+package ru.ttb220.account.add
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

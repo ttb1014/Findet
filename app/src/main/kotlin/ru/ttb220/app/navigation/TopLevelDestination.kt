@@ -2,10 +2,9 @@ package ru.ttb220.app.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import ru.ttb220.account.ACCOUNT_SCREEN_ROUTE
-import ru.ttb220.account.ADD_ACCOUNT_SCREEN_ROUTE
-import ru.ttb220.expenses.today.EXPENSES_SCREEN_ROUTE
-import ru.ttb220.incomes.today.INCOMES_SCREEN_ROUTE
+import ru.ttb220.account.main.ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.expenses.common.TOP_LEVEL_EXPENSES_ROUTE
+import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.presentation.ui.R
 
 enum class TopLevelDestination(
@@ -20,14 +19,14 @@ enum class TopLevelDestination(
         iconId = R.drawable.downtrend,
         textId = ru.ttb220.app.R.string.expenses,
         topAppBarTextId = ru.ttb220.app.R.string.expenses_today,
-        route = EXPENSES_SCREEN_ROUTE,
+        route = TOP_LEVEL_EXPENSES_ROUTE,
         topAppBarTrailingIconInt = R.drawable.history,
     ),
     INCOMES(
         R.drawable.uptrend,
         ru.ttb220.app.R.string.incomes,
         ru.ttb220.app.R.string.incomes_today,
-        route = INCOMES_SCREEN_ROUTE,
+        route = INCOMES_TODAY_SCREEN_ROUTE_BASE,
         topAppBarTrailingIconInt = R.drawable.history,
     ),
     ACCOUNT(
@@ -37,7 +36,7 @@ enum class TopLevelDestination(
         route = ACCOUNT_SCREEN_ROUTE,
         topAppBarTrailingIconInt = R.drawable.edit,
     ),
-    ARTICLES(
+    CATEGORIES(
         R.drawable.barchartside,
         ru.ttb220.app.R.string.categories,
         ru.ttb220.app.R.string.my_categories,
@@ -49,31 +48,4 @@ enum class TopLevelDestination(
         ru.ttb220.app.R.string.settings,
         route = "settings"
     ),
-    INCOMES_HISTORY(
-        topAppBarTextId = ru.ttb220.app.R.string.my_history,
-        iconId = R.drawable.cross,
-        textId = ru.ttb220.app.R.string.my_history,
-        route = "incomes_history"
-    ),
-    EXPENSES_HISTORY(
-        topAppBarTextId = ru.ttb220.app.R.string.my_history,
-        iconId = R.drawable.cross,
-        textId = ru.ttb220.app.R.string.my_history,
-        route = "expenses_history"
-    ),
-    ADD_ACCOUNT(
-        iconId = R.drawable.cross,
-        textId = ru.ttb220.app.R.string.new_account,
-        topAppBarTextId = ru.ttb220.app.R.string.new_account,
-        route = ADD_ACCOUNT_SCREEN_ROUTE,
-        topAppBarLeadingIconInt = R.drawable.cross,
-        topAppBarTrailingIconInt = R.drawable.check
-    )
 }
-
-// Экраны, на которых отображается FloatingActionButton
-val FloatingActionButtonDestinations = listOf(
-    TopLevelDestination.EXPENSES,
-    TopLevelDestination.INCOMES,
-    TopLevelDestination.ACCOUNT,
-)

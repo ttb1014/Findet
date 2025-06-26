@@ -20,20 +20,20 @@ import ru.ttb220.presentation.model.util.NumberToStringMapper
 import javax.inject.Inject
 
 @HiltViewModel
-class IncomesVewModel @Inject constructor(
+class IncomesTodayVewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val getTodayIncomesForActiveAccountUseCase: GetTodayIncomesForActiveAccountUseCase,
     private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,
 ) : ViewModel() {
 
-    private var _incomesScreenState: MutableStateFlow<IncomesScreenState> =
-        MutableStateFlow(IncomesScreenState.Loading)
-    val incomesScreenState = _incomesScreenState.asStateFlow()
+    private var _incomesTodayScreenState: MutableStateFlow<IncomesTodayScreenState> =
+        MutableStateFlow(IncomesTodayScreenState.Loading)
+    val incomesScreenState = _incomesTodayScreenState.asStateFlow()
 
     private fun tryLoadAndUpdateState() = viewModelScope.launch {
         val isOnline = networkMonitor.isOnline.first()
         if (!isOnline) {
-            _incomesScreenState.value = IncomesScreenState.ErrorResource(
+            _incomesTodayScreenState.value = IncomesTodayScreenState.ErrorResource(
                 ru.ttb220.presentation.model.R.string.error_disconnected
             )
             return@launch
@@ -47,7 +47,7 @@ class IncomesVewModel @Inject constructor(
             .collect { transactionsResult ->
                 when (transactionsResult) {
                     is SafeResult.Failure -> {
-                        _incomesScreenState.value = IncomesScreenState.ErrorResource(
+                        _incomesTodayScreenState.value = IncomesTodayScreenState.ErrorResource(
                             DomainErrorMessageMapper.toMessageRes(transactionsResult.cause)
                         )
                     }
@@ -61,7 +61,7 @@ class IncomesVewModel @Inject constructor(
 
                         // if we get an error while collecting currency code -> show error and return
                         if (currencyCodeResult is SafeResult.Failure) {
-                            _incomesScreenState.value = IncomesScreenState.ErrorResource(
+                            _incomesTodayScreenState.value = IncomesTodayScreenState.ErrorResource(
                                 DomainErrorMessageMapper.toMessageRes(currencyCodeResult.cause)
                             )
 
@@ -76,7 +76,7 @@ class IncomesVewModel @Inject constructor(
                         val totalAmountString =
                             NumberToStringMapper.map(totalAmountDouble, currencySymbol)
 
-                        _incomesScreenState.value = IncomesScreenState.Loaded(
+                        _incomesTodayScreenState.value = IncomesTodayScreenState.Loaded(
                             data = IncomesScreenData(
                                 transactionsResult.data.map { it.toIncomeData(currencySymbol) },
                                 totalAmount = totalAmountString

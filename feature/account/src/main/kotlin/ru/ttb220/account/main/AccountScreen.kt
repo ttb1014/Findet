@@ -1,4 +1,4 @@
-package ru.ttb220.account
+package ru.ttb220.account.main
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,15 +19,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.mock.mockAccountScreenData
 import ru.ttb220.mock.mockBarChartData
 import ru.ttb220.presentation.model.BarChartData
-import ru.ttb220.presentation.model.screen.AccountScreenData
 import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.model.EmojiData
+import ru.ttb220.presentation.model.screen.AccountScreenData
 import ru.ttb220.presentation.ui.R
 import ru.ttb220.presentation.ui.component.BarChart
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
 import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel
+import ru.ttb220.presentation.ui.component.TopAppBar
 import ru.ttb220.presentation.ui.theme.Green
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 import ru.ttb220.presentation.ui.theme.Orange
@@ -78,6 +80,11 @@ fun AccountScreenContent(
     modifier: Modifier = Modifier
 ) {
     Column {
+        TopAppBar(
+            text = stringResource(ru.ttb220.account.R.string.my_account),
+            trailingIcon = R.drawable.edit,
+            onTrailingIconClick = { },
+        )
         Column {
             BalanceItem(
                 balance = accountScreenData.balance,
