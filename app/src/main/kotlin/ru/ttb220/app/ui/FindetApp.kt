@@ -56,7 +56,10 @@ fun FindetApp(
             BottomBar(
                 destinations = TopLevelDestination.entries,
                 currentTopLevelDestination = currentTopLevelDestination,
-                onNavigateTo = appState::navigateTo
+                onNavigateTo = {
+                    if (currentTopLevelDestination != it)
+                        appState.navigateTo(it)
+                }
             )
         },
         floatingActionButton = {
