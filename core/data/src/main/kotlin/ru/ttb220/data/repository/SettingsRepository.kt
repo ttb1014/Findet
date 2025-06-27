@@ -3,7 +3,7 @@ package ru.ttb220.data.repository
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Each method provides either wrapped data or wrapped domain error.
+ * Each method provides either wrapped data or wrapped domain error. Emits single value.
  */
 interface SettingsRepository {
 
