@@ -7,6 +7,9 @@ import ru.ttb220.model.account.AccountBrief
 import ru.ttb220.model.account.AccountDetailed
 import ru.ttb220.model.account.AccountHistory
 
+/**
+ * Each method provides either wrapped data or wrapped domain error.
+ */
 interface AccountsRepository {
     fun getAllAccounts(): Flow<SafeResult<List<Account>>>
 

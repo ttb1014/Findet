@@ -65,6 +65,8 @@ class IncomesHistoryViewModel @Inject constructor(
                             )
                     }
 
+                    // calculate total amount -> convert it to string using mapper from presentation/model/mapper ->
+                    // update ui state
                     is SafeResult.Success -> {
                         val totalAmountDouble =
                             transactionsResult.data.fold(0.0) { acc, transaction ->

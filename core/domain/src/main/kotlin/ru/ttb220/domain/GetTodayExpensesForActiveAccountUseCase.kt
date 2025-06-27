@@ -10,7 +10,7 @@ import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
 import javax.inject.Inject
 
-@Deprecated("Use GetTransactionsForActiveAccountPeriodUseCase")
+// we may use GetTransactionsForActiveAccountPeriodUseCase instead
 class GetTodayExpensesForActiveAccountUseCase @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val settingsRepository: SettingsRepository,

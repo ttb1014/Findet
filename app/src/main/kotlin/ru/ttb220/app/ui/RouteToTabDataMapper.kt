@@ -1,4 +1,4 @@
-package ru.ttb220.app.navigation
+package ru.ttb220.app.ui
 
 import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.main.ACCOUNT_SCREEN_ROUTE_BASE
@@ -8,6 +8,9 @@ import ru.ttb220.incomes.history.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.presentation.model.R
 
+// #INVESTIGATE we may want to define top app bar visuals for each screen in feature module
+
+// maps screen route to its visual
 val RouteToTabTextMapper = mapOf(
     EXPENSES_TODAY_SCREEN_ROUTE_BASE to R.string.expenses_today,
     INCOMES_TODAY_SCREEN_ROUTE_BASE to R.string.incomes_today,
@@ -19,6 +22,7 @@ val RouteToTabTextMapper = mapOf(
     "settings" to R.string.settings,
 )
 
+// maps screen route to its visual
 val RouteToTabLeadingIconMapper = mapOf(
     EXPENSES_TODAY_SCREEN_ROUTE_BASE to null,
     INCOMES_TODAY_SCREEN_ROUTE_BASE to null,
@@ -30,6 +34,7 @@ val RouteToTabLeadingIconMapper = mapOf(
     "settings" to null,
 )
 
+// maps screen route to its visual
 val RouteToTabTrailingIconMapper = mapOf(
     EXPENSES_TODAY_SCREEN_ROUTE_BASE to R.drawable.history,
     INCOMES_TODAY_SCREEN_ROUTE_BASE to R.drawable.history,
@@ -41,6 +46,7 @@ val RouteToTabTrailingIconMapper = mapOf(
     "settings" to null,
 )
 
+// maps screen route to its visuals
 val RouteToTabDataMapper = RouteToTabTextMapper.mapValues { (route, _) ->
     TopAppBarData(
         RouteToTabTextMapper[route]!!,

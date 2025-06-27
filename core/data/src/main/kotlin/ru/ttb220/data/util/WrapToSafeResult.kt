@@ -14,6 +14,9 @@ import ru.ttb220.network.exception.NotFoundException
 import ru.ttb220.network.exception.ServerErrorException
 import ru.ttb220.network.exception.UnauthorizedException
 
+/**
+ * Wraps either data to Success or exception to Failure with mapping to available domain errors
+ */
 fun <T> Flow<T>.wrapToSafeResult(): Flow<SafeResult<T>> =
     this
         .map<T, SafeResult<T>> {

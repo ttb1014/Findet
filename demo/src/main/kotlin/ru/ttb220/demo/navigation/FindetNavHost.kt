@@ -12,8 +12,8 @@ import ru.ttb220.mock.mockCategoriesScreenContent
 import ru.ttb220.mock.mockExpensesScreenData
 import ru.ttb220.mock.mockIncomesScreenData
 import ru.ttb220.mock.mockSettingsScreenContent
-import ru.ttb220.expenses.ExpensesScreenContent
-import ru.ttb220.incomes.IncomesScreenContent
+import ru.ttb220.expenses.today.ExpensesTodayScreenContent
+import ru.ttb220.incomes.today.IncomesTodayScreenContent
 import ru.ttb220.settings.SettingsScreen
 
 @Composable
@@ -30,14 +30,14 @@ fun FindetNavHost(
         composable(
             route = Destination.EXPENSES.name
         ) {
-            ExpensesScreenContent(
+            ExpensesTodayScreenContent(
                 expensesScreenData = mockExpensesScreenData,
             )
         }
         composable(
             route = Destination.INCOMES.name
         ) {
-            IncomesScreenContent(
+            IncomesTodayScreenContent(
                 incomesScreenData = mockIncomesScreenData,
             )
         }

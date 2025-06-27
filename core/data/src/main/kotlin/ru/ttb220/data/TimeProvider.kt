@@ -4,6 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 
+/**
+ * Provides time. Emits value only once on each collect block
+ */
 interface TimeProvider {
 
     fun now(): Flow<Instant>

@@ -3,6 +3,7 @@ package ru.ttb220.settings
 import androidx.annotation.StringRes
 import ru.ttb220.presentation.model.R
 
+// may be converted to nested graph navigation in future
 enum class SettingsDestination(
     @StringRes val textId: Int
 ) {

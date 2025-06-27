@@ -7,6 +7,9 @@ import ru.ttb220.model.transaction.Transaction
 import ru.ttb220.model.transaction.TransactionBrief
 import ru.ttb220.model.transaction.TransactionDetailed
 
+/**
+ * Each method provides either wrapped data or wrapped domain error.
+ */
 interface TransactionsRepository {
     fun createNewTransaction(transaction: TransactionBrief): Flow<SafeResult<Transaction>>
 

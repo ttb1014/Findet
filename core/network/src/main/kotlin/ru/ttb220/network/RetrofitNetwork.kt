@@ -25,7 +25,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Все доступные запросы к серверу
+ * List of all available endpoints
  */
 internal interface NetworkApi {
     @GET("accounts")
@@ -104,11 +104,11 @@ internal class RetrofitNetwork @Inject constructor(
 
     private val networkApi = Retrofit.Builder()
         .baseUrl(DEFAULT_API_URL)
-        // Фабирка запросов к сети. Токен подставляется автоматически.
+        // Token is injected automatically
         .callFactory {
             okhttpCallFactory.get().newCall(it)
         }
-        // Конвертер из/в JSON Kotlin-классов
+        // Converts JSON to Kotlin class and vice versa
         .addConverterFactory(
             networkJson.asConverterFactory(
                 DEFAULT_MEDIA_TYPE.toMediaType()

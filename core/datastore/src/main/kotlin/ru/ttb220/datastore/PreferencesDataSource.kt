@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Implements preferences management. Not used yet
+ */
 class PreferencesDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {

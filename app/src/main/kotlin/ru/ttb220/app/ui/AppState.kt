@@ -11,9 +11,8 @@ import androidx.navigation.compose.rememberNavController
 import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.add.AddAccountViewModel
 import ru.ttb220.account.main.navigateToAccount
-import ru.ttb220.app.navigation.RouteToTabDataMapper
-import ru.ttb220.app.navigation.TopAppBarData
 import ru.ttb220.app.navigation.TopLevelDestination
+import ru.ttb220.categories.navigateToCategories
 import ru.ttb220.expenses.history.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.history.navigateToExpensesHistory
 import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE_BASE
@@ -22,6 +21,7 @@ import ru.ttb220.incomes.history.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.history.navigateToIncomesHistory
 import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.today.navigateToIncomesToday
+import ru.ttb220.settings.navigateToSettings
 
 @Composable
 fun rememberAppState(
@@ -34,6 +34,11 @@ fun rememberAppState(
     )
 }
 
+/**
+ * holds app's data, contains methods for navigation.
+ * Probably we want to move navigation logic to viewModel, but that would only overcomplicate code, since navigation
+ * is delegated to feature's implementation
+ */
 @Stable
 class AppState(
     val activeAccountId: Int?,
@@ -71,14 +76,14 @@ class AppState(
                 )
 
             TopLevelDestination.CATEGORIES ->
-                navigateTo(TopLevelDestination.CATEGORIES.route)
+                navHostController.navigateToCategories()
 
             TopLevelDestination.SETTINGS ->
-                navigateTo(TopLevelDestination.SETTINGS.route)
+                navHostController.navigateToSettings()
         }
     }
 
-    fun navigateToHistory(isIncome: Boolean) {
+    private fun navigateToHistory(isIncome: Boolean) {
         when (isIncome) {
             true -> navHostController.navigateToIncomesHistory()
             false -> navHostController.navigateToExpensesHistory()
@@ -91,52 +96,87 @@ class AppState(
 
     @Composable
     fun onTabLeadingIconClick(): () -> Unit {
-        if (currentRoute == ADD_ACCOUNT_SCREEN_ROUTE ||
-            currentRoute?.contains(EXPENSES_HISTORY_SCREEN_ROUTE_BASE) == true ||
-            currentRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true
-        )
-            return { popBackStack() }
+        val cachedRoute = currentRoute
 
-        return {}
+        // return appropriate TAB callback for each possible route
+        if (cachedRoute == ADD_ACCOUNT_SCREEN_ROUTE ||
+            cachedRoute?.contains(EXPENSES_HISTORY_SCREEN_ROUTE_BASE) == true ||
+            cachedRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true
+        )
+            return remember(cachedRoute) { { popBackStack() } }
+
+        return remember(cachedRoute) { {} }
     }
 
     @Composable
     fun onTabTrailingIconClick(navBackStackEntry: NavBackStackEntry?): () -> Unit {
-        if (currentRoute == ADD_ACCOUNT_SCREEN_ROUTE) {
+        val cachedRoute = currentRoute
+
+        // return appropriate TAB callback for each possible route
+        if (cachedRoute == ADD_ACCOUNT_SCREEN_ROUTE) {
             val viewModel = navBackStackEntry?.let { entry ->
                 val viewModel: AddAccountViewModel = hiltViewModel(entry)
                 viewModel
             }
 
-            return {
-                viewModel?.onAddAccount()
-                popBackStack()
+            return remember(cachedRoute) {
+                {
+                    viewModel?.onAddAccount()
+                    popBackStack()
+                }
             }
         }
 
-        if (currentRoute?.contains(EXPENSES_TODAY_SCREEN_ROUTE_BASE) == true) {
-            return {
-                navigateToHistory(false)
+        if (cachedRoute?.contains(EXPENSES_TODAY_SCREEN_ROUTE_BASE) == true) {
+            return remember(cachedRoute) {
+                {
+                    navigateToHistory(false)
+                }
             }
         }
 
-        if (currentRoute?.contains(INCOMES_TODAY_SCREEN_ROUTE_BASE) == true) {
-            return {
-                navigateToHistory(true)
+        if (cachedRoute?.contains(INCOMES_TODAY_SCREEN_ROUTE_BASE) == true) {
+            return remember(cachedRoute) {
+                {
+                    navigateToHistory(true)
+                }
             }
         }
 
-        return { }
+        return remember(cachedRoute) { { } }
     }
 
     @Composable
     fun topAppBarData(): TopAppBarData? {
         val cachedRoute = currentRoute
+
+        // if mapper contains information of visuals for route -> remember and return
         RouteToTabDataMapper.entries.forEach { (route, data) ->
             if (cachedRoute?.contains(route) == true)
-                return data
+                return remember(cachedRoute) { data }
         }
 
-        return null
+        // while splash screen is shown, currentRoute is null
+        return remember(cachedRoute) { null }
+    }
+
+    // same as top bar callbacks
+    @Composable
+    fun fabOnClick(): () -> Unit {
+        val cachedTopLevelDestination = currentTopLevelDestination
+
+        return remember(cachedTopLevelDestination) {
+            when (cachedTopLevelDestination) {
+                TopLevelDestination.ACCOUNT -> {
+                    {
+                        navigateTo(ADD_ACCOUNT_SCREEN_ROUTE)
+                    }
+                }
+
+                else -> {
+                    {}
+                }
+            }
+        }
     }
 }

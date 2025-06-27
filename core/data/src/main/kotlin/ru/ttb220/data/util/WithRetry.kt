@@ -9,6 +9,9 @@ import ru.ttb220.network.exception.ServerErrorException
 const val DEFAULT_RETRY_ATTEMPTS = 3L
 const val DEFAULT_RETRY_DELAY = 2000L
 
+/**
+ * Policy of retrying a call after ServerErrorException (500 code)
+ */
 val DEFAULT_RETRY_POLICY = fun(throwable: Throwable): Boolean {
     if (throwable is ServerErrorException)
         return true
