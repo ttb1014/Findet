@@ -11,8 +11,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.ttb220.model.exception.ApiException
-import ru.ttb220.network.model.request.TransactionCreateRequest
+import ru.ttb220.network.exception.ApiException
+import ru.ttb220.network.model.request.TransactionCreateRequestDto
 import ru.ttb220.network.test.R
 import javax.inject.Inject
 
@@ -86,8 +86,8 @@ class RetrofitNetworkInstrumentedTest {
         val context = InstrumentationRegistry.getInstrumentation().context
         val text = context.resources.openRawResource(R.raw.transactions)
             .bufferedReader().use { it.readText() }
-        val transactions: List<TransactionCreateRequest> =
-            json.decodeFromString<List<TransactionCreateRequest>>(text)
+        val transactions: List<TransactionCreateRequestDto> =
+            json.decodeFromString<List<TransactionCreateRequestDto>>(text)
                 .map {
                     it.copy(accountId = accountID)
                 }
@@ -95,9 +95,5 @@ class RetrofitNetworkInstrumentedTest {
         for (transaction in transactions) {
             remoteDataSource.createNewTransaction(transaction)
         }
-    }
-
-    companion object {
-        private const val TAG = "Retrofit"
     }
 }

@@ -1,18 +1,22 @@
 package ru.ttb220.network
 
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.ttb220.model.exception.ClientErrorException
-import ru.ttb220.model.exception.ForbiddenException
-import ru.ttb220.model.exception.IncorrectInputFormatException
-import ru.ttb220.model.exception.JsonDecodingException
-import ru.ttb220.model.exception.NotFoundException
-import ru.ttb220.model.exception.ServerErrorException
-import ru.ttb220.model.exception.UnauthorizedException
-import ru.ttb220.network.model.response.ErrorResponse
+import ru.ttb220.network.exception.ClientErrorException
+import ru.ttb220.network.exception.ForbiddenException
+import ru.ttb220.network.exception.IncorrectInputFormatException
+import ru.ttb220.network.exception.JsonDecodingException
+import ru.ttb220.network.exception.NotFoundException
+import ru.ttb220.network.exception.ServerErrorException
+import ru.ttb220.network.exception.UnauthorizedException
+import ru.ttb220.network.model.response.ErrorResponseDto
 import javax.inject.Inject
 
+/**
+ * Responsible for throwing correct exceptions whenever 400-599 code is received
+ */
 class HttpCodeInterceptor @Inject constructor(
     private val json: Json
 ) : Interceptor {
@@ -23,11 +27,13 @@ class HttpCodeInterceptor @Inject constructor(
         if (response.isSuccessful) return response
 
         val bodyString = response.body?.string().orEmpty()
+
         val errorMessage = try {
-            json.decodeFromString<ErrorResponse>(bodyString).error ?: "Unknown error"
-        } catch (e: Exception) {
+            json.decodeFromString<ErrorResponseDto>(bodyString).error ?: UNKNOWN_ERROR_MESSAGE
+        } catch (e: SerializationException) {
             throw JsonDecodingException(
-                "Failed to parse error message"
+                DECODING_ERROR_MESSAGE,
+                cause = e
             )
         }
 
@@ -67,5 +73,10 @@ class HttpCodeInterceptor @Inject constructor(
         }
 
         return response
+    }
+
+    companion object {
+        private const val UNKNOWN_ERROR_MESSAGE = "Unknown error"
+        private const val DECODING_ERROR_MESSAGE = "Failed to parse error message"
     }
 }

@@ -1,6 +1,5 @@
 package ru.ttb220.presentation.ui.component
 
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,36 +22,25 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import ru.ttb220.mock.mockBarChartData
+import ru.ttb220.presentation.model.BarChartData
 import ru.ttb220.presentation.ui.theme.Green
 import ru.ttb220.presentation.ui.theme.Orange
 import ru.ttb220.presentation.ui.theme.Roboto
 
-data class BarChartResource(
-    val bars: List<BarResource>,
-    val background: Color? = null,
-    val xLabels: List<String>
-) {
-    data class BarResource(
-        @FloatRange(from = 0.0, to = 1.0)
-        val fill: Float,
-        val color: Color = Orange,
-        val width: Dp = 6.dp
-    )
-}
+private const val DEFAULT_BAR_CORNER_RADIUS = 200f
 
 @Composable
 fun BarChart(
-    barChartResource: BarChartResource,
+    barChartData: BarChartData,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
-            .background(barChartResource.background ?: Color.Transparent)
+            .background(barChartData.background ?: Color.Transparent)
             .padding(
                 start = 16.dp,
                 end = 16.dp
@@ -65,14 +53,14 @@ fun BarChart(
                 .weight(1f)
                 .drawWithCache {
                     onDrawBehind {
-                        val spacerWidthPx = (size.width - barChartResource.bars
+                        val spacerWidthPx = (size.width - barChartData.bars
                             .fold(0.dp) { acc, barResource ->
                                 acc + barResource.width
                             }
                             .toPx()
-                                ) / (barChartResource.bars.size - 1)
+                                ) / (barChartData.bars.size - 1)
 
-                        barChartResource.bars.fold(0f) { offsetX, barResource ->
+                        barChartData.bars.fold(0f) { offsetX, barResource ->
                             val barHeightPx = size.height * barResource.fill
                             val barWidthPx = barResource.width.toPx()
                             val offsetY = size.height - barHeightPx
@@ -89,8 +77,8 @@ fun BarChart(
                                     barHeightPx,
                                 ),
                                 cornerRadius = CornerRadius(
-                                    20f,
-                                    20f
+                                    DEFAULT_BAR_CORNER_RADIUS,
+                                    DEFAULT_BAR_CORNER_RADIUS
                                 ),
                             )
 
@@ -109,7 +97,7 @@ fun BarChart(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            barChartResource.xLabels.forEach { label ->
+            barChartData.xLabels.forEach { label ->
                 XLabel(
                     label = label
                 )
@@ -143,10 +131,10 @@ private fun XLabel(
 @Composable
 private fun BarChartPreview() {
     BarChart(
-        barChartResource = BarChartResource(
+        barChartData = BarChartData(
             bars = mockBarChartData.first
                 .map { (fill, colorId) ->
-                    BarChartResource.BarResource(
+                    BarChartData.BarData(
                         fill = fill,
                         color = if (colorId == 1) Green else Orange,
                     )

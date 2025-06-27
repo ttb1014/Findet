@@ -8,7 +8,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,9 +16,10 @@ import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.CategoriesRepository
 import ru.ttb220.data.repository.TransactionsRepository
 import ru.ttb220.data.util.withRetry
-import ru.ttb220.data.util.wrapToResult
-import ru.ttb220.model.exception.NotFoundException
-import ru.ttb220.model.exception.ServerErrorException
+import ru.ttb220.data.util.wrapToSafeResult
+import ru.ttb220.model.SafeResult
+import ru.ttb220.network.exception.NotFoundException
+import ru.ttb220.network.exception.ServerErrorException
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -65,7 +65,7 @@ class RepositoryInstrumentedTest {
                 500
             )
         }.withRetry()
-            .wrapToResult()
+            .wrapToSafeResult()
             .collect {
                 println(it)
             }
@@ -77,7 +77,7 @@ class RepositoryInstrumentedTest {
             delay(100L)
             emit(1)
         }.withRetry()
-            .wrapToResult()
+            .wrapToSafeResult()
             .collect {
                 println(it)
             }
@@ -93,7 +93,8 @@ class RepositoryInstrumentedTest {
 
     @Test
     fun testGetTransactions() = runBlocking {
-        accountsRepository.getAllAccounts().collect { accounts ->
+        accountsRepository.getAllAccounts().collect { accountsResult ->
+            val accounts = (accountsResult as SafeResult.Success).data
 
             accounts.forEach { account ->
                 transactionsRepository.getAccountTransactionsForPeriod(
@@ -108,7 +109,9 @@ class RepositoryInstrumentedTest {
     @Test
     fun testGetAllTransactionsSuccess() = runBlocking {
         val flow = accountsRepository.getAllAccounts()
-        flow.collect { accounts ->
+        flow.collect { accountsResult ->
+            val accounts = (accountsResult as SafeResult.Success).data
+
             val deferredTransactions = accounts.map { account ->
                 transactionsRepository.getAccountTransactionsForPeriod(
                     accountId = account.id
@@ -119,15 +122,11 @@ class RepositoryInstrumentedTest {
                 }
             }
 
-            // должно вернуться 404, но по факту возвращается пустой массив с 200)
-            // проблема на стороне сервера.
-//            assertThrows(NotFoundException::class.java) {
-                runBlocking {
-                    transactionsRepository.getAccountTransactionsForPeriod(
-                        accountId = -111
-                    ).collect { transactions ->
-                    }
-//                }
+            runBlocking {
+                transactionsRepository.getAccountTransactionsForPeriod(
+                    accountId = -111
+                ).collect { transactions ->
+                }
             }
         }
     }

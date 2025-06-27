@@ -26,6 +26,9 @@ internal object NetworkModule {
         ignoreUnknownKeys = true
     }
 
+    /**
+     * Injects logging, auth and exception interceptors
+     */
     @Provides
     @Singleton
     fun okHttpCallFactory(

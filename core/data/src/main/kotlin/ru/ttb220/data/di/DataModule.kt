@@ -4,17 +4,19 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.ttb220.data.internal.DefaultTimeProvider
+import ru.ttb220.data.NetworkMonitor
 import ru.ttb220.data.TimeProvider
+import ru.ttb220.data.internal.DefaultNetworkMonitor
+import ru.ttb220.data.internal.DefaultTimeProvider
 import ru.ttb220.data.repository.AccountsRepository
 import ru.ttb220.data.repository.CategoriesRepository
 import ru.ttb220.data.repository.SettingsRepository
 import ru.ttb220.data.repository.TransactionsRepository
-import ru.ttb220.data.repository.internal.DataStoreSettingsRepository
 import ru.ttb220.data.repository.internal.MockSettingsRepository
 import ru.ttb220.data.repository.internal.OnlineAccountRepository
 import ru.ttb220.data.repository.internal.OnlineCategoriesRepository
 import ru.ttb220.data.repository.internal.OnlineTransactionsRepository
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -35,13 +37,9 @@ abstract class DataModule {
         onlineTransactionsRepository: OnlineTransactionsRepository
     ): TransactionsRepository
 
-//    @Binds
-//    internal abstract fun bindsSettingsRepository(
-//        dataStoreSettingsRepository: DataStoreSettingsRepository
-//    ): SettingsRepository
-
     @Binds
-    internal abstract fun bindsSettingsRepository(
+//    @Named("mock")
+    internal abstract fun bindsMockSettingsRepository(
         mockSettingsRepository: MockSettingsRepository
     ): SettingsRepository
 
@@ -49,4 +47,9 @@ abstract class DataModule {
     internal abstract fun bindsTimeProvider(
         defaultTimeProvider: DefaultTimeProvider
     ): TimeProvider
+
+    @Binds
+    internal abstract fun bindsNetworkMonitor(
+        defaultNetworkMonitor: DefaultNetworkMonitor
+    ): NetworkMonitor
 }

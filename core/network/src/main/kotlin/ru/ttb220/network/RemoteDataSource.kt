@@ -1,39 +1,36 @@
 package ru.ttb220.network
 
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import ru.ttb220.network.model.CategoryDto
-import ru.ttb220.network.model.request.AccountCreateRequest
-import ru.ttb220.network.model.request.TransactionCreateRequest
-import ru.ttb220.network.model.request.TransactionUpdateRequest
-import ru.ttb220.network.model.response.AccountDetailedResponse
-import ru.ttb220.network.model.response.AccountHistoryResponse
-import ru.ttb220.network.model.response.AccountResponse
-import ru.ttb220.network.model.response.TransactionDetailedResponse
-import ru.ttb220.network.model.response.TransactionResponse
+import ru.ttb220.network.model.request.AccountCreateRequestDto
+import ru.ttb220.network.model.request.TransactionCreateRequestDto
+import ru.ttb220.network.model.request.TransactionUpdateRequestDto
+import ru.ttb220.network.model.response.AccountDetailedResponseDto
+import ru.ttb220.network.model.response.AccountHistoryResponseDto
+import ru.ttb220.network.model.response.AccountResponseDto
+import ru.ttb220.network.model.response.TransactionDetailedResponseDto
+import ru.ttb220.network.model.response.TransactionResponseDto
 
 /**
- * Абстракция над HTTP запросами. Методы выбрасывают исключения
- * @throws ApiException
+ * Abstraction over network requests
+ * @throws ApiException and its inheritors
  * @throws JsonDecodingException
- * @see HttpCodeInterceptor
- * @see AuthInterceptor
  */
 interface RemoteDataSource {
-    suspend fun getAllAccounts(): List<AccountResponse>
+    suspend fun getAllAccounts(): List<AccountResponseDto>
 
     suspend fun createNewAccount(
-        accountCreateRequest: AccountCreateRequest
-    ): AccountResponse
+        accountCreateRequestDto: AccountCreateRequestDto
+    ): AccountResponseDto
 
     suspend fun getAccountById(
         id: Int
-    ): AccountDetailedResponse
+    ): AccountDetailedResponseDto
 
     suspend fun updateAccountById(
         id: Int,
-        accountCreateRequest: AccountCreateRequest
-    ): AccountResponse
+        accountCreateRequestDto: AccountCreateRequestDto
+    ): AccountResponseDto
 
     suspend fun deleteAccountById(
         id: Int
@@ -41,7 +38,7 @@ interface RemoteDataSource {
 
     suspend fun getAccountHistoryById(
         id: Int
-    ): AccountHistoryResponse
+    ): AccountHistoryResponseDto
 
     suspend fun getAllCategories(): List<CategoryDto>
 
@@ -50,17 +47,17 @@ interface RemoteDataSource {
     ): List<CategoryDto>
 
     suspend fun createNewTransaction(
-        transactionCreateRequest: TransactionCreateRequest
-    ): TransactionResponse
+        transactionCreateRequestDto: TransactionCreateRequestDto
+    ): TransactionResponseDto
 
     suspend fun getTransactionById(
         id: Int
-    ): TransactionDetailedResponse
+    ): TransactionDetailedResponseDto
 
     suspend fun updateTransactionById(
         id: Int,
-        transactionUpdateRequest: TransactionUpdateRequest
-    ): TransactionDetailedResponse
+        transactionUpdateRequestDto: TransactionUpdateRequestDto
+    ): TransactionDetailedResponseDto
 
     /**
      * Either deletes transaction or throws an exception
@@ -73,5 +70,5 @@ interface RemoteDataSource {
         accountId: Int,
         startDate: LocalDate? = null,
         endDate: LocalDate? = null,
-    ): List<TransactionDetailedResponse>
+    ): List<TransactionDetailedResponseDto>
 }

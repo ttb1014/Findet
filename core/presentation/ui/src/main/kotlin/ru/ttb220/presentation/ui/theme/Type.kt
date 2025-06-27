@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import ru.ttb220.presentation.ui.R
+import ru.ttb220.presentation.model.R
 
 
 val Roboto = FontFamily(

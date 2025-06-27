@@ -5,15 +5,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.ttb220.account.AccountScreenContent
+import ru.ttb220.account.main.AccountScreenContent
 import ru.ttb220.categories.CategoriesScreen
 import ru.ttb220.mock.mockAccountScreenData
-import ru.ttb220.mock.mockArticleScreenContent
+import ru.ttb220.mock.mockCategoriesScreenContent
 import ru.ttb220.mock.mockExpensesScreenData
 import ru.ttb220.mock.mockIncomesScreenData
 import ru.ttb220.mock.mockSettingsScreenContent
-import ru.ttb220.expenses.ExpensesScreenContent
-import ru.ttb220.incomes.IncomesScreenContent
+import ru.ttb220.expenses.today.ExpensesTodayScreenContent
+import ru.ttb220.incomes.today.IncomesTodayScreenContent
 import ru.ttb220.settings.SettingsScreen
 
 @Composable
@@ -30,14 +30,14 @@ fun FindetNavHost(
         composable(
             route = Destination.EXPENSES.name
         ) {
-            ExpensesScreenContent(
+            ExpensesTodayScreenContent(
                 expensesScreenData = mockExpensesScreenData,
             )
         }
         composable(
             route = Destination.INCOMES.name
         ) {
-            IncomesScreenContent(
+            IncomesTodayScreenContent(
                 incomesScreenData = mockIncomesScreenData,
             )
         }
@@ -51,7 +51,7 @@ fun FindetNavHost(
         composable(
             route = Destination.ARTICLES.name
         ) {
-            CategoriesScreen(mockArticleScreenContent)
+            CategoriesScreen(mockCategoriesScreenContent)
         }
         composable(
             route = Destination.SETTINGS.name

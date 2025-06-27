@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-private val ACTIVE_ACCOUNT_ID_KEY = intPreferencesKey("active_account_id")
-private val DARK_MODE_ENABLED_KEY = booleanPreferencesKey("dark_mode_enabled")
-
+/**
+ * Implements preferences management. Not used yet
+ */
 class PreferencesDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
@@ -37,5 +37,10 @@ class PreferencesDataSource @Inject constructor(
             preferences[DARK_MODE_ENABLED_KEY] = darkModeEnabled
         }
         emit(Unit)
+    }
+
+    companion object {
+        private val ACTIVE_ACCOUNT_ID_KEY = intPreferencesKey("active_account_id")
+        private val DARK_MODE_ENABLED_KEY = booleanPreferencesKey("dark_mode_enabled")
     }
 }

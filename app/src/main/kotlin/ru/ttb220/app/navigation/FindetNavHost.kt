@@ -4,48 +4,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import ru.ttb220.account.accountScreen
-import ru.ttb220.account.addAccountScreen
-import ru.ttb220.categories.CategoriesScreen
-import ru.ttb220.expenses.expensesScreen
-import ru.ttb220.expenses_history.expensesHistoryScreen
-import ru.ttb220.incomes.incomesScreen
-import ru.ttb220.incomes_history.incomesHistoryScreen
-import ru.ttb220.mock.mockArticleScreenContent
-import ru.ttb220.mock.mockSettingsScreenContent
-import ru.ttb220.settings.SettingsScreen
+import ru.ttb220.account.add.addAccountScreen
+import ru.ttb220.account.main.accountScreen
+import ru.ttb220.categories.categoriesScreen
+import ru.ttb220.expenses.history.expensesHistoryScreen
+import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.today.expensesTodayScreen
+import ru.ttb220.incomes.history.incomesHistoryScreen
+import ru.ttb220.incomes.today.incomesTodayScreen
+import ru.ttb220.settings.settingsScreen
 
 @Composable
 fun FindetNavHost(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    startRoute: String = TopLevelDestination.EXPENSES.route
+    startRoute: String = EXPENSES_TODAY_SCREEN_ROUTE_BASE
 ) {
+    // adds all available fragments to nav graph
     NavHost(
         navController = navHostController,
         startDestination = startRoute,
         modifier = modifier
     ) {
-        expensesScreen()
-        incomesScreen()
+        expensesTodayScreen()
+        expensesHistoryScreen()
+
+        incomesTodayScreen()
+        incomesHistoryScreen()
 
         accountScreen()
         addAccountScreen()
 
-        expensesHistoryScreen()
-        incomesHistoryScreen()
+        categoriesScreen()
 
-        // 2 экрана остаются моковыми
-        composable(
-            route = TopLevelDestination.ARTICLES.route
-        ) {
-            CategoriesScreen(mockArticleScreenContent)
-        }
-        composable(
-            route = TopLevelDestination.SETTINGS.route
-        ) {
-            SettingsScreen(mockSettingsScreenContent)
-        }
+        settingsScreen()
     }
 }

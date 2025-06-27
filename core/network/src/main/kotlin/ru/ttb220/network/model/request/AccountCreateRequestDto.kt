@@ -1,0 +1,16 @@
+package ru.ttb220.network.model.request
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class AccountCreateRequestDto(
+    @SerialName("name")
+    val name: String,
+
+    @SerialName("balance")
+    val balance: String,
+
+    @SerialName("currency")
+    val currency: String,
+)

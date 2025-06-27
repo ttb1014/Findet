@@ -8,7 +8,7 @@ data class Transaction(
     val categoryId: Int,
     val amount: String,
     val transactionDate: Instant,
-    val comment: String?,
+    val comment: String? = null,
     val createdAt: Instant,
     val updatedAt: Instant,
 )

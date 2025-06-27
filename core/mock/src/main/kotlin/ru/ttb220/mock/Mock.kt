@@ -3,19 +3,20 @@
 package ru.ttb220.mock
 
 import ru.ttb220.presentation.model.CategoryData
+import ru.ttb220.presentation.model.CurrencyData
+import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.ExpenseAnalysisData
 import ru.ttb220.presentation.model.ExpenseData
 import ru.ttb220.presentation.model.ExpenseDetailedData
 import ru.ttb220.presentation.model.IncomeData
 import ru.ttb220.presentation.model.TransactionHistoryData
 import ru.ttb220.presentation.model.screen.AccountScreenData
+import ru.ttb220.presentation.model.screen.CategoriesScreenData
 import ru.ttb220.presentation.model.screen.ExpensesAnalysisScreenData
 import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.screen.IncomesScreenData
 import ru.ttb220.presentation.model.screen.SettingsScreenData
-import ru.ttb220.presentation.model.util.Currency
-import ru.ttb220.presentation.model.util.Emoji
 
 val mockActiveAccountId = 54
 
@@ -24,23 +25,23 @@ val mockIsDarkThemeEnabled = false
 val mockExpensesScreenData = ExpensesScreenData(
     expenses = listOf(
         ExpenseData(
-            emojiId = Emoji.Resource(R.drawable.house_with_garden),
+            emojiDataId = EmojiData.Resource(R.drawable.house_with_garden),
             name = "Аренда квартиры",
             amount = "100 000 ₽"
         ),
         ExpenseData(
-            emojiId = Emoji.Resource(R.drawable.dress),
+            emojiDataId = EmojiData.Resource(R.drawable.dress),
             name = "Одежда",
             amount = "100 000 ₽"
         ),
         ExpenseData(
-            emojiId = Emoji.Resource(R.drawable.doggy),
+            emojiDataId = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             shortDescription = "Джек",
             amount = "100 000 ₽"
         ),
         ExpenseData(
-            emojiId = Emoji.Resource(R.drawable.doggy),
+            emojiDataId = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             shortDescription = "Энни",
             amount = "100 000 ₽"
@@ -50,17 +51,17 @@ val mockExpensesScreenData = ExpensesScreenData(
             amount = "100 000 ₽",
         ),
         ExpenseData(
-            emojiId = Emoji.Resource(R.drawable.lollipop),
+            emojiDataId = EmojiData.Resource(R.drawable.lollipop),
             name = "Продукты",
             amount = "100 000 ₽",
         ),
         ExpenseData(
-            emojiId = Emoji.Resource(R.drawable.deadlift),
+            emojiDataId = EmojiData.Resource(R.drawable.deadlift),
             name = "Спортзал",
             amount = "100 000 ₽",
         ),
         ExpenseData(
-            emojiId = Emoji.Resource(R.drawable.medicine),
+            emojiDataId = EmojiData.Resource(R.drawable.medicine),
             name = "Медицина",
             amount = "100 000 ₽",
         ),
@@ -85,40 +86,42 @@ val mockIncomesScreenData = IncomesScreenData(
 val mockAccountScreenData = AccountScreenData(
     leadingIconId = R.drawable.money_bag,
     balance = "-670 000 ₽",
-    currency = Currency.RUSSIAN_RUBLE
+    currencyData = CurrencyData.RUSSIAN_RUBLE
 )
 
-val mockArticleScreenContent = listOf(
-    CategoryData(
-        emoji = Emoji.Resource(R.drawable.house_with_garden),
-        name = "Аренда квартиры",
-    ),
-    CategoryData(
-        emoji = Emoji.Resource(R.drawable.dress),
-        name = "Одежда"
-    ),
-    CategoryData(
-        emoji = Emoji.Resource(R.drawable.doggy),
-        name = "На собачку"
-    ),
-    CategoryData(
-        emoji = Emoji.Resource(R.drawable.doggy),
-        name = "На собачку"
-    ),
-    CategoryData(
-        name = "Ремонт квартиры"
-    ),
-    CategoryData(
-        emoji = Emoji.Resource(R.drawable.lollipop),
-        name = "Продукты"
-    ),
-    CategoryData(
-        emoji = Emoji.Resource(R.drawable.deadlift),
-        name = "Спортзал"
-    ),
-    CategoryData(
-        emoji = Emoji.Resource(R.drawable.medicine),
-        name = "Медицина"
+val mockCategoriesScreenContent = CategoriesScreenData(
+    data = listOf(
+        CategoryData(
+            emojiData = EmojiData.Resource(R.drawable.house_with_garden),
+            name = "Аренда квартиры",
+        ),
+        CategoryData(
+            emojiData = EmojiData.Resource(R.drawable.dress),
+            name = "Одежда"
+        ),
+        CategoryData(
+            emojiData = EmojiData.Resource(R.drawable.doggy),
+            name = "На собачку"
+        ),
+        CategoryData(
+            emojiData = EmojiData.Resource(R.drawable.doggy),
+            name = "На собачку"
+        ),
+        CategoryData(
+            name = "Ремонт квартиры"
+        ),
+        CategoryData(
+            emojiData = EmojiData.Resource(R.drawable.lollipop),
+            name = "Продукты"
+        ),
+        CategoryData(
+            emojiData = EmojiData.Resource(R.drawable.deadlift),
+            name = "Спортзал"
+        ),
+        CategoryData(
+            emojiData = EmojiData.Resource(R.drawable.medicine),
+            name = "Медицина"
+        )
     )
 )
 
@@ -147,25 +150,25 @@ val mockHistoryScreenData = HistoryScreenData(
             time = "22:01"
         ),
         TransactionHistoryData(
-            emoji = Emoji.Resource(R.drawable.doggy),
+            emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
         TransactionHistoryData(
-            emoji = Emoji.Resource(R.drawable.doggy),
+            emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
         TransactionHistoryData(
-            emoji = Emoji.Resource(R.drawable.doggy),
+            emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
         TransactionHistoryData(
-            emoji = Emoji.Resource(R.drawable.doggy),
+            emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
@@ -185,7 +188,7 @@ val mockExpensesAnalysisScreenData = ExpensesAnalysisScreenData(
             amount = "20 000 ₽",
         ),
         ExpenseAnalysisData(
-            emojiId = Emoji.Resource(R.drawable.doggy),
+            emojiDataId = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             percentage = "80%",
             amount = "80 000 ₽",

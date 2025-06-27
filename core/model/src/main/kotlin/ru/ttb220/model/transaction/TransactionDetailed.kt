@@ -10,7 +10,7 @@ data class TransactionDetailed(
     val category: Category,
     val amount: String,
     val transactionDate: Instant,
-    val comment: String?,
+    val comment: String? = null,
     val createdAt: Instant,
     val updatedAt: Instant,
 )

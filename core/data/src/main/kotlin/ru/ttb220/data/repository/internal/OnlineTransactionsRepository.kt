@@ -2,104 +2,69 @@ package ru.ttb220.data.repository.internal
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import ru.ttb220.data.repository.TransactionsRepository
 import ru.ttb220.data.util.withRetry
-import ru.ttb220.model.Category
-import ru.ttb220.model.account.AccountState
+import ru.ttb220.data.util.wrapToSafeResult
+import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.Transaction
 import ru.ttb220.model.transaction.TransactionBrief
 import ru.ttb220.model.transaction.TransactionDetailed
 import ru.ttb220.network.RemoteDataSource
-import ru.ttb220.network.model.AccountDto
-import ru.ttb220.network.model.CategoryDto
-import ru.ttb220.network.model.request.TransactionCreateRequest
-import ru.ttb220.network.model.request.TransactionUpdateRequest
-import ru.ttb220.network.model.response.TransactionDetailedResponse
-import ru.ttb220.network.model.response.TransactionResponse
+import ru.ttb220.network.model.request.TransactionCreateRequestDto
+import ru.ttb220.network.model.request.TransactionUpdateRequestDto
+import ru.ttb220.network.model.response.toTransaction
+import ru.ttb220.network.model.response.toTransactionDetailed
 import javax.inject.Inject
 
 internal class OnlineTransactionsRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : TransactionsRepository {
 
-    override fun createNewTransaction(transaction: TransactionBrief): Flow<Transaction> =
+    override fun createNewTransaction(transaction: TransactionBrief): Flow<SafeResult<Transaction>> =
         flow<Transaction> {
             emit(
-                remoteDataSource.createNewTransaction(transaction.toTransactionCreateRequest())
+                remoteDataSource.createNewTransaction(transaction.toTransactionCreateRequestDto())
                     .toTransaction()
             )
         }.withRetry()
+            .wrapToSafeResult()
 
-    override fun getTransactionById(id: Int): Flow<TransactionDetailed> =
+    override fun getTransactionById(id: Int): Flow<SafeResult<TransactionDetailed>> =
         flow<TransactionDetailed> {
             emit(remoteDataSource.getTransactionById(id).toTransactionDetailed())
         }.withRetry()
+            .wrapToSafeResult()
 
     override fun updateTransactionById(
         id: Int, transaction: TransactionBrief
-    ): Flow<TransactionDetailed> = flow<TransactionDetailed> {
+    ): Flow<SafeResult<TransactionDetailed>> = flow<TransactionDetailed> {
         emit(
-            remoteDataSource.updateTransactionById(id, transaction.toTransactionUpdateRequest())
+            remoteDataSource.updateTransactionById(id, transaction.toTransactionUpdateRequestDto())
                 .toTransactionDetailed()
         )
     }.withRetry()
+        .wrapToSafeResult()
 
-    override fun deleteTransactionById(id: Int): Flow<Unit> = flow<Unit> {
+    override fun deleteTransactionById(id: Int): Flow<SafeResult<Unit>> = flow<Unit> {
         emit(remoteDataSource.deleteTransactionById(id))
     }.withRetry()
+        .wrapToSafeResult()
 
     override fun getAccountTransactionsForPeriod(
         accountId: Int,
         startDate: LocalDate?,
         endDate: LocalDate?
-    ): Flow<List<TransactionDetailed>> = flow<List<TransactionDetailed>> {
+    ): Flow<SafeResult<List<TransactionDetailed>>> = flow<List<TransactionDetailed>> {
         emit(remoteDataSource.getAccountTransactionsForPeriod(
             accountId, startDate, endDate
         ).map { it.toTransactionDetailed() })
     }.withRetry()
+        .wrapToSafeResult()
 }
 
-private fun TransactionDetailedResponse.toTransactionDetailed(): TransactionDetailed =
-    TransactionDetailed(
-        id = id,
-        account = account.toAccountState(),
-        category = category.toCategory(),
-        amount = amount,
-        transactionDate = transactionDate,
-        comment = comment,
-        createdAt = createdAt,
-        updatedAt = updatedAt
-    )
-
-private fun CategoryDto.toCategory(): Category = Category(
-    id = id,
-    name = name,
-    emoji = emoji,
-    isIncome = isIncome
-)
-
-private fun AccountDto.toAccountState(): AccountState = AccountState(
-    id = id,
-    name = name,
-    balance = balance,
-    currency = currency,
-)
-
-private fun TransactionResponse.toTransaction(): Transaction = Transaction(
-    id = id,
-    accountId = accountId,
-    categoryId = categoryId,
-    amount = amount,
-    transactionDate = transactionDate,
-    comment = comment,
-    createdAt = createdAt,
-    updatedAt = updatedAt
-)
-
-private fun TransactionBrief.toTransactionCreateRequest(): TransactionCreateRequest =
-    TransactionCreateRequest(
+private fun TransactionBrief.toTransactionCreateRequestDto(): TransactionCreateRequestDto =
+    TransactionCreateRequestDto(
         accountId = accountId,
         categoryId = categoryId,
         amount = amount,
@@ -107,8 +72,8 @@ private fun TransactionBrief.toTransactionCreateRequest(): TransactionCreateRequ
         comment = comment
     )
 
-private fun TransactionBrief.toTransactionUpdateRequest(): TransactionUpdateRequest =
-    TransactionUpdateRequest(
+private fun TransactionBrief.toTransactionUpdateRequestDto(): TransactionUpdateRequestDto =
+    TransactionUpdateRequestDto(
         accountId = accountId,
         categoryId = categoryId,
         amount = amount,
