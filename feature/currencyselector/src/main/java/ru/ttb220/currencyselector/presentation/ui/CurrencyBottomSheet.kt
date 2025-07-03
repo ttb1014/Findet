@@ -1,5 +1,6 @@
 package ru.ttb220.currencyselector.presentation.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -39,6 +40,9 @@ fun CurrencyBottomSheet(
     onCurrencyClick: (CurrencyData) -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
+    BackHandler {
+       onDismiss()
+    }
     Column(
         modifier = modifier
             .background(

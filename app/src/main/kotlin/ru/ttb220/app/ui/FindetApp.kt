@@ -1,5 +1,6 @@
 package ru.ttb220.app.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -18,10 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
-import ru.ttb220.currencyselector.presentation.ui.CurrencyBottomSheet
 import ru.ttb220.app.navigation.FabRoutes
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.TopLevelDestination
+import ru.ttb220.currencyselector.presentation.ui.CurrencyBottomSheet
 import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.TopAppBar
@@ -99,7 +100,8 @@ fun FindetApp(
                     WindowInsets.safeDrawing.only(
                         WindowInsetsSides.Horizontal,
                     ),
-                ).let {
+                )
+                .let {
                     if (appState.isBottomSheetShown)
                         it.scrim(
                             MaterialTheme.colorScheme.scrim,
@@ -110,7 +112,7 @@ fun FindetApp(
         )
     }
 
-    if (appState.isBottomSheetShown)
+    if (appState.isBottomSheetShown) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
@@ -125,4 +127,5 @@ fun FindetApp(
                 }
             )
         }
+    }
 }
