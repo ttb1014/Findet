@@ -2,12 +2,12 @@ package ru.ttb220.app.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import ru.ttb220.account.common.TOP_LEVEL_ACCOUNT_ROUTE
-import ru.ttb220.categories.TOP_LEVEL_CATEGORIES_ROUTE
-import ru.ttb220.expenses.common.TOP_LEVEL_EXPENSES_ROUTE
-import ru.ttb220.incomes.common.TOP_LEVEL_INCOMES_ROUTE
+import ru.ttb220.account.presentation.navigation.TOP_LEVEL_ACCOUNT_ROUTE
+import ru.ttb220.categories.presentation.navigation.TOP_LEVEL_CATEGORIES_ROUTE
+import ru.ttb220.expenses.presentation.navigation.TOP_LEVEL_EXPENSES_ROUTE
+import ru.ttb220.incomes.presentation.navigation.TOP_LEVEL_INCOMES_ROUTE
 import ru.ttb220.presentation.model.R
-import ru.ttb220.settings.TOP_LEVEL_SETTINGS_ROUTE
+import ru.ttb220.settings.presentation.navigation.TOP_LEVEL_SETTINGS_ROUTE
 
 /**
  * Contains all possible top-level nav destinations available through bottom navigation.

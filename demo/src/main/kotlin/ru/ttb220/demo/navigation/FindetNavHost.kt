@@ -5,16 +5,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.ttb220.account.main.AccountScreenContent
-import ru.ttb220.categories.CategoriesScreen
+import ru.ttb220.account.presentation.ui.AccountScreenContent
+import ru.ttb220.categories.presentation.ui.CategoriesScreen
 import ru.ttb220.mock.mockAccountScreenData
 import ru.ttb220.mock.mockCategoriesScreenContent
 import ru.ttb220.mock.mockExpensesScreenData
 import ru.ttb220.mock.mockIncomesScreenData
 import ru.ttb220.mock.mockSettingsScreenContent
-import ru.ttb220.expenses.today.ExpensesTodayScreenContent
-import ru.ttb220.incomes.today.IncomesTodayScreenContent
-import ru.ttb220.settings.SettingsScreen
+import ru.ttb220.expenses.presentation.ui.ExpensesTodayScreenContent
+import ru.ttb220.incomes.presentation.ui.IncomesTodayScreenContent
+import ru.ttb220.settings.presentation.ui.SettingsScreen
 
 @Composable
 fun FindetNavHost(

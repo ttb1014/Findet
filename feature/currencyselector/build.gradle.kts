@@ -1,23 +1,21 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
     alias(libs.plugins.hilt)
     kotlin("kapt")
 }
 
 android {
-    namespace = "ru.ttb220.app"
+    namespace = "ru.ttb220.currencyselector"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ru.ttb220.app"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -36,30 +34,30 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
     implementation(project(":core:presentation:ui"))
+    implementation(project(":core:data"))
+    implementation(project(":core:model"))
     implementation(project(":core:presentation:model"))
     implementation(project(":core:mock"))
-    implementation(project(":feature:expenses"))
-    implementation(project(":feature:incomes"))
-    implementation(project(":feature:settings"))
-    implementation(project(":feature:account"))
-    implementation(project(":feature:categories"))
-    implementation(project(":feature:currencyselector"))
-    implementation(project(":core:data"))
 
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    debugImplementation(libs.androidx.ui.tooling)
 
-    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.kotlinx.coroutines.android)
 
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.datetime)
 
     implementation(libs.androidx.lyfecycle.runtime.compose)
 
+    // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.android.testing)
@@ -67,18 +65,9 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

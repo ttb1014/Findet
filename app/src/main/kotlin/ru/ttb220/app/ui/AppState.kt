@@ -2,26 +2,29 @@ package ru.ttb220.app.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
-import ru.ttb220.account.add.AddAccountViewModel
-import ru.ttb220.account.main.navigateToAccount
+import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
+import ru.ttb220.account.presentation.navigation.navigateToAccount
 import ru.ttb220.app.navigation.TopLevelDestination
-import ru.ttb220.categories.navigateToCategories
-import ru.ttb220.expenses.history.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
-import ru.ttb220.expenses.history.navigateToExpensesHistory
-import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE_BASE
-import ru.ttb220.expenses.today.navigateToExpensesToday
-import ru.ttb220.incomes.history.INCOMES_HISTORY_SCREEN_ROUTE_BASE
-import ru.ttb220.incomes.history.navigateToIncomesHistory
-import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
-import ru.ttb220.incomes.today.navigateToIncomesToday
-import ru.ttb220.settings.navigateToSettings
+import ru.ttb220.categories.presentation.navigation.navigateToCategories
+import ru.ttb220.expenses.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.navigateToExpensesHistory
+import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.navigateToExpensesToday
+import ru.ttb220.incomes.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
+import ru.ttb220.incomes.presentation.navigation.navigateToIncomesHistory
+import ru.ttb220.incomes.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.incomes.presentation.navigation.navigateToIncomesToday
+import ru.ttb220.settings.presentation.navigation.navigateToSettings
 
 @Composable
 fun rememberAppState(
@@ -44,6 +47,8 @@ class AppState(
     val activeAccountId: Int?,
     val navHostController: NavHostController,
 ) {
+    var isBottomSheetShown by mutableStateOf(false)
+
     val currentRoute: String?
         @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
 

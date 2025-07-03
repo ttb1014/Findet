@@ -25,12 +25,12 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/account" />
             <option value="$PROJECT_DIR$/feature/categories" />
+            <option value="$PROJECT_DIR$/feature/currencyselector" />
             <option value="$PROJECT_DIR$/feature/expenses" />
             <option value="$PROJECT_DIR$/feature/incomes" />
             <option value="$PROJECT_DIR$/feature/settings" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

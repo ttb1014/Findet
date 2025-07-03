@@ -1,8 +1,10 @@
 package ru.ttb220.app.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -12,14 +14,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
+import ru.ttb220.currencyselector.presentation.ui.CurrencyBottomSheet
 import ru.ttb220.app.navigation.FabRoutes
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.TopLevelDestination
+import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.TopAppBar
+import ru.ttb220.presentation.ui.util.scrim
 
 @Composable
 fun FindetApp(
@@ -48,22 +54,34 @@ fun FindetApp(
                     leadingIcon = topAppBarData.leadingIconId,
                     trailingIcon = topAppBarData.trailingIconId,
                     onLeadingIconClick = onLeadingIconClick,
-                    onTrailingIconClick = onTrailingIconClick
+                    onTrailingIconClick = onTrailingIconClick,
+                    modifier = Modifier
+                        .let {
+                            if (appState.isBottomSheetShown) {
+                                val scrim = MaterialTheme.colorScheme.scrim
+
+                                it.scrim(scrim)
+                            } else
+                                it
+                        }
                 )
             }
         },
-        bottomBar = {
-            BottomBar(
-                destinations = TopLevelDestination.entries,
-                currentTopLevelDestination = currentTopLevelDestination,
-                onNavigateTo = {
-                    if (currentTopLevelDestination != it)
-                        appState.navigateTo(it)
-                }
-            )
+        bottomBar = bottomBar@{
+            if (appState.isBottomSheetShown.not()) {
+                BottomBar(
+                    destinations = TopLevelDestination.entries,
+                    currentTopLevelDestination = currentTopLevelDestination,
+                    onNavigateTo = {
+                        if (currentTopLevelDestination != it)
+                            appState.navigateTo(it)
+                    }
+                )
+                return@bottomBar
+            }
         },
         floatingActionButton = {
-            if (FabRoutes.any { currentRoute?.contains(it) == true })
+            if (FabRoutes.any { currentRoute?.contains(it) == true } && appState.isBottomSheetShown.not())
                 AddFab(
                     onClick = fabOnClick
                 )
@@ -72,6 +90,7 @@ fun FindetApp(
         containerColor = MaterialTheme.colorScheme.surface,
     ) { padding ->
         FindetNavHost(
+            appState = appState,
             navHostController = appState.navHostController,
             modifier = Modifier
                 .padding(padding)
@@ -80,7 +99,30 @@ fun FindetApp(
                     WindowInsets.safeDrawing.only(
                         WindowInsetsSides.Horizontal,
                     ),
-                ),
+                ).let {
+                    if (appState.isBottomSheetShown)
+                        it.scrim(
+                            MaterialTheme.colorScheme.scrim,
+                        )
+                    else
+                        it
+                },
         )
     }
+
+    if (appState.isBottomSheetShown)
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            CurrencyBottomSheet(
+                currencies = CurrencyData.entries,
+                modifier = Modifier,
+                onCurrencyClick = {
+                },
+                onDismiss = {
+                    appState.isBottomSheetShown = false
+                }
+            )
+        }
 }
