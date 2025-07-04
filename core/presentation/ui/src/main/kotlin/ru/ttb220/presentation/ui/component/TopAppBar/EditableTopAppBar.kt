@@ -1,5 +1,6 @@
-package ru.ttb220.presentation.ui.component
+package ru.ttb220.presentation.ui.component.topappbar
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,34 +18,45 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.theme.Green
 
-/**
- * @param text Должен вмещаться в контейнер
- */
+@Suppress("LongParameterList", "FunctionNaming")
 @Composable
-fun TopAppBar(
+fun EditableTopAppBar(
     text: String,
     modifier: Modifier = Modifier,
-    @DrawableRes leadingIcon: Int? = null,
-    @DrawableRes trailingIcon: Int? = null,
+    @DrawableRes leadingIcon: Int? = R.drawable.cross,
+    @DrawableRes trailingIcon: Int? = R.drawable.check,
+    onTextEdited: (String) -> Unit = {},
     onLeadingIconClick: () -> Unit = {},
     onTrailingIconClick: () -> Unit = {},
+    onInputFinished: () -> Unit = {},
 ) {
+    BackHandler {
+        onLeadingIconClick()
+    }
+
     Surface(
         modifier = modifier,
         color = Green,
@@ -76,14 +88,20 @@ fun TopAppBar(
                 )
             } ?: Spacer(Modifier.size(48.dp))
 
-            Text(
-                text = text,
-                modifier = Modifier,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center,
-                softWrap = false,
-                maxLines = 1,
-                style = MaterialTheme.typography.titleLarge
+
+            BasicTextField(
+                value = text,
+                onValueChange = onTextEdited,
+                modifier = Modifier.weight(1f),
+                textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
+                keyboardOptions = keyboardOptions,
+                keyboardActions = KeyboardActions(
+                    onSend = {
+                        defaultKeyboardAction(ImeAction.Send)
+                        onInputFinished()
+                    }
+                ),
+                singleLine = true,
             )
 
             trailingIcon?.let {
@@ -102,6 +120,14 @@ fun TopAppBar(
         }
     }
 }
+
+private val keyboardOptions = KeyboardOptions(
+    capitalization = KeyboardCapitalization.Sentences,
+    autoCorrect = false,
+    keyboardType = KeyboardType.Text,
+    imeAction = ImeAction.Send,
+)
+
 
 @Composable
 private fun TopAppBarIcon(
@@ -122,15 +148,4 @@ private fun TopAppBarIcon(
             tint = tint
         )
     }
-}
-
-@Preview
-@Composable
-private fun TopAppBarPreview() {
-    TopAppBar(
-        text = "Мои расходы",
-        leadingIcon = R.drawable.cross,
-        trailingIcon = R.drawable.check,
-        modifier = Modifier
-    )
 }

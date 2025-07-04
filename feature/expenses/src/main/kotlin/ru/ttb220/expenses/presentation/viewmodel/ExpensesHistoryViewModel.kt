@@ -17,7 +17,7 @@ import ru.ttb220.expenses.presentation.model.ExpensesHistoryScreenState
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.toTransactionHistoryData
-import ru.ttb220.presentation.model.util.CurrencySymbolMapper
+import ru.ttb220.presentation.model.util.CurrencyMapper
 import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
 import ru.ttb220.presentation.model.util.NumberToStringMapper
 import javax.inject.Inject
@@ -87,7 +87,7 @@ class ExpensesHistoryViewModel @Inject constructor(
                         currencyCodeResult as SafeResult.Success
 
                         val currencySymbol =
-                            CurrencySymbolMapper.getSymbol(currencyCodeResult.data)
+                            CurrencyMapper.getSymbol(currencyCodeResult.data)
 
                         val totalAmountString =
                             NumberToStringMapper.map(totalAmountDouble, currencySymbol)

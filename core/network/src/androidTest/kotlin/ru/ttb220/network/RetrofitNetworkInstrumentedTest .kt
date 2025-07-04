@@ -12,6 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.ttb220.network.exception.ApiException
+import ru.ttb220.network.model.request.AccountCreateRequestDto
 import ru.ttb220.network.model.request.TransactionCreateRequestDto
 import ru.ttb220.network.test.R
 import javax.inject.Inject
@@ -32,6 +33,18 @@ class RetrofitNetworkInstrumentedTest {
     @Before
     fun setup() {
         hiltRule.inject()
+    }
+
+    @Test
+    fun updateAccount(): Unit = runBlocking {
+        remoteDataSource.updateAccountById(
+            id = 54,
+            accountCreateRequestDto = AccountCreateRequestDto(
+                name = "NASDNMAS",
+                balance = "-6000000",
+                currency = "USD"
+            )
+        )
     }
 
     @Test

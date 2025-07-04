@@ -1,4 +1,4 @@
-package ru.ttb220.domain
+package ru.ttb220.account.domain
 
 import kotlinx.coroutines.flow.Flow
 import ru.ttb220.data.repository.AccountsRepository

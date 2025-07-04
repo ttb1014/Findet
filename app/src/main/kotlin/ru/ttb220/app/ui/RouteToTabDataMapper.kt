@@ -8,7 +8,7 @@ import ru.ttb220.incomes.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BA
 import ru.ttb220.incomes.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.presentation.model.R
 
-// #INVESTIGATE we may want to define top app bar visuals for each screen in feature module
+// #INVESTIGATE we may define top app bar visuals for each screen in feature module?
 
 // maps screen route to its visual
 val RouteToTabTextMapper = mapOf(

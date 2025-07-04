@@ -1,4 +1,4 @@
-package ru.ttb220.domain
+package ru.ttb220.expenses.domain
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -11,7 +11,7 @@ import ru.ttb220.model.transaction.TransactionDetailed
 import javax.inject.Inject
 
 // we may use GetTransactionsForActiveAccountPeriodUseCase instead
-class GetTodayIncomesForActiveAccountUseCase @Inject constructor(
+class GetTodayExpensesForActiveAccountUseCase @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
@@ -31,7 +31,7 @@ class GetTodayIncomesForActiveAccountUseCase @Inject constructor(
                     is SafeResult.Success -> {
                         SafeResult.Success(
                             transactionsResult.data
-                                .filter { it.category.isIncome }
+                                .filter { !it.category.isIncome }
                                 .sortedBy { it.transactionDate }
                         )
                     }

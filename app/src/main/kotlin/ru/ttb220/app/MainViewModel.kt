@@ -13,6 +13,10 @@ import kotlinx.coroutines.launch
 import ru.ttb220.data.repository.SettingsRepository
 import javax.inject.Inject
 
+/**
+ * Responsible for splash screen functionality
+ */
+
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository

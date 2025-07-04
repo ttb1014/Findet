@@ -14,14 +14,20 @@ enum class CurrencyData(
         iconId = R.drawable.ruble,
         fullNameId = R.string.ruble,
         symbol = '₽',
-    ),
+    ) {
+        override fun toString(): String = "RUB"
+    },
     DOLLAR(
         iconId = R.drawable.dollar,
         fullNameId = R.string.american_dollar,
         symbol = '$',
-    ),
+    ) {
+        override fun toString(): String = "USD"
+    },
     EURO(
         iconId = R.drawable.euro,
         fullNameId = R.string.euro,
-    )
+    ) {
+        override fun toString(): String = "EUR"
+    }
 }

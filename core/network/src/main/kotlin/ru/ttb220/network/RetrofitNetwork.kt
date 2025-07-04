@@ -10,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.ttb220.network.model.CategoryDto
@@ -41,7 +42,7 @@ internal interface NetworkApi {
         @Path("id") id: Int
     ): AccountDetailedResponseDto
 
-    @POST("accounts/{id}")
+    @PUT("accounts/{id}")
     suspend fun updateAccountById(
         @Path("id") id: Int,
         @Body accountCreateRequestDto: AccountCreateRequestDto

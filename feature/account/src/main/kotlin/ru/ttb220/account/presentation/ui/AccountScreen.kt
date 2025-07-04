@@ -41,7 +41,6 @@ fun AccountScreen(
     modifier: Modifier = Modifier,
     viewModel: AccountViewModel = hiltViewModel(),
     onBottomSheetShow: () -> Unit = {},
-    onBottomSheetDismiss: () -> Unit = {},
 ) {
     val accountScreenState by viewModel.accountScreenState.collectAsStateWithLifecycle()
 

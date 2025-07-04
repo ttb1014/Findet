@@ -1,6 +1,5 @@
 package ru.ttb220.app.ui
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -15,17 +14,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
+import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.app.navigation.FabRoutes
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.TopLevelDestination
 import ru.ttb220.currencyselector.presentation.ui.CurrencyBottomSheet
-import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.ui.component.AddFab
-import ru.ttb220.presentation.ui.component.TopAppBar
+import ru.ttb220.presentation.ui.component.topappbar.EditableTopAppBar
+import ru.ttb220.presentation.ui.component.topappbar.TopAppBar
 import ru.ttb220.presentation.ui.util.scrim
 
 @Composable
@@ -48,10 +53,65 @@ fun FindetApp(
 
     Scaffold(
         modifier = modifier,
-        topBar = {
+        topBar = tab@{
             topAppBarData?.let {
+
+                val defaultText = stringResource(topAppBarData.textId)
+
+                if (appState.isTopAppBarIsInEditMode) {
+                    val accountViewModel = navBackStackEntry?.let { entry ->
+                        hiltViewModel<AccountViewModel>(entry)
+                    }
+
+                    val currentAccountName: String? by (accountViewModel?.accountNameFlow
+                        ?: throw IllegalStateException("AccountViewModel is null"))
+                        .collectAsStateWithLifecycle(initialValue = null)
+
+                    var editedText by remember(
+                        appState.isTopAppBarIsInEditMode,
+                        currentAccountName
+                    ) {
+                        mutableStateOf(currentAccountName ?: defaultText)
+                    }
+
+                    EditableTopAppBar(
+                        text = editedText,
+                        modifier = Modifier.let {
+                            if (appState.isBottomSheetShown) {
+                                val scrim = MaterialTheme.colorScheme.scrim
+
+                                it.scrim(scrim)
+                            } else
+                                it
+                        },
+                        onLeadingIconClick = {
+                            appState.isTopAppBarIsInEditMode = false
+                        },
+                        onTrailingIconClick = {
+                            accountViewModel?.updateAccountName(
+                                editedText,
+                                afterEdited = {
+                                    appState.isTopAppBarIsInEditMode = false
+                                }
+                            )
+                        },
+                        onTextEdited = {
+                            editedText = it
+                        },
+                        onInputFinished = {
+                            accountViewModel?.updateAccountName(
+                                editedText,
+                                afterEdited = {
+                                    appState.isTopAppBarIsInEditMode = false
+                                }
+                            )
+                        },
+                    )
+                    return@tab
+                }
+
                 TopAppBar(
-                    text = stringResource(topAppBarData.textId),
+                    text = defaultText,
                     leadingIcon = topAppBarData.leadingIconId,
                     trailingIcon = topAppBarData.trailingIconId,
                     onLeadingIconClick = onLeadingIconClick,
@@ -112,19 +172,30 @@ fun FindetApp(
         )
     }
 
+    // BottomSheetFeature. Callback changing active currency is called from viewModel.
+    // viewModel is retrieved from viewModelStoreOwner (navBackStackEntry)
     if (appState.isBottomSheetShown) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ) {
+            val accountViewModel = navBackStackEntry?.let { entry ->
+                hiltViewModel<AccountViewModel>(entry)
+            }
+
             CurrencyBottomSheet(
-                currencies = CurrencyData.entries,
                 modifier = Modifier,
-                onCurrencyClick = {
+
+                // this onClick function is called AFTER viewModel's implementation in series (not in parallel)
+                onClick = {
+                    accountViewModel?.tryLoadAndUpdateState()
                 },
+
                 onDismiss = {
+                    accountViewModel?.tryLoadAndUpdateState()
+
                     appState.isBottomSheetShown = false
-                }
+                },
             )
         }
     }

@@ -3,51 +3,110 @@ package ru.ttb220.currencyselector.presentation.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import ru.ttb220.currencyselector.presentation.viewmodel.CurrencyViewModel
 import ru.ttb220.presentation.model.CurrencyData
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ThreeComponentListItem
 import ru.ttb220.presentation.ui.theme.KeyError
 import ru.ttb220.presentation.ui.theme.LightSurfaceContainerLow
-import ru.ttb220.presentation.model.R
+import kotlin.math.max
+import kotlin.math.roundToInt
 
 val DEFAULT_ITEM_HEIGHT = 72.dp
+val DRAG_THRESHOLD = 100.dp
 
 @Composable
 fun CurrencyBottomSheet(
-    currencies: List<CurrencyData>,
+    currencies: List<CurrencyData> = CurrencyData.entries,
     modifier: Modifier = Modifier,
-    onCurrencyClick: (CurrencyData) -> Unit = {},
+    viewModel: CurrencyViewModel = hiltViewModel<CurrencyViewModel>(),
+    onClick: () -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
+    // Drag state
+    var offsetY by remember { mutableFloatStateOf(0f) }
+    val density = LocalDensity.current
+
+    // handle back gesture to dismiss
     BackHandler {
-       onDismiss()
+        onDismiss()
     }
+
     Column(
         modifier = modifier
+            .offset {
+                IntOffset(
+                    x = 0,
+                    y = max(0, offsetY.roundToInt())
+                )
+            }
+            .pointerInput(onDismiss) {
+                detectDragGestures(
+                    onDrag = { change, dragAmount ->
+                        val (x, y) = dragAmount
+                        offsetY += y
+                        // Prevent drag-up
+                        offsetY = max(0f, offsetY)
+                    },
+                    onDragEnd = {
+                        // If the offset after drag exceeds a threshold, dismiss
+                        with(density) {
+                            if (offsetY > DRAG_THRESHOLD.toPx()) {
+                                onDismiss()
+                                return@with
+                            }
+
+                            // Snap back
+                            offsetY = 0f
+                        }
+                    },
+                )
+            }
             .background(
                 LightSurfaceContainerLow,
                 RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+            )
+            .windowInsetsPadding(
+                WindowInsets.systemBars
+                    .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)
             )
     ) {
         Header()
@@ -55,7 +114,9 @@ fun CurrencyBottomSheet(
             items(currencies.size) { index ->
                 CurrencySelectorItem(
                     currencies[index],
-                    Modifier.clickable(onClick = { onCurrencyClick(currencies[index]) })
+                    Modifier.clickable(onClick = {
+                        viewModel.onCurrencyClick(currencies[index], onClick)
+                    })
                 )
             }
         }
@@ -147,9 +208,15 @@ private fun Header(
         Box(
             modifier = Modifier.drawWithContent {
                 drawContent()
+                val handleWidth = 32.dp.toPx()
+                val handleHeight = 4.dp.toPx()
+                val x = (size.width - handleWidth) / 2
+                val y = (size.height - handleHeight) / 2
+
                 drawRoundRect(
                     handleColor,
-                    size = Size(32.dp.toPx(), 4.dp.toPx()),
+                    topLeft = Offset(x, y),
+                    size = Size(handleWidth, handleHeight),
                     cornerRadius = CornerRadius(100f, 100f),
                 )
             }

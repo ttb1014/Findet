@@ -13,3 +13,9 @@ data class AccountDetailed(
     val createdAt: Instant,
     val updatedAt: Instant,
 )
+
+fun AccountDetailed.toAccountBrief() = AccountBrief(
+    name = name,
+    balance = balance,
+    currency = currency
+)

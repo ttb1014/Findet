@@ -1,6 +1,13 @@
 package ru.ttb220.presentation.model.util
 
-object CurrencySymbolMapper {
+import ru.ttb220.presentation.model.CurrencyData
+
+/**
+ * Responsible for mapping Currency code to it's presentation-model.
+ * As for now there's no domain model representing all available currencies since there's no established
+ * contract with backend for this case and currency is stored and passed between modules\components as string.
+ */
+object CurrencyMapper {
 
     private val currencyMap = mapOf(
         "RUB" to "₽",   // Российский рубль
@@ -27,4 +34,17 @@ object CurrencySymbolMapper {
 
     fun getSymbol(currencyCode: String): String =
         currencyMap[currencyCode.uppercase()] ?: currencyCode
+
+    fun toCurrencyData(currencyCode: String): CurrencyData {
+        return when (currencyCode) {
+            "USD" -> CurrencyData.DOLLAR
+
+            "EUR" -> CurrencyData.EURO
+
+            "RUB" -> CurrencyData.RUSSIAN_RUBLE
+
+            // TODO: refactor
+            else -> throw RuntimeException("Not implemented $currencyCode")
+        }
+    }
 }

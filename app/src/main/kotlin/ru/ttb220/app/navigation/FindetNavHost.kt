@@ -37,9 +37,6 @@ fun FindetNavHost(
         accountScreen(
             onBottomSheetShow = {
                 appState.isBottomSheetShown = true
-            },
-            onBottomSheetDismiss = {
-                appState.isBottomSheetShown = false
             }
         )
         addAccountScreen()

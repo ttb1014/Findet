@@ -21,8 +21,7 @@ fun NavController.navigateToAccount(
 }
 
 fun NavGraphBuilder.accountScreen(
-    onBottomSheetShow: () -> Unit,
-    onBottomSheetDismiss: () -> Unit
+    onBottomSheetShow: () -> Unit
 ) {
     composable(
         route = ACCOUNT_SCREEN_ROUTE,
@@ -36,7 +35,6 @@ fun NavGraphBuilder.accountScreen(
     ) {
         AccountScreen(
             onBottomSheetShow = onBottomSheetShow,
-            onBottomSheetDismiss = onBottomSheetDismiss,
         )
     }
 }

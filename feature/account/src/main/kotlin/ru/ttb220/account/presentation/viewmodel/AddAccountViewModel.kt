@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.ttb220.domain.AddAccountUseCase
+import ru.ttb220.account.domain.AddAccountUseCase
 import ru.ttb220.model.account.AccountBrief
 import javax.inject.Inject
 

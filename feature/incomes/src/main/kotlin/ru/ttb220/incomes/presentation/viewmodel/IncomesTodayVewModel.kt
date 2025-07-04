@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.ttb220.data.NetworkMonitor
 import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
-import ru.ttb220.domain.GetTodayIncomesForActiveAccountUseCase
+import ru.ttb220.incomes.domain.GetTodayIncomesForActiveAccountUseCase
 import ru.ttb220.incomes.presentation.model.IncomesTodayScreenState
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.screen.IncomesScreenData
 import ru.ttb220.presentation.model.toIncomeData
-import ru.ttb220.presentation.model.util.CurrencySymbolMapper
+import ru.ttb220.presentation.model.util.CurrencyMapper
 import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
 import ru.ttb220.presentation.model.util.NumberToStringMapper
 import javax.inject.Inject
@@ -74,7 +74,7 @@ class IncomesTodayVewModel @Inject constructor(
                         currencyCodeResult as SafeResult.Success
 
                         val currencySymbol =
-                            CurrencySymbolMapper.getSymbol(currencyCodeResult.data)
+                            CurrencyMapper.getSymbol(currencyCodeResult.data)
 
                         val totalAmountString =
                             NumberToStringMapper.map(totalAmountDouble, currencySymbol)
