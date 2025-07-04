@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":feature:settings"))
     implementation(project(":feature:account"))
     implementation(project(":feature:categories"))
+    implementation(project(":feature:currencyselector"))
     implementation(project(":core:data"))
 
 

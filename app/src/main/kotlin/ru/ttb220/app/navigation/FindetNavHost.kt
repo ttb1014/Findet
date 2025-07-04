@@ -4,18 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import ru.ttb220.account.add.addAccountScreen
-import ru.ttb220.account.main.accountScreen
-import ru.ttb220.categories.categoriesScreen
-import ru.ttb220.expenses.history.expensesHistoryScreen
-import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE_BASE
-import ru.ttb220.expenses.today.expensesTodayScreen
-import ru.ttb220.incomes.history.incomesHistoryScreen
-import ru.ttb220.incomes.today.incomesTodayScreen
-import ru.ttb220.settings.settingsScreen
+import ru.ttb220.account.presentation.navigation.addAccountScreen
+import ru.ttb220.account.presentation.navigation.accountScreen
+import ru.ttb220.app.ui.AppState
+import ru.ttb220.categories.presentation.navigation.categoriesScreen
+import ru.ttb220.expenses.presentation.navigation.expensesHistoryScreen
+import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.expensesTodayScreen
+import ru.ttb220.incomes.presentation.navigation.incomesHistoryScreen
+import ru.ttb220.incomes.presentation.navigation.incomesTodayScreen
+import ru.ttb220.settings.presentation.navigation.settingsScreen
 
 @Composable
 fun FindetNavHost(
+    appState: AppState,
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
     startRoute: String = EXPENSES_TODAY_SCREEN_ROUTE_BASE
@@ -32,7 +34,11 @@ fun FindetNavHost(
         incomesTodayScreen()
         incomesHistoryScreen()
 
-        accountScreen()
+        accountScreen(
+            onBottomSheetShow = {
+                appState.isBottomSheetShown = true
+            }
+        )
         addAccountScreen()
 
         categoriesScreen()

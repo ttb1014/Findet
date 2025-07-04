@@ -2,26 +2,30 @@ package ru.ttb220.app.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.ttb220.account.add.ADD_ACCOUNT_SCREEN_ROUTE
-import ru.ttb220.account.add.AddAccountViewModel
-import ru.ttb220.account.main.navigateToAccount
+import ru.ttb220.account.presentation.navigation.ACCOUNT_SCREEN_ROUTE_BASE
+import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.account.presentation.navigation.navigateToAccount
+import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
 import ru.ttb220.app.navigation.TopLevelDestination
-import ru.ttb220.categories.navigateToCategories
-import ru.ttb220.expenses.history.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
-import ru.ttb220.expenses.history.navigateToExpensesHistory
-import ru.ttb220.expenses.today.EXPENSES_TODAY_SCREEN_ROUTE_BASE
-import ru.ttb220.expenses.today.navigateToExpensesToday
-import ru.ttb220.incomes.history.INCOMES_HISTORY_SCREEN_ROUTE_BASE
-import ru.ttb220.incomes.history.navigateToIncomesHistory
-import ru.ttb220.incomes.today.INCOMES_TODAY_SCREEN_ROUTE_BASE
-import ru.ttb220.incomes.today.navigateToIncomesToday
-import ru.ttb220.settings.navigateToSettings
+import ru.ttb220.categories.presentation.navigation.navigateToCategories
+import ru.ttb220.expenses.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.navigateToExpensesHistory
+import ru.ttb220.expenses.presentation.navigation.navigateToExpensesToday
+import ru.ttb220.incomes.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
+import ru.ttb220.incomes.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.incomes.presentation.navigation.navigateToIncomesHistory
+import ru.ttb220.incomes.presentation.navigation.navigateToIncomesToday
+import ru.ttb220.settings.presentation.navigation.navigateToSettings
 
 @Composable
 fun rememberAppState(
@@ -35,15 +39,19 @@ fun rememberAppState(
 }
 
 /**
- * holds app's data, contains methods for navigation.
- * Probably we want to move navigation logic to viewModel, but that would only overcomplicate code, since navigation
- * is delegated to feature's implementation
+ * Holds app's data, contains methods for navigation.
+ * Navigation is delegated to feature's impl
  */
 @Stable
 class AppState(
     val activeAccountId: Int?,
     val navHostController: NavHostController,
 ) {
+    // new property.
+    // if true we want to hide FAB and bottom navigation
+    var isBottomSheetShown by mutableStateOf(false)
+    var isTopAppBarIsInEditMode by mutableStateOf(false)
+
     val currentRoute: String?
         @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -59,6 +67,8 @@ class AppState(
     fun popBackStack() = navHostController.popBackStack()
 
     fun navigateTo(topLevelDestination: TopLevelDestination) {
+        isTopAppBarIsInEditMode = false
+
         when (topLevelDestination) {
             TopLevelDestination.EXPENSES ->
                 navHostController.navigateToExpensesToday(
@@ -94,6 +104,8 @@ class AppState(
         navHostController.navigate(route)
     }
 
+    // 4 properties of TAB and FAB that are resolved depending on current route
+    // ALL values are remembered and functions are called only when active route changes
     @Composable
     fun onTabLeadingIconClick(): () -> Unit {
         val cachedRoute = currentRoute
@@ -139,6 +151,14 @@ class AppState(
             return remember(cachedRoute) {
                 {
                     navigateToHistory(true)
+                }
+            }
+        }
+
+        if (cachedRoute?.contains(ACCOUNT_SCREEN_ROUTE_BASE) == true) {
+            return remember(cachedRoute) {
+                {
+                    isTopAppBarIsInEditMode = true
                 }
             }
         }

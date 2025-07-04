@@ -42,4 +42,5 @@
     <string name="start">Начало</string>
     <string name="end">Конец</string>
     <string name="total">Сумма</string>
+    <string name="cancel">Отмена</string>
 </resources>

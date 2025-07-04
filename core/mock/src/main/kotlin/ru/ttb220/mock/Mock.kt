@@ -84,6 +84,7 @@ val mockIncomesScreenData = IncomesScreenData(
 )
 
 val mockAccountScreenData = AccountScreenData(
+    accountName = "Сбербанк",
     leadingIconId = R.drawable.money_bag,
     balance = "-670 000 ₽",
     currencyData = CurrencyData.RUSSIAN_RUBLE

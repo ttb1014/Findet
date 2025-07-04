@@ -33,10 +33,12 @@ fun BottomBar(
     onNavigateTo: (TopLevelDestination) -> Unit = {},
 ) {
     Surface(
-        modifier = modifier.windowInsetsPadding(
-            WindowInsets.systemBars
-                .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)
-        )
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .windowInsetsPadding(
+                WindowInsets.systemBars
+                    .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)
+            )
     ) {
         Row(
             modifier = Modifier
