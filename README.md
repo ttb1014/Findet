@@ -79,12 +79,14 @@
 - BEARER_TOKEN
 - BACKEND_URL
 ###
-![Пример](screenshots/secrets.png)
-![Пример](screenshots/secrets2.png)
+
+<img src="screenshots/secrets.png" alt="Пример secrets.properties">
+<img src="screenshots/secrets2.png" alt="Пример secrets.properties 2">
 
 Также для тестирования экранов расходы/доходы/история можно изменить активный accountId в mock-данных
 ###
-![Пояснение](screenshots/accountId.png)
+
+<img src="screenshots/accountId.png" alt="Пояснение accountId">
 
 ## Скриншоты
 
@@ -92,12 +94,12 @@
 
 #### 📝 Редактирование названия аккаунта
 
-![Редактирование аккаунта](screenshots/w4_account_edit.png)
+<img src="screenshots/w4_account_edit.png" width="214" height="461" alt="Редактирование аккаунта">
 
 #### 💰 Выбор валюты через BottomSheet
 
-![Выбор валюты](screenshots/w4_currency_selector.png)
+<img src="screenshots/w4_currency_selector.png" width="214" height="461" alt="Выбор валюты">
 
 #### 🔍 Поиск по категориям
 
-![Поиск категорий](screenshots/w4_categories_search.png)
+<img src="screenshots/w4_categories_search.png" width="214" height="461" alt="Поиск категорий">
