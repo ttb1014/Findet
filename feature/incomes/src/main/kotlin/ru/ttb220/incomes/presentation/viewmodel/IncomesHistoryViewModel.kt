@@ -8,7 +8,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.NetworkMonitor
 import ru.ttb220.data.TimeProvider
 import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
@@ -36,6 +40,32 @@ class IncomesHistoryViewModel @Inject constructor(
         MutableStateFlow(IncomesHistoryScreenState.Loading)
     val historyScreenState = _incomesHistoryScreenState.asStateFlow()
 
+    private var startDateMillis: Long = 0L
+    private var endDateMillis: Long = 0L
+
+    private fun initializeDates() = viewModelScope.launch {
+        val startOfMonth = timeProvider.startOfAMonth().first()
+        val today = timeProvider.today().first()
+
+        startDateMillis = startOfMonth.asEpochMillisAtTimeZone(timeZone)
+        endDateMillis = today.asEpochMillisAtTimeZone(timeZone)
+    }
+
+    private fun parseDatesAndLoadData() = viewModelScope.launch {
+        val isOnline = networkMonitor.isOnline.first()
+        if (!isOnline) {
+            _incomesHistoryScreenState.value = IncomesHistoryScreenState.ErrorResource(
+                R.string.error_disconnected
+            )
+            return@launch
+        }
+
+        val startDate = startDateMillis.asLocalDateAtTimeZone(timeZone)
+        val endDate = endDateMillis.asLocalDateAtTimeZone(timeZone)
+
+        loadDataAndUpdateState(startDate, endDate)
+    }
+
     private fun tryLoadAndUpdateState() = viewModelScope.launch {
         val isOnline = networkMonitor.isOnline.first()
         if (!isOnline) {
@@ -45,73 +75,100 @@ class IncomesHistoryViewModel @Inject constructor(
             return@launch
         }
 
-        val startDate = timeProvider.startOfAMonth().first()
-        val endDate = timeProvider.today().first()
+        val startDate =
+            Instant.fromEpochMilliseconds(startDateMillis).toLocalDateTime(timeZone).date
+        val endDate = Instant.fromEpochMilliseconds(endDateMillis).toLocalDateTime(timeZone).date
 
-        val currencyDeferred = async {
+        loadDataAndUpdateState(startDate, endDate)
+    }
+
+    private suspend fun loadDataAndUpdateState(startDate: LocalDate, endDate: LocalDate) {
+        val currencyDeferred = viewModelScope.async {
             getActiveAccountCurrencyUseCase.invoke().first()
         }
 
         getTransactionsForActiveAccountPeriodUseCase.invoke(
-            false,
+            true,
             startDate,
             endDate
-        )
-            .collect { transactionsResult ->
-                when (transactionsResult) {
-                    is SafeResult.Failure -> {
+        ).collect { transactionsResult ->
+            when (transactionsResult) {
+                is SafeResult.Failure -> {
+                    _incomesHistoryScreenState.value =
+                        IncomesHistoryScreenState.ErrorResource(
+                            DomainErrorMessageMapper.toMessageRes(transactionsResult.cause)
+                        )
+                }
+
+                is SafeResult.Success -> {
+                    val totalAmountDouble =
+                        transactionsResult.data.fold(0.0) { acc, transaction ->
+                            acc + transaction.amount.toDouble()
+                        }
+                    val currencyCodeResult = currencyDeferred.await()
+
+                    if (currencyCodeResult is SafeResult.Failure) {
                         _incomesHistoryScreenState.value =
                             IncomesHistoryScreenState.ErrorResource(
-                                DomainErrorMessageMapper.toMessageRes(transactionsResult.cause)
+                                DomainErrorMessageMapper.toMessageRes(currencyCodeResult.cause)
                             )
+                        return@collect
                     }
 
-                    // calculate total amount -> convert it to string using mapper from presentation/model/mapper ->
-                    // update ui state
-                    is SafeResult.Success -> {
-                        val totalAmountDouble =
-                            transactionsResult.data.fold(0.0) { acc, transaction ->
-                                acc + transaction.amount.toDouble()
-                            }
-                        val currencyCodeResult = currencyDeferred.await()
+                    currencyCodeResult as SafeResult.Success
 
-                        // if we get an error while collecting currency code -> show error and return
-                        if (currencyCodeResult is SafeResult.Failure) {
-                            _incomesHistoryScreenState.value =
-                                IncomesHistoryScreenState.ErrorResource(
-                                    DomainErrorMessageMapper.toMessageRes(currencyCodeResult.cause)
+                    val currencySymbol =
+                        CurrencyMapper.getSymbol(currencyCodeResult.data)
+
+                    val totalAmountString =
+                        NumberToStringMapper.map(totalAmountDouble, currencySymbol)
+
+                    _incomesHistoryScreenState.value = IncomesHistoryScreenState.Loaded(
+                        data = HistoryScreenData(
+                            startDate = startDate.toString(),
+                            endDate = endDate.toString(),
+                            totalAmount = totalAmountString,
+                            expenses = transactionsResult.data.map {
+                                it.toTransactionHistoryData(
+                                    currencySymbol,
+                                    timeZone
                                 )
-
-                            return@collect
-                        }
-
-                        currencyCodeResult as SafeResult.Success
-
-                        val currencySymbol =
-                            CurrencyMapper.getSymbol(currencyCodeResult.data)
-
-                        val totalAmountString =
-                            NumberToStringMapper.map(totalAmountDouble, currencySymbol)
-
-                        _incomesHistoryScreenState.value = IncomesHistoryScreenState.Loaded(
-                            data = HistoryScreenData(
-                                startDate = startDate.toString(),
-                                endDate = endDate.toString(),
-                                totalAmount = totalAmountString,
-                                expenses = transactionsResult.data.map {
-                                    it.toTransactionHistoryData(
-                                        currencySymbol,
-                                        timeZone
-                                    )
-                                }
-                            )
+                            }
                         )
-                    }
+                    )
                 }
             }
+        }
     }
 
+    fun onEndDateSelected(dateMillis: Long?) {
+        if (dateMillis == null) return
+
+        endDateMillis = dateMillis
+
+        parseDatesAndLoadData()
+    }
+
+    fun onStartDateSelected(dateMillis: Long?) {
+        if(dateMillis == null) return
+
+        startDateMillis = dateMillis
+
+        parseDatesAndLoadData()
+    }
+
+    private fun Long.asLocalDateAtTimeZone(timeZone: TimeZone): LocalDate {
+        return Instant.fromEpochMilliseconds(this).toLocalDateTime(timeZone).date
+    }
+
+    private fun LocalDate.asEpochMillisAtTimeZone(timeZone: TimeZone): Long =
+        this.atStartOfDayIn(timeZone).toEpochMilliseconds()
+
     init {
-        tryLoadAndUpdateState()
+        viewModelScope.launch {
+            initializeDates().join()
+
+            parseDatesAndLoadData()
+        }
     }
 }

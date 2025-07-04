@@ -1,6 +1,7 @@
 package ru.ttb220.expenses.presentation.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,18 +29,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.ttb220.expenses.presentation.model.AlertDatePickerState
 import ru.ttb220.expenses.presentation.model.ExpensesHistoryScreenState
 import ru.ttb220.expenses.presentation.viewmodel.ExpensesHistoryViewModel
 import ru.ttb220.mock.mockHistoryScreenData
 import ru.ttb220.presentation.model.EmojiData
-import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.R
+import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.ui.component.ColumnListItem
-import ru.ttb220.presentation.ui.component.ThreeComponentListItem
+import ru.ttb220.presentation.ui.component.DatePickerDialog
 import ru.ttb220.presentation.ui.component.DynamicIcon
 import ru.ttb220.presentation.ui.component.DynamicIconResource
 import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel
+import ru.ttb220.presentation.ui.component.ThreeComponentListItem
 import ru.ttb220.presentation.ui.theme.GreenHighlight
 import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 
@@ -60,9 +66,10 @@ fun ExpensesHistoryScreen(
 
         is ExpensesHistoryScreenState.Loaded -> ExpensesHistoryScreenContent(
             historyScreenData = (historyScreenState as ExpensesHistoryScreenState.Loaded).data,
-            modifier = modifier
+            modifier = modifier,
+            onStartDateSelected = viewModel::onStartDateSelected,
+            onEndDateSelected = viewModel::onEndDateSelected,
         )
-
 
         ExpensesHistoryScreenState.Loading -> Box(
             Modifier.fillMaxSize(),
@@ -87,20 +94,47 @@ fun ExpensesHistoryScreen(
 fun ExpensesHistoryScreenContent(
     historyScreenData: HistoryScreenData,
     modifier: Modifier = Modifier,
+    onStartDateSelected: (Long?) -> Unit = {},
+    onEndDateSelected: (Long?) -> Unit = {},
 ) {
     val lazyListState = rememberLazyListState()
+    var alertDatePickerState by remember { mutableStateOf(AlertDatePickerState.HIDDEN) }
+
+    if (alertDatePickerState != AlertDatePickerState.HIDDEN) {
+        DatePickerDialog(
+            onDismiss = {
+                alertDatePickerState = AlertDatePickerState.HIDDEN
+            },
+            onDateSelected = {
+                when (alertDatePickerState) {
+                    AlertDatePickerState.START_DATE -> {
+                        onStartDateSelected(it)
+                    }
+
+                    AlertDatePickerState.END_DATE -> {
+                        onEndDateSelected(it)
+                    }
+
+                    AlertDatePickerState.HIDDEN -> {}
+                }
+            }
+        )
+    }
 
     Column(
         modifier.fillMaxSize()
     ) {
         TimeCard(
-            R.string.start,
-            historyScreenData.startDate
+            leadingText = R.string.start,
+            date = historyScreenData.startDate,
+            onClick = { alertDatePickerState = AlertDatePickerState.START_DATE }
         )
         TimeCard(
-            R.string.end,
-            historyScreenData.endDate
+            leadingText = R.string.end,
+            date = historyScreenData.endDate,
+            onClick = { alertDatePickerState = AlertDatePickerState.END_DATE }
         )
+
         ColumnListItem(
             title = stringResource(R.string.total),
             modifier = Modifier.height(56.dp),
@@ -239,14 +273,17 @@ private fun HistoryColumnItemPreview() {
 @Composable
 fun TimeCard(
     @StringRes leadingText: Int,
-    startDate: String,
+    date: String,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit) = {},
 ) {
     ColumnListItem(
         title = stringResource(leadingText),
-        modifier = modifier.height(56.dp),
+        modifier = modifier
+            .height(56.dp)
+            .clickable { onClick() },
         background = GreenHighlight,
-        trailingText = startDate,
+        trailingText = date,
         shouldShowTrailingDivider = true,
     )
 }
