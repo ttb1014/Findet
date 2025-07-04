@@ -150,6 +150,8 @@ fun FindetApp(
                 // this onClick function is called AFTER viewModel's implementation - in series (not in parallel)
                 onClick = {
                     accountViewModel?.tryLoadAndUpdateState()
+
+                    appState.isBottomSheetShown = false
                 },
 
                 onDismiss = {

@@ -27,6 +27,7 @@ enum class CurrencyData(
     EURO(
         iconId = R.drawable.euro,
         fullNameId = R.string.euro,
+        symbol = '€',
     ) {
         override fun toString(): String = "EUR"
     }
