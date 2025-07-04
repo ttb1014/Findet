@@ -14,22 +14,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
+import ru.ttb220.account.presentation.ui.AccountEditableTopAppBar
 import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.app.navigation.FabRoutes
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.TopLevelDestination
 import ru.ttb220.currencyselector.presentation.ui.CurrencyBottomSheet
 import ru.ttb220.presentation.ui.component.AddFab
-import ru.ttb220.presentation.ui.component.topappbar.EditableTopAppBar
 import ru.ttb220.presentation.ui.component.topappbar.TopAppBar
 import ru.ttb220.presentation.ui.util.scrim
 
@@ -59,23 +55,7 @@ fun FindetApp(
                 val defaultText = stringResource(topAppBarData.textId)
 
                 if (appState.isTopAppBarIsInEditMode) {
-                    val accountViewModel = navBackStackEntry?.let { entry ->
-                        hiltViewModel<AccountViewModel>(entry)
-                    }
-
-                    val currentAccountName: String? by (accountViewModel?.accountNameFlow
-                        ?: throw IllegalStateException("AccountViewModel is null"))
-                        .collectAsStateWithLifecycle(initialValue = null)
-
-                    var editedText by remember(
-                        appState.isTopAppBarIsInEditMode,
-                        currentAccountName
-                    ) {
-                        mutableStateOf(currentAccountName ?: defaultText)
-                    }
-
-                    EditableTopAppBar(
-                        text = editedText,
+                    AccountEditableTopAppBar(
                         modifier = Modifier.let {
                             if (appState.isBottomSheetShown) {
                                 val scrim = MaterialTheme.colorScheme.scrim
@@ -84,28 +64,9 @@ fun FindetApp(
                             } else
                                 it
                         },
-                        onLeadingIconClick = {
+                        hideTabCallback = {
                             appState.isTopAppBarIsInEditMode = false
-                        },
-                        onTrailingIconClick = {
-                            accountViewModel?.updateAccountName(
-                                editedText,
-                                afterEdited = {
-                                    appState.isTopAppBarIsInEditMode = false
-                                }
-                            )
-                        },
-                        onTextEdited = {
-                            editedText = it
-                        },
-                        onInputFinished = {
-                            accountViewModel?.updateAccountName(
-                                editedText,
-                                afterEdited = {
-                                    appState.isTopAppBarIsInEditMode = false
-                                }
-                            )
-                        },
+                        }
                     )
                     return@tab
                 }
@@ -186,7 +147,7 @@ fun FindetApp(
             CurrencyBottomSheet(
                 modifier = Modifier,
 
-                // this onClick function is called AFTER viewModel's implementation in series (not in parallel)
+                // this onClick function is called AFTER viewModel's implementation - in series (not in parallel)
                 onClick = {
                     accountViewModel?.tryLoadAndUpdateState()
                 },
