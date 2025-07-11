@@ -6,8 +6,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
-import ru.ttb220.data.di.DataModule
-import ru.ttb220.presentation.ui.util.ViewModelKey
+import ru.ttb220.common.di.ViewModelKey
 
 @Module(
     includes = [

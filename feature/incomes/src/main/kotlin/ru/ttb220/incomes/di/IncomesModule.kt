@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.ttb220.data.di.DataModule
 import ru.ttb220.incomes.presentation.viewmodel.IncomesHistoryViewModel
 import ru.ttb220.incomes.presentation.viewmodel.IncomesTodayViewModel
-import ru.ttb220.presentation.ui.util.ViewModelKey
+import ru.ttb220.common.di.ViewModelKey
 
 @Module(
     includes = [

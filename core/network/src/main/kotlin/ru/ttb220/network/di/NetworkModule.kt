@@ -7,10 +7,10 @@ import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import ru.ttb220.network.BuildConfig
-import ru.ttb220.network.RemoteDataSource
-import ru.ttb220.network.RetrofitNetwork
-import ru.ttb220.network.interceptor.AuthInterceptor
-import ru.ttb220.network.interceptor.HttpCodeInterceptor
+import ru.ttb220.network.api.RemoteDataSource
+import ru.ttb220.network.impl.RetrofitNetwork
+import ru.ttb220.network.impl.interceptor.AuthInterceptor
+import ru.ttb220.network.impl.interceptor.HttpCodeInterceptor
 import javax.inject.Singleton
 
 @Module
@@ -49,6 +49,7 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun providesRemoteDataSource(
         retrofitNetwork: RetrofitNetwork
     ): RemoteDataSource {

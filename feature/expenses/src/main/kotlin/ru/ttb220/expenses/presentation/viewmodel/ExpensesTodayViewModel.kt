@@ -7,16 +7,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import ru.ttb220.data.NetworkMonitor
+import ru.ttb220.data.api.NetworkMonitor
 import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.expenses.domain.GetTodayExpensesForActiveAccountUseCase
 import ru.ttb220.expenses.presentation.model.ExpensesTodayScreenState
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.model.toExpenseState
-import ru.ttb220.presentation.model.util.CurrencyMapper
-import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
-import ru.ttb220.presentation.model.util.NumberToStringMapper
+import ru.ttb220.presentation.util.CurrencyMapper
+import ru.ttb220.presentation.util.DomainErrorMessageMapper
+import ru.ttb220.presentation.util.NumberToStringMapper
 import javax.inject.Inject
 
 class ExpensesTodayViewModel @Inject constructor(

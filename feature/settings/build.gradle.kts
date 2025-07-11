@@ -36,12 +36,13 @@ android {
 }
 
 dependencies {
-    api(project(":core:presentation:ui"))
     api(project(":core:data"))
     api(project(":core:model"))
-    api(project(":core:presentation:model"))
     api(project(":core:domain"))
     api(project(":core:mock"))
+    api(project(":core:presentation:model"))
+    api(project(":core:presentation:ui"))
+    api(project(":core:presentation:common"))
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

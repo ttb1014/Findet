@@ -5,8 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.ttb220.categories.presentation.viewmodel.CategoriesViewModel
-import ru.ttb220.data.di.DataModule
-import ru.ttb220.presentation.ui.util.ViewModelKey
+import ru.ttb220.common.di.ViewModelKey
 
 @Module(
     includes = [

@@ -5,7 +5,7 @@ import androidx.compose.runtime.Immutable
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.presentation.model.util.EmojiToResourceMapper
+import ru.ttb220.presentation.util.EmojiToResourceMapper
 
 @Immutable
 data class TransactionHistoryData(

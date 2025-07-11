@@ -12,8 +12,8 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import ru.ttb220.data.NetworkMonitor
-import ru.ttb220.data.TimeProvider
+import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.domain.GetTransactionsForActiveAccountPeriodUseCase
 import ru.ttb220.incomes.presentation.model.IncomesHistoryScreenState
@@ -21,9 +21,9 @@ import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.toTransactionHistoryData
-import ru.ttb220.presentation.model.util.CurrencyMapper
-import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
-import ru.ttb220.presentation.model.util.NumberToStringMapper
+import ru.ttb220.presentation.util.CurrencyMapper
+import ru.ttb220.presentation.util.DomainErrorMessageMapper
+import ru.ttb220.presentation.util.NumberToStringMapper
 import javax.inject.Inject
 
 class IncomesHistoryViewModel @Inject constructor(

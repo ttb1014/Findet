@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
-        AppModule2::class,
     ],
 )
 @Singleton

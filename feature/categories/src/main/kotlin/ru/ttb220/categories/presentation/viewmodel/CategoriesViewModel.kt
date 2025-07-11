@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.ttb220.categories.domain.GetAllCategoriesUseCase
 import ru.ttb220.categories.presentation.model.CategoriesScreenState
-import ru.ttb220.data.NetworkMonitor
+import ru.ttb220.data.api.NetworkMonitor
 import ru.ttb220.model.DomainError
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.CategoryData
 import ru.ttb220.presentation.model.screen.CategoriesScreenData
-import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
-import ru.ttb220.presentation.model.util.EmojiMapper
+import ru.ttb220.presentation.util.DomainErrorMessageMapper
+import ru.ttb220.presentation.util.EmojiMapper
 import javax.inject.Inject
 
 class CategoriesViewModel @Inject constructor(

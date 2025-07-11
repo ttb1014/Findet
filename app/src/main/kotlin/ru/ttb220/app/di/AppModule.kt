@@ -9,13 +9,13 @@ import dagger.multibindings.IntoMap
 import ru.ttb220.account.di.AccountComponent
 import ru.ttb220.app.MainViewModel
 import ru.ttb220.categories.di.CategoriesComponent
+import ru.ttb220.common.di.DaggerVMFactory
+import ru.ttb220.common.di.ViewModelKey
 import ru.ttb220.currencyselector.di.CurrencySelectorComponent
 import ru.ttb220.data.di.DataModule
-import ru.ttb220.data.repository.SettingsRepository
+import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.expenses.di.ExpensesComponent
 import ru.ttb220.incomes.di.IncomesComponent
-import ru.ttb220.presentation.ui.util.DaggerVMFactory
-import ru.ttb220.presentation.ui.util.ViewModelKey
 
 @Module(
     includes = [
@@ -38,13 +38,4 @@ interface AppModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     fun bindsMainViewModel(mainViewModel: MainViewModel): ViewModel
-}
-
-@Module
-object AppModule2 {
-
-    @Provides
-    fun provideMainViewModel(settingsRepository: SettingsRepository): MainViewModel {
-        return MainViewModel(settingsRepository)
-    }
 }

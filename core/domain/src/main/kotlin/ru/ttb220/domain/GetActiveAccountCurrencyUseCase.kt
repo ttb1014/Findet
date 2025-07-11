@@ -4,8 +4,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.SettingsRepository
+import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.model.SafeResult
 import javax.inject.Inject
 

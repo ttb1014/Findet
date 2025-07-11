@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import ru.ttb220.data.repository.SettingsRepository
+import ru.ttb220.data.api.SettingsRepository
 import javax.inject.Inject
 
 /**

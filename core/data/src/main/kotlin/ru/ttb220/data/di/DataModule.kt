@@ -2,18 +2,18 @@ package ru.ttb220.data.di
 
 import dagger.Binds
 import dagger.Module
-import ru.ttb220.data.NetworkMonitor
-import ru.ttb220.data.TimeProvider
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.CategoriesRepository
-import ru.ttb220.data.repository.SettingsRepository
-import ru.ttb220.data.repository.TransactionsRepository
-import ru.ttb220.data.repository.internal.DefaultNetworkMonitor
-import ru.ttb220.data.repository.internal.DefaultTimeProvider
-import ru.ttb220.data.repository.internal.MockSettingsRepository
-import ru.ttb220.data.repository.internal.OnlineAccountRepository
-import ru.ttb220.data.repository.internal.OnlineCategoriesRepository
-import ru.ttb220.data.repository.internal.OnlineTransactionsRepository
+import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.TimeProvider
+import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.CategoriesRepository
+import ru.ttb220.data.api.SettingsRepository
+import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.data.impl.DefaultNetworkMonitor
+import ru.ttb220.data.impl.DefaultTimeProvider
+import ru.ttb220.data.impl.MockSettingsRepository
+import ru.ttb220.data.impl.OnlineAccountRepository
+import ru.ttb220.data.impl.OnlineCategoriesRepository
+import ru.ttb220.data.impl.OnlineTransactionsRepository
 import ru.ttb220.network.di.NetworkModule
 
 @Module(
