@@ -3,9 +3,9 @@ package ru.ttb220.expenses.domain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import ru.ttb220.data.TimeProvider
-import ru.ttb220.data.repository.SettingsRepository
-import ru.ttb220.data.repository.TransactionsRepository
+import ru.ttb220.data.api.TimeProvider
+import ru.ttb220.data.api.SettingsRepository
+import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
 import javax.inject.Inject

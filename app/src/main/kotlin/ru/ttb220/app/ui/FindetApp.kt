@@ -13,18 +13,28 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.ttb220.account.di.AccountComponentProvider
 import ru.ttb220.account.presentation.ui.AccountEditableTopAppBar
 import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.app.navigation.FabRoutes
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.TopLevelDestination
-import ru.ttb220.currencyselector.presentation.ui.CurrencyBottomSheet
+import ru.ttb220.bottomsheet.presentation.model.CategoryBottomSheetType
+import ru.ttb220.bottomsheet.presentation.ui.AccountBottomSheet
+import ru.ttb220.bottomsheet.presentation.ui.CategoryBottomSheet
+import ru.ttb220.bottomsheet.presentation.ui.CurrencyBottomSheet
+import ru.ttb220.bottomsheet.presentation.viewmodel.AccountBottomSheetViewModel
+import ru.ttb220.bottomsheet.presentation.viewmodel.CategoryBottomSheetViewModel
+import ru.ttb220.bottomsheet.presentation.viewmodel.CurrencyViewModel
+import ru.ttb220.expenses.presentation.navigation.TOP_LEVEL_EXPENSES_ROUTE
+import ru.ttb220.expenses.presentation.viewmodel.AddExpenseViewModel
+import ru.ttb220.incomes.presentation.navigation.TOP_LEVEL_INCOMES_ROUTE
+import ru.ttb220.incomes.presentation.viewmodel.AddIncomeViewModel
 import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.topappbar.TopAppBar
 import ru.ttb220.presentation.ui.util.scrim
@@ -36,11 +46,10 @@ fun FindetApp(
 ) {
     val currentRoute = appState.currentRoute
     val currentTopLevelDestination = appState.currentTopLevelDestination
-    val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
 
-    // callback resolution is delegated to appState. NavBackStackEntry is required to get
+    // callback resolution is delegated to appState.
     // a callback from viewModel instance
-    val onTrailingIconClick: () -> Unit = appState.onTabTrailingIconClick(navBackStackEntry)
+    val onTrailingIconClick: () -> Unit = appState.onTabTrailingIconClick()
     val onLeadingIconClick: () -> Unit = appState.onTabLeadingIconClick()
     val fabOnClick: () -> Unit = appState.fabOnClick()
 
@@ -55,15 +64,25 @@ fun FindetApp(
                 val defaultText = stringResource(topAppBarData.textId)
 
                 if (appState.isTopAppBarIsInEditMode) {
+                    val context = (LocalContext.current.applicationContext)
+                    val factory =
+                        (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+                    val viewModel = viewModel<AccountViewModel>(factory = factory)
+
                     AccountEditableTopAppBar(
                         modifier = Modifier.let {
-                            if (appState.isBottomSheetShown) {
+                            if (
+                                appState.isCurrencyBottomSheetShown
+                                || appState.isAccountSelectorShown
+                                || appState.isCategorySelectorShown
+                            ) {
                                 val scrim = MaterialTheme.colorScheme.scrim
 
                                 it.scrim(scrim)
                             } else
                                 it
                         },
+                        accountViewModel = viewModel,
                         hideTabCallback = {
                             appState.isTopAppBarIsInEditMode = false
                         }
@@ -79,7 +98,10 @@ fun FindetApp(
                     onTrailingIconClick = onTrailingIconClick,
                     modifier = Modifier
                         .let {
-                            if (appState.isBottomSheetShown) {
+                            if (appState.isCurrencyBottomSheetShown
+                                || appState.isAccountSelectorShown
+                                || appState.isCategorySelectorShown
+                            ) {
                                 val scrim = MaterialTheme.colorScheme.scrim
 
                                 it.scrim(scrim)
@@ -90,7 +112,7 @@ fun FindetApp(
             }
         },
         bottomBar = bottomBar@{
-            if (appState.isBottomSheetShown.not()) {
+            if (appState.isCurrencyBottomSheetShown.not()) {
                 BottomBar(
                     destinations = TopLevelDestination.entries,
                     currentTopLevelDestination = currentTopLevelDestination,
@@ -103,7 +125,7 @@ fun FindetApp(
             }
         },
         floatingActionButton = {
-            if (FabRoutes.any { currentRoute?.contains(it) == true } && appState.isBottomSheetShown.not())
+            if (FabRoutes.any { currentRoute?.contains(it) == true } && appState.isCurrencyBottomSheetShown.not())
                 AddFab(
                     onClick = fabOnClick
                 )
@@ -123,7 +145,11 @@ fun FindetApp(
                     ),
                 )
                 .let {
-                    if (appState.isBottomSheetShown)
+                    if (
+                        appState.isCurrencyBottomSheetShown
+                        || appState.isAccountSelectorShown
+                        || appState.isCategorySelectorShown
+                    )
                         it.scrim(
                             MaterialTheme.colorScheme.scrim,
                         )
@@ -133,32 +159,110 @@ fun FindetApp(
         )
     }
 
-    // BottomSheetFeature. Callback changing active currency is called from viewModel.
-    // viewModel is retrieved from viewModelStoreOwner (navBackStackEntry)
-    if (appState.isBottomSheetShown) {
+    // TODO: change to state machine
+    if (appState.isCurrencyBottomSheetShown) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ) {
-            val accountViewModel = navBackStackEntry?.let { entry ->
-                hiltViewModel<AccountViewModel>(entry)
-            }
+            val context = (LocalContext.current.applicationContext)
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val currencyViewModel = viewModel<CurrencyViewModel>(factory = factory)
+            val accountViewModel = viewModel<AccountViewModel>(factory = factory)
 
             CurrencyBottomSheet(
                 modifier = Modifier,
 
                 // this onClick function is called AFTER viewModel's implementation - in series (not in parallel)
                 onClick = {
-                    accountViewModel?.tryLoadAndUpdateState()
+                    accountViewModel.tryLoadAndUpdateState()
 
-                    appState.isBottomSheetShown = false
+                    appState.isCurrencyBottomSheetShown = false
                 },
 
                 onDismiss = {
-                    accountViewModel?.tryLoadAndUpdateState()
+                    accountViewModel.tryLoadAndUpdateState()
 
-                    appState.isBottomSheetShown = false
+                    appState.isCurrencyBottomSheetShown = false
                 },
+                viewModel = currencyViewModel,
+            )
+        }
+    }
+
+    if (appState.isAccountSelectorShown) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            val context = (LocalContext.current.applicationContext)
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val accountBottomSheetViewModel =
+                viewModel<AccountBottomSheetViewModel>(factory = factory)
+
+            val onAccountChange = if (currentRoute?.contains(TOP_LEVEL_INCOMES_ROUTE) == true) {
+                val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
+                addIncomeViewModel::onAccountChange
+            } else {
+                val addExpenseViewModel = viewModel<AddExpenseViewModel>(factory = factory)
+                addExpenseViewModel::onAccountChange
+            }
+
+            AccountBottomSheet(
+                viewModel = accountBottomSheetViewModel,
+                onAccountClick = {
+                    onAccountChange(
+                        it.accountName,
+                        it.accountId
+                    )
+                },
+                onDismiss = {
+                    appState.isAccountSelectorShown = false
+                }
+            )
+        }
+    }
+
+    if (appState.isCategorySelectorShown) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            val context = (LocalContext.current.applicationContext)
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val categoryBottomSheetViewModel =
+                viewModel<CategoryBottomSheetViewModel>(factory = factory)
+
+            val onCategoryChange = if (currentRoute?.contains(TOP_LEVEL_INCOMES_ROUTE) == true) {
+                val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
+                addIncomeViewModel::onCategoryChange
+            } else {
+                val addExpenseViewModel = viewModel<AddExpenseViewModel>(factory = factory)
+                addExpenseViewModel::onCategoryChange
+            }
+
+            if (currentRoute?.contains(TOP_LEVEL_INCOMES_ROUTE) == true) {
+                categoryBottomSheetViewModel.type = CategoryBottomSheetType.INCOMES
+            } else if (currentRoute?.contains(TOP_LEVEL_EXPENSES_ROUTE) == true) {
+                categoryBottomSheetViewModel.type = CategoryBottomSheetType.EXPENSES
+            } else {
+                categoryBottomSheetViewModel.type = CategoryBottomSheetType.UNSPECIFIED
+            }
+
+            CategoryBottomSheet(
+                viewModel = categoryBottomSheetViewModel,
+                onCategoryClick = {
+                    onCategoryChange(
+                        it.categoryName,
+                        it.categoryId
+                    )
+                },
+                onDismiss = {
+                    appState.isCategorySelectorShown = false
+                }
             )
         }
     }

@@ -2,7 +2,7 @@ package ru.ttb220.presentation.model
 
 import androidx.compose.runtime.Immutable
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.presentation.model.util.EmojiToResourceMapper
+import ru.ttb220.presentation.util.EmojiToResourceMapper
 
 @Immutable
 data class ExpenseData(

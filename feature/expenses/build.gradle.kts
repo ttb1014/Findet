@@ -2,9 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-
-    // hilt
-    alias(libs.plugins.hilt)
     kotlin("kapt")
 }
 
@@ -38,12 +35,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:presentation:ui"))
-    implementation(project(":core:data"))
-    implementation(project(":core:model"))
-    implementation(project(":core:presentation:model"))
-    implementation(project(":core:domain"))
-    debugImplementation(project(":core:mock"))
+    api(project(":core:data"))
+    api(project(":core:model"))
+    api(project(":core:domain"))
+    api(project(":core:mock"))
+    api(project(":core:presentation:model"))
+    api(project(":core:presentation:ui"))
+    api(project(":core:presentation:common"))
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -59,12 +57,11 @@ dependencies {
 
     implementation(libs.androidx.lyfecycle.runtime.compose)
 
-    // hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-    androidTestImplementation(libs.hilt.android.testing)
-    kaptAndroidTest(libs.hilt.android.compiler)
-    implementation(libs.hilt.navigation.compose)
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+
+
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

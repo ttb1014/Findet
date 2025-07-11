@@ -12,11 +12,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.CategoriesRepository
-import ru.ttb220.data.repository.TransactionsRepository
-import ru.ttb220.data.util.withRetry
-import ru.ttb220.data.util.wrapToSafeResult
+import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.CategoriesRepository
+import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.data.impl.util.withRetry
+import ru.ttb220.data.impl.util.wrapToSafeResult
 import ru.ttb220.model.SafeResult
 import ru.ttb220.network.exception.NotFoundException
 import ru.ttb220.network.exception.ServerErrorException

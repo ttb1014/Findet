@@ -4,13 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import ru.ttb220.account.presentation.navigation.addAccountScreen
 import ru.ttb220.account.presentation.navigation.accountScreen
+import ru.ttb220.account.presentation.navigation.addAccountScreen
 import ru.ttb220.app.ui.AppState
 import ru.ttb220.categories.presentation.navigation.categoriesScreen
-import ru.ttb220.expenses.presentation.navigation.expensesHistoryScreen
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.addExpenseScreen
+import ru.ttb220.expenses.presentation.navigation.editExpenseScreen
+import ru.ttb220.expenses.presentation.navigation.expensesHistoryScreen
 import ru.ttb220.expenses.presentation.navigation.expensesTodayScreen
+import ru.ttb220.incomes.presentation.navigation.addIncomeScreen
 import ru.ttb220.incomes.presentation.navigation.incomesHistoryScreen
 import ru.ttb220.incomes.presentation.navigation.incomesTodayScreen
 import ru.ttb220.settings.presentation.navigation.settingsScreen
@@ -30,13 +33,30 @@ fun FindetNavHost(
     ) {
         expensesTodayScreen()
         expensesHistoryScreen()
+        addExpenseScreen(
+            onAccountSelectorLaunch = {
+                appState.isAccountSelectorShown = true
+            },
+            onCategorySelectorLaunch = {
+                appState.isCategorySelectorShown = true
+            }
+        )
+        editExpenseScreen()
 
         incomesTodayScreen()
         incomesHistoryScreen()
+        addIncomeScreen(
+            onAccountSelectorLaunch = {
+                appState.isAccountSelectorShown = true
+            },
+            onCategorySelectorLaunch = {
+                appState.isCategorySelectorShown = true
+            }
+        )
 
         accountScreen(
             onBottomSheetShow = {
-                appState.isBottomSheetShown = true
+                appState.isCurrencyBottomSheetShown = true
             }
         )
         addAccountScreen()

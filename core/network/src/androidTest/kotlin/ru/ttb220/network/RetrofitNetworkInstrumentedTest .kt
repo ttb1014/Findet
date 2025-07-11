@@ -11,6 +11,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.ttb220.network.api.RemoteDataSource
 import ru.ttb220.network.exception.ApiException
 import ru.ttb220.network.model.request.AccountCreateRequestDto
 import ru.ttb220.network.model.request.TransactionCreateRequestDto

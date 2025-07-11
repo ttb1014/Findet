@@ -5,13 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.ttb220.account.domain.AddAccountUseCase
 import ru.ttb220.model.account.AccountBrief
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@HiltViewModel
+@Singleton
 class AddAccountViewModel @Inject constructor(
     private val addAccountUseCase: AddAccountUseCase
 ) : ViewModel() {

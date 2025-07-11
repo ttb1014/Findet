@@ -1,7 +1,7 @@
 package ru.ttb220.categories.domain
 
 import kotlinx.coroutines.flow.Flow
-import ru.ttb220.data.repository.CategoriesRepository
+import ru.ttb220.data.api.CategoriesRepository
 import ru.ttb220.model.Category
 import ru.ttb220.model.SafeResult
 import javax.inject.Inject

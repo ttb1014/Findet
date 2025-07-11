@@ -7,20 +7,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.expenses.presentation.model.ExpensesTodayScreenState
 import ru.ttb220.expenses.presentation.viewmodel.ExpensesTodayViewModel
 import ru.ttb220.mock.mockExpensesScreenData
 import ru.ttb220.presentation.model.ExpenseData
-import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.model.R
+import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
 import ru.ttb220.presentation.ui.component.ErrorBox
@@ -30,7 +30,7 @@ import ru.ttb220.presentation.ui.theme.GreenHighlight
 @Composable
 fun ExpensesTodayScreen(
     modifier: Modifier = Modifier,
-    viewModel: ExpensesTodayViewModel = hiltViewModel(),
+    viewModel: ExpensesTodayViewModel,
 ) {
     val expensesTodayScreenState: ExpensesTodayScreenState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
 
@@ -69,7 +69,6 @@ fun ExpensesTodayScreen(
     }
 }
 
-// TODO: Переделать на LazyColumn. Должен ли фиксироваться item с общей суммой?
 @Composable
 fun ExpensesTodayScreenContent(
     expensesScreenData: ExpensesScreenData,
@@ -81,11 +80,13 @@ fun ExpensesTodayScreenContent(
             .padding(bottom = 16.dp)
     ) {
         TotalAmountHeader(expensesScreenData.totalAmount)
-        Column(
+        LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
-            expensesScreenData.expenses.forEach {
-                ExpenseColumnItem(it)
+            items(expensesScreenData.expenses.size) { index ->
+                val expense = expensesScreenData.expenses[index]
+
+                ExpenseColumnItem(expense)
             }
         }
     }
@@ -113,12 +114,13 @@ private fun ExpenseColumnItem(
         // Рисуем либо эмодзи из ресурса
         ?.let { DynamicIconResource.EmojiIconResource(emojiData = it) }
     // либо первые две буквы названия
-        ?: DynamicIconResource.TextIconResource(expenseData.name
-            .split(" ")
-            .map { it[0] }
-            .take(2)
-            .joinToString("")
-            .uppercase()
+        ?: DynamicIconResource.TextIconResource(
+            expenseData.name
+                .split(" ")
+                .map { it[0] }
+                .take(2)
+                .joinToString("")
+                .uppercase()
         )
 
     ColumnListItem(
@@ -139,10 +141,4 @@ private fun ExpensesListPreview() {
         expensesScreenData = mockExpensesScreenData,
         modifier = Modifier,
     )
-}
-
-@Preview
-@Composable
-private fun ExpensesScreenPreview() {
-    ExpensesTodayScreen()
 }

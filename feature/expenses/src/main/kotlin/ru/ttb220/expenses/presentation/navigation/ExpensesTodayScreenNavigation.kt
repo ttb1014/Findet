@@ -1,12 +1,16 @@
 package ru.ttb220.expenses.presentation.navigation
 
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import ru.ttb220.expenses.di.ExpensesComponentProvider
 import ru.ttb220.expenses.presentation.ui.ExpensesTodayScreen
+import ru.ttb220.expenses.presentation.viewmodel.ExpensesTodayViewModel
 
 const val EXPENSES_TODAY_SCREEN_ROUTE_BASE = "$TOP_LEVEL_EXPENSES_ROUTE/today"
 const val EXPENSES_TODAY_SCREEN_ROUTE = EXPENSES_TODAY_SCREEN_ROUTE_BASE + "?" +
@@ -32,6 +36,11 @@ fun NavGraphBuilder.expensesTodayScreen() {
             },
         ),
     ) {
-        ExpensesTodayScreen()
+        val context = LocalContext.current.applicationContext
+        val factory =
+            (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
+        val viewModel = viewModel<ExpensesTodayViewModel>(factory = factory)
+
+        ExpensesTodayScreen(viewModel = viewModel)
     }
 }

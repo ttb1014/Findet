@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.presentation.model.R
 import ru.ttb220.account.presentation.viewmodel.AccountViewModel
@@ -16,7 +15,7 @@ import ru.ttb220.presentation.ui.component.topappbar.EditableTopAppBar
 @Composable
 fun AccountEditableTopAppBar(
     modifier: Modifier = Modifier,
-    accountViewModel: AccountViewModel = hiltViewModel<AccountViewModel>(),
+    accountViewModel: AccountViewModel,
     hideTabCallback: () -> Unit = {},
 ) {
     val currentAccountName: String? by accountViewModel.accountNameFlow.collectAsStateWithLifecycle(

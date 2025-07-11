@@ -2,7 +2,6 @@ package ru.ttb220.account.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -10,18 +9,19 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.ttb220.account.domain.EditActiveAccountNameUseCase
 import ru.ttb220.account.presentation.model.AccountScreenState
-import ru.ttb220.data.NetworkMonitor
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.SettingsRepository
+import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.AccountScreenData
-import ru.ttb220.presentation.model.util.CurrencyMapper
-import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
+import ru.ttb220.presentation.util.CurrencyMapper
+import ru.ttb220.presentation.util.DomainErrorMessageMapper
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@HiltViewModel
+@Singleton
 class AccountViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val accountsRepository: AccountsRepository,

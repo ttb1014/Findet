@@ -2,54 +2,55 @@ package ru.ttb220.data.di
 
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.ttb220.data.NetworkMonitor
-import ru.ttb220.data.TimeProvider
-import ru.ttb220.data.internal.DefaultNetworkMonitor
-import ru.ttb220.data.internal.DefaultTimeProvider
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.CategoriesRepository
-import ru.ttb220.data.repository.SettingsRepository
-import ru.ttb220.data.repository.TransactionsRepository
-import ru.ttb220.data.repository.internal.MockSettingsRepository
-import ru.ttb220.data.repository.internal.OnlineAccountRepository
-import ru.ttb220.data.repository.internal.OnlineCategoriesRepository
-import ru.ttb220.data.repository.internal.OnlineTransactionsRepository
-import javax.inject.Named
+import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.TimeProvider
+import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.CategoriesRepository
+import ru.ttb220.data.api.SettingsRepository
+import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.data.impl.DefaultNetworkMonitor
+import ru.ttb220.data.impl.DefaultTimeProvider
+import ru.ttb220.data.impl.MockSettingsRepository
+import ru.ttb220.data.impl.OnlineAccountRepository
+import ru.ttb220.data.impl.OnlineCategoriesRepository
+import ru.ttb220.data.impl.OnlineTransactionsRepository
+import ru.ttb220.network.di.NetworkModule
 
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class DataModule {
+@Module(
+    includes = [
+        TimeModule::class,
+        NetworkModule::class
+    ]
+)
+interface DataModule {
 
     @Binds
-    internal abstract fun bindsAccountsRepository(
+    fun bindsAccountsRepository(
         onlineAccountRepository: OnlineAccountRepository
     ): AccountsRepository
 
     @Binds
-    internal abstract fun bindsCategoriesRepository(
+    fun bindsCategoriesRepository(
         onlineCategoriesRepository: OnlineCategoriesRepository
     ): CategoriesRepository
 
     @Binds
-    internal abstract fun bindsTransactionsRepository(
+    fun bindsTransactionsRepository(
         onlineTransactionsRepository: OnlineTransactionsRepository
     ): TransactionsRepository
 
     @Binds
-//    @Named("mock")
-    internal abstract fun bindsMockSettingsRepository(
+    fun bindsMockSettingsRepository(
         mockSettingsRepository: MockSettingsRepository
     ): SettingsRepository
 
     @Binds
-    internal abstract fun bindsTimeProvider(
+    fun bindsTimeProvider(
         defaultTimeProvider: DefaultTimeProvider
     ): TimeProvider
 
     @Binds
-    internal abstract fun bindsNetworkMonitor(
+    fun bindsNetworkMonitor(
         defaultNetworkMonitor: DefaultNetworkMonitor
     ): NetworkMonitor
 }

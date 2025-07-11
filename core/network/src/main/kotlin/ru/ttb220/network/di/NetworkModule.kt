@@ -2,22 +2,19 @@ package ru.ttb220.network.di
 
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import ru.ttb220.network.AuthInterceptor
 import ru.ttb220.network.BuildConfig
-import ru.ttb220.network.HttpCodeInterceptor
-import ru.ttb220.network.RemoteDataSource
-import ru.ttb220.network.RetrofitNetwork
+import ru.ttb220.network.api.RemoteDataSource
+import ru.ttb220.network.impl.RetrofitNetwork
+import ru.ttb220.network.impl.interceptor.AuthInterceptor
+import ru.ttb220.network.impl.interceptor.HttpCodeInterceptor
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-internal object NetworkModule {
+object NetworkModule {
     private const val BEARER_TOKEN = BuildConfig.BEARER_TOKEN
 
     @Provides
@@ -52,6 +49,7 @@ internal object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun providesRemoteDataSource(
         retrofitNetwork: RetrofitNetwork
     ): RemoteDataSource {

@@ -2,7 +2,6 @@ package ru.ttb220.expenses.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,20 +12,21 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import ru.ttb220.data.NetworkMonitor
-import ru.ttb220.data.TimeProvider
+import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.domain.GetTransactionsForActiveAccountPeriodUseCase
 import ru.ttb220.expenses.presentation.model.ExpensesHistoryScreenState
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.toTransactionHistoryData
-import ru.ttb220.presentation.model.util.CurrencyMapper
-import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
-import ru.ttb220.presentation.model.util.NumberToStringMapper
+import ru.ttb220.presentation.util.CurrencyMapper
+import ru.ttb220.presentation.util.DomainErrorMessageMapper
+import ru.ttb220.presentation.util.NumberToStringMapper
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@HiltViewModel
+@Singleton
 class ExpensesHistoryViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val timeZone: TimeZone,

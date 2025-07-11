@@ -6,24 +6,27 @@ import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dagger.hilt.android.AndroidEntryPoint
+import ru.ttb220.app.di.appComponent
 import ru.ttb220.app.ui.FindetApp
 import ru.ttb220.app.ui.rememberAppState
+import ru.ttb220.app.ui.viewmodel.MainViewModel
 import ru.ttb220.presentation.ui.theme.FindetTheme
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     // Управляет состоянием сплеш-скрина и активным аккаунтом
-    private val mainViewModel by viewModels<MainViewModel>()
+    @Inject
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mainViewModel = appComponent.viewModelFactory.create(MainViewModel::class.java)
 
         // Устанавливаем сплеш скрин
         installSplashScreen().apply {

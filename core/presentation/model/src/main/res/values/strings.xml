@@ -43,4 +43,13 @@
     <string name="end">Конец</string>
     <string name="total">Сумма</string>
     <string name="cancel">Отмена</string>
+
+    <string name="account_selector_title">Счет</string>
+    <string name="category_selector_title">Статья</string>
+    <string name="amount_selector_title">Сумма</string>
+    <string name="date_selector_title">Дата</string>
+    <string name="time_selector_title">Время</string>
+    <string name="new_income">Мои доходы</string>
+    <string name="new_expense">Мои расходы</string>
+    <string name="error_expense_not_found">Заданный расход не найден</string>
 </resources>

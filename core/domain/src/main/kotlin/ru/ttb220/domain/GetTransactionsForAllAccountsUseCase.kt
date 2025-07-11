@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.transform
 import kotlinx.datetime.LocalDate
-import ru.ttb220.data.repository.AccountsRepository
-import ru.ttb220.data.repository.TransactionsRepository
+import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
 import javax.inject.Inject
