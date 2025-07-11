@@ -1,4 +1,4 @@
-package ru.ttb220.expenses.presentation.component
+package ru.ttb220.incomes.presentation.component
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -29,9 +29,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.expenses.presentation.model.EditExpenseIntent
-import ru.ttb220.expenses.presentation.model.ExpenseScreenData
-import ru.ttb220.expenses.presentation.model.EditExpenseState
+import ru.ttb220.incomes.presentation.model.EditIncomeIntent
+import ru.ttb220.incomes.presentation.model.IncomeScreenData
+import ru.ttb220.incomes.presentation.model.EditIncomeState
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.DatePickerDialog
 import ru.ttb220.presentation.ui.component.ErrorBox
@@ -41,16 +41,16 @@ import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 import ru.ttb220.presentation.util.CurrencyVisualTransformation
 
 @Composable
-fun EditExpenseForm(
-    state: EditExpenseState,
+fun EditIncomeForm(
+    state: EditIncomeState,
     modifier: Modifier = Modifier,
-    onIntent: (EditExpenseIntent) -> Unit = {},
+    onIntent: (EditIncomeIntent) -> Unit = {},
     // external callbacks
     onAccountSelectorLaunch: () -> Unit = {},
     onCategorySelectorLaunch: () -> Unit = {},
 ) {
     when (state) {
-        EditExpenseState.Loading ->
+        EditIncomeState.Loading ->
             Box(
                 modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -58,7 +58,7 @@ fun EditExpenseForm(
                 LoadingWheel(Modifier.size(160.dp))
             }
 
-        is EditExpenseState.ErrorResource ->
+        is EditIncomeState.ErrorResource ->
             Box(
                 modifier = modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -68,8 +68,8 @@ fun EditExpenseForm(
                 )
             }
 
-        is EditExpenseState.Content ->
-            EditExpenseContent(
+        is EditIncomeState.Content ->
+            EditIncomeContent(
                 state.data,
                 modifier = modifier,
                 onIntent = { onIntent(it) },
@@ -80,10 +80,10 @@ fun EditExpenseForm(
 }
 
 @Composable
-private fun EditExpenseContent(
-    expenseScreenData: ExpenseScreenData,
+private fun EditIncomeContent(
+    incomeScreenData: IncomeScreenData,
     modifier: Modifier = Modifier,
-    onIntent: (EditExpenseIntent) -> Unit = {},
+    onIntent: (EditIncomeIntent) -> Unit = {},
     // external callbacks
     onAccountSelectorLaunch: () -> Unit = {},
     onCategorySelectorLaunch: () -> Unit = {},
@@ -92,39 +92,39 @@ private fun EditExpenseContent(
         modifier = modifier
     ) {
         AccountSelector(
-            accountName = expenseScreenData.accountName,
+            accountName = incomeScreenData.accountName,
             onClick = onAccountSelectorLaunch
         )
         CategorySelector(
-            categoryName = expenseScreenData.categoryName,
+            categoryName = incomeScreenData.categoryName,
             onClick = onCategorySelectorLaunch
         )
         AmountSelector(
-            amount = expenseScreenData.amount,
-            currencySymbol = expenseScreenData.currencySymbol,
-            onTextEdited = { onIntent(EditExpenseIntent.ChangeAmount(it)) }
+            amount = incomeScreenData.amount,
+            currencySymbol = incomeScreenData.currencySymbol,
+            onTextEdited = { onIntent(EditIncomeIntent.ChangeAmount(it)) }
         )
         DateSelector(
-            date = expenseScreenData.date,
-            onClick = { onIntent(EditExpenseIntent.ShowDatePicker) }
+            date = incomeScreenData.date,
+            onClick = { onIntent(EditIncomeIntent.ShowDatePicker) }
         )
         TimeSelector(
-            time = expenseScreenData.time,
-            onTextEdited = { onIntent(EditExpenseIntent.ChangeTime(it)) }
+            time = incomeScreenData.time,
+            onTextEdited = { onIntent(EditIncomeIntent.ChangeTime(it)) }
         )
         CommentField(
-            comment = expenseScreenData.comment ?: "",
-            onTextEdited = { onIntent(EditExpenseIntent.ChangeComment(it)) }
+            comment = incomeScreenData.comment ?: "",
+            onTextEdited = { onIntent(EditIncomeIntent.ChangeComment(it)) }
         )
     }
 
-    if (expenseScreenData.isDatePickerShown) {
+    if (incomeScreenData.isDatePickerShown) {
         DatePickerDialog(
             onDismiss = {
-                onIntent(EditExpenseIntent.HideDatePicker)
+                onIntent(EditIncomeIntent.HideDatePicker)
             },
             onDateSelected = {
-                onIntent(EditExpenseIntent.ChangeDate(it))
+                onIntent(EditIncomeIntent.ChangeDate(it))
             }
         )
     }
@@ -366,9 +366,10 @@ private fun CommentField(
 
 @Preview
 @Composable
-private fun AddExpenseScreenPreview() {
-    EditExpenseContent(
-        expenseScreenData = ExpenseScreenData(
+private fun AddIncomeScreenPreview() {
+    EditIncomeContent(
+        incomeScreenData = IncomeScreenData(
+            incomeId = 123,
             accountName = "Сбербанк",
             categoryName = "Ремонт",
             amount = "25 270",

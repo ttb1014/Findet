@@ -81,7 +81,7 @@ private interface NetworkApi {
         @Path("id") id: Int
     ): TransactionDetailedResponseDto
 
-    @POST("transactions/{id}")
+    @PUT("transactions/{id}")
     suspend fun updateTransactionById(
         @Path("id") id: Int,
         @Body transactionUpdateRequestDto: TransactionUpdateRequestDto

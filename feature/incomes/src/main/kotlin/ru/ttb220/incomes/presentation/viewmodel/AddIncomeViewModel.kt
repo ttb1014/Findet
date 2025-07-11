@@ -12,9 +12,9 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.api.TransactionsRepository
-import ru.ttb220.incomes.presentation.model.AddIncomeIntent
-import ru.ttb220.incomes.presentation.model.AddIncomeScreenData
-import ru.ttb220.incomes.presentation.model.AddIncomeScreenState
+import ru.ttb220.incomes.presentation.model.EditIncomeIntent
+import ru.ttb220.incomes.presentation.model.IncomeScreenData
+import ru.ttb220.incomes.presentation.model.EditIncomeState
 import ru.ttb220.incomes.presentation.model.toTransactionBrief
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,48 +25,48 @@ class AddIncomeViewModel @Inject constructor(
     private val timeZone: TimeZone,
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow<AddIncomeScreenState>(AddIncomeScreenState.Loading)
+    private val _screenState = MutableStateFlow<EditIncomeState>(EditIncomeState.Loading)
     val screenState = _screenState.asStateFlow()
 
     private fun addIncomeJob() = viewModelScope.launch {
         val transaction =
-            (_screenState.value as AddIncomeScreenState.Content).data.toTransactionBrief()
+            (_screenState.value as EditIncomeState.Content).data.toTransactionBrief()
 
         transactionsRepository.createNewTransaction(transaction).collect { }
     }
 
     fun showDatePicker() {
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
-        _screenState.value = AddIncomeScreenState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(isDatePickerShown = true)
         )
     }
 
     fun hideDatePicker() {
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
-        _screenState.value = AddIncomeScreenState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(isDatePickerShown = false)
         )
     }
 
     fun onAmountChange(newAmount: String) {
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
 
-        _screenState.value = AddIncomeScreenState.Content(
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(amount = newAmount)
         )
     }
 
     fun onTimeChange(newTime: String) {
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
-        _screenState.value = AddIncomeScreenState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(time = newTime)
         )
     }
 
     fun onCommentChange(newComment: String) {
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
-        _screenState.value = AddIncomeScreenState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(comment = newComment)
         )
     }
@@ -76,8 +76,8 @@ class AddIncomeViewModel @Inject constructor(
 
         val newDate = newDateMillis.asLocalDateAtTimeZone(timeZone)
 
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
-        _screenState.value = AddIncomeScreenState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(
                 date = newDate.toString(),
                 dateMillis = newDateMillis
@@ -85,14 +85,14 @@ class AddIncomeViewModel @Inject constructor(
         )
     }
 
-    fun onIntent(intent: AddIncomeIntent) {
+    fun onIntent(intent: EditIncomeIntent) {
         when (intent) {
-            is AddIncomeIntent.ChangeAmount -> onAmountChange(intent.amount)
-            is AddIncomeIntent.ChangeComment -> onCommentChange(intent.comment)
-            is AddIncomeIntent.ChangeTime -> onTimeChange(intent.time)
-            AddIncomeIntent.ShowDatePicker -> showDatePicker()
-            is AddIncomeIntent.ChangeDate -> onDateChange(intent.date)
-            AddIncomeIntent.HideDatePicker -> hideDatePicker()
+            is EditIncomeIntent.ChangeAmount -> onAmountChange(intent.amount)
+            is EditIncomeIntent.ChangeComment -> onCommentChange(intent.comment)
+            is EditIncomeIntent.ChangeTime -> onTimeChange(intent.time)
+            EditIncomeIntent.ShowDatePicker -> showDatePicker()
+            is EditIncomeIntent.ChangeDate -> onDateChange(intent.date)
+            EditIncomeIntent.HideDatePicker -> hideDatePicker()
         }
     }
 
@@ -100,8 +100,8 @@ class AddIncomeViewModel @Inject constructor(
         newName: String,
         newId: Int
     ) {
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
-        _screenState.value = AddIncomeScreenState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(
                 accountName = newName,
                 accountId = newId
@@ -110,8 +110,8 @@ class AddIncomeViewModel @Inject constructor(
     }
 
     fun onCategoryChange(newName: String, newId: Int) {
-        val oldValue = (_screenState.value as AddIncomeScreenState.Content).data
-        _screenState.value = AddIncomeScreenState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(
                 categoryName = newName,
                 categoryId = newId
@@ -126,7 +126,7 @@ class AddIncomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             delay(1000L)
-            _screenState.value = AddIncomeScreenState.Content(DEFAULT_CONTENT)
+            _screenState.value = EditIncomeState.Content(DEFAULT_CONTENT)
         }
     }
 
@@ -139,7 +139,8 @@ class AddIncomeViewModel @Inject constructor(
 
     companion object {
         // можно организовать восстановления предыдущего состояния, пока - мок
-        val DEFAULT_CONTENT = AddIncomeScreenData(
+        val DEFAULT_CONTENT = IncomeScreenData(
+            incomeId = 123,
             accountName = "Сбербанк",
             categoryName = "Ремонт",
             amount = "25 270",

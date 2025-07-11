@@ -1,4 +1,4 @@
-package ru.ttb220.expenses.presentation.viewmodel
+package ru.ttb220.incomes.presentation.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -16,76 +16,76 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.api.TransactionsRepository
-import ru.ttb220.expenses.presentation.model.EditExpenseIntent
-import ru.ttb220.expenses.presentation.model.EditExpenseState
-import ru.ttb220.expenses.presentation.model.toExpenseScreenData
-import ru.ttb220.expenses.presentation.model.toTransactionBrief
+import ru.ttb220.incomes.presentation.model.EditIncomeIntent
+import ru.ttb220.incomes.presentation.model.EditIncomeState
+import ru.ttb220.incomes.presentation.model.toIncomeScreenData
+import ru.ttb220.incomes.presentation.model.toTransactionBrief
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
 import ru.ttb220.presentation.model.R
 import javax.inject.Singleton
 
-class EditExpenseViewModel @AssistedInject constructor(
+class EditIncomeViewModel @AssistedInject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val timeZone: TimeZone,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val expenseId: Int? = savedStateHandle.get<Int>("expenseId")
+    val incomeId: Int? = savedStateHandle.get<Int>("incomeId")
 
-    private val _screenState = MutableStateFlow<EditExpenseState>(EditExpenseState.Loading)
+    private val _screenState = MutableStateFlow<EditIncomeState>(EditIncomeState.Loading)
     val screenState = _screenState.asStateFlow()
 
-    private fun editExpenseJob() = viewModelScope.launch {
+    private fun editIncomeJob() = viewModelScope.launch {
         val transaction =
-            (_screenState.value as EditExpenseState.Content).data.toTransactionBrief()
+            (_screenState.value as EditIncomeState.Content).data.toTransactionBrief()
 
-        expenseId?.let {
+        incomeId?.let {
             transactionsRepository.updateTransactionById(
-                expenseId,
+                incomeId,
                 transaction
             ).collect {}
         } ?: transactionsRepository.createNewTransaction(transaction).collect {}
     }
 
-    private fun deleteExpenseJob() = viewModelScope.launch {
-        expenseId?.let {
+    private fun deleteIncomeJob() = viewModelScope.launch {
+        incomeId?.let {
             transactionsRepository.deleteTransactionById(it).collect {}
         }
     }
 
     fun showDatePicker() {
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
-        _screenState.value = EditExpenseState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(isDatePickerShown = true)
         )
     }
 
     fun hideDatePicker() {
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
-        _screenState.value = EditExpenseState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(isDatePickerShown = false)
         )
     }
 
     fun onAmountChange(newAmount: String) {
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
 
-        _screenState.value = EditExpenseState.Content(
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(amount = newAmount)
         )
     }
 
     fun onTimeChange(newTime: String) {
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
-        _screenState.value = EditExpenseState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(time = newTime)
         )
     }
 
     fun onCommentChange(newComment: String) {
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
-        _screenState.value = EditExpenseState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(comment = newComment)
         )
     }
@@ -95,8 +95,8 @@ class EditExpenseViewModel @AssistedInject constructor(
 
         val newDate = newDateMillis.asLocalDateAtTimeZone(timeZone)
 
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
-        _screenState.value = EditExpenseState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(
                 date = newDate.toString(),
                 dateMillis = newDateMillis
@@ -104,14 +104,14 @@ class EditExpenseViewModel @AssistedInject constructor(
         )
     }
 
-    fun onIntent(intent: EditExpenseIntent) {
+    fun onIntent(intent: EditIncomeIntent) {
         when (intent) {
-            is EditExpenseIntent.ChangeAmount -> onAmountChange(intent.amount)
-            is EditExpenseIntent.ChangeComment -> onCommentChange(intent.comment)
-            is EditExpenseIntent.ChangeTime -> onTimeChange(intent.time)
-            EditExpenseIntent.ShowDatePicker -> showDatePicker()
-            is EditExpenseIntent.ChangeDate -> onDateChange(intent.date)
-            EditExpenseIntent.HideDatePicker -> hideDatePicker()
+            is EditIncomeIntent.ChangeAmount -> onAmountChange(intent.amount)
+            is EditIncomeIntent.ChangeComment -> onCommentChange(intent.comment)
+            is EditIncomeIntent.ChangeTime -> onTimeChange(intent.time)
+            EditIncomeIntent.ShowDatePicker -> showDatePicker()
+            is EditIncomeIntent.ChangeDate -> onDateChange(intent.date)
+            EditIncomeIntent.HideDatePicker -> hideDatePicker()
         }
     }
 
@@ -119,8 +119,8 @@ class EditExpenseViewModel @AssistedInject constructor(
         newName: String,
         newId: Int
     ) {
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
-        _screenState.value = EditExpenseState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(
                 accountName = newName,
                 accountId = newId
@@ -129,8 +129,8 @@ class EditExpenseViewModel @AssistedInject constructor(
     }
 
     fun onCategoryChange(newName: String, newId: Int) {
-        val oldValue = (_screenState.value as EditExpenseState.Content).data
-        _screenState.value = EditExpenseState.Content(
+        val oldValue = (_screenState.value as EditIncomeState.Content).data
+        _screenState.value = EditIncomeState.Content(
             oldValue.copy(
                 categoryName = newName,
                 categoryId = newId
@@ -138,33 +138,33 @@ class EditExpenseViewModel @AssistedInject constructor(
         )
     }
 
-    fun onEditExpense() {
-        editExpenseJob()
+    fun onEditIncome() {
+        editIncomeJob()
     }
 
-    fun onDeleteExpenseClick() {
-        deleteExpenseJob()
+    fun onDeleteIncomeClick() {
+        deleteIncomeJob()
     }
 
     init {
         viewModelScope.launch {
-            if (expenseId == null) {
+            if (incomeId == null) {
                 _screenState.value =
-                    EditExpenseState.ErrorResource(R.string.error_expense_not_found)
+                    EditIncomeState.ErrorResource(R.string.error_income_not_found)
                 return@launch
             }
 
-            val transaction = transactionsRepository.getTransactionById(expenseId).first()
+            val transaction = transactionsRepository.getTransactionById(incomeId).first()
 
             when (transaction) {
                 is SafeResult.Failure -> {
                     _screenState.value =
-                        EditExpenseState.ErrorResource(R.string.error_expense_not_found)
+                        EditIncomeState.ErrorResource(R.string.error_income_not_found)
                 }
 
                 is SafeResult.Success<TransactionDetailed> -> {
                     _screenState.value =
-                        EditExpenseState.Content(transaction.data.toExpenseScreenData(timeZone))
+                        EditIncomeState.Content(transaction.data.toIncomeScreenData(timeZone))
                 }
             }
         }
@@ -180,6 +180,6 @@ class EditExpenseViewModel @AssistedInject constructor(
     @Singleton
     @AssistedFactory
     interface Factory {
-        fun create(savedStateHandle: SavedStateHandle): EditExpenseViewModel
+        fun create(savedStateHandle: SavedStateHandle): EditIncomeViewModel
     }
 }

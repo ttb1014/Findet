@@ -52,4 +52,9 @@
     <string name="new_income">Мои доходы</string>
     <string name="new_expense">Мои расходы</string>
     <string name="error_expense_not_found">Заданный расход не найден</string>
+    <string name="edit_expense">Мои расходы</string>
+    <string name="delete_expense">Удалить расход</string>
+    <string name="delete_income">Удалить расход</string>
+    <string name="error_income_not_found">Заданный доход не найден</string>
+    <string name="edit_income">Мои доходы</string>
 </resources>

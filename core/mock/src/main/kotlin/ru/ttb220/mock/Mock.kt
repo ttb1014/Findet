@@ -25,42 +25,50 @@ val mockIsDarkThemeEnabled = false
 val mockExpensesScreenData = ExpensesScreenData(
     expenses = listOf(
         ExpenseData(
+            0,
             emojiDataId = EmojiData.Resource(R.drawable.house_with_garden),
             name = "Аренда квартиры",
             amount = "100 000 ₽"
         ),
         ExpenseData(
+            0,
             emojiDataId = EmojiData.Resource(R.drawable.dress),
             name = "Одежда",
             amount = "100 000 ₽"
         ),
         ExpenseData(
+            0,
             emojiDataId = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             shortDescription = "Джек",
             amount = "100 000 ₽"
         ),
         ExpenseData(
+            0,
             emojiDataId = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             shortDescription = "Энни",
             amount = "100 000 ₽"
         ),
         ExpenseData(
+            0,
             name = "Ремонт квартиры",
             amount = "100 000 ₽",
         ),
         ExpenseData(
+            0,
             emojiDataId = EmojiData.Resource(R.drawable.lollipop),
             name = "Продукты",
             amount = "100 000 ₽",
         ),
         ExpenseData(
+            0,
             emojiDataId = EmojiData.Resource(R.drawable.deadlift),
             name = "Спортзал",
             amount = "100 000 ₽",
         ),
         ExpenseData(
+            0,
             emojiDataId = EmojiData.Resource(R.drawable.medicine),
             name = "Медицина",
             amount = "100 000 ₽",
@@ -72,10 +80,12 @@ val mockExpensesScreenData = ExpensesScreenData(
 val mockIncomesScreenData = IncomesScreenData(
     incomes = listOf(
         IncomeData(
+            0,
             title = "Зарплата",
             amount = "500 000 ₽"
         ),
         IncomeData(
+            0,
             title = "Подработка",
             amount = "100 000 ₽"
         )
@@ -145,30 +155,35 @@ val mockHistoryScreenData = HistoryScreenData(
     totalAmount = "125 868 ₽",
     expenses = listOf(
         TransactionHistoryData(
+            0,
             name = "Ремонт квартиры",
             description = "Ремонт - фурнитура для дверей",
             amount = "100 000 ₽",
             time = "22:01"
         ),
         TransactionHistoryData(
+            0,
             emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
         TransactionHistoryData(
+            0,
             emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
         TransactionHistoryData(
+            0,
             emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",
             time = "22:01"
         ),
         TransactionHistoryData(
+            0,
             emojiData = EmojiData.Resource(R.drawable.doggy),
             name = "На собачку",
             amount = "100 000 ₽",

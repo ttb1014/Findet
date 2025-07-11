@@ -1,4 +1,4 @@
-package ru.ttb220.expenses.presentation.ui
+package ru.ttb220.incomes.presentation.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,13 +10,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.expenses.presentation.component.DeleteExpenseButton
-import ru.ttb220.expenses.presentation.component.EditExpenseForm
-import ru.ttb220.expenses.presentation.viewmodel.EditExpenseViewModel
+import ru.ttb220.incomes.presentation.component.DeleteIncomeButton
+import ru.ttb220.incomes.presentation.component.EditIncomeForm
+import ru.ttb220.incomes.presentation.viewmodel.EditIncomeViewModel
 
 @Composable
-fun EditExpenseScreen(
-    viewModel: EditExpenseViewModel,
+fun EditIncomeScreen(
+    viewModel: EditIncomeViewModel,
     modifier: Modifier = Modifier,
     // external callbacks
     onAccountSelectorLaunch: () -> Unit = {},
@@ -26,7 +26,7 @@ fun EditExpenseScreen(
     val state by viewModel.screenState.collectAsStateWithLifecycle()
 
     Column(Modifier.fillMaxSize()) {
-        EditExpenseForm(
+        EditIncomeForm(
             state = state,
             onIntent = viewModel::onIntent,
             modifier = modifier,
@@ -38,9 +38,9 @@ fun EditExpenseScreen(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            DeleteExpenseButton(
+            DeleteIncomeButton(
                 onClick = {
-                    viewModel.onDeleteExpenseClick()
+                    viewModel.onDeleteIncomeClick()
                     onDismiss()
                 }
             )

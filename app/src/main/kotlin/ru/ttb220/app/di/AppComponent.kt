@@ -8,6 +8,7 @@ import ru.ttb220.account.di.AccountComponent
 import ru.ttb220.categories.di.CategoriesComponent
 import ru.ttb220.bottomsheet.di.BottomSheetComponent
 import ru.ttb220.expenses.di.ExpensesComponent
+import ru.ttb220.expenses.presentation.viewmodel.EditExpenseViewModel
 import ru.ttb220.incomes.di.IncomesComponent
 import javax.inject.Singleton
 

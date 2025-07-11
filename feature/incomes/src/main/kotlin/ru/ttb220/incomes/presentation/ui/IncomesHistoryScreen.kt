@@ -47,7 +47,8 @@ import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 @Composable
 fun IncomesHistoryScreen(
     modifier: Modifier = Modifier,
-    viewModel: IncomesHistoryViewModel
+    viewModel: IncomesHistoryViewModel,
+    navigateToEditIncome: (Int) -> Unit = {},
 ) {
     val historyScreenState by viewModel.historyScreenState.collectAsStateWithLifecycle()
 
@@ -67,6 +68,7 @@ fun IncomesHistoryScreen(
             modifier = modifier,
             onStartDateSelected = viewModel::onStartDateSelected,
             onEndDateSelected = viewModel::onEndDateSelected,
+            navigateToEditIncome = navigateToEditIncome
         )
 
         IncomesHistoryScreenState.Loading -> Box(
@@ -94,6 +96,7 @@ fun IncomesHistoryScreenContent(
     modifier: Modifier = Modifier,
     onStartDateSelected: (Long?) -> Unit = {},
     onEndDateSelected: (Long?) -> Unit = {},
+    navigateToEditIncome: (Int) -> Unit = {},
 ) {
     val lazyListState = rememberLazyListState()
     var alertDatePickerState by remember { mutableStateOf(AlertDatePickerState.HIDDEN) }
@@ -159,7 +162,11 @@ fun IncomesHistoryScreenContent(
 
                 // использовал другую перегрузку, т.к. отличается стиль текста в description
                 ThreeComponentListItem(
-                    modifier = Modifier.height(70.dp),
+                    modifier = Modifier
+                        .height(70.dp)
+                        .clickable {
+                            navigateToEditIncome(expense.id)
+                        },
                     shouldShowTrailingDivider = true,
                     leadingContent = @Composable {
                         DynamicIcon(
