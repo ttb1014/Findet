@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -21,12 +22,16 @@ import ru.ttb220.app.navigation.TopLevelDestination
 import ru.ttb220.categories.presentation.navigation.navigateToCategories
 import ru.ttb220.expenses.di.ExpensesComponentProvider
 import ru.ttb220.expenses.presentation.navigation.ADD_EXPENSE_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.EDIT_EXPENSE_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.navigateToAddExpense
+import ru.ttb220.expenses.presentation.navigation.navigateToEditExpense
 import ru.ttb220.expenses.presentation.navigation.navigateToExpensesHistory
 import ru.ttb220.expenses.presentation.navigation.navigateToExpensesToday
 import ru.ttb220.expenses.presentation.viewmodel.AddExpenseViewModel
+import ru.ttb220.expenses.presentation.viewmodel.EditExpenseViewModel
+import ru.ttb220.expenses.presentation.viewmodel.factory.AssistedViewModelFactory
 import ru.ttb220.incomes.di.IncomesComponentProvider
 import ru.ttb220.incomes.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
@@ -68,8 +73,11 @@ class AppState(
         isCurrencyBottomSheetShown = false
     }
 
+    val currentBackStackEntry: NavBackStackEntry?
+        @Composable get() = navHostController.currentBackStackEntryAsState().value
+
     val currentRoute: String?
-        @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
+        @Composable get() = currentBackStackEntry?.destination?.route
 
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() {
@@ -123,6 +131,9 @@ class AppState(
         navHostController.navigate(route)
     }
 
+    fun navigateToEditExpense(expenseId: Int) =
+        navHostController.navigateToEditExpense(expenseId)
+
     // 4 properties of TAB and FAB that are resolved depending on current route
     // ALL values are remembered and functions are called only when active route changes
     @Composable
@@ -134,7 +145,8 @@ class AppState(
             cachedRoute?.contains(EXPENSES_HISTORY_SCREEN_ROUTE_BASE) == true ||
             cachedRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true ||
             cachedRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true ||
-            cachedRoute?.contains(ADD_EXPENSE_SCREEN_ROUTE_BASE) == true
+            cachedRoute?.contains(ADD_EXPENSE_SCREEN_ROUTE_BASE) == true ||
+            cachedRoute?.contains(EDIT_EXPENSE_SCREEN_ROUTE_BASE) == true
         )
             return remember(cachedRoute) { { popBackStack() } }
 
@@ -143,6 +155,7 @@ class AppState(
 
     @Composable
     fun onTabTrailingIconClick(): () -> Unit {
+        val cachedNavEntry = currentBackStackEntry
         val cachedRoute = currentRoute
 
         // return appropriate TAB callback for each possible route
@@ -183,6 +196,22 @@ class AppState(
             return remember(cachedRoute) {
                 {
                     viewModel.onAddExpense()
+                    popBackStack()
+                }
+            }
+        }
+
+        if (cachedRoute?.contains(EDIT_EXPENSE_SCREEN_ROUTE_BASE) == true) {
+            val context = LocalContext.current.applicationContext
+            val factory =
+                (context as ExpensesComponentProvider).provideExpensesComponent().assistedFactory
+            val editExpenseViewModel = viewModel<EditExpenseViewModel>(
+                viewModelStoreOwner = cachedNavEntry!!,
+                factory = AssistedViewModelFactory(factory)
+            )
+            return remember(cachedRoute) {
+                {
+                    editExpenseViewModel.onEditExpense()
                     popBackStack()
                 }
             }

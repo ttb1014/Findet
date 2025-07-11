@@ -1,5 +1,6 @@
 package ru.ttb220.expenses.presentation.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import ru.ttb220.presentation.ui.theme.GreenHighlight
 fun ExpensesTodayScreen(
     modifier: Modifier = Modifier,
     viewModel: ExpensesTodayViewModel,
+    navigateToEditExpense: (Int) -> Unit = {}
 ) {
     val expensesTodayScreenState: ExpensesTodayScreenState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
 
@@ -57,7 +59,8 @@ fun ExpensesTodayScreen(
 
         is ExpensesTodayScreenState.Loaded -> ExpensesTodayScreenContent(
             expensesScreenData = (expensesTodayScreenState as ExpensesTodayScreenState.Loaded).data,
-            modifier = modifier
+            modifier = modifier,
+            navigateToEditExpense = navigateToEditExpense
         )
 
         ExpensesTodayScreenState.Loading -> Box(
@@ -72,7 +75,8 @@ fun ExpensesTodayScreen(
 @Composable
 fun ExpensesTodayScreenContent(
     expensesScreenData: ExpensesScreenData,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToEditExpense: (Int) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -86,7 +90,12 @@ fun ExpensesTodayScreenContent(
             items(expensesScreenData.expenses.size) { index ->
                 val expense = expensesScreenData.expenses[index]
 
-                ExpenseColumnItem(expense)
+                ExpenseColumnItem(
+                    expense,
+                    Modifier.clickable {
+                        navigateToEditExpense(expense.id)
+                    }
+                )
             }
         }
     }

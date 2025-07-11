@@ -6,6 +6,7 @@ import ru.ttb220.presentation.util.EmojiToResourceMapper
 
 @Immutable
 data class ExpenseData(
+    val id: Int,
     val emojiDataId: EmojiData? = null,
     val name: String,
     val shortDescription: String? = null,
@@ -13,6 +14,7 @@ data class ExpenseData(
 )
 
 fun TransactionDetailed.toExpenseState(currencySymbol: String) = ExpenseData(
+    id = id,
     emojiDataId = category.emoji.let emoji@{ emojiString ->
         val emojiRes = EmojiToResourceMapper[emojiString]
         emojiRes?.let { res ->

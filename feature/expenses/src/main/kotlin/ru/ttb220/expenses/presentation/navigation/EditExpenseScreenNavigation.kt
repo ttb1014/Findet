@@ -11,9 +11,10 @@ import androidx.navigation.navArgument
 import ru.ttb220.expenses.di.ExpensesComponentProvider
 import ru.ttb220.expenses.presentation.ui.EditExpenseScreen
 import ru.ttb220.expenses.presentation.viewmodel.EditExpenseViewModel
+import ru.ttb220.expenses.presentation.viewmodel.factory.AssistedViewModelFactory
 
 const val EDIT_EXPENSE_SCREEN_ROUTE_BASE = "$TOP_LEVEL_EXPENSES_ROUTE/edit"
-const val EDIT_EXPENSE_SCREEN_ROUTE = EXPENSES_TODAY_SCREEN_ROUTE_BASE + "?" +
+const val EDIT_EXPENSE_SCREEN_ROUTE = EDIT_EXPENSE_SCREEN_ROUTE_BASE + "?" +
         "$EXPENSE_ID={$EXPENSE_ID}"
 
 fun NavController.navigateToEditExpense(
@@ -25,7 +26,11 @@ fun NavController.navigateToEditExpense(
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.editExpenseScreen() {
+fun NavGraphBuilder.editExpenseScreen(
+    onAccountSelectorLaunch: () -> Unit = {},
+    onCategorySelectorLaunch: () -> Unit = {},
+    onDismiss: () -> Unit = {}
+) {
     composable(
         route = EDIT_EXPENSE_SCREEN_ROUTE,
         arguments = listOf(
@@ -33,12 +38,20 @@ fun NavGraphBuilder.editExpenseScreen() {
                 type = NavType.IntType
             },
         ),
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
-            (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
-        val viewModel = viewModel<EditExpenseViewModel>(factory = factory)
+            (context as ExpensesComponentProvider).provideExpensesComponent().assistedFactory
+        val viewModel = viewModel<EditExpenseViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = AssistedViewModelFactory(factory)
+        )
 
-        EditExpenseScreen(viewModel = viewModel)
+        EditExpenseScreen(
+            viewModel = viewModel,
+            onAccountSelectorLaunch = onAccountSelectorLaunch,
+            onCategorySelectorLaunch = onCategorySelectorLaunch,
+            onDismiss = onDismiss
+        )
     }
 }

@@ -31,8 +31,12 @@ fun FindetNavHost(
         startDestination = startRoute,
         modifier = modifier
     ) {
-        expensesTodayScreen()
-        expensesHistoryScreen()
+        expensesTodayScreen(
+            navigateToEditExpense = appState::navigateToEditExpense
+        )
+        expensesHistoryScreen(
+            navigateToEditExpense = appState::navigateToEditExpense
+        )
         addExpenseScreen(
             onAccountSelectorLaunch = {
                 appState.isAccountSelectorShown = true
@@ -41,7 +45,15 @@ fun FindetNavHost(
                 appState.isCategorySelectorShown = true
             }
         )
-        editExpenseScreen()
+        editExpenseScreen(
+            onAccountSelectorLaunch = {
+                appState.isAccountSelectorShown = true
+            },
+            onCategorySelectorLaunch = {
+                appState.isCategorySelectorShown = true
+            },
+            onDismiss = appState::popBackStack
+        )
 
         incomesTodayScreen()
         incomesHistoryScreen()

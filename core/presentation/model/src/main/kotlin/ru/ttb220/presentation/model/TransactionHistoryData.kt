@@ -9,6 +9,7 @@ import ru.ttb220.presentation.util.EmojiToResourceMapper
 
 @Immutable
 data class TransactionHistoryData(
+    val id: Int,
     val emojiData: EmojiData? = null,
     val name: String,
     val description: String? = null,
@@ -36,6 +37,7 @@ fun TransactionDetailed.toTransactionHistoryData(
         }
 
     return TransactionHistoryData(
+        id = id,
         emojiData = emojiData,
         name = category.name,
         description = comment,

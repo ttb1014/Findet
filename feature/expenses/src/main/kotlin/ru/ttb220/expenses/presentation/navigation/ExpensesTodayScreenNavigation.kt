@@ -25,7 +25,9 @@ fun NavController.navigateToExpensesToday(
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.expensesTodayScreen() {
+fun NavGraphBuilder.expensesTodayScreen(
+    navigateToEditExpense: (Int) -> Unit = {}
+) {
     composable(
         route = EXPENSES_TODAY_SCREEN_ROUTE,
         arguments = listOf(
@@ -41,6 +43,9 @@ fun NavGraphBuilder.expensesTodayScreen() {
             (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
         val viewModel = viewModel<ExpensesTodayViewModel>(factory = factory)
 
-        ExpensesTodayScreen(viewModel = viewModel)
+        ExpensesTodayScreen(
+            viewModel = viewModel,
+            navigateToEditExpense = navigateToEditExpense
+        )
     }
 }

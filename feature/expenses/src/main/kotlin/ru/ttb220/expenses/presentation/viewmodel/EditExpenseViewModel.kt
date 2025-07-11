@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -21,15 +23,12 @@ import ru.ttb220.expenses.presentation.model.toTransactionBrief
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
 import ru.ttb220.presentation.model.R
-import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class EditExpenseViewModel @Inject constructor(
+class EditExpenseViewModel @AssistedInject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val timeZone: TimeZone,
-    private val savedStateHandle: SavedStateHandle
-    // TODO: make assisted inject and include it to graph
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val expenseId: Int? = savedStateHandle.get<Int>("expenseId")
@@ -47,6 +46,12 @@ class EditExpenseViewModel @Inject constructor(
                 transaction
             ).collect {}
         } ?: transactionsRepository.createNewTransaction(transaction).collect {}
+    }
+
+    private fun deleteExpenseJob() = viewModelScope.launch {
+        expenseId?.let {
+            transactionsRepository.deleteTransactionById(it).collect {}
+        }
     }
 
     fun showDatePicker() {
@@ -137,6 +142,10 @@ class EditExpenseViewModel @Inject constructor(
         editExpenseJob()
     }
 
+    fun onDeleteExpenseClick() {
+        deleteExpenseJob()
+    }
+
     init {
         viewModelScope.launch {
             if (expenseId == null) {
@@ -149,11 +158,13 @@ class EditExpenseViewModel @Inject constructor(
 
             when (transaction) {
                 is SafeResult.Failure -> {
-                    _screenState.value = EditExpenseState.ErrorResource(R.string.error_expense_not_found)
+                    _screenState.value =
+                        EditExpenseState.ErrorResource(R.string.error_expense_not_found)
                 }
 
                 is SafeResult.Success<TransactionDetailed> -> {
-                    _screenState.value = EditExpenseState.Content(transaction.data.toExpenseScreenData(timeZone))
+                    _screenState.value =
+                        EditExpenseState.Content(transaction.data.toExpenseScreenData(timeZone))
                 }
             }
         }
@@ -165,4 +176,10 @@ class EditExpenseViewModel @Inject constructor(
 
     private fun LocalDate.asEpochMillisAtTimeZone(timeZone: TimeZone): Long =
         this.atStartOfDayIn(timeZone).toEpochMilliseconds()
+
+    @Singleton
+    @AssistedFactory
+    interface Factory {
+        fun create(savedStateHandle: SavedStateHandle): EditExpenseViewModel
+    }
 }

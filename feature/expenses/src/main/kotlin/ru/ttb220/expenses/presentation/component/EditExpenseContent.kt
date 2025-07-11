@@ -89,7 +89,7 @@ private fun EditExpenseContent(
     onCategorySelectorLaunch: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
     ) {
         AccountSelector(
             accountName = expenseScreenData.accountName,

@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-04T08:04:56.082466500Z">
+        <DropdownSelection timestamp="2025-07-11T20:45:32.877700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\0x030C04\.android\avd\Findet_Figma_API_36.avd" />

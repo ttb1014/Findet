@@ -26,7 +26,9 @@ fun NavController.navigateToExpensesHistory(
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.expensesHistoryScreen() {
+fun NavGraphBuilder.expensesHistoryScreen(
+    navigateToEditExpense: (Int) -> Unit = {},
+) {
     composable(
         route = EXPENSES_HISTORY_SCREEN_ROUTE,
         arguments = listOf(
@@ -42,6 +44,9 @@ fun NavGraphBuilder.expensesHistoryScreen() {
             (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
         val viewModel = viewModel<ExpensesHistoryViewModel>(factory = factory)
 
-        ExpensesHistoryScreen(viewModel = viewModel)
+        ExpensesHistoryScreen(
+            viewModel = viewModel,
+            navigateToEditExpense = navigateToEditExpense
+        )
     }
 }

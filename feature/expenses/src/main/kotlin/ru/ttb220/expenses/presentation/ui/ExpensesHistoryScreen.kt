@@ -48,7 +48,8 @@ import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 @Composable
 fun ExpensesHistoryScreen(
     modifier: Modifier = Modifier,
-    viewModel: ExpensesHistoryViewModel
+    viewModel: ExpensesHistoryViewModel,
+    navigateToEditExpense: (Int) -> Unit = {}
 ) {
     val historyScreenState by viewModel.historyScreenState.collectAsStateWithLifecycle()
 
@@ -68,6 +69,7 @@ fun ExpensesHistoryScreen(
             modifier = modifier,
             onStartDateSelected = viewModel::onStartDateSelected,
             onEndDateSelected = viewModel::onEndDateSelected,
+            navigateToEditExpense = navigateToEditExpense
         )
 
         ExpensesHistoryScreenState.Loading -> Box(
@@ -95,6 +97,7 @@ fun ExpensesHistoryScreenContent(
     modifier: Modifier = Modifier,
     onStartDateSelected: (Long?) -> Unit = {},
     onEndDateSelected: (Long?) -> Unit = {},
+    navigateToEditExpense: (Int) -> Unit = {}
 ) {
     val lazyListState = rememberLazyListState()
     var alertDatePickerState by remember { mutableStateOf(AlertDatePickerState.HIDDEN) }
@@ -165,7 +168,10 @@ fun ExpensesHistoryScreenContent(
                     expense.name,
                     expense.description,
                     expense.amount,
-                    expense.time
+                    expense.time,
+                    Modifier.clickable {
+                        navigateToEditExpense(expense.id)
+                    }
                 )
             }
         }
@@ -182,7 +188,7 @@ private fun HistoryColumnItem(
     modifier: Modifier = Modifier
 ) {
     ThreeComponentListItem(
-        modifier = Modifier.height(70.dp),
+        modifier = modifier.height(70.dp),
         shouldShowTrailingDivider = true,
         leadingContent = @Composable {
             DynamicIcon(
