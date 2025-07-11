@@ -31,7 +31,6 @@ import ru.ttb220.expenses.presentation.navigation.navigateToExpensesHistory
 import ru.ttb220.expenses.presentation.navigation.navigateToExpensesToday
 import ru.ttb220.expenses.presentation.viewmodel.AddExpenseViewModel
 import ru.ttb220.expenses.presentation.viewmodel.EditExpenseViewModel
-import ru.ttb220.expenses.presentation.viewmodel.factory.AssistedViewModelFactory
 import ru.ttb220.incomes.di.IncomesComponentProvider
 import ru.ttb220.incomes.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
@@ -170,7 +169,10 @@ class AppState(
             val context = LocalContext.current.applicationContext
             val factory =
                 (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
-            val viewModel = viewModel<AddAccountViewModel>(factory = factory)
+            val viewModel = viewModel<AddAccountViewModel>(
+                viewModelStoreOwner = cachedNavEntry!!,
+                factory = factory
+            )
 
             return remember(cachedRoute) {
                 {
@@ -184,7 +186,10 @@ class AppState(
             val context = LocalContext.current.applicationContext
             val factory =
                 (context as IncomesComponentProvider).provideIncomesComponent().viewModelFactory
-            val viewModel = viewModel<AddIncomeViewModel>(factory = factory)
+            val viewModel = viewModel<AddIncomeViewModel>(
+                viewModelStoreOwner = cachedNavEntry!!,
+                factory = factory
+            )
 
             return remember(cachedRoute) {
                 {
@@ -198,7 +203,10 @@ class AppState(
             val context = LocalContext.current.applicationContext
             val factory =
                 (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
-            val viewModel = viewModel<AddExpenseViewModel>(factory = factory)
+            val viewModel = viewModel<AddExpenseViewModel>(
+                viewModelStoreOwner = cachedNavEntry!!,
+                factory = factory
+            )
 
             return remember(cachedRoute) {
                 {
@@ -214,7 +222,9 @@ class AppState(
                 (context as ExpensesComponentProvider).provideExpensesComponent().assistedFactory
             val editExpenseViewModel = viewModel<EditExpenseViewModel>(
                 viewModelStoreOwner = cachedNavEntry!!,
-                factory = ru.ttb220.expenses.presentation.viewmodel.factory.AssistedViewModelFactory(factory)
+                factory = ru.ttb220.expenses.presentation.viewmodel.factory.AssistedViewModelFactory(
+                    factory
+                )
             )
             return remember(cachedRoute) {
                 {
@@ -230,7 +240,9 @@ class AppState(
                 (context as IncomesComponentProvider).provideIncomesComponent().assistedFactory
             val editExpenseViewModel = viewModel<EditIncomeViewModel>(
                 viewModelStoreOwner = cachedNavEntry!!,
-                factory = ru.ttb220.incomes.presentation.viewmodel.factory.AssistedViewModelFactory(factory)
+                factory = ru.ttb220.incomes.presentation.viewmodel.factory.AssistedViewModelFactory(
+                    factory
+                )
             )
             return remember(cachedRoute) {
                 {

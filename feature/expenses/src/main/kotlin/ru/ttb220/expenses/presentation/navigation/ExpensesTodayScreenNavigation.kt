@@ -37,11 +37,14 @@ fun NavGraphBuilder.expensesTodayScreen(
                 defaultValue = null
             },
         ),
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
-        val viewModel = viewModel<ExpensesTodayViewModel>(factory = factory)
+        val viewModel = viewModel<ExpensesTodayViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         ExpensesTodayScreen(
             viewModel = viewModel,

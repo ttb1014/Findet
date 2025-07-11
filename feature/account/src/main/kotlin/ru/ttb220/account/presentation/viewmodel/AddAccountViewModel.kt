@@ -11,7 +11,6 @@ import ru.ttb220.model.account.AccountBrief
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class AddAccountViewModel @Inject constructor(
     private val addAccountUseCase: AddAccountUseCase
 ) : ViewModel() {

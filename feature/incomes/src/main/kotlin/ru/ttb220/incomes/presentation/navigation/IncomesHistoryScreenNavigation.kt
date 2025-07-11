@@ -37,11 +37,14 @@ fun NavGraphBuilder.incomesHistoryScreen(
                 defaultValue = null
             },
         ),
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as IncomesComponentProvider).provideIncomesComponent().viewModelFactory
-        val viewModel = viewModel<IncomesHistoryViewModel>(factory = factory)
+        val viewModel = viewModel<IncomesHistoryViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         IncomesHistoryScreen(
             viewModel = viewModel,

@@ -18,7 +18,6 @@ import ru.ttb220.presentation.util.EmojiMapper
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class CategoriesViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
