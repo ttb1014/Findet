@@ -10,8 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.ttb220.app.di.appComponent
 import ru.ttb220.app.ui.FindetApp
 import ru.ttb220.app.ui.rememberAppState
+import ru.ttb220.app.ui.viewmodel.MainViewModel
 import ru.ttb220.presentation.ui.theme.FindetTheme
 import javax.inject.Inject
 

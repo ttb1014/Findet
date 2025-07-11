@@ -44,10 +44,3 @@ class FindetApplication : Application(),
     override fun provideIncomesComponent(): IncomesComponent =
         appComponent.incomesComponentFactory.create()
 }
-
-@Suppress("RecursivePropertyAccessor")
-val Context.appComponent: AppComponent
-    get() = when (this) {
-        is FindetApplication -> appComponent
-        else -> applicationContext.appComponent
-    }

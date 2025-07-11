@@ -1,4 +1,4 @@
-package ru.ttb220.app
+package ru.ttb220.app.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 initialValue = null,
-                started = SharingStarted.WhileSubscribed(DEFAULT_SUBSCRIBE_PERIOD),
+                started = SharingStarted.Companion.WhileSubscribed(DEFAULT_SUBSCRIBE_PERIOD),
             )
 
     init {

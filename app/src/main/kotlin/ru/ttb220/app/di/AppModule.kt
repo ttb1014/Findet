@@ -4,16 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.multibindings.IntoMap
 import ru.ttb220.account.di.AccountComponent
-import ru.ttb220.app.MainViewModel
+import ru.ttb220.app.ui.viewmodel.MainViewModel
 import ru.ttb220.categories.di.CategoriesComponent
 import ru.ttb220.common.di.DaggerVMFactory
 import ru.ttb220.common.di.ViewModelKey
 import ru.ttb220.currencyselector.di.CurrencySelectorComponent
 import ru.ttb220.data.di.DataModule
-import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.expenses.di.ExpensesComponent
 import ru.ttb220.incomes.di.IncomesComponent
 
