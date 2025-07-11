@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.hilt)
     kotlin("kapt")
 }
 
@@ -45,17 +44,16 @@ secrets {
 
 dependencies {
     implementation(project(":core:model"))
-    implementation(libs.retrofit)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.retrofit.kotlin.serialization)
-    implementation(libs.okhttp.logging)
 
-    implementation(libs.kotlinx.datetime)
+    api(libs.retrofit)
+    api(libs.kotlinx.serialization.json)
+    api(libs.retrofit.kotlin.serialization)
+    api(libs.okhttp.logging)
 
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-    androidTestImplementation(libs.hilt.android.testing)
-    kaptAndroidTest(libs.hilt.android.compiler)
+    api(libs.kotlinx.datetime)
+
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

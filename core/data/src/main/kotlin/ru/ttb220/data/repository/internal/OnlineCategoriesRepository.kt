@@ -11,7 +11,7 @@ import ru.ttb220.network.RemoteDataSource
 import ru.ttb220.network.model.toCategory
 import javax.inject.Inject
 
-internal class OnlineCategoriesRepository @Inject constructor(
+class OnlineCategoriesRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : CategoriesRepository {
 

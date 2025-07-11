@@ -6,11 +6,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavBackStackEntry
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import ru.ttb220.account.di.AccountComponentProvider
 import ru.ttb220.account.presentation.navigation.ACCOUNT_SCREEN_ROUTE_BASE
 import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.presentation.navigation.navigateToAccount
@@ -121,19 +122,19 @@ class AppState(
     }
 
     @Composable
-    fun onTabTrailingIconClick(navBackStackEntry: NavBackStackEntry?): () -> Unit {
+    fun onTabTrailingIconClick(): () -> Unit {
         val cachedRoute = currentRoute
 
         // return appropriate TAB callback for each possible route
         if (cachedRoute == ADD_ACCOUNT_SCREEN_ROUTE) {
-            val viewModel = navBackStackEntry?.let { entry ->
-                val viewModel: AddAccountViewModel = hiltViewModel(entry)
-                viewModel
-            }
+            val context = LocalContext.current.applicationContext
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val viewModel = viewModel<AddAccountViewModel>(factory = factory)
 
             return remember(cachedRoute) {
                 {
-                    viewModel?.onAddAccount()
+                    viewModel.onAddAccount()
                     popBackStack()
                 }
             }

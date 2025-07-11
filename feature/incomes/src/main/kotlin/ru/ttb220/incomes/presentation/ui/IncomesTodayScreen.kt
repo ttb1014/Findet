@@ -13,14 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.incomes.presentation.model.IncomesTodayScreenState
-import ru.ttb220.incomes.presentation.viewmodel.IncomesTodayVewModel
+import ru.ttb220.incomes.presentation.viewmodel.IncomesTodayViewModel
 import ru.ttb220.mock.mockIncomesScreenData
 import ru.ttb220.presentation.model.IncomeData
-import ru.ttb220.presentation.model.screen.IncomesScreenData
 import ru.ttb220.presentation.model.R
+import ru.ttb220.presentation.model.screen.IncomesScreenData
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel
@@ -29,7 +28,7 @@ import ru.ttb220.presentation.ui.theme.GreenHighlight
 @Composable
 fun IncomesTodayScreen(
     modifier: Modifier = Modifier,
-    viewModel: IncomesTodayVewModel = hiltViewModel(),
+    viewModel: IncomesTodayViewModel
 ) {
     val incomesTodayScreenState: IncomesTodayScreenState by viewModel.incomesScreenState.collectAsStateWithLifecycle()
 

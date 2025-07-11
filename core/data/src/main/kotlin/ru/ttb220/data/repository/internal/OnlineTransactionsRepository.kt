@@ -17,7 +17,7 @@ import ru.ttb220.network.model.response.toTransaction
 import ru.ttb220.network.model.response.toTransactionDetailed
 import javax.inject.Inject
 
-internal class OnlineTransactionsRepository @Inject constructor(
+class OnlineTransactionsRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : TransactionsRepository {
 

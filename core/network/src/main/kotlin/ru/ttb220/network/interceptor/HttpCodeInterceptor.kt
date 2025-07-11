@@ -1,4 +1,4 @@
-package ru.ttb220.network
+package ru.ttb220.network.interceptor
 
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json

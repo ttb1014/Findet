@@ -13,14 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.expenses.presentation.model.ExpensesTodayScreenState
 import ru.ttb220.expenses.presentation.viewmodel.ExpensesTodayViewModel
 import ru.ttb220.mock.mockExpensesScreenData
 import ru.ttb220.presentation.model.ExpenseData
-import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.model.R
+import ru.ttb220.presentation.model.screen.ExpensesScreenData
 import ru.ttb220.presentation.ui.component.ColumnListItem
 import ru.ttb220.presentation.ui.component.DynamicIconResource
 import ru.ttb220.presentation.ui.component.ErrorBox
@@ -30,7 +29,7 @@ import ru.ttb220.presentation.ui.theme.GreenHighlight
 @Composable
 fun ExpensesTodayScreen(
     modifier: Modifier = Modifier,
-    viewModel: ExpensesTodayViewModel = hiltViewModel(),
+    viewModel: ExpensesTodayViewModel,
 ) {
     val expensesTodayScreenState: ExpensesTodayScreenState by viewModel.expensesScreenState.collectAsStateWithLifecycle()
 
@@ -139,10 +138,4 @@ private fun ExpensesListPreview() {
         expensesScreenData = mockExpensesScreenData,
         modifier = Modifier,
     )
-}
-
-@Preview
-@Composable
-private fun ExpensesScreenPreview() {
-    ExpensesTodayScreen()
 }

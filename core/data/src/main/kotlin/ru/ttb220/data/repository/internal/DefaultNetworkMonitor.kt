@@ -1,4 +1,4 @@
-package ru.ttb220.data.internal
+package ru.ttb220.data.repository.internal
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -9,7 +9,6 @@ import android.net.NetworkRequest.Builder
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.core.content.getSystemService
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -18,8 +17,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import ru.ttb220.data.NetworkMonitor
 import javax.inject.Inject
 
-internal class DefaultNetworkMonitor @Inject constructor(
-    @ApplicationContext private val context: Context,
+class DefaultNetworkMonitor @Inject constructor(
+    private val context: Context,
 ) : NetworkMonitor {
 
     override val isOnline: Flow<Boolean> = callbackFlow {

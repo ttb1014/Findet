@@ -2,7 +2,6 @@ package ru.ttb220.account.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -21,7 +20,6 @@ import ru.ttb220.presentation.model.util.CurrencyMapper
 import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
 import javax.inject.Inject
 
-@HiltViewModel
 class AccountViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val accountsRepository: AccountsRepository,

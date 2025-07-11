@@ -7,8 +7,7 @@ import ru.ttb220.mock.mockActiveAccountId
 import ru.ttb220.mock.mockIsDarkThemeEnabled
 import javax.inject.Inject
 
-internal class MockSettingsRepository @Inject constructor(
-) : SettingsRepository {
+class MockSettingsRepository @Inject constructor() : SettingsRepository {
     override fun getActiveAccountId(): Flow<Int> = flow {
         emit(mockActiveAccountId)
     }

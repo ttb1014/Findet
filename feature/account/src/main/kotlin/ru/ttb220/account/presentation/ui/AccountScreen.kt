@@ -14,10 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.account.presentation.model.AccountScreenState
+import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.mock.mockAccountScreenData
 import ru.ttb220.mock.mockBarChartData
 import ru.ttb220.presentation.model.BarChartData
@@ -39,7 +38,7 @@ private val DEFAULT_LIST_ITEM_HEIGHT = 56.dp
 @Composable
 fun AccountScreen(
     modifier: Modifier = Modifier,
-    viewModel: AccountViewModel = hiltViewModel(),
+    viewModel: AccountViewModel,
     onBottomSheetShow: () -> Unit = {},
 ) {
     val accountScreenState by viewModel.accountScreenState.collectAsStateWithLifecycle()

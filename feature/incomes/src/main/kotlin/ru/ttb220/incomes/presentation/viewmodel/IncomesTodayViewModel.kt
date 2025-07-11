@@ -2,7 +2,6 @@ package ru.ttb220.incomes.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,8 +19,7 @@ import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
 import ru.ttb220.presentation.model.util.NumberToStringMapper
 import javax.inject.Inject
 
-@HiltViewModel
-class IncomesTodayVewModel @Inject constructor(
+class IncomesTodayViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val getTodayIncomesForActiveAccountUseCase: GetTodayIncomesForActiveAccountUseCase,
     private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,

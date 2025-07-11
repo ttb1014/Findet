@@ -17,7 +17,7 @@ import ru.ttb220.network.model.response.toAccountDetailed
 import ru.ttb220.network.model.response.toAccountHistory
 import javax.inject.Inject
 
-internal class OnlineAccountRepository @Inject constructor(
+class OnlineAccountRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
 ) : AccountsRepository {
 

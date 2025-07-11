@@ -26,8 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -36,7 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.categories.presentation.model.CategoriesScreenState
 import ru.ttb220.categories.presentation.viewmodel.CategoriesViewModel
@@ -52,7 +49,7 @@ import ru.ttb220.presentation.ui.component.LoadingWheel
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
-    viewModel: CategoriesViewModel = hiltViewModel(),
+    viewModel: CategoriesViewModel
 ) {
     val categoriesScreenState by viewModel.categoriesScreenState.collectAsStateWithLifecycle()
 

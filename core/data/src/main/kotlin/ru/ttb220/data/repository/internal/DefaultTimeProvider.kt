@@ -1,4 +1,4 @@
-package ru.ttb220.data.internal
+package ru.ttb220.data.repository.internal
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -12,7 +12,7 @@ import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.TimeProvider
 import javax.inject.Inject
 
-internal class DefaultTimeProvider @Inject constructor(
+class DefaultTimeProvider @Inject constructor(
     private val timeZone: TimeZone
 ) : TimeProvider {
 

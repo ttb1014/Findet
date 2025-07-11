@@ -27,7 +27,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.expenses.presentation.model.AlertDatePickerState
 import ru.ttb220.expenses.presentation.model.ExpensesHistoryScreenState
@@ -49,7 +48,7 @@ import ru.ttb220.presentation.ui.theme.LightGreyIconTint
 @Composable
 fun ExpensesHistoryScreen(
     modifier: Modifier = Modifier,
-    viewModel: ExpensesHistoryViewModel = hiltViewModel()
+    viewModel: ExpensesHistoryViewModel
 ) {
     val historyScreenState by viewModel.historyScreenState.collectAsStateWithLifecycle()
 

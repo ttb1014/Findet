@@ -98,7 +98,7 @@ internal interface NetworkApi {
 }
 
 @Singleton
-internal class RetrofitNetwork @Inject constructor(
+class RetrofitNetwork @Inject constructor(
     networkJson: Json,
     okhttpCallFactory: dagger.Lazy<Call.Factory>,
 ) : RemoteDataSource {

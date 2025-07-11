@@ -20,19 +20,20 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Findet"
+
+include(":app")
+
+include(":core:mock")
+include(":core:model")
+include(":core:network")
+include(":core:data")
+include(":core:domain")
 include(":core:presentation:model")
 include(":core:presentation:ui")
-include(":core:mock")
-include(":core:network")
-include(":demo")
-include(":core:model")
-include(":core:data")
-include(":app")
+
 include(":feature:expenses")
 include(":feature:incomes")
 include(":feature:account")
 include(":feature:categories")
 include(":feature:settings")
-include(":core:domain")
-include(":core:datastore")
 include(":feature:currencyselector")

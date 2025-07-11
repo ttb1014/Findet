@@ -1,4 +1,4 @@
-package ru.ttb220.network
+package ru.ttb220.network.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

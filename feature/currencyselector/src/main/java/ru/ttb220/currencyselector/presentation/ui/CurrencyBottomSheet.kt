@@ -40,7 +40,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import ru.ttb220.currencyselector.presentation.viewmodel.CurrencyViewModel
 import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.model.R
@@ -57,7 +56,7 @@ val DRAG_THRESHOLD = 100.dp
 fun CurrencyBottomSheet(
     currencies: List<CurrencyData> = CurrencyData.entries,
     modifier: Modifier = Modifier,
-    viewModel: CurrencyViewModel = hiltViewModel<CurrencyViewModel>(),
+    viewModel: CurrencyViewModel,
     onClick: () -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
@@ -222,10 +221,4 @@ private fun Header(
             }
         )
     }
-}
-
-@Preview
-@Composable
-private fun CurrencyBottomSheetPreview() {
-    CurrencyBottomSheet(CurrencyData.entries)
 }

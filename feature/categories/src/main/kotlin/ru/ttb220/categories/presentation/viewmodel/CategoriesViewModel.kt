@@ -2,7 +2,6 @@ package ru.ttb220.categories.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -18,7 +17,6 @@ import ru.ttb220.presentation.model.util.DomainErrorMessageMapper
 import ru.ttb220.presentation.model.util.EmojiMapper
 import javax.inject.Inject
 
-@HiltViewModel
 class CategoriesViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
