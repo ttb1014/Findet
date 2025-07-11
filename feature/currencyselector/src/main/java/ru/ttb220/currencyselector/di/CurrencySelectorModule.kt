@@ -7,14 +7,11 @@ import dagger.multibindings.IntoMap
 import ru.ttb220.currencyselector.presentation.viewmodel.CurrencyViewModel
 import ru.ttb220.common.di.ViewModelKey
 
-@Module(
-    includes = [
-    ]
-)
+@Module()
 interface CurrencySelectorModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(CurrencyViewModel::class)
-    fun bindCategoriesViewModel(viewModel: CurrencyViewModel): ViewModel
+    fun bindCurrencyViewModel(viewModel: CurrencyViewModel): ViewModel
 }

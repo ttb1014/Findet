@@ -11,11 +11,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.ttb220.data.api.SettingsRepository
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Responsible for splash screen functionality
  */
 
+@Singleton
 class MainViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {

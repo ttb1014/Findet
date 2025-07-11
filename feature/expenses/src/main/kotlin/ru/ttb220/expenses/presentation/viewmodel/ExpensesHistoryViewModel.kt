@@ -24,7 +24,9 @@ import ru.ttb220.presentation.util.CurrencyMapper
 import ru.ttb220.presentation.util.DomainErrorMessageMapper
 import ru.ttb220.presentation.util.NumberToStringMapper
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ExpensesHistoryViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val timeZone: TimeZone,

@@ -19,7 +19,9 @@ import ru.ttb220.presentation.model.screen.AccountScreenData
 import ru.ttb220.presentation.util.CurrencyMapper
 import ru.ttb220.presentation.util.DomainErrorMessageMapper
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AccountViewModel @Inject constructor(
     private val networkMonitor: NetworkMonitor,
     private val accountsRepository: AccountsRepository,

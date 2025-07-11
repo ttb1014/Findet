@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import ru.ttb220.incomes.presentation.model.AddIncomeIntent
 import ru.ttb220.incomes.presentation.model.AddIncomeScreenState
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AddIncomeViewModel @Inject constructor(
 
 ) : ViewModel() {
