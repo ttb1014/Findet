@@ -15,13 +15,19 @@ import ru.ttb220.account.di.AccountComponentProvider
 import ru.ttb220.account.presentation.navigation.ACCOUNT_SCREEN_ROUTE_BASE
 import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.presentation.navigation.navigateToAccount
+import ru.ttb220.account.presentation.navigation.navigateToAddAccount
 import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
 import ru.ttb220.app.navigation.TopLevelDestination
 import ru.ttb220.categories.presentation.navigation.navigateToCategories
+import ru.ttb220.expenses.di.ExpensesComponentProvider
+import ru.ttb220.expenses.presentation.navigation.ADD_EXPENSE_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.navigateToAddExpense
 import ru.ttb220.expenses.presentation.navigation.navigateToExpensesHistory
 import ru.ttb220.expenses.presentation.navigation.navigateToExpensesToday
+import ru.ttb220.expenses.presentation.viewmodel.AddExpenseViewModel
+import ru.ttb220.incomes.di.IncomesComponentProvider
 import ru.ttb220.incomes.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
@@ -53,8 +59,14 @@ class AppState(
 ) {
     var isAccountSelectorShown: Boolean by mutableStateOf(false)
     var isCategorySelectorShown: Boolean by mutableStateOf(false)
-    var isBottomSheetShown by mutableStateOf(false)
+    var isCurrencyBottomSheetShown by mutableStateOf(false)
     var isTopAppBarIsInEditMode by mutableStateOf(false)
+
+    private fun hideBottomSheets() {
+        isAccountSelectorShown = false
+        isCategorySelectorShown = false
+        isCurrencyBottomSheetShown = false
+    }
 
     val currentRoute: String?
         @Composable get() = navHostController.currentBackStackEntryAsState().value?.destination?.route
@@ -68,7 +80,10 @@ class AppState(
             }
         }
 
-    fun popBackStack() = navHostController.popBackStack()
+    fun popBackStack() {
+        hideBottomSheets()
+        navHostController.popBackStack()
+    }
 
     fun navigateTo(topLevelDestination: TopLevelDestination) {
         isTopAppBarIsInEditMode = false
@@ -118,7 +133,8 @@ class AppState(
         if (cachedRoute == ADD_ACCOUNT_SCREEN_ROUTE ||
             cachedRoute?.contains(EXPENSES_HISTORY_SCREEN_ROUTE_BASE) == true ||
             cachedRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true ||
-            cachedRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true
+            cachedRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true ||
+            cachedRoute?.contains(ADD_EXPENSE_SCREEN_ROUTE_BASE) == true
         )
             return remember(cachedRoute) { { popBackStack() } }
 
@@ -147,12 +163,26 @@ class AppState(
         if (cachedRoute == ADD_INCOME_SCREEN_ROUTE_BASE) {
             val context = LocalContext.current.applicationContext
             val factory =
-                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+                (context as IncomesComponentProvider).provideIncomesComponent().viewModelFactory
             val viewModel = viewModel<AddIncomeViewModel>(factory = factory)
 
             return remember(cachedRoute) {
                 {
                     viewModel.onAddIncome()
+                    popBackStack()
+                }
+            }
+        }
+
+        if (cachedRoute == ADD_EXPENSE_SCREEN_ROUTE_BASE) {
+            val context = LocalContext.current.applicationContext
+            val factory =
+                (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
+            val viewModel = viewModel<AddExpenseViewModel>(factory = factory)
+
+            return remember(cachedRoute) {
+                {
+                    viewModel.onAddExpense()
                     popBackStack()
                 }
             }
@@ -212,9 +242,15 @@ class AppState(
                     }
                 }
 
+                TopLevelDestination.EXPENSES -> {
+                    {
+                        navHostController.navigateToAddExpense()
+                    }
+                }
+
                 TopLevelDestination.ACCOUNT -> {
                     {
-                        navigateTo(ADD_ACCOUNT_SCREEN_ROUTE)
+                        navHostController.navigateToAddAccount()
                     }
                 }
 

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -73,7 +74,6 @@ fun CategoryBottomSheet(
     }
 }
 
-
 @Composable
 fun CategoryBottomSheet(
     categories: List<CategoryData>,
@@ -98,6 +98,7 @@ fun CategoryBottomSheet(
                     y = max(0, offsetY.roundToInt())
                 )
             }
+            .heightIn(max = 600.dp)
             .pointerInput(onDismiss) {
                 detectDragGestures(
                     onDrag = { change, dragAmount ->
@@ -120,17 +121,17 @@ fun CategoryBottomSheet(
                     },
                 )
             }
+            .windowInsetsPadding(
+                WindowInsets.systemBars
+                    .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+            )
             .background(
                 LightSurfaceContainerLow,
                 RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
             )
-            .windowInsetsPadding(
-                WindowInsets.systemBars
-                    .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal)
-            )
     ) {
         Header()
-        LazyColumn {
+        LazyColumn(Modifier.weight(1f)) {
             items(categories.size) { index ->
                 val category = categories[index]
                 SheetItem(
@@ -217,7 +218,7 @@ private fun CancelItem(
     ThreeComponentListItem(
         modifier = modifier
             .fillMaxWidth()
-            .height(DEFAULT_ITEM_HEIGHT),
+            .height(72.dp),
         background = KeyError,
         shouldShowTrailingDivider = true,
         leadingContent = @Composable {

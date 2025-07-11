@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -68,7 +69,6 @@ fun ExpensesTodayScreen(
     }
 }
 
-// TODO: Переделать на LazyColumn. Должен ли фиксироваться item с общей суммой?
 @Composable
 fun ExpensesTodayScreenContent(
     expensesScreenData: ExpensesScreenData,
@@ -80,11 +80,13 @@ fun ExpensesTodayScreenContent(
             .padding(bottom = 16.dp)
     ) {
         TotalAmountHeader(expensesScreenData.totalAmount)
-        Column(
+        LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
-            expensesScreenData.expenses.forEach {
-                ExpenseColumnItem(it)
+            items(expensesScreenData.expenses.size) { index ->
+                val expense = expensesScreenData.expenses[index]
+
+                ExpenseColumnItem(expense)
             }
         }
     }
@@ -112,12 +114,13 @@ private fun ExpenseColumnItem(
         // Рисуем либо эмодзи из ресурса
         ?.let { DynamicIconResource.EmojiIconResource(emojiData = it) }
     // либо первые две буквы названия
-        ?: DynamicIconResource.TextIconResource(expenseData.name
-            .split(" ")
-            .map { it[0] }
-            .take(2)
-            .joinToString("")
-            .uppercase()
+        ?: DynamicIconResource.TextIconResource(
+            expenseData.name
+                .split(" ")
+                .map { it[0] }
+                .take(2)
+                .joinToString("")
+                .uppercase()
         )
 
     ColumnListItem(

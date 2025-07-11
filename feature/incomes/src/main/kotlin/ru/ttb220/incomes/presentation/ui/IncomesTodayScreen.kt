@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -76,15 +77,19 @@ fun IncomesTodayScreenContent(
             .padding(bottom = 16.dp)
     ) {
         TotalAmountHeader(incomesScreenData.totalAmount)
-        incomesScreenData.incomes.forEachIndexed { index: Int, incomeData: IncomeData ->
-            ColumnListItem(
-                title = incomeData.title,
-                trailingText = incomeData.amount,
-                modifier = Modifier.height(73.dp),
-                trailingIcon = R.drawable.more_right,
-                shouldShowLeadingDivider = index == 0,
-                shouldShowTrailingDivider = true
-            )
+        LazyColumn() {
+            items(incomesScreenData.incomes.size) { index ->
+                val incomeData = incomesScreenData.incomes[index]
+
+                ColumnListItem(
+                    title = incomeData.title,
+                    trailingText = incomeData.amount,
+                    modifier = Modifier.height(73.dp),
+                    trailingIcon = R.drawable.more_right,
+                    shouldShowLeadingDivider = index == 0,
+                    shouldShowTrailingDivider = true
+                )
+            }
         }
     }
 }

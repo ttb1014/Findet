@@ -51,4 +51,5 @@
     <string name="time_selector_title">Время</string>
     <string name="new_income">Мои доходы</string>
     <string name="new_expense">Мои расходы</string>
+    <string name="error_expense_not_found">Заданный расход не найден</string>
 </resources>

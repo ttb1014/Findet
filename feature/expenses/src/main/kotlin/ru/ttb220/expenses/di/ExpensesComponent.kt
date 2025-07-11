@@ -2,13 +2,8 @@ package ru.ttb220.expenses.di
 
 import androidx.lifecycle.ViewModelProvider
 import dagger.Subcomponent
-import javax.inject.Singleton
 
-@Subcomponent(
-    modules = [
-        ExpensesModule::class,
-    ]
-)
+@Subcomponent()
 interface ExpensesComponent {
 
     @Subcomponent.Factory

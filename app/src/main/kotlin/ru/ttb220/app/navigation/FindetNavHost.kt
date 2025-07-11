@@ -9,6 +9,8 @@ import ru.ttb220.account.presentation.navigation.addAccountScreen
 import ru.ttb220.app.ui.AppState
 import ru.ttb220.categories.presentation.navigation.categoriesScreen
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.expenses.presentation.navigation.addExpenseScreen
+import ru.ttb220.expenses.presentation.navigation.editExpenseScreen
 import ru.ttb220.expenses.presentation.navigation.expensesHistoryScreen
 import ru.ttb220.expenses.presentation.navigation.expensesTodayScreen
 import ru.ttb220.incomes.presentation.navigation.addIncomeScreen
@@ -31,6 +33,15 @@ fun FindetNavHost(
     ) {
         expensesTodayScreen()
         expensesHistoryScreen()
+        addExpenseScreen(
+            onAccountSelectorLaunch = {
+                appState.isAccountSelectorShown = true
+            },
+            onCategorySelectorLaunch = {
+                appState.isCategorySelectorShown = true
+            }
+        )
+        editExpenseScreen()
 
         incomesTodayScreen()
         incomesHistoryScreen()
@@ -45,7 +56,7 @@ fun FindetNavHost(
 
         accountScreen(
             onBottomSheetShow = {
-                appState.isBottomSheetShown = true
+                appState.isCurrencyBottomSheetShown = true
             }
         )
         addAccountScreen()
