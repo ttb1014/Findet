@@ -25,7 +25,9 @@ fun NavController.navigateToIncomesHistory(
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.incomesHistoryScreen() {
+fun NavGraphBuilder.incomesHistoryScreen(
+    navigateToEditIncome: (Int) -> Unit,
+) {
     composable(
         route = INCOMES_HISTORY_SCREEN_ROUTE,
         arguments = listOf(
@@ -41,6 +43,9 @@ fun NavGraphBuilder.incomesHistoryScreen() {
             (context as IncomesComponentProvider).provideIncomesComponent().viewModelFactory
         val viewModel = viewModel<IncomesHistoryViewModel>(factory = factory)
 
-        IncomesHistoryScreen(viewModel = viewModel)
+        IncomesHistoryScreen(
+            viewModel = viewModel,
+            navigateToEditIncome = navigateToEditIncome
+        )
     }
 }

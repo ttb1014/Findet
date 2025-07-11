@@ -80,10 +80,12 @@ val mockExpensesScreenData = ExpensesScreenData(
 val mockIncomesScreenData = IncomesScreenData(
     incomes = listOf(
         IncomeData(
+            0,
             title = "Зарплата",
             amount = "500 000 ₽"
         ),
         IncomeData(
+            0,
             title = "Подработка",
             amount = "100 000 ₽"
         )

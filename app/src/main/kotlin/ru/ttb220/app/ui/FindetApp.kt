@@ -40,9 +40,12 @@ import ru.ttb220.expenses.presentation.navigation.TOP_LEVEL_EXPENSES_ROUTE
 import ru.ttb220.expenses.presentation.viewmodel.AddExpenseViewModel
 import ru.ttb220.expenses.presentation.viewmodel.EditExpenseViewModel
 import ru.ttb220.expenses.presentation.viewmodel.factory.AssistedViewModelFactory
+import ru.ttb220.incomes.di.IncomesComponentProvider
 import ru.ttb220.incomes.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
+import ru.ttb220.incomes.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.TOP_LEVEL_INCOMES_ROUTE
 import ru.ttb220.incomes.presentation.viewmodel.AddIncomeViewModel
+import ru.ttb220.incomes.presentation.viewmodel.EditIncomeViewModel
 import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.topappbar.TopAppBar
 import ru.ttb220.presentation.ui.util.scrim
@@ -211,7 +214,7 @@ fun FindetApp(
             val accountBottomSheetViewModel =
                 viewModel<AccountBottomSheetViewModel>(factory = factory)
 
-            // todo add income edit
+            // TODO: ref)
             val onAccountChange =
                 if (currentRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true) {
                     val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
@@ -224,9 +227,21 @@ fun FindetApp(
                         (context as ExpensesComponentProvider).provideExpensesComponent().assistedFactory
                     val editExpenseViewModel = viewModel<EditExpenseViewModel>(
                         viewModelStoreOwner = navBackStackEntry!!,
-                        factory = AssistedViewModelFactory(factory)
+                        factory = ru.ttb220.expenses.presentation.viewmodel.factory.AssistedViewModelFactory(
+                            factory
+                        )
                     )
                     editExpenseViewModel::onAccountChange
+                } else if (currentRoute?.contains(EDIT_INCOME_SCREEN_ROUTE_BASE) == true) {
+                    val factory =
+                        (context as IncomesComponentProvider).provideIncomesComponent().assistedFactory
+                    val editIncomeViewModel = viewModel<EditIncomeViewModel>(
+                        viewModelStoreOwner = navBackStackEntry!!,
+                        factory = ru.ttb220.incomes.presentation.viewmodel.factory.AssistedViewModelFactory(
+                            factory
+                        )
+                    )
+                    editIncomeViewModel::onAccountChange
                 } else {
                     { _: String, _: Int -> }
                 }
@@ -257,7 +272,7 @@ fun FindetApp(
             val categoryBottomSheetViewModel =
                 viewModel<CategoryBottomSheetViewModel>(factory = factory)
 
-            // todo add income edit
+            // TODO: ref)))
             val onCategoryChange =
                 if (currentRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true) {
                     val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
@@ -273,6 +288,16 @@ fun FindetApp(
                         factory = AssistedViewModelFactory(factory)
                     )
                     editExpenseViewModel::onCategoryChange
+                } else if (currentRoute?.contains(EDIT_INCOME_SCREEN_ROUTE_BASE) == true) {
+                    val factory =
+                        (context as IncomesComponentProvider).provideIncomesComponent().assistedFactory
+                    val editIncomeViewModel = viewModel<EditIncomeViewModel>(
+                        viewModelStoreOwner = navBackStackEntry!!,
+                        factory = ru.ttb220.incomes.presentation.viewmodel.factory.AssistedViewModelFactory(
+                            factory
+                        )
+                    )
+                    editIncomeViewModel::onCategoryChange
                 } else {
                     { _: String, _: Int -> }
                 }

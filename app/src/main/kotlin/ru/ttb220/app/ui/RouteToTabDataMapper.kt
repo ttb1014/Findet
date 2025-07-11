@@ -7,6 +7,7 @@ import ru.ttb220.expenses.presentation.navigation.EDIT_EXPENSE_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
+import ru.ttb220.incomes.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.presentation.model.R
@@ -24,6 +25,7 @@ val RouteToTabTextMapper = mapOf(
     ADD_INCOME_SCREEN_ROUTE_BASE to R.string.new_income,
     ADD_EXPENSE_SCREEN_ROUTE_BASE to R.string.new_expense,
     EDIT_EXPENSE_SCREEN_ROUTE_BASE to R.string.edit_expense,
+    EDIT_INCOME_SCREEN_ROUTE_BASE to R.string.edit_income,
     "categories" to R.string.my_categories,
     "settings" to R.string.settings,
 )
@@ -39,6 +41,7 @@ val RouteToTabLeadingIconMapper = mapOf(
     ADD_INCOME_SCREEN_ROUTE_BASE to R.drawable.cross,
     ADD_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.cross,
     EDIT_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.cross,
+    EDIT_INCOME_SCREEN_ROUTE_BASE to R.drawable.cross,
     "categories" to null,
     "settings" to null,
 )
@@ -54,6 +57,7 @@ val RouteToTabTrailingIconMapper = mapOf(
     ADD_INCOME_SCREEN_ROUTE_BASE to R.drawable.check,
     ADD_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.check,
     EDIT_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.check,
+    EDIT_INCOME_SCREEN_ROUTE_BASE to R.drawable.check,
     "categories" to null,
     "settings" to null,
 )

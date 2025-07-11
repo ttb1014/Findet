@@ -4,15 +4,15 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
 
 @Immutable
-sealed interface AddIncomeScreenState {
+sealed interface EditIncomeState {
 
-    data object Loading : AddIncomeScreenState
+    data object Loading : EditIncomeState
 
     data class Content(
-        val data: AddIncomeScreenData
-    ) : AddIncomeScreenState
+        val data: IncomeScreenData
+    ) : EditIncomeState
 
     data class ErrorResource(
         @StringRes val messageId: Int
-    ) : AddIncomeScreenState
+    ) : EditIncomeState
 }

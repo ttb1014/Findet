@@ -14,6 +14,7 @@ import ru.ttb220.expenses.presentation.navigation.editExpenseScreen
 import ru.ttb220.expenses.presentation.navigation.expensesHistoryScreen
 import ru.ttb220.expenses.presentation.navigation.expensesTodayScreen
 import ru.ttb220.incomes.presentation.navigation.addIncomeScreen
+import ru.ttb220.incomes.presentation.navigation.editIncomeScreen
 import ru.ttb220.incomes.presentation.navigation.incomesHistoryScreen
 import ru.ttb220.incomes.presentation.navigation.incomesTodayScreen
 import ru.ttb220.settings.presentation.navigation.settingsScreen
@@ -55,8 +56,12 @@ fun FindetNavHost(
             onDismiss = appState::popBackStack
         )
 
-        incomesTodayScreen()
-        incomesHistoryScreen()
+        incomesTodayScreen(
+            navigateToEditIncome = appState::navigateToEditIncome
+        )
+        incomesHistoryScreen(
+            navigateToEditIncome = appState::navigateToEditIncome
+        )
         addIncomeScreen(
             onAccountSelectorLaunch = {
                 appState.isAccountSelectorShown = true
@@ -64,6 +69,15 @@ fun FindetNavHost(
             onCategorySelectorLaunch = {
                 appState.isCategorySelectorShown = true
             }
+        )
+        editIncomeScreen(
+            onAccountSelectorLaunch = {
+                appState.isAccountSelectorShown = true
+            },
+            onCategorySelectorLaunch = {
+                appState.isCategorySelectorShown = true
+            },
+            onDismiss = appState::popBackStack
         )
 
         accountScreen(

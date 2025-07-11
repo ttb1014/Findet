@@ -1,10 +1,14 @@
 package ru.ttb220.incomes.presentation.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -13,26 +17,41 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.incomes.presentation.model.EditIncomeIntent
-import ru.ttb220.incomes.presentation.model.IncomeScreenData
 import ru.ttb220.incomes.presentation.model.EditIncomeState
+import ru.ttb220.incomes.presentation.model.toIncomeScreenData
 import ru.ttb220.incomes.presentation.model.toTransactionBrief
-import javax.inject.Inject
+import ru.ttb220.model.SafeResult
+import ru.ttb220.model.transaction.TransactionDetailed
+import ru.ttb220.presentation.model.R
 import javax.inject.Singleton
 
-@Singleton
-class AddIncomeViewModel @Inject constructor(
+class EditIncomeViewModel @AssistedInject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val timeZone: TimeZone,
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    val incomeId: Int? = savedStateHandle.get<Int>("incomeId")
 
     private val _screenState = MutableStateFlow<EditIncomeState>(EditIncomeState.Loading)
     val screenState = _screenState.asStateFlow()
 
-    private fun addIncomeJob() = viewModelScope.launch {
+    private fun editIncomeJob() = viewModelScope.launch {
         val transaction =
             (_screenState.value as EditIncomeState.Content).data.toTransactionBrief()
 
-        transactionsRepository.createNewTransaction(transaction).collect { }
+        incomeId?.let {
+            transactionsRepository.updateTransactionById(
+                incomeId,
+                transaction
+            ).collect {}
+        } ?: transactionsRepository.createNewTransaction(transaction).collect {}
+    }
+
+    private fun deleteIncomeJob() = viewModelScope.launch {
+        incomeId?.let {
+            transactionsRepository.deleteTransactionById(it).collect {}
+        }
     }
 
     fun showDatePicker() {
@@ -119,14 +138,35 @@ class AddIncomeViewModel @Inject constructor(
         )
     }
 
-    fun onAddIncome() {
-        addIncomeJob()
+    fun onEditIncome() {
+        editIncomeJob()
+    }
+
+    fun onDeleteIncomeClick() {
+        deleteIncomeJob()
     }
 
     init {
         viewModelScope.launch {
-            delay(1000L)
-            _screenState.value = EditIncomeState.Content(DEFAULT_CONTENT)
+            if (incomeId == null) {
+                _screenState.value =
+                    EditIncomeState.ErrorResource(R.string.error_income_not_found)
+                return@launch
+            }
+
+            val transaction = transactionsRepository.getTransactionById(incomeId).first()
+
+            when (transaction) {
+                is SafeResult.Failure -> {
+                    _screenState.value =
+                        EditIncomeState.ErrorResource(R.string.error_income_not_found)
+                }
+
+                is SafeResult.Success<TransactionDetailed> -> {
+                    _screenState.value =
+                        EditIncomeState.Content(transaction.data.toIncomeScreenData(timeZone))
+                }
+            }
         }
     }
 
@@ -137,21 +177,9 @@ class AddIncomeViewModel @Inject constructor(
     private fun LocalDate.asEpochMillisAtTimeZone(timeZone: TimeZone): Long =
         this.atStartOfDayIn(timeZone).toEpochMilliseconds()
 
-    companion object {
-        // можно организовать восстановления предыдущего состояния, пока - мок
-        val DEFAULT_CONTENT = IncomeScreenData(
-            incomeId = 123,
-            accountName = "Сбербанк",
-            categoryName = "Ремонт",
-            amount = "25 270",
-            date = "25.02.2025",
-            dateMillis = 0L,
-            time = "23:41",
-            comment = "Ремонт - фурнитура для дверей",
-            currencySymbol = "₽",
-            accountId = 54,
-            categoryId = 10,
-            isDatePickerShown = false
-        )
+    @Singleton
+    @AssistedFactory
+    interface Factory {
+        fun create(savedStateHandle: SavedStateHandle): EditIncomeViewModel
     }
 }

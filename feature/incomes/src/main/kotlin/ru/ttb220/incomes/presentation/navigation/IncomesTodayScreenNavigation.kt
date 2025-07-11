@@ -24,7 +24,9 @@ fun NavController.navigateToIncomesToday(
     navigate(route, navOptions)
 }
 
-fun NavGraphBuilder.incomesTodayScreen() {
+fun NavGraphBuilder.incomesTodayScreen(
+    navigateToEditIncome: (Int) -> Unit,
+) {
     composable(
         route = INCOMES_TODAY_SCREEN_ROUTE,
         arguments = listOf(
@@ -40,6 +42,9 @@ fun NavGraphBuilder.incomesTodayScreen() {
             (context as IncomesComponentProvider).provideIncomesComponent().viewModelFactory
         val viewModel = viewModel<IncomesTodayViewModel>(factory = factory)
 
-        IncomesTodayScreen(viewModel = viewModel)
+        IncomesTodayScreen(
+            viewModel = viewModel,
+            navigateToEditIncome = navigateToEditIncome
+        )
     }
 }
