@@ -19,7 +19,6 @@ import ru.ttb220.expenses.presentation.model.toTransactionBrief
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class AddExpenseViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val timeZone: TimeZone,

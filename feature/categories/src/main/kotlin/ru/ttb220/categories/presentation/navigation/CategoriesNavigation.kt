@@ -19,11 +19,15 @@ fun NavController.navigateToCategories(
 fun NavGraphBuilder.categoriesScreen() {
     composable(
         route = TOP_LEVEL_CATEGORIES_ROUTE,
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as CategoriesComponentProvider).provideCategoriesComponent().viewModelFactory
-        val viewModel = viewModel<CategoriesViewModel>(factory = factory)
+        val viewModel = viewModel<CategoriesViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
+
 
         CategoriesScreen(viewModel = viewModel)
     }

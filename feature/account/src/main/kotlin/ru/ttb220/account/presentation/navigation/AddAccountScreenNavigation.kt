@@ -22,11 +22,14 @@ fun NavController.navigateToAddAccount(
 fun NavGraphBuilder.addAccountScreen() {
     composable(
         route = ADD_ACCOUNT_SCREEN_ROUTE,
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
-        val viewModel = viewModel<AddAccountViewModel>(factory = factory)
+        val viewModel = viewModel<AddAccountViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         AddAccountScreenContent(
             addAccountViewModel = viewModel

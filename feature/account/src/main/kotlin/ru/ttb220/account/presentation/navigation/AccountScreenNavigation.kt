@@ -36,11 +36,14 @@ fun NavGraphBuilder.accountScreen(
                 defaultValue = null
             }
         ),
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
-        val viewModel = viewModel<AccountViewModel>(factory = factory)
+        val viewModel = viewModel<AccountViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         AccountScreen(
             onBottomSheetShow = onBottomSheetShow,

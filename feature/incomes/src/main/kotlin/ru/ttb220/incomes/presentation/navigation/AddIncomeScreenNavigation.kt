@@ -26,11 +26,14 @@ fun NavGraphBuilder.addIncomeScreen(
 ) {
     composable(
         route = ADD_INCOME_SCREEN_ROUTE,
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as IncomesComponentProvider).provideIncomesComponent().viewModelFactory
-        val viewModel = viewModel<AddIncomeViewModel>(factory = factory)
+        val viewModel = viewModel<AddIncomeViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         AddIncomeScreen(
             viewModel = viewModel,

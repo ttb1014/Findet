@@ -38,11 +38,14 @@ fun NavGraphBuilder.expensesHistoryScreen(
                 defaultValue = null
             },
         ),
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
-        val viewModel = viewModel<ExpensesHistoryViewModel>(factory = factory)
+        val viewModel = viewModel<ExpensesHistoryViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         ExpensesHistoryScreen(
             viewModel = viewModel,

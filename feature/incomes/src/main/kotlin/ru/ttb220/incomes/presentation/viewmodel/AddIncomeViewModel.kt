@@ -19,7 +19,6 @@ import ru.ttb220.incomes.presentation.model.toTransactionBrief
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class AddIncomeViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val timeZone: TimeZone,

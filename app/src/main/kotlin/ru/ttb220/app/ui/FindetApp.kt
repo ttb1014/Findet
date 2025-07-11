@@ -180,8 +180,14 @@ fun FindetApp(
             val context = (LocalContext.current.applicationContext)
             val factory =
                 (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
-            val currencyViewModel = viewModel<CurrencyViewModel>(factory = factory)
-            val accountViewModel = viewModel<AccountViewModel>(factory = factory)
+            val currencyViewModel = viewModel<CurrencyViewModel>(
+                viewModelStoreOwner = navBackStackEntry!!,
+                factory = factory
+            )
+            val accountViewModel = viewModel<AccountViewModel>(
+                viewModelStoreOwner = navBackStackEntry!!,
+                factory = factory
+            )
 
             CurrencyBottomSheet(
                 modifier = Modifier,
@@ -217,10 +223,16 @@ fun FindetApp(
             // TODO: ref)
             val onAccountChange =
                 if (currentRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true) {
-                    val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
+                    val addIncomeViewModel = viewModel<AddIncomeViewModel>(
+                        viewModelStoreOwner = navBackStackEntry!!,
+                        factory = factory
+                    )
                     addIncomeViewModel::onAccountChange
                 } else if (currentRoute?.contains(ADD_EXPENSE_SCREEN_ROUTE_BASE) == true) {
-                    val addExpenseViewModel = viewModel<AddExpenseViewModel>(factory = factory)
+                    val addExpenseViewModel = viewModel<AddExpenseViewModel>(
+                        viewModelStoreOwner = navBackStackEntry!!,
+                        factory = factory
+                    )
                     addExpenseViewModel::onAccountChange
                 } else if (currentRoute?.contains(EDIT_EXPENSE_SCREEN_ROUTE_BASE) == true) {
                     val factory =
@@ -275,10 +287,16 @@ fun FindetApp(
             // TODO: ref)))
             val onCategoryChange =
                 if (currentRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true) {
-                    val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
+                    val addIncomeViewModel = viewModel<AddIncomeViewModel>(
+                        viewModelStoreOwner = navBackStackEntry!!,
+                        factory = factory
+                    )
                     addIncomeViewModel::onCategoryChange
                 } else if (currentRoute?.contains(ADD_EXPENSE_SCREEN_ROUTE_BASE) == true) {
-                    val addExpenseViewModel = viewModel<AddExpenseViewModel>(factory = factory)
+                    val addExpenseViewModel = viewModel<AddExpenseViewModel>(
+                        viewModelStoreOwner = navBackStackEntry!!,
+                        factory = factory
+                    )
                     addExpenseViewModel::onCategoryChange
                 } else if (currentRoute?.contains(EDIT_EXPENSE_SCREEN_ROUTE_BASE) == true) {
                     val factory =

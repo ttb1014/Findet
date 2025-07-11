@@ -26,11 +26,14 @@ fun NavGraphBuilder.addExpenseScreen(
 ) {
     composable(
         route = ADD_EXPENSE_SCREEN_ROUTE,
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as ExpensesComponentProvider).provideExpensesComponent().viewModelFactory
-        val viewModel = viewModel<AddExpenseViewModel>(factory = factory)
+        val viewModel = viewModel<AddExpenseViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         AddExpenseScreen(
             viewModel = viewModel,

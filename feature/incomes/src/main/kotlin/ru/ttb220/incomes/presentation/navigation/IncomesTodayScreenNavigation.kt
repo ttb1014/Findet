@@ -36,11 +36,14 @@ fun NavGraphBuilder.incomesTodayScreen(
                 defaultValue = null
             },
         ),
-    ) {
+    ) { navBackStackEntry ->
         val context = LocalContext.current.applicationContext
         val factory =
             (context as IncomesComponentProvider).provideIncomesComponent().viewModelFactory
-        val viewModel = viewModel<IncomesTodayViewModel>(factory = factory)
+        val viewModel = viewModel<IncomesTodayViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
 
         IncomesTodayScreen(
             viewModel = viewModel,
