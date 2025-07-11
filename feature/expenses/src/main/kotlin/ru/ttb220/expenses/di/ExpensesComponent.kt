@@ -9,7 +9,6 @@ import javax.inject.Singleton
         ExpensesModule::class,
     ]
 )
-@Singleton
 interface ExpensesComponent {
 
     @Subcomponent.Factory

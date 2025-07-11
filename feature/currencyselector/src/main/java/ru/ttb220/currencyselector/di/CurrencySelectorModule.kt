@@ -10,7 +10,6 @@ import ru.ttb220.presentation.ui.util.ViewModelKey
 
 @Module(
     includes = [
-        DataModule::class
     ]
 )
 interface CurrencySelectorModule {

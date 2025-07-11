@@ -9,7 +9,6 @@ import javax.inject.Singleton
     CurrencySelectorModule::class,
     ]
 )
-@Singleton
 interface CurrencySelectorComponent {
 
     @Subcomponent.Factory

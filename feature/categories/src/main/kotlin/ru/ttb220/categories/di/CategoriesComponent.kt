@@ -8,7 +8,6 @@ import javax.inject.Singleton
     modules = [
         CategoriesModule::class]
 )
-@Singleton
 interface CategoriesComponent {
 
     @Subcomponent.Factory

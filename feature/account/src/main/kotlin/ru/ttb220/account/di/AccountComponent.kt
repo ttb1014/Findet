@@ -9,7 +9,6 @@ import javax.inject.Singleton
         AccountModule::class,
     ]
 )
-@Singleton
 interface AccountComponent {
 
     @Subcomponent.Factory
