@@ -6,10 +6,9 @@ import dagger.BindsInstance
 import dagger.Component
 import ru.ttb220.account.di.AccountComponent
 import ru.ttb220.categories.di.CategoriesComponent
-import ru.ttb220.currencyselector.di.CurrencySelectorComponent
+import ru.ttb220.bottomsheet.di.BottomSheetComponent
 import ru.ttb220.expenses.di.ExpensesComponent
 import ru.ttb220.incomes.di.IncomesComponent
-import ru.ttb220.incomes.di.IncomesModule
 import javax.inject.Singleton
 
 @Component(
@@ -30,7 +29,7 @@ interface AppComponent {
     val viewModelFactory: ViewModelProvider.Factory
     val accountComponentFactory: AccountComponent.Factory
     val categoriesComponentFactory: CategoriesComponent.Factory
-    val currencySelectorComponentFactory: CurrencySelectorComponent.Factory
+    val bottomSheetComponentFactory: BottomSheetComponent.Factory
     val expensesComponentFactory: ExpensesComponent.Factory
     val incomesComponentFactory: IncomesComponent.Factory
 }

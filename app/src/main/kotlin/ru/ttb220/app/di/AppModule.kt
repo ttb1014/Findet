@@ -10,8 +10,8 @@ import ru.ttb220.app.ui.viewmodel.MainViewModel
 import ru.ttb220.categories.di.CategoriesComponent
 import ru.ttb220.common.di.DaggerVMFactory
 import ru.ttb220.common.di.ViewModelKey
-import ru.ttb220.currencyselector.di.CurrencySelectorComponent
-import ru.ttb220.currencyselector.di.CurrencySelectorModule
+import ru.ttb220.bottomsheet.di.BottomSheetComponent
+import ru.ttb220.bottomsheet.di.BottomSheetModule
 import ru.ttb220.data.di.DataModule
 import ru.ttb220.expenses.di.ExpensesComponent
 import ru.ttb220.incomes.di.IncomesComponent
@@ -20,13 +20,13 @@ import ru.ttb220.incomes.di.IncomesModule
 @Module(
     includes = [
         DataModule::class,
-        CurrencySelectorModule::class,
+        BottomSheetModule::class,
         IncomesModule::class,
     ],
     subcomponents = [
         AccountComponent::class,
         CategoriesComponent::class,
-        CurrencySelectorComponent::class,
+        BottomSheetComponent::class,
         ExpensesComponent::class,
         IncomesComponent::class,
     ]
