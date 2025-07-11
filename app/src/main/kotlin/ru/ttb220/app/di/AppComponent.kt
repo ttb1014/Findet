@@ -9,6 +9,7 @@ import ru.ttb220.categories.di.CategoriesComponent
 import ru.ttb220.currencyselector.di.CurrencySelectorComponent
 import ru.ttb220.expenses.di.ExpensesComponent
 import ru.ttb220.incomes.di.IncomesComponent
+import ru.ttb220.incomes.di.IncomesModule
 import javax.inject.Singleton
 
 @Component(

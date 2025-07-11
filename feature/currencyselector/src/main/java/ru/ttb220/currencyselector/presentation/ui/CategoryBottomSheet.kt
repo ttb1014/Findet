@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,27 +38,47 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import ru.ttb220.currencyselector.presentation.viewmodel.CurrencyViewModel
-import ru.ttb220.presentation.model.CurrencyData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.ttb220.currencyselector.presentation.model.CategoryBottomSheetState
+import ru.ttb220.currencyselector.presentation.model.CategoryData
+import ru.ttb220.currencyselector.presentation.viewmodel.CategoryBottomSheetViewModel
 import ru.ttb220.presentation.model.R
+import ru.ttb220.presentation.ui.component.DynamicIcon
 import ru.ttb220.presentation.ui.component.ThreeComponentListItem
 import ru.ttb220.presentation.ui.theme.KeyError
 import ru.ttb220.presentation.ui.theme.LightSurfaceContainerLow
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-val DEFAULT_ITEM_HEIGHT = 72.dp
-val DRAG_THRESHOLD = 100.dp
+@Composable
+fun CategoryBottomSheet(
+    viewModel: CategoryBottomSheetViewModel,
+    modifier: Modifier = Modifier,
+    onCategoryClick: (CategoryData) -> Unit = {},
+    onDismiss: () -> Unit = {}
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    when (state) {
+        CategoryBottomSheetState.Loading -> {}
+        is CategoryBottomSheetState.Error -> {}
+        is CategoryBottomSheetState.Loaded -> CategoryBottomSheet(
+            categories = (state as CategoryBottomSheetState.Loaded).categories,
+            modifier = modifier,
+            onCategoryClick = onCategoryClick,
+            onDismiss = onDismiss,
+        )
+    }
+}
+
 
 @Composable
-fun CurrencyBottomSheet(
-    currencies: List<CurrencyData> = CurrencyData.entries,
+fun CategoryBottomSheet(
+    categories: List<CategoryData>,
     modifier: Modifier = Modifier,
-    viewModel: CurrencyViewModel,
-    onClick: () -> Unit = {},
+    onCategoryClick: (CategoryData) -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
     // Drag state
@@ -110,11 +131,13 @@ fun CurrencyBottomSheet(
     ) {
         Header()
         LazyColumn {
-            items(currencies.size) { index ->
-                CurrencySelectorItem(
-                    currencies[index],
+            items(categories.size) { index ->
+                val category = categories[index]
+                SheetItem(
+                    category,
                     Modifier.clickable(onClick = {
-                        viewModel.onCurrencyClick(currencies[index], onClick)
+                        onCategoryClick(category)
+                        onDismiss()
                     })
                 )
             }
@@ -126,39 +149,8 @@ fun CurrencyBottomSheet(
 }
 
 @Composable
-private fun CancelItem(
-    modifier: Modifier = Modifier
-) {
-    ThreeComponentListItem(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(DEFAULT_ITEM_HEIGHT),
-        background = KeyError,
-        shouldShowTrailingDivider = true,
-        leadingContent = @Composable {
-            Icon(
-                painter = painterResource(R.drawable.cancel),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        },
-        centerContent = @Composable {
-            Text(
-                text = stringResource(R.string.cancel),
-                color = MaterialTheme.colorScheme.onPrimary,
-                softWrap = false,
-                maxLines = 1,
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = it
-            )
-        }
-    )
-}
-
-@Composable
-private fun CurrencySelectorItem(
-    currencyData: CurrencyData,
+private fun SheetItem(
+    categoryData: CategoryData,
     modifier: Modifier = Modifier,
 ) {
     ThreeComponentListItem(
@@ -168,25 +160,20 @@ private fun CurrencySelectorItem(
         background = Color.Transparent,
         shouldShowTrailingDivider = true,
         leadingContent = @Composable {
-            Icon(
-                painter = painterResource(currencyData.iconId),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-        },
-        centerContent = @Composable {
-            val fullName = stringResource(currencyData.fullNameId)
-            val contentText = currencyData.symbol?.let {
-                "$fullName $it"
-            } ?: fullName
-
             Text(
-                text = contentText,
-                style = MaterialTheme.typography.bodyLarge,
+                text = categoryData.categoryName,
+                color = MaterialTheme.colorScheme.onSurface,
                 softWrap = false,
                 maxLines = 1,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = it
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
+        centerContent = @Composable { modifier ->
+            Spacer(modifier)
+        },
+        trailingContent = @Composable {
+            DynamicIcon(
+                dynamicIconResource = categoryData.dynamicIconResource,
             )
         }
     )
@@ -221,4 +208,35 @@ private fun Header(
             }
         )
     }
+}
+
+@Composable
+private fun CancelItem(
+    modifier: Modifier = Modifier
+) {
+    ThreeComponentListItem(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(DEFAULT_ITEM_HEIGHT),
+        background = KeyError,
+        shouldShowTrailingDivider = true,
+        leadingContent = @Composable {
+            Icon(
+                painter = painterResource(R.drawable.cancel),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+                tint = MaterialTheme.colorScheme.onPrimary
+            )
+        },
+        centerContent = @Composable {
+            Text(
+                text = stringResource(R.string.cancel),
+                color = MaterialTheme.colorScheme.onPrimary,
+                softWrap = false,
+                maxLines = 1,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = it
+            )
+        }
+    )
 }

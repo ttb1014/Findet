@@ -26,8 +26,16 @@ import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.app.navigation.FabRoutes
 import ru.ttb220.app.navigation.FindetNavHost
 import ru.ttb220.app.navigation.TopLevelDestination
+import ru.ttb220.currencyselector.presentation.model.CategoryBottomSheetType
+import ru.ttb220.currencyselector.presentation.ui.AccountBottomSheet
+import ru.ttb220.currencyselector.presentation.ui.CategoryBottomSheet
 import ru.ttb220.currencyselector.presentation.ui.CurrencyBottomSheet
+import ru.ttb220.currencyselector.presentation.viewmodel.AccountBottomSheetViewModel
+import ru.ttb220.currencyselector.presentation.viewmodel.CategoryBottomSheetViewModel
 import ru.ttb220.currencyselector.presentation.viewmodel.CurrencyViewModel
+import ru.ttb220.expenses.presentation.navigation.TOP_LEVEL_EXPENSES_ROUTE
+import ru.ttb220.incomes.presentation.navigation.TOP_LEVEL_INCOMES_ROUTE
+import ru.ttb220.incomes.presentation.viewmodel.AddIncomeViewModel
 import ru.ttb220.presentation.ui.component.AddFab
 import ru.ttb220.presentation.ui.component.topappbar.TopAppBar
 import ru.ttb220.presentation.ui.util.scrim
@@ -59,12 +67,17 @@ fun FindetApp(
 
                 if (appState.isTopAppBarIsInEditMode) {
                     val context = (LocalContext.current.applicationContext)
-                    val factory = (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+                    val factory =
+                        (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
                     val viewModel = viewModel<AccountViewModel>(factory = factory)
 
                     AccountEditableTopAppBar(
                         modifier = Modifier.let {
-                            if (appState.isBottomSheetShown) {
+                            if (
+                                appState.isBottomSheetShown
+                                || appState.isAccountSelectorShown
+                                || appState.isCategorySelectorShown
+                            ) {
                                 val scrim = MaterialTheme.colorScheme.scrim
 
                                 it.scrim(scrim)
@@ -87,7 +100,10 @@ fun FindetApp(
                     onTrailingIconClick = onTrailingIconClick,
                     modifier = Modifier
                         .let {
-                            if (appState.isBottomSheetShown) {
+                            if (appState.isBottomSheetShown
+                                || appState.isAccountSelectorShown
+                                || appState.isCategorySelectorShown
+                            ) {
                                 val scrim = MaterialTheme.colorScheme.scrim
 
                                 it.scrim(scrim)
@@ -131,7 +147,11 @@ fun FindetApp(
                     ),
                 )
                 .let {
-                    if (appState.isBottomSheetShown)
+                    if (
+                        appState.isBottomSheetShown
+                        || appState.isAccountSelectorShown
+                        || appState.isCategorySelectorShown
+                    )
                         it.scrim(
                             MaterialTheme.colorScheme.scrim,
                         )
@@ -149,7 +169,8 @@ fun FindetApp(
             contentAlignment = Alignment.BottomCenter
         ) {
             val context = (LocalContext.current.applicationContext)
-            val factory = (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
             val currencyViewModel = viewModel<CurrencyViewModel>(factory = factory)
             val accountViewModel = viewModel<AccountViewModel>(factory = factory)
 
@@ -169,6 +190,68 @@ fun FindetApp(
                     appState.isBottomSheetShown = false
                 },
                 viewModel = currencyViewModel,
+            )
+        }
+    }
+
+    if (appState.isAccountSelectorShown) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            val context = (LocalContext.current.applicationContext)
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val accountBottomSheetViewModel =
+                viewModel<AccountBottomSheetViewModel>(factory = factory)
+            val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
+
+            AccountBottomSheet(
+                viewModel = accountBottomSheetViewModel,
+                onAccountClick = {
+                    addIncomeViewModel.onAccountChange(
+                        it.accountName,
+                        it.accountId
+                    )
+                },
+                onDismiss = {
+                    appState.isAccountSelectorShown = false
+                }
+            )
+        }
+    }
+
+    if (appState.isCategorySelectorShown) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            val context = (LocalContext.current.applicationContext)
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val categoryBottomSheetViewModel =
+                viewModel<CategoryBottomSheetViewModel>(factory = factory)
+            val addIncomeViewModel = viewModel<AddIncomeViewModel>(factory = factory)
+
+            if (currentRoute?.contains(TOP_LEVEL_INCOMES_ROUTE) == true) {
+                categoryBottomSheetViewModel.type = CategoryBottomSheetType.INCOMES
+            } else if (currentRoute?.contains(TOP_LEVEL_EXPENSES_ROUTE) == true) {
+                categoryBottomSheetViewModel.type = CategoryBottomSheetType.EXPENSES
+            } else {
+                categoryBottomSheetViewModel.type = CategoryBottomSheetType.UNSPECIFIED
+            }
+
+            CategoryBottomSheet(
+                viewModel = categoryBottomSheetViewModel,
+                onCategoryClick = {
+                    addIncomeViewModel.onCategoryChange(
+                        it.categoryName,
+                        it.categoryId
+                    )
+                },
+                onDismiss = {
+                    appState.isCategorySelectorShown = false
+                }
             )
         }
     }

@@ -34,8 +34,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.incomes.presentation.model.AddIncomeIntent
 import ru.ttb220.incomes.presentation.model.AddIncomeScreenData
 import ru.ttb220.incomes.presentation.model.AddIncomeScreenState
+import ru.ttb220.incomes.presentation.model.AlertDatePickerState
 import ru.ttb220.incomes.presentation.viewmodel.AddIncomeViewModel
 import ru.ttb220.presentation.model.R
+import ru.ttb220.presentation.ui.component.DatePickerDialog
 import ru.ttb220.presentation.ui.component.ErrorBox
 import ru.ttb220.presentation.ui.component.LoadingWheel
 import ru.ttb220.presentation.ui.component.ThreeComponentListItem
@@ -46,13 +48,18 @@ import ru.ttb220.presentation.util.CurrencyVisualTransformation
 fun AddIncomeScreen(
     viewModel: AddIncomeViewModel,
     modifier: Modifier = Modifier,
+    // external callbacks
+    onAccountSelectorLaunch: () -> Unit = {},
+    onCategorySelectorLaunch: () -> Unit = {},
 ) {
     val state by viewModel.screenState.collectAsStateWithLifecycle()
 
     AddIncomeScreen(
         state = state,
         onIntent = viewModel::onIntent,
-        modifier = modifier
+        modifier = modifier,
+        onAccountSelectorLaunch = onAccountSelectorLaunch,
+        onCategorySelectorLaunch = onCategorySelectorLaunch
     )
 }
 
@@ -61,6 +68,9 @@ private fun AddIncomeScreen(
     state: AddIncomeScreenState,
     modifier: Modifier = Modifier,
     onIntent: (AddIncomeIntent) -> Unit = {},
+    // external callbacks
+    onAccountSelectorLaunch: () -> Unit = {},
+    onCategorySelectorLaunch: () -> Unit = {},
 ) {
     when (state) {
         AddIncomeScreenState.Loading ->
@@ -86,6 +96,8 @@ private fun AddIncomeScreen(
                 state.data,
                 modifier = modifier,
                 onIntent = { onIntent(it) },
+                onAccountSelectorLaunch = onAccountSelectorLaunch,
+                onCategorySelectorLaunch = onCategorySelectorLaunch
             )
     }
 }
@@ -95,19 +107,20 @@ private fun AddIncomeScreenContent(
     addIncomeScreenData: AddIncomeScreenData,
     modifier: Modifier = Modifier,
     onIntent: (AddIncomeIntent) -> Unit = {},
+    // external callbacks
+    onAccountSelectorLaunch: () -> Unit = {},
+    onCategorySelectorLaunch: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier.fillMaxSize()
     ) {
         AccountSelector(
             accountName = addIncomeScreenData.accountName,
-            onClick = {
-                onIntent(AddIncomeIntent.LaunchAccountSelector)
-            }
+            onClick = onAccountSelectorLaunch
         )
         CategorySelector(
             categoryName = addIncomeScreenData.categoryName,
-            onClick = { onIntent(AddIncomeIntent.LaunchCategorySelector) }
+            onClick = onCategorySelectorLaunch
         )
         AmountSelector(
             amount = addIncomeScreenData.amount,
@@ -116,7 +129,7 @@ private fun AddIncomeScreenContent(
         )
         DateSelector(
             date = addIncomeScreenData.date,
-            onClick = { onIntent(AddIncomeIntent.ChangeDate) }
+            onClick = { onIntent(AddIncomeIntent.ShowDatePicker) }
         )
         TimeSelector(
             time = addIncomeScreenData.time,
@@ -125,6 +138,17 @@ private fun AddIncomeScreenContent(
         CommentField(
             comment = addIncomeScreenData.comment ?: "",
             onTextEdited = { onIntent(AddIncomeIntent.ChangeComment(it)) }
+        )
+    }
+
+    if (addIncomeScreenData.isDatePickerShown) {
+        DatePickerDialog(
+            onDismiss = {
+                onIntent(AddIncomeIntent.HideDatePicker)
+            },
+            onDateSelected = {
+                onIntent(AddIncomeIntent.ChangeDate(it))
+            }
         )
     }
 }
@@ -187,7 +211,10 @@ private fun AccountSelector(
             TextResource(R.string.account_selector_title)
         },
         trailingContent = @Composable {
-            Selector(accountName)
+            Selector(
+                accountName,
+                onClick = onClick
+            )
         },
         centerContent = @Composable { modifier ->
             Spacer(modifier)
@@ -369,9 +396,13 @@ private fun AddIncomeScreenPreview() {
             categoryName = "Ремонт",
             amount = "25 270",
             date = "25.02.2025",
+            dateMillis = 0L,
             time = "23:41",
             comment = "Ремонт - фурнитура для дверей",
-            currencySymbol = "₽"
+            currencySymbol = "₽",
+            accountId = 54,
+            categoryId = 12,
+            isDatePickerShown = false
         )
     )
 }

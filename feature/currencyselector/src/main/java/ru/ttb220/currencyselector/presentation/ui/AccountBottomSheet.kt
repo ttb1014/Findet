@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,8 +41,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import ru.ttb220.currencyselector.presentation.viewmodel.CurrencyViewModel
-import ru.ttb220.presentation.model.CurrencyData
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import ru.ttb220.currencyselector.presentation.model.AccountBottomSheetState
+import ru.ttb220.currencyselector.presentation.model.AccountData
+import ru.ttb220.currencyselector.presentation.viewmodel.AccountBottomSheetViewModel
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.ui.component.ThreeComponentListItem
 import ru.ttb220.presentation.ui.theme.KeyError
@@ -49,15 +52,33 @@ import ru.ttb220.presentation.ui.theme.LightSurfaceContainerLow
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-val DEFAULT_ITEM_HEIGHT = 72.dp
-val DRAG_THRESHOLD = 100.dp
+@Composable
+fun AccountBottomSheet(
+    viewModel: AccountBottomSheetViewModel,
+    modifier: Modifier = Modifier,
+    onAccountClick: (AccountData) -> Unit = {},
+    onDismiss: () -> Unit = {},
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    when (state) {
+        AccountBottomSheetState.Loading -> {}
+        is AccountBottomSheetState.Error -> {}
+        is AccountBottomSheetState.Loaded ->
+            AccountBottomSheet(
+                accounts = (state as AccountBottomSheetState.Loaded).accounts,
+                modifier = modifier,
+                onAccountClick = onAccountClick,
+                onDismiss = onDismiss,
+            )
+    }
+}
 
 @Composable
-fun CurrencyBottomSheet(
-    currencies: List<CurrencyData> = CurrencyData.entries,
+fun AccountBottomSheet(
+    accounts: List<AccountData>,
     modifier: Modifier = Modifier,
-    viewModel: CurrencyViewModel,
-    onClick: () -> Unit = {},
+    onAccountClick: (AccountData) -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
     // Drag state
@@ -110,17 +131,85 @@ fun CurrencyBottomSheet(
     ) {
         Header()
         LazyColumn {
-            items(currencies.size) { index ->
-                CurrencySelectorItem(
-                    currencies[index],
+            items(accounts.size) { index ->
+                val account = accounts[index]
+                SheetItem(
+                    accounts[index],
                     Modifier.clickable(onClick = {
-                        viewModel.onCurrencyClick(currencies[index], onClick)
+                        onAccountClick(account)
+                        onDismiss()
                     })
                 )
             }
         }
         CancelItem(
             Modifier.clickable(onClick = onDismiss)
+        )
+    }
+}
+
+@Composable
+private fun SheetItem(
+    accountData: AccountData,
+    modifier: Modifier = Modifier,
+) {
+    ThreeComponentListItem(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(DEFAULT_ITEM_HEIGHT),
+        background = Color.Transparent,
+        shouldShowTrailingDivider = true,
+        leadingContent = @Composable {
+            Text(
+                text = accountData.accountName,
+                color = MaterialTheme.colorScheme.onSurface,
+                softWrap = false,
+                maxLines = 1,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
+        centerContent = @Composable { modifier ->
+            Spacer(modifier)
+        },
+        trailingContent = @Composable {
+            Text(
+                text = "${accountData.accountBalance} ${accountData.accountCurrencySymbol}",
+                color = MaterialTheme.colorScheme.onSurface,
+                softWrap = false,
+                maxLines = 1,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    )
+}
+
+@Composable
+private fun Header(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        val handleColor = MaterialTheme.colorScheme.outline
+
+        Box(
+            modifier = Modifier.drawWithContent {
+                drawContent()
+                val handleWidth = 32.dp.toPx()
+                val handleHeight = 4.dp.toPx()
+                val x = (size.width - handleWidth) / 2
+                val y = (size.height - handleHeight) / 2
+
+                drawRoundRect(
+                    handleColor,
+                    topLeft = Offset(x, y),
+                    size = Size(handleWidth, handleHeight),
+                    cornerRadius = CornerRadius(100f, 100f),
+                )
+            }
         )
     }
 }
@@ -156,69 +245,23 @@ private fun CancelItem(
     )
 }
 
+@Preview
 @Composable
-private fun CurrencySelectorItem(
-    currencyData: CurrencyData,
-    modifier: Modifier = Modifier,
-) {
-    ThreeComponentListItem(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(DEFAULT_ITEM_HEIGHT),
-        background = Color.Transparent,
-        shouldShowTrailingDivider = true,
-        leadingContent = @Composable {
-            Icon(
-                painter = painterResource(currencyData.iconId),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
+private fun AccountBottomSheetPreview() {
+    AccountBottomSheet(
+        accounts = listOf(
+            AccountData(
+                accountId = 54321,
+                accountName = "TINKOFF",
+                accountBalance = "123 234",
+                accountCurrencySymbol = "R"
+            ),
+            AccountData(
+                accountId = 54321,
+                accountName = "TINKOFF",
+                accountBalance = "123 234",
+                accountCurrencySymbol = "R"
             )
-        },
-        centerContent = @Composable {
-            val fullName = stringResource(currencyData.fullNameId)
-            val contentText = currencyData.symbol?.let {
-                "$fullName $it"
-            } ?: fullName
-
-            Text(
-                text = contentText,
-                style = MaterialTheme.typography.bodyLarge,
-                softWrap = false,
-                maxLines = 1,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = it
-            )
-        }
+        ),
     )
-}
-
-@Composable
-private fun Header(
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        val handleColor = MaterialTheme.colorScheme.outline
-
-        Box(
-            modifier = Modifier.drawWithContent {
-                drawContent()
-                val handleWidth = 32.dp.toPx()
-                val handleHeight = 4.dp.toPx()
-                val x = (size.width - handleWidth) / 2
-                val y = (size.height - handleHeight) / 2
-
-                drawRoundRect(
-                    handleColor,
-                    topLeft = Offset(x, y),
-                    size = Size(handleWidth, handleHeight),
-                    cornerRadius = CornerRadius(100f, 100f),
-                )
-            }
-        )
-    }
 }

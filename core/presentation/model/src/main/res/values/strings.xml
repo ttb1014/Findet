@@ -49,4 +49,6 @@
     <string name="amount_selector_title">Сумма</string>
     <string name="date_selector_title">Дата</string>
     <string name="time_selector_title">Время</string>
+    <string name="new_income">Мои доходы</string>
+    <string name="new_expense">Мои расходы</string>
 </resources>

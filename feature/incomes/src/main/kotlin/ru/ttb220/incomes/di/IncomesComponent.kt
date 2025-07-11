@@ -4,11 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Subcomponent
 import javax.inject.Singleton
 
-@Subcomponent(
-    modules = [
-        IncomesModule::class,
-    ]
-)
+@Subcomponent()
 interface IncomesComponent {
 
     @Subcomponent.Factory

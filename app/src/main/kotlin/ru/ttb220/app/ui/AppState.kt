@@ -22,10 +22,13 @@ import ru.ttb220.expenses.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_
 import ru.ttb220.expenses.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.expenses.presentation.navigation.navigateToExpensesHistory
 import ru.ttb220.expenses.presentation.navigation.navigateToExpensesToday
+import ru.ttb220.incomes.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.incomes.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
+import ru.ttb220.incomes.presentation.navigation.navigateToAddIncome
 import ru.ttb220.incomes.presentation.navigation.navigateToIncomesHistory
 import ru.ttb220.incomes.presentation.navigation.navigateToIncomesToday
+import ru.ttb220.incomes.presentation.viewmodel.AddIncomeViewModel
 import ru.ttb220.settings.presentation.navigation.navigateToSettings
 
 @Composable
@@ -48,8 +51,8 @@ class AppState(
     val activeAccountId: Int?,
     val navHostController: NavHostController,
 ) {
-    // new property.
-    // if true we want to hide FAB and bottom navigation
+    var isAccountSelectorShown: Boolean by mutableStateOf(false)
+    var isCategorySelectorShown: Boolean by mutableStateOf(false)
     var isBottomSheetShown by mutableStateOf(false)
     var isTopAppBarIsInEditMode by mutableStateOf(false)
 
@@ -114,7 +117,8 @@ class AppState(
         // return appropriate TAB callback for each possible route
         if (cachedRoute == ADD_ACCOUNT_SCREEN_ROUTE ||
             cachedRoute?.contains(EXPENSES_HISTORY_SCREEN_ROUTE_BASE) == true ||
-            cachedRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true
+            cachedRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true ||
+            cachedRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true
         )
             return remember(cachedRoute) { { popBackStack() } }
 
@@ -135,6 +139,20 @@ class AppState(
             return remember(cachedRoute) {
                 {
                     viewModel.onAddAccount()
+                    popBackStack()
+                }
+            }
+        }
+
+        if (cachedRoute == ADD_INCOME_SCREEN_ROUTE_BASE) {
+            val context = LocalContext.current.applicationContext
+            val factory =
+                (context as AccountComponentProvider).provideAccountComponent().viewModelFactory
+            val viewModel = viewModel<AddIncomeViewModel>(factory = factory)
+
+            return remember(cachedRoute) {
+                {
+                    viewModel.onAddIncome()
                     popBackStack()
                 }
             }
@@ -188,6 +206,12 @@ class AppState(
 
         return remember(cachedTopLevelDestination) {
             when (cachedTopLevelDestination) {
+                TopLevelDestination.INCOMES -> {
+                    {
+                        navHostController.navigateToAddIncome()
+                    }
+                }
+
                 TopLevelDestination.ACCOUNT -> {
                     {
                         navigateTo(ADD_ACCOUNT_SCREEN_ROUTE)
