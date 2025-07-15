@@ -2,6 +2,7 @@ package ru.ttb220.database
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -43,6 +44,9 @@ class DatabaseInstrumentedTest {
 
     @Test
     fun testAccountsDao() = runBlocking {
+        val uiAutomation = InstrumentationRegistry.getInstrumentation().uiAutomation
+        uiAutomation.executeShellCommand("svc wifi enable")
+        uiAutomation.executeShellCommand("svc data enable")
         accountsDao.insertAccount(
             Account(
                 id = 54,

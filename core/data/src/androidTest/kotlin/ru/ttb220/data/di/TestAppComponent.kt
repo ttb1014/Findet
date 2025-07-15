@@ -1,20 +1,19 @@
-package ru.ttb220.database.di
+package ru.ttb220.data.di
 
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import ru.ttb220.database.DatabaseInstrumentedTest
+import ru.ttb220.data.RepositoryInstrumentedTest
 import javax.inject.Singleton
 
-@Singleton
 @Component(
     modules = [
-        TestModule::class
+        DataModule::class,
     ]
-
 )
+@Singleton
 interface TestAppComponent {
-    fun inject(test: DatabaseInstrumentedTest)
+    fun inject(test: RepositoryInstrumentedTest)
 
     @Component.Factory
     interface Factory {

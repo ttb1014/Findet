@@ -14,12 +14,14 @@ import ru.ttb220.data.impl.MockSettingsRepository
 import ru.ttb220.data.impl.OnlineAccountRepository
 import ru.ttb220.data.impl.OnlineCategoriesRepository
 import ru.ttb220.data.impl.OnlineTransactionsRepository
+import ru.ttb220.database.di.DatabaseModule
 import ru.ttb220.network.di.NetworkModule
 
 @Module(
     includes = [
         TimeModule::class,
-        NetworkModule::class
+        NetworkModule::class,
+        DatabaseModule::class,
     ]
 )
 interface DataModule {

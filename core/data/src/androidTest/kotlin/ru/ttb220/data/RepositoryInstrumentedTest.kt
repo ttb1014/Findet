@@ -1,15 +1,14 @@
 package ru.ttb220.data
 
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.ttb220.data.api.AccountsRepository
@@ -18,15 +17,12 @@ import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.data.impl.util.withRetry
 import ru.ttb220.data.impl.util.wrapToSafeResult
 import ru.ttb220.model.SafeResult
-import ru.ttb220.network.exception.NotFoundException
-import ru.ttb220.network.exception.ServerErrorException
+import ru.ttb220.network.api.exception.NotFoundException
+import ru.ttb220.network.api.exception.ServerErrorException
 import javax.inject.Inject
 
-@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class RepositoryInstrumentedTest {
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
 
     @Inject
     internal lateinit var transactionsRepository: TransactionsRepository
@@ -38,9 +34,13 @@ class RepositoryInstrumentedTest {
     internal lateinit var categoriesRepository: CategoriesRepository
 
     @Before
-    fun setup() {
-        hiltRule.inject()
+    fun setUp() {
+        val app = ApplicationProvider.getApplicationContext<TestApplication>()
+        app.testComponent.inject(this)
     }
+
+    @After
+    fun tearDown() {}
 
     @Test
     fun testWithRetry() = runBlocking {

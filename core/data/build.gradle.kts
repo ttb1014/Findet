@@ -37,6 +37,9 @@ dependencies {
     api(project(":core:model"))
     api(project(":core:network"))
     api(project(":core:mock"))
+    api(project(":core:database"))
+
+    api(libs.androidx.work.ktx)
 
     api(libs.kotlinx.datetime)
 
