@@ -1,9 +1,9 @@
-package ru.ttb220.data.impl
+package ru.ttb220.data.impl.legacy
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDate
-import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.data.api.legacy.TransactionsRepository
 import ru.ttb220.data.impl.util.withRetry
 import ru.ttb220.data.impl.util.wrapToSafeResult
 import ru.ttb220.model.SafeResult

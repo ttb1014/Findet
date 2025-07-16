@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.SettingsRepository
-import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.data.api.legacy.TransactionsRepository
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
 import javax.inject.Inject

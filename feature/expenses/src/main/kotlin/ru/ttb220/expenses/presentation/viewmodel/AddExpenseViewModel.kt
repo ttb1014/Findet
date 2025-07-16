@@ -11,7 +11,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.data.api.legacy.TransactionsRepository
 import ru.ttb220.expenses.presentation.model.EditExpenseIntent
 import ru.ttb220.expenses.presentation.model.ExpenseScreenData
 import ru.ttb220.expenses.presentation.model.EditExpenseState

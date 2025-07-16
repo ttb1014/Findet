@@ -1,4 +1,4 @@
-package ru.ttb220.data.impl
+package ru.ttb220.data.impl.legacy
 
 import android.content.Context
 import android.net.ConnectivityManager

@@ -1,4 +1,4 @@
-package ru.ttb220.data.impl
+package ru.ttb220.data.impl.legacy
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first

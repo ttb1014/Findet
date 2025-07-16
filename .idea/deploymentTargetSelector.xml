@@ -35,6 +35,14 @@
       </SelectionState>
       <SelectionState runConfigName="RepositoryInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2025-07-16T04:57:34.749446Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\0x030C04\.android\avd\Findet_Figma_API_36.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="testGetAllTransactionsSuccess()">
         <option name="selectionMode" value="DROPDOWN" />

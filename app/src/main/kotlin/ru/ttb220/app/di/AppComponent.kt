@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.BindsInstance
 import dagger.Component
 import ru.ttb220.account.di.AccountComponent
-import ru.ttb220.categories.di.CategoriesComponent
 import ru.ttb220.bottomsheet.di.BottomSheetComponent
+import ru.ttb220.categories.di.CategoriesComponent
+import ru.ttb220.data.impl.sync.SyncWorker
+import ru.ttb220.data.impl.sync.SyncWorkerFactory
 import ru.ttb220.expenses.di.ExpensesComponent
-import ru.ttb220.expenses.presentation.viewmodel.EditExpenseViewModel
 import ru.ttb220.incomes.di.IncomesComponent
 import javax.inject.Singleton
 
@@ -33,4 +34,6 @@ interface AppComponent {
     val bottomSheetComponentFactory: BottomSheetComponent.Factory
     val expensesComponentFactory: ExpensesComponent.Factory
     val incomesComponentFactory: IncomesComponent.Factory
+
+    val assistedFactory: SyncWorker.Factory
 }

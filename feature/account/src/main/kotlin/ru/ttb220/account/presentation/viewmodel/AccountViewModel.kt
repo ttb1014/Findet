@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import ru.ttb220.account.domain.EditActiveAccountNameUseCase
 import ru.ttb220.account.presentation.model.AccountScreenState
 import ru.ttb220.data.api.NetworkMonitor
-import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.legacy.AccountsRepository
 import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.model.SafeResult

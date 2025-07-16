@@ -15,7 +15,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.data.api.legacy.TransactionsRepository
 import ru.ttb220.incomes.presentation.model.EditIncomeIntent
 import ru.ttb220.incomes.presentation.model.EditIncomeState
 import ru.ttb220.incomes.presentation.model.toIncomeScreenData

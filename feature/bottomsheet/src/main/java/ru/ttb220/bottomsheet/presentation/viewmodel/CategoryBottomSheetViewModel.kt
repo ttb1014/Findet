@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import ru.ttb220.bottomsheet.presentation.model.CategoryBottomSheetState
 import ru.ttb220.bottomsheet.presentation.model.CategoryBottomSheetType
 import ru.ttb220.bottomsheet.presentation.model.toCategoryData
-import ru.ttb220.data.api.CategoriesRepository
+import ru.ttb220.data.api.legacy.CategoriesRepository
 import ru.ttb220.model.Category
 import ru.ttb220.model.SafeResult
 import javax.inject.Inject

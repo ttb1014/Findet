@@ -1,6 +1,7 @@
-package ru.ttb220.data.api
+package ru.ttb220.data.api.legacy
 
 import kotlinx.coroutines.flow.Flow
+import ru.ttb220.data.api.sync.Syncable
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.account.Account
 import ru.ttb220.model.account.AccountBrief
@@ -10,6 +11,7 @@ import ru.ttb220.model.account.AccountHistory
 /**
  * Each method provides either wrapped data or wrapped domain error. Emits single value.
  */
+@Deprecated("Use Syncable instead")
 interface AccountsRepository {
     fun getAllAccounts(): Flow<SafeResult<List<Account>>>
 
