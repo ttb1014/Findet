@@ -7,21 +7,35 @@ import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import ru.ttb220.database.model.entity.Account
+import ru.ttb220.database.model.entity.AccountEntity
 
 @Dao
 interface AccountsDao {
 
     @Insert(onConflict = ABORT)
-    suspend fun insertAccount(account: Account)
+    suspend fun insertAccount(accountEntity: AccountEntity): Long
+
+    @Insert(onConflict = ABORT)
+    suspend fun insertAccounts(accountEntities: List<AccountEntity>)
 
     @Update(onConflict = ABORT)
-    suspend fun updateAccount(account: Account)
+    suspend fun updateAccount(accountEntity: AccountEntity): Int
 
-    @Delete()
-    suspend fun deleteAccount(account: Account)
+    @Update
+    suspend fun updateAccounts(accountEntities: List<AccountEntity>)
 
-    @Query("SELECT * from accounts " +
-            "WHERE id = :id")
-    fun getAccountById(id: Long): Flow<Account?>
+    @Delete
+    suspend fun deleteAccount(accountEntity: AccountEntity): Int
+
+    @Delete
+    suspend fun deleteAccounts(accountEntities: List<AccountEntity>)
+
+    @Query("SELECT * from accounts")
+    fun getAllAccounts(): Flow<List<AccountEntity>>
+
+    @Query(
+        "SELECT * from accounts " +
+                "WHERE id = :id"
+    )
+    fun getAccountById(id: Long): Flow<AccountEntity?>
 }

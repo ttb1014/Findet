@@ -1,29 +1,24 @@
 package ru.ttb220.network
 
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.json.Json
 import org.junit.Assert.fail
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.ttb220.network.api.RemoteDataSource
-import ru.ttb220.network.exception.ApiException
-import ru.ttb220.network.model.request.AccountCreateRequestDto
-import ru.ttb220.network.model.request.TransactionCreateRequestDto
+import ru.ttb220.network.api.exception.ApiException
+import ru.ttb220.network.api.model.request.AccountCreateRequestDto
+import ru.ttb220.network.api.model.request.TransactionCreateRequestDto
 import ru.ttb220.network.test.R
 import javax.inject.Inject
 
-@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class RetrofitNetworkInstrumentedTest {
-
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
 
     @Inject
     lateinit var remoteDataSource: RemoteDataSource
@@ -33,7 +28,8 @@ class RetrofitNetworkInstrumentedTest {
 
     @Before
     fun setup() {
-        hiltRule.inject()
+        val app = ApplicationProvider.getApplicationContext<TestApplication>()
+        app.testComponent.inject(this)
     }
 
     @Test
@@ -63,7 +59,6 @@ class RetrofitNetworkInstrumentedTest {
         }
     }
 
-
     @Test
     fun getAllTransactionsForThisMonth() = runBlocking {
         val accounts = remoteDataSource.getAllAccounts()
@@ -77,7 +72,9 @@ class RetrofitNetworkInstrumentedTest {
 
     private fun deleteAllOldTransactionsForAccount(accountID: Int) = runBlocking {
         val transactions = remoteDataSource.getAccountTransactionsForPeriod(
-            accountID
+            accountID,
+            LocalDate.parse("0000-01-01"),
+            LocalDate.parse("9999-12-31")
         )
         transactions.forEach { transaction ->
             remoteDataSource.deleteTransactionById(transaction.id)

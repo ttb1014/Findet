@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-11T20:45:32.877700Z">
+        <DropdownSelection timestamp="2025-07-17T05:41:19.354321600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\0x030C04\.android\avd\Findet_Figma_API_36.avd" />
@@ -24,12 +24,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="DatabaseInstrumentedTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="testSomething()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="testAccountsDao()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -45,6 +39,12 @@
         <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="testGetAllTransactionsSuccess()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="updateAccount()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="deleteAllTransactions()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

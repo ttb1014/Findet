@@ -7,17 +7,17 @@ import ru.ttb220.database.converter.Converters
 import ru.ttb220.database.dao.AccountsDao
 import ru.ttb220.database.dao.CategoriesDao
 import ru.ttb220.database.dao.TransactionsDao
-import ru.ttb220.database.model.entity.Account
-import ru.ttb220.database.model.entity.Category
-import ru.ttb220.database.model.entity.Transaction
+import ru.ttb220.database.model.entity.AccountEntity
+import ru.ttb220.database.model.entity.CategoryEntity
+import ru.ttb220.database.model.entity.TransactionEntity
 
 @Database(
     entities = [
-        Account::class,
-        Category::class,
-        Transaction::class
+        AccountEntity::class,
+        CategoryEntity::class,
+        TransactionEntity::class
     ],
-    version = 1,
+    version = 2,
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

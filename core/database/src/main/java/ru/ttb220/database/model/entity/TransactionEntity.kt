@@ -6,7 +6,9 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.time.Instant
+import kotlinx.datetime.Instant
+import ru.ttb220.model.transaction.Transaction
+import ru.ttb220.model.transaction.TransactionBrief
 
 @Entity(
     tableName = "transactions",
@@ -16,7 +18,7 @@ import java.time.Instant
     ],
     foreignKeys = [
         ForeignKey(
-            entity = Account::class,
+            entity = AccountEntity::class,
             parentColumns = [
                 "id"
             ],
@@ -27,7 +29,7 @@ import java.time.Instant
             onUpdate = CASCADE,
         ),
         ForeignKey(
-            entity = Category::class,
+            entity = CategoryEntity::class,
             parentColumns = [
                 "rowid",
             ],
@@ -39,7 +41,7 @@ import java.time.Instant
         )
     ]
 )
-data class Transaction(
+data class TransactionEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int,
@@ -65,3 +67,22 @@ data class Transaction(
     @ColumnInfo(name = "updated_at")
     override val updatedAt: Instant
 ) : Timestamped
+
+fun TransactionEntity.toTransaction(): Transaction = Transaction(
+    id = id,
+    accountId = accountId,
+    categoryId = categoryId,
+    amount = amount.toString(),
+    transactionDate = date,
+    comment = comment,
+    createdAt = createdAt,
+    updatedAt = updatedAt
+)
+
+fun TransactionEntity.toTransactionBrief(): TransactionBrief = TransactionBrief(
+    accountId = accountId,
+    categoryId = categoryId,
+    amount = amount.toString(),
+    transactionDate = date,
+    comment = comment
+)

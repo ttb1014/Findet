@@ -7,27 +7,27 @@ import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import ru.ttb220.database.model.entity.Transaction
-import java.time.Instant
+import kotlinx.datetime.Instant
+import ru.ttb220.database.model.entity.TransactionEntity
 
 @Dao
 interface TransactionsDao {
 
     @Insert(onConflict = ABORT)
-    suspend fun insertTransaction(transaction: Transaction)
+    suspend fun insertTransaction(transactionEntity: TransactionEntity)
 
     @Update(onConflict = ABORT)
-    suspend fun updateTransaction(transaction: Transaction)
+    suspend fun updateTransaction(transactionEntity: TransactionEntity)
 
     @Delete()
-    suspend fun deleteTransaction(transaction: Transaction)
+    suspend fun deleteTransaction(transactionEntity: TransactionEntity)
 
     @Query(
         "SELECT * FROM transactions " +
                 "WHERE id = :id " +
                 "LIMIT 1"
     )
-    fun getTransactionById(id: Long): Flow<Transaction?>
+    fun getTransactionById(id: Long): Flow<TransactionEntity?>
 
     @Query(
         "SELECT * FROM transactions " +
@@ -38,5 +38,5 @@ interface TransactionsDao {
         accountId: Long,
         startDate: Instant,
         endDate: Instant
-    ): Flow<List<Transaction>>
+    ): Flow<List<TransactionEntity>>
 }

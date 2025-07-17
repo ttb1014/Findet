@@ -1,5 +1,7 @@
 package ru.ttb220.data.impl
 
+import android.util.Log
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 import ru.ttb220.data.api.SyncableTransactionsRepository
@@ -41,7 +43,13 @@ class OfflineFirstTransactionsRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun syncWith(synchronizer: Synchronizer): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = coroutineScope {
+        Log.d(TAG, "syncWith: started")
+        Log.d(TAG, "syncWith: finished")
+        true
+    }
+
+    companion object {
+        private const val TAG = "OfflineFirstTransactionsRepository"
     }
 }

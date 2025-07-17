@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import ru.ttb220.database.dao.AccountsDao
 import ru.ttb220.database.dao.CategoriesDao
 import ru.ttb220.database.dao.TransactionsDao
-import ru.ttb220.database.model.entity.Account
+import ru.ttb220.database.model.entity.AccountEntity
 import java.time.Instant
 import javax.inject.Inject
 
@@ -48,7 +48,7 @@ class DatabaseInstrumentedTest {
         uiAutomation.executeShellCommand("svc wifi enable")
         uiAutomation.executeShellCommand("svc data enable")
         accountsDao.insertAccount(
-            Account(
+            AccountEntity(
                 id = 54,
                 name = "Tinkoff",
                 balance = 123400.00,

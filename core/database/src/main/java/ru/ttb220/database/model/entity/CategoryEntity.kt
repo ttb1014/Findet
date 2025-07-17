@@ -3,14 +3,13 @@ package ru.ttb220.database.model.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Fts4
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Fts4
 @Entity(
     tableName = "categories",
 )
-data class Category(
+data class CategoryEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "rowid")
     val id: Int = 0,

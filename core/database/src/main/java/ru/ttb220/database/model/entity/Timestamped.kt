@@ -1,6 +1,7 @@
 package ru.ttb220.database.model.entity
 
-import java.time.Instant
+import kotlinx.datetime.Instant
+
 
 interface Timestamped {
     val createdAt: Instant

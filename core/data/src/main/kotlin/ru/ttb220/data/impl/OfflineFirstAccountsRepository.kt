@@ -1,5 +1,6 @@
 package ru.ttb220.data.impl
 
+import android.util.Log
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -59,12 +60,22 @@ class OfflineFirstAccountsRepository @Inject constructor(
             }
         }
 
-
     override fun updateAccountById(
         id: Int,
         account: AccountBrief
-    ): Flow<SafeResult<Account>> = 
-        accountsDao.
+    ): Flow<SafeResult<Account>> = flow {
+        var accountEntity = accountsDao.getAccountById(id.toLong()).first()
+
+        if (accountEntity == null) SafeResult.Failure(cause = DomainError.NotFound)
+
+        accountEntity = accountEntity!!.copy(
+            name = account.name,
+            currency = account.currency,
+            balance = account.balance.toDouble()
+        )
+        accountsDao.updateAccount(accountEntity)
+        emit(SafeResult.Success(accountEntity.toAccount()))
+    }
 
     override fun deleteAccountById(id: Int): Flow<SafeResult<Unit>> {
         TODO("Not yet implemented")
@@ -75,6 +86,8 @@ class OfflineFirstAccountsRepository @Inject constructor(
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean = coroutineScope {
+        Log.d(this@OfflineFirstAccountsRepository::class.simpleName, "syncWith: started")
+
         val localAsync = async {
             accountsDao.getAllAccounts().first().map { it.toAccount() }
         }
@@ -144,9 +157,16 @@ class OfflineFirstAccountsRepository @Inject constructor(
             }
         }.awaitAll().all { it }
 
-        insertLocalRes.await() &&
-                updateLocalRes.await() &&
-                deleteLocalRes.await() &&
-                updateRemoteRes
+        insertLocalRes.await()
+        updateLocalRes.await()
+        deleteLocalRes.await()
+
+        Log.d(TAG, "syncWith: started")
+
+        true
+    }
+
+    companion object {
+        private const val TAG = "OfflineFirstAccountsRepository"
     }
 }
