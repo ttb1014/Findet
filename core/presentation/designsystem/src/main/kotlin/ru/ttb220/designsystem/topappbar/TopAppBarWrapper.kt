@@ -6,13 +6,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import ru.ttb220.designsystem.theme.Green
 import ru.ttb220.presentation.model.R
 
 @Suppress("FunctionName", "LongParameterList")
 @Composable
 fun TopAppBarWrapper(
+    lastSyncFormattedTime: String,
     defaultText: String,
     modifier: Modifier = Modifier,
+    isConnected: Boolean = true,
+    color: Color = Green,
     @DrawableRes leadingIcon: Int? = null,
     @DrawableRes trailingIcon: Int? = null,
     onLeadingIconClick: () -> Unit = {},
@@ -35,7 +40,10 @@ fun TopAppBarWrapper(
                 onTextEdited = onTextEdited,
                 onLeadingIconClick = onLeadingIconClick,
                 onTrailingIconClick = onTrailingIconClick,
-                onInputFinished = onInputFinished
+                onInputFinished = onInputFinished,
+                isConnected = isConnected,
+                lastSyncFormattedTime = lastSyncFormattedTime,
+                color = color
             )
         }
 
@@ -45,7 +53,10 @@ fun TopAppBarWrapper(
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             onLeadingIconClick = onLeadingIconClick,
-            onTrailingIconClick = onTrailingIconClick
+            onTrailingIconClick = onTrailingIconClick,
+            isConnected = isConnected,
+            lastSyncFormattedTime = lastSyncFormattedTime,
+            color = color
         )
     }
 }

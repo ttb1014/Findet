@@ -12,6 +12,9 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.map
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.account.di.AccountComponentProvider
 import ru.ttb220.account.presentation.navigation.ACCOUNT_SCREEN_ROUTE_BASE
 import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
@@ -19,12 +22,16 @@ import ru.ttb220.account.presentation.navigation.navigateToAccount
 import ru.ttb220.account.presentation.navigation.navigateToAddAccount
 import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
 import ru.ttb220.category.presentation.navigation.navigateToCategories
+import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.sync.SyncManager
 import ru.ttb220.expense.di.ExpensesComponentProvider
 import ru.ttb220.expense.presentation.navigation.ADD_EXPENSE_SCREEN_ROUTE_BASE
+import ru.ttb220.expense.presentation.navigation.ANALYSE_EXPENSE_SCREEN_ROUTE_BASE
 import ru.ttb220.expense.presentation.navigation.EDIT_EXPENSE_SCREEN_ROUTE_BASE
 import ru.ttb220.expense.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.expense.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.expense.presentation.navigation.navigateToAddExpense
+import ru.ttb220.expense.presentation.navigation.navigateToAnalyseExpenses
 import ru.ttb220.expense.presentation.navigation.navigateToEditExpense
 import ru.ttb220.expense.presentation.navigation.navigateToExpensesHistory
 import ru.ttb220.expense.presentation.navigation.navigateToExpensesToday
@@ -33,10 +40,12 @@ import ru.ttb220.expense.presentation.viewmodel.EditExpenseViewModel
 import ru.ttb220.findet.navigation.TopLevelDestination
 import ru.ttb220.income.di.IncomesComponentProvider
 import ru.ttb220.income.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
+import ru.ttb220.income.presentation.navigation.ANALYSE_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.navigateToAddIncome
+import ru.ttb220.income.presentation.navigation.navigateToAnalyseIncomes
 import ru.ttb220.income.presentation.navigation.navigateToEditIncome
 import ru.ttb220.income.presentation.navigation.navigateToIncomesHistory
 import ru.ttb220.income.presentation.navigation.navigateToIncomesToday
@@ -47,11 +56,17 @@ import ru.ttb220.setting.presentation.navigation.navigateToSettings
 @Composable
 fun rememberAppState(
     activeAccountId: Int? = null,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    networkMonitor: NetworkMonitor,
+    syncManager: SyncManager,
+    timeZone: TimeZone,
 ) = remember {
     AppState(
-        activeAccountId,
-        navController,
+        activeAccountId = activeAccountId,
+        navHostController = navController,
+        networkMonitor = networkMonitor,
+        syncManager = syncManager,
+        timeZone = timeZone,
     )
 }
 
@@ -63,11 +78,20 @@ fun rememberAppState(
 class AppState(
     val activeAccountId: Int?,
     val navHostController: NavHostController,
+    val networkMonitor: NetworkMonitor,
+    val syncManager: SyncManager,
+    val timeZone: TimeZone
 ) {
     var isAccountSelectorShown: Boolean by mutableStateOf(false)
     var isCategorySelectorShown: Boolean by mutableStateOf(false)
     var isCurrencyBottomSheetShown by mutableStateOf(false)
     var isTopAppBarIsInEditMode by mutableStateOf(false)
+
+    val isConnected = networkMonitor.isOnline
+
+    val lastSyncTimeFormatted = syncManager.lastSyncTimeFlow.map {
+        it.toLocalDateTime(timeZone).date.toString()
+    }
 
     private fun hideBottomSheets() {
         isAccountSelectorShown = false
@@ -152,7 +176,9 @@ class AppState(
             cachedRoute?.contains(ADD_INCOME_SCREEN_ROUTE_BASE) == true ||
             cachedRoute?.contains(ADD_EXPENSE_SCREEN_ROUTE_BASE) == true ||
             cachedRoute?.contains(EDIT_EXPENSE_SCREEN_ROUTE_BASE) == true ||
-            cachedRoute?.contains(EDIT_INCOME_SCREEN_ROUTE_BASE) == true
+            cachedRoute?.contains(EDIT_INCOME_SCREEN_ROUTE_BASE) == true ||
+            cachedRoute?.contains(ANALYSE_EXPENSE_SCREEN_ROUTE_BASE) == true ||
+            cachedRoute?.contains(ANALYSE_INCOME_SCREEN_ROUTE_BASE) == true
         )
             return remember(cachedRoute) { { popBackStack() } }
 
@@ -273,6 +299,18 @@ class AppState(
                 {
                     isTopAppBarIsInEditMode = true
                 }
+            }
+        }
+
+        if (cachedRoute?.contains(EXPENSES_HISTORY_SCREEN_ROUTE_BASE) == true) {
+            return remember(cachedRoute) {
+                { navHostController.navigateToAnalyseExpenses() }
+            }
+        }
+
+        if (cachedRoute?.contains(INCOMES_HISTORY_SCREEN_ROUTE_BASE) == true) {
+            return remember(cachedRoute) {
+                { navHostController.navigateToAnalyseIncomes() }
             }
         }
 

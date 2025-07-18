@@ -10,7 +10,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.sync.Syncable
 import ru.ttb220.data.api.sync.Synchronizer
@@ -37,9 +36,10 @@ class SyncWorker @AssistedInject constructor(
         // FIXME: make in parallel
         val syncedSuccessfully =
             settingsRepository.sync() &&
-            accountsRepository.sync() &&
-                    categoriesRepository.sync() &&
-                    transactionsRepository.sync()
+            categoriesRepository.sync() &&
+                    accountsRepository.sync() &&
+                    transactionsRepository.sync() &&
+                    true
 
         if (syncedSuccessfully) {
             Result.success()

@@ -9,11 +9,13 @@ import ru.ttb220.account.presentation.navigation.accountScreen
 import ru.ttb220.account.presentation.navigation.addAccountScreen
 import ru.ttb220.category.presentation.navigation.categoriesScreen
 import ru.ttb220.expense.presentation.navigation.addExpenseScreen
+import ru.ttb220.expense.presentation.navigation.analyseExpenseScreen
 import ru.ttb220.expense.presentation.navigation.editExpenseScreen
 import ru.ttb220.expense.presentation.navigation.expensesHistoryScreen
 import ru.ttb220.expense.presentation.navigation.expensesTodayScreen
 import ru.ttb220.findet.ui.AppState
 import ru.ttb220.income.presentation.navigation.addIncomeScreen
+import ru.ttb220.income.presentation.navigation.analyseIncomeScreen
 import ru.ttb220.income.presentation.navigation.editIncomeScreen
 import ru.ttb220.income.presentation.navigation.incomesHistoryScreen
 import ru.ttb220.income.presentation.navigation.incomesTodayScreen
@@ -55,6 +57,7 @@ fun FindetNavHost(
             },
             onDismiss = appState::popBackStack
         )
+        analyseExpenseScreen()
 
         incomesTodayScreen(
             navigateToEditIncome = appState::navigateToEditIncome
@@ -79,6 +82,7 @@ fun FindetNavHost(
             },
             onDismiss = appState::popBackStack
         )
+        analyseIncomeScreen()
 
         accountScreen(
             onBottomSheetShow = {

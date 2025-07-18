@@ -1,5 +1,7 @@
 package ru.ttb220.data.impl
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -30,5 +32,19 @@ class DefaultTimeProvider @Inject constructor(
     override fun startOfAMonth(): LocalDate {
         val today = today()
         return LocalDate(today.year, today.month, 1)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun endOfAMonth(): LocalDate {
+        val today = today()
+        val year = today.year
+        val month = today.month
+        val isLeap = isLeapYear(year)
+        val lastDay = month.length(isLeap)
+        return LocalDate(year, month, lastDay)
+    }
+
+    private fun isLeapYear(year: Int): Boolean {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
     }
 }

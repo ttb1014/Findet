@@ -17,13 +17,13 @@ interface CategoriesDao {
     suspend fun insertCategory(categoryEntity: CategoryEntity): Long
 
     @Update(onConflict = ABORT)
-    suspend fun updateCategory(categoryEntity: CategoryEntity): Int
+    suspend fun updateCategory(categoryEntity: CategoryEntity)
 
     @Upsert
     suspend fun upsertCategory(categoryEntity: CategoryEntity): Long
 
     @Delete
-    suspend fun deleteCategory(categoryEntity: CategoryEntity): Int
+    suspend fun deleteCategory(categoryEntity: CategoryEntity)
 
     @Insert(onConflict = ABORT)
     suspend fun insertCategories(categories: List<CategoryEntity>)

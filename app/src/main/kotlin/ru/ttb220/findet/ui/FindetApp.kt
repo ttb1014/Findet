@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.ttb220.account.di.AccountComponentProvider
@@ -68,6 +69,9 @@ fun FindetApp(
     // topAppBar visuals vary depending on currentRoute
     val topAppBarData = appState.topAppBarData()
 
+    val isConnected by appState.isConnected.collectAsStateWithLifecycle(false)
+    val lastSyncTimeFormatted by appState.lastSyncTimeFormatted.collectAsStateWithLifecycle("")
+
     Scaffold(
         modifier = modifier,
         topBar = tab@{
@@ -97,7 +101,9 @@ fun FindetApp(
                         accountViewModel = viewModel,
                         hideTabCallback = {
                             appState.isTopAppBarIsInEditMode = false
-                        }
+                        },
+                        lastSyncFormattedTime = lastSyncTimeFormatted,
+                        isConnected = isConnected,
                     )
                     return@tab
                 }
@@ -119,7 +125,10 @@ fun FindetApp(
                                 it.scrim(scrim)
                             } else
                                 it
-                        }
+                        },
+                    lastSyncFormattedTime = lastSyncTimeFormatted,
+                    isConnected = isConnected,
+                    color = topAppBarData.backgroundColor
                 )
             }
         },
@@ -239,7 +248,7 @@ fun FindetApp(
                         (context as ExpensesComponentProvider).provideExpensesComponent().assistedFactory
                     val editExpenseViewModel = viewModel<EditExpenseViewModel>(
                         viewModelStoreOwner = navBackStackEntry!!,
-                        factory = ru.ttb220.expense.presentation.viewmodel.factory.AssistedViewModelFactory(
+                        factory = AssistedViewModelFactory(
                             factory
                         )
                     )

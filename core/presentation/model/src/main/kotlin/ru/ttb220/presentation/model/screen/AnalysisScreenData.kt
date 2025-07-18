@@ -1,12 +1,12 @@
 package ru.ttb220.presentation.model.screen
 
 import androidx.compose.runtime.Immutable
-import ru.ttb220.presentation.model.ExpenseAnalysisData
+import ru.ttb220.presentation.model.AnalysisData
 
 @Immutable
-class ExpensesAnalysisScreenData(
+class AnalysisScreenData(
     val startDate: String,
     val endDate: String,
     val amount: String,
-    val expenses: List<ExpenseAnalysisData>
+    val analysed: List<AnalysisData>
 )

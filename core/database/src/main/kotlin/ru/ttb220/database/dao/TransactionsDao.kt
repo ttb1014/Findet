@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
@@ -18,13 +19,13 @@ interface TransactionsDao {
     suspend fun insertTransaction(transactionEntity: TransactionEntity): Long
 
     @Update(onConflict = ABORT)
-    suspend fun updateTransaction(transactionEntity: TransactionEntity): Int
+    suspend fun updateTransaction(transactionEntity: TransactionEntity)
 
     @Upsert
     suspend fun upsertTransaction(transactionEntity: TransactionEntity): Long
 
     @Delete
-    suspend fun deleteTransaction(transactionEntity: TransactionEntity): Int
+    suspend fun deleteTransaction(transactionEntity: TransactionEntity)
 
     @Query("DELETE FROM transactions WHERE id = :id")
     suspend fun deleteTransactionById(id: Long)
@@ -70,4 +71,10 @@ interface TransactionsDao {
                 "WHERE synced = 0"
     )
     suspend fun getAllUnsynced(): List<TransactionEntity>
+
+    @Transaction
+    suspend fun replaceTransaction(oldId: Long, newEntity: TransactionEntity) {
+        deleteTransactionById(oldId)
+        insertTransaction(newEntity)
+    }
 }

@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.ttb220.common.di.ViewModelKey
 import ru.ttb220.expense.presentation.viewmodel.AddExpenseViewModel
+import ru.ttb220.expense.presentation.viewmodel.ExpensesAnalysisScreenViewModel
 import ru.ttb220.expense.presentation.viewmodel.ExpensesHistoryViewModel
 import ru.ttb220.expense.presentation.viewmodel.ExpensesTodayViewModel
 
@@ -28,4 +29,9 @@ interface ExpensesModule {
     @IntoMap
     @ViewModelKey(AddExpenseViewModel::class)
     fun bindAddExpenseViewModel(viewModel: AddExpenseViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ExpensesAnalysisScreenViewModel::class)
+    fun bindExpensesAnalysisScreenViewModel(viewModel: ExpensesAnalysisScreenViewModel): ViewModel
 }

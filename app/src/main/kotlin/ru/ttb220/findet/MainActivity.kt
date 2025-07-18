@@ -65,6 +65,9 @@ class MainActivity : ComponentActivity() {
 
                 val appState = rememberAppState(
                     activeAccountId = activeAccountId,
+                    networkMonitor = appComponent.networkMonitor,
+                    syncManager = appComponent.syncManager,
+                    timeZone = appComponent.timeZone
                 )
                 FindetApp(
                     appState,

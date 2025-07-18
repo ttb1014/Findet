@@ -9,6 +9,7 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Findet_Figma" value="120" />
                   <entry key="Findet_Figma_API_36" value="120" />
                   <entry key="Tests" value="360" />
                 </map>

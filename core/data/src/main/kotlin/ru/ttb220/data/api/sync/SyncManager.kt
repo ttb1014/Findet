@@ -9,5 +9,8 @@ interface SyncManager {
 
     fun requestSync()
 
+    // FIXME: remove
     val lastSyncTime: Instant
+
+    val lastSyncTimeFlow: Flow<Instant>
 }

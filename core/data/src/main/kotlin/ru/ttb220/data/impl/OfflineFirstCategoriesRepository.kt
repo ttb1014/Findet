@@ -3,6 +3,7 @@ package ru.ttb220.data.impl
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import ru.ttb220.data.api.CategoriesRepository
 import ru.ttb220.data.api.sync.Syncable
@@ -36,7 +37,7 @@ class OfflineFirstCategoriesRepository @Inject constructor(
             .toSafeDomainResult()
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean = coroutineScope {
-        remoteDataSource.getAllCategories().forEach { categoryDto ->
+        remoteDataSource.getAllCategories().map { categoryDto ->
             val category = categoryDto.toCategory()
 
             launch {
@@ -51,7 +52,7 @@ class OfflineFirstCategoriesRepository @Inject constructor(
                     categoriesDao.updateCategory(category.toCategoryEntity())
                 }
             }
-        }
+        }.joinAll()
 
         true
     }

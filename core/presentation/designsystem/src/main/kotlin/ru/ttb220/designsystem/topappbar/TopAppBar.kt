@@ -26,12 +26,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.presentation.model.R
 import ru.ttb220.designsystem.theme.Green
+import ru.ttb220.designsystem.theme.KeyError
+import ru.ttb220.presentation.model.R
 
 /**
  * @param text Должен вмещаться в контейнер
@@ -44,11 +47,44 @@ fun TopAppBar(
     @DrawableRes trailingIcon: Int? = null,
     onLeadingIconClick: () -> Unit = {},
     onTrailingIconClick: () -> Unit = {},
+    isConnected: Boolean = true,
+    lastSyncFormattedTime: String,
+    color: Color = Green
 ) {
+    val surfaceColor = if (!isConnected) KeyError else color
+
     Surface(
         modifier = modifier,
-        color = Green,
+        color = surfaceColor,
     ) {
+        Box(
+            Modifier
+                .height(
+                    WindowInsets.systemBars
+                        .only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
+                        .getTop(LocalDensity.current).dp
+                )
+                .fillMaxWidth(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            when (isConnected) {
+                true -> Text(
+                    text = stringResource(R.string.last_synced) + lastSyncFormattedTime,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    softWrap = false,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.labelMedium
+                )
+
+                false -> Text(
+                    text = stringResource(R.string.offline) + lastSyncFormattedTime,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    softWrap = false,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+        }
         Row(
             modifier = modifier
                 .windowInsetsPadding(
@@ -57,7 +93,7 @@ fun TopAppBar(
                 )
                 .height(64.dp)
                 .fillMaxWidth()
-                .background(Green)
+                .background(color)
                 .padding(horizontal = 4.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -131,6 +167,8 @@ private fun TopAppBarPreview() {
         text = "Мои расходы",
         leadingIcon = R.drawable.cross,
         trailingIcon = R.drawable.check,
-        modifier = Modifier
+        modifier = Modifier,
+        isConnected = true,
+        lastSyncFormattedTime = "2024-12-01",
     )
 }

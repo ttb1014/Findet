@@ -24,25 +24,32 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.ttb220.presentation.model.R
 import ru.ttb220.designsystem.theme.Green
+import ru.ttb220.designsystem.theme.KeyError
+import ru.ttb220.presentation.model.R
 
 @Suppress("LongParameterList", "FunctionNaming")
 @Composable
 fun EditableTopAppBar(
+    lastSyncFormattedTime: String,
     text: String,
     modifier: Modifier = Modifier,
+    isConnected: Boolean = true,
+    color: Color = Green,
     @DrawableRes leadingIcon: Int? = R.drawable.cross,
     @DrawableRes trailingIcon: Int? = R.drawable.check,
     onTextEdited: (String) -> Unit = {},
@@ -54,10 +61,39 @@ fun EditableTopAppBar(
         onLeadingIconClick()
     }
 
+    val surfaceColor = if (!isConnected) KeyError else color
     Surface(
         modifier = modifier,
-        color = Green,
+        color = surfaceColor,
     ) {
+        Box(
+            Modifier
+                .height(
+                    WindowInsets.systemBars
+                        .only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)
+                        .getTop(LocalDensity.current).dp
+                )
+                .fillMaxWidth(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            when (isConnected) {
+                true -> Text(
+                    text = stringResource(R.string.last_synced) + lastSyncFormattedTime,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    softWrap = false,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.labelMedium
+                )
+
+                false -> Text(
+                    text = stringResource(R.string.offline) + lastSyncFormattedTime,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    softWrap = false,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+        }
         Row(
             modifier = modifier
                 .windowInsetsPadding(

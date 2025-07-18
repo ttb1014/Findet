@@ -14,6 +14,8 @@ import ru.ttb220.presentation.model.R
 
 @Composable
 fun AccountEditableTopAppBar(
+    lastSyncFormattedTime: String,
+    isConnected: Boolean,
     modifier: Modifier = Modifier,
     accountViewModel: AccountViewModel,
     hideTabCallback: () -> Unit = {},
@@ -49,5 +51,7 @@ fun AccountEditableTopAppBar(
                 afterEdited = hideTabCallback
             )
         },
+        lastSyncFormattedTime = lastSyncFormattedTime,
+        isConnected = isConnected,
     )
 }

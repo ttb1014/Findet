@@ -104,3 +104,4 @@ val mockExpensesScreenData = ExpensesScreenData(
     ),
     totalAmount = "436 558 ₽"
 )
+

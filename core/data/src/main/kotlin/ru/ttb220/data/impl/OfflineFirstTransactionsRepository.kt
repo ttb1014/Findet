@@ -2,16 +2,17 @@ package ru.ttb220.data.impl
 
 import android.util.Log
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
+import ru.ttb220.data.api.NetworkMonitor
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.data.api.sync.Syncable
@@ -30,11 +31,13 @@ import ru.ttb220.network.api.mapper.toTransactionCreateRequestDto
 import ru.ttb220.network.api.mapper.toTransactionUpdateRequestDto
 import javax.inject.Inject
 
+// FIXME: Should not block flow until connected and rather add all pending operations to queue.
 class OfflineFirstTransactionsRepository @Inject constructor(
     private val timeZone: TimeZone,
     private val transactionsDao: TransactionsDao,
     private val remoteDataSource: RemoteDataSource,
     private val settingsRepository: OfflineFirstSettingsRepository,
+    private val networkMonitor: NetworkMonitor,
     private val timeProvider: TimeProvider
 ) : TransactionsRepository, Syncable {
 
@@ -48,6 +51,27 @@ class OfflineFirstTransactionsRepository @Inject constructor(
             val localModel = transactionsDao.getTransactionById(insertedId).first()?.toTransaction()
             localModel?.let {
                 emit(SafeResult.Success(it))
+            }
+
+            networkMonitor.isOnline
+                .filter { it }
+                .first()
+
+            try {
+                val remote = flow {
+                    emit(
+                        remoteDataSource.createNewTransaction(
+                            transaction.toTransactionCreateRequestDto()
+                        )
+                    )
+                }.withExpBackoffRetry().first().toTransaction()
+
+                transactionsDao.replaceTransaction(
+                    insertedId,
+                    remote.toTransactionEntity(synced = true)
+                )
+            } catch (e: Exception) {
+                Log.e("CreateTransaction", "Сервер не доступен, оставляем локальную", e)
             }
         }
 
@@ -74,6 +98,26 @@ class OfflineFirstTransactionsRepository @Inject constructor(
                 id = id, createdAt = oldModel.createdAt, updatedAt = timeProvider.now()
             )
         )
+
+        networkMonitor.isOnline
+            .filter { it }
+            .first()
+
+        val remote = flow {
+            emit(
+                remoteDataSource.updateTransactionById(
+                    id = id,
+                    transactionUpdateRequestDto = transaction.toTransactionUpdateRequestDto()
+                )
+            )
+        }.withExpBackoffRetry().first()
+
+        remote.toTransaction().let { syncedRemote ->
+            transactionsDao.replaceTransaction(
+                id.toLong(),
+                syncedRemote.toTransactionEntity(synced = true)
+            )
+        }
     }
 
     override fun deleteTransactionById(id: Int): Flow<SafeResult<Unit>> = flow {
@@ -93,95 +137,44 @@ class OfflineFirstTransactionsRepository @Inject constructor(
         })
     }
 
+    private suspend fun overrideWithRemote() = coroutineScope {
+        val allAccounts = flow {
+            emit(remoteDataSource.getAllAccounts())
+        }.withExpBackoffRetry().first()
 
-    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = coroutineScope {
-        Log.d(TAG, "syncWith: started")
-
-        val allAccounts = remoteDataSource.getAllAccounts()
-        val ourAccountIds = allAccounts.map { it.id }.toSet()
-
-        val remoteTransactions = allAccounts.flatMap { account ->
-            remoteDataSource.getAccountTransactionsForPeriod(
-                accountId = account.id,
-                startDate = MIN_DATE,
-                endDate = MAX_DATE
-            )
-        }.map { it.toTransaction() }
-        val remoteMap = remoteTransactions.associateBy { it.id }
-
-        val localTransactions = transactionsDao.getAllTransactions().first()
-        val unsyncedLocal = localTransactions
-            .filterNot { it.synced }
-            .map { it.toTransaction() }
-        val localUnsyncedIds = unsyncedLocal.map { it.id }.toSet()
-        val syncedLocal = localTransactions
-            .filter { it.synced }
-            .map { it.toTransaction() }
-        val localSyncedIds = syncedLocal.map { it.id }.toSet()
-
-        val toInsertRemote = mutableListOf<Transaction>()
-        val toUpdateRemote = mutableListOf<Transaction>()
-        val toDeleteRemote = mutableListOf<Transaction>()
-        val toInsertLocal = mutableListOf<Transaction>()
-        val toUpdateLocal = mutableListOf<Transaction>()
-        val toDeleteLocal = mutableListOf<Transaction>()
-
-        for (local in unsyncedLocal) {
-            val remote = remoteMap[local.id]
-            if (remote == null) {
-                toInsertRemote.add(local)
-                continue
-            }
-            if (remote.accountId !in ourAccountIds) {
-                toInsertRemote.add(local)
-                continue
-            }
-            if (local.updatedAt > remote.updatedAt) {
-                toUpdateRemote.add(local)
-                continue
-            }
-        }
-
-        val insertRemoteJob = toInsertRemote.map { transaction ->
-            launch {
-                flow {
-                    emit(remoteDataSource.createNewTransaction(transaction.toTransactionCreateRequestDto()))
-                }.withExpBackoffRetry().first()
-            }
-        }
-        val updateRemoteJob = toUpdateRemote.map { transaction ->
-            launch {
+        val remoteTransactions = allAccounts.map { account ->
+            async {
                 flow {
                     emit(
-                        remoteDataSource.updateTransactionById(
-                            transaction.id,
-                            transaction.toTransactionUpdateRequestDto()
+                        remoteDataSource.getAccountTransactionsForPeriod(
+
+                            account.id,
+                            MIN_DATE,
+                            MAX_DATE,
                         )
                     )
                 }.withExpBackoffRetry().first()
             }
-        }
-        insertRemoteJob.joinAll()
-        updateRemoteJob.joinAll()
+        }.awaitAll().flatten().map { it.toTransaction() }
 
-        val remoteTransactionsSynced = allAccounts.flatMap { account ->
-            remoteDataSource.getAccountTransactionsForPeriod(
-                accountId = account.id,
-                startDate = MIN_DATE,
-                endDate = MAX_DATE
-            )
-        }.map { it.toTransaction() }
         transactionsDao.deleteAll()
-        remoteTransactions.map { transaction ->
-            launch {
-                transactionsDao.insertTransaction(transaction.toTransactionEntity(synced = true))
-            }
-        }.joinAll()
+        remoteTransactions.forEach { transaction ->
+            transactionsDao.insertTransaction(
+                transaction.toTransactionEntity(
+                    synced = true
+                )
+            )
+        }
+    }
+
+    override suspend fun syncWith(synchronizer: Synchronizer): Boolean = coroutineScope {
+        Log.d(TAG, "syncWith: started")
+
+        overrideWithRemote()
 
         Log.d(TAG, "syncWith: completed")
         return@coroutineScope true
     }
-
 
     companion object {
         private const val TAG = "OfflineFirstTransactionsRepository"

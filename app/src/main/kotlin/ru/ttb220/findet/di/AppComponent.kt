@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import dagger.BindsInstance
 import dagger.Component
+import kotlinx.datetime.TimeZone
 import ru.ttb220.account.di.AccountComponent
 import ru.ttb220.bottomsheet.di.BottomSheetComponent
 import ru.ttb220.category.di.CategoriesComponent
+import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.sync.SyncManager
 import ru.ttb220.expense.di.ExpensesComponent
 import ru.ttb220.income.di.IncomesComponent
 import ru.ttb220.sync.SyncWorker
@@ -35,4 +38,9 @@ interface AppComponent {
     val incomesComponentFactory: IncomesComponent.Factory
 
     val assistedFactory: SyncWorker.AssistedFactory
+
+    val networkMonitor: NetworkMonitor
+
+    val syncManager: SyncManager
+    val timeZone: TimeZone
 }

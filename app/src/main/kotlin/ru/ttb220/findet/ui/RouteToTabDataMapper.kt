@@ -1,18 +1,20 @@
 package ru.ttb220.findet.ui
 
-import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.presentation.navigation.ACCOUNT_SCREEN_ROUTE_BASE
+import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
+import ru.ttb220.designsystem.theme.Green
+import ru.ttb220.designsystem.theme.LightSurface
 import ru.ttb220.expense.presentation.navigation.ADD_EXPENSE_SCREEN_ROUTE_BASE
+import ru.ttb220.expense.presentation.navigation.ANALYSE_EXPENSE_SCREEN_ROUTE_BASE
 import ru.ttb220.expense.presentation.navigation.EDIT_EXPENSE_SCREEN_ROUTE_BASE
 import ru.ttb220.expense.presentation.navigation.EXPENSES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.expense.presentation.navigation.EXPENSES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
+import ru.ttb220.income.presentation.navigation.ANALYSE_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.presentation.model.R
-
-// #INVESTIGATE we may define top app bar visuals for each screen in feature module?
 
 // maps screen route to its visual
 val RouteToTabTextMapper = mapOf(
@@ -26,6 +28,8 @@ val RouteToTabTextMapper = mapOf(
     ADD_EXPENSE_SCREEN_ROUTE_BASE to R.string.new_expense,
     EDIT_EXPENSE_SCREEN_ROUTE_BASE to R.string.edit_expense,
     EDIT_INCOME_SCREEN_ROUTE_BASE to R.string.edit_income,
+    ANALYSE_EXPENSE_SCREEN_ROUTE_BASE to R.string.analysis,
+    ANALYSE_INCOME_SCREEN_ROUTE_BASE to R.string.analysis,
     "categories" to R.string.my_categories,
     "settings" to R.string.settings,
 )
@@ -42,6 +46,8 @@ val RouteToTabLeadingIconMapper = mapOf(
     ADD_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.cross,
     EDIT_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.cross,
     EDIT_INCOME_SCREEN_ROUTE_BASE to R.drawable.cross,
+    ANALYSE_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.back,
+    ANALYSE_INCOME_SCREEN_ROUTE_BASE to R.drawable.back,
     "categories" to null,
     "settings" to null,
 )
@@ -58,6 +64,8 @@ val RouteToTabTrailingIconMapper = mapOf(
     ADD_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.check,
     EDIT_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.check,
     EDIT_INCOME_SCREEN_ROUTE_BASE to R.drawable.check,
+    ANALYSE_EXPENSE_SCREEN_ROUTE_BASE to null,
+    ANALYSE_INCOME_SCREEN_ROUTE_BASE to null,
     "categories" to null,
     "settings" to null,
 )
@@ -68,5 +76,6 @@ val RouteToTabDataMapper = RouteToTabTextMapper.mapValues { (route, _) ->
         RouteToTabTextMapper[route]!!,
         RouteToTabLeadingIconMapper[route],
         RouteToTabTrailingIconMapper[route],
+        if (route == ANALYSE_EXPENSE_SCREEN_ROUTE_BASE || route == ANALYSE_INCOME_SCREEN_ROUTE_BASE) LightSurface else Green
     )
 }

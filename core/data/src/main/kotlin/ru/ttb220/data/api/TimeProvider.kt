@@ -15,4 +15,5 @@ interface TimeProvider {
     fun today(): LocalDate
 
     fun startOfAMonth(): LocalDate
+    fun endOfAMonth(): LocalDate
 }

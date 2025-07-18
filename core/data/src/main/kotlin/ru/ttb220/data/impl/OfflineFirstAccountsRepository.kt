@@ -3,11 +3,12 @@ package ru.ttb220.data.impl
 import android.util.Log
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.NetworkMonitor
 import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.sync.Syncable
@@ -25,11 +26,13 @@ import ru.ttb220.network.api.mapper.toAccount
 import ru.ttb220.network.api.mapper.toAccountCreateRequestDto
 import javax.inject.Inject
 
+// FIXME: Should not block flow until connected and rather add all pending operations to queue.
 class OfflineFirstAccountsRepository @Inject constructor(
     private val accountsDao: AccountsDao,
     private val remoteDataSource: RemoteDataSource,
     private val timeProvider: TimeProvider,
     private val settingsRepository: SettingsRepository,
+    private val networkMonitor: NetworkMonitor,
 ) : AccountsRepository, Syncable {
 
     override fun getAllAccounts(): Flow<SafeResult<List<Account>>> =
@@ -50,6 +53,26 @@ class OfflineFirstAccountsRepository @Inject constructor(
         localModel?.run {
             emit(SafeResult.Success(this))
         }
+
+        networkMonitor.isOnline
+            .filter { it }
+            .first()
+
+        try {
+            val remote = flow {
+                emit(
+                    remoteDataSource.createNewAccount(account.toAccountCreateRequestDto())
+                )
+            }.withExpBackoffRetry().first()
+
+            val entity = remote.toAccount().toAccountEntity(synced = true)
+            accountsDao.replaceAccount(
+                oldId = insertedId,
+                entity
+            )
+        } catch (e: Exception) {
+            Log.e("CreateAccount", "Failed to sync with server", e)
+        }
     }
 
     override fun getAccountById(id: Int): Flow<SafeResult<Account>> =
@@ -63,8 +86,8 @@ class OfflineFirstAccountsRepository @Inject constructor(
         }
 
     override fun updateAccountById(id: Int, account: AccountBrief): Flow<SafeResult<Account>> =
-        flow local@{
-            val updatedId = accountsDao.updateAccount(
+        flow {
+            accountsDao.updateAccount(
                 account.toAccountEntity(
                     id = id,
                     userId = settingsRepository.getActiveUserId().first(),
@@ -76,6 +99,31 @@ class OfflineFirstAccountsRepository @Inject constructor(
             localModel?.run {
                 emit(SafeResult.Success(this))
             }
+
+            networkMonitor.isOnline
+                .filter { it }
+                .first()
+
+            try {
+                val updatedRemote = flow {
+                    emit(
+                        remoteDataSource.updateAccountById(
+                            id = id,
+                            accountCreateRequestDto = account.toAccountCreateRequestDto()
+                        )
+                    )
+                }.withExpBackoffRetry().first().toAccount()
+
+                accountsDao.replaceAccount(
+                    id.toLong(),
+                    updatedRemote.toAccountEntity(true)
+                )
+
+                emit(SafeResult.Success(updatedRemote))
+            } catch (e: Exception) {
+                emit(SafeResult.Failure(DomainError.Exception(e)))
+            }
+
         }
 
     override fun deleteAccountById(id: Int): Flow<SafeResult<Unit>> = flow {
@@ -83,33 +131,33 @@ class OfflineFirstAccountsRepository @Inject constructor(
         if (entity != null)
             accountsDao.deleteAccount(entity)
         emit(SafeResult.Success(Unit))
+
+        networkMonitor.isOnline
+            .filter { it }
+            .first()
+
+        try {
+            flow {
+                emit(remoteDataSource.deleteAccountById(id))
+            }.withExpBackoffRetry().first()
+        } catch (e: Exception) {
+            Log.w("DeleteAccount", "Failed to sync with server", e)
+        }
+
     }
 
     override suspend fun syncWith(synchronizer: Synchronizer): Boolean = coroutineScope {
         Log.d(TAG, "syncWith: started")
 
-        val localAccounts = accountsDao.getAllAccounts().first()
-        val unsyncedAccounts = localAccounts.filterNot { it.synced }
-        unsyncedAccounts.map { accountEntity ->
-            launch {
-                val remoteAccount = flow {
-                    emit(
-                        remoteDataSource.createNewAccount(
-                            accountEntity.toAccount().toAccountCreateRequestDto()
-                        )
-                    )
-                }.withExpBackoffRetry().first().toAccount()
-                accountsDao.deleteAccountById(accountEntity.id.toLong())
-            }
-        }
-
         val remoteAccounts = flow {
-            emit(remoteDataSource.getAllAccounts())
-        }.withExpBackoffRetry().first().map { it.toAccount() }
+            emit(
+                remoteDataSource.getAllAccounts()
+                    .map { it.toAccount() })
+        }.withExpBackoffRetry().first()
 
-        remoteAccounts.forEach { account ->
-            accountsDao.insertAccount(account.toAccountEntity(true))
-        }
+        accountsDao.deleteAll()
+        val entities = remoteAccounts.map { it.toAccountEntity(synced = true) }
+        accountsDao.insertAccounts(entities)
 
         Log.d(TAG, "syncWith: completed")
         return@coroutineScope true
