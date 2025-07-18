@@ -1,0 +1,34 @@
+package ru.ttb220.category.presentation.navigation
+
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.compose.composable
+import ru.ttb220.category.presentation.ui.CategoriesScreen
+import ru.ttb220.category.presentation.viewmodel.CategoriesViewModel
+import ru.ttb220.category.di.CategoriesComponentProvider
+
+const val TOP_LEVEL_CATEGORIES_ROUTE = "categories"
+
+fun NavController.navigateToCategories(
+    navOptions: NavOptions? = null
+) = navigate(TOP_LEVEL_CATEGORIES_ROUTE, navOptions)
+
+fun NavGraphBuilder.categoriesScreen() {
+    composable(
+        route = TOP_LEVEL_CATEGORIES_ROUTE,
+    ) { navBackStackEntry ->
+        val context = LocalContext.current.applicationContext
+        val factory =
+            (context as CategoriesComponentProvider).provideCategoriesComponent().viewModelFactory
+        val viewModel = viewModel<CategoriesViewModel>(
+            viewModelStoreOwner = navBackStackEntry,
+            factory = factory
+        )
+
+
+        CategoriesScreen(viewModel = viewModel)
+    }
+}

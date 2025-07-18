@@ -14,21 +14,21 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/database" />
-            <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/mock" />
             <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/presentation" />
             <option value="$PROJECT_DIR$/core/presentation/common" />
+            <option value="$PROJECT_DIR$/core/presentation/designsystem" />
             <option value="$PROJECT_DIR$/core/presentation/model" />
-            <option value="$PROJECT_DIR$/core/presentation/ui" />
+            <option value="$PROJECT_DIR$/core/sync" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/account" />
             <option value="$PROJECT_DIR$/feature/bottomsheet" />
-            <option value="$PROJECT_DIR$/feature/categories" />
-            <option value="$PROJECT_DIR$/feature/expenses" />
-            <option value="$PROJECT_DIR$/feature/incomes" />
-            <option value="$PROJECT_DIR$/feature/settings" />
+            <option value="$PROJECT_DIR$/feature/category" />
+            <option value="$PROJECT_DIR$/feature/expense" />
+            <option value="$PROJECT_DIR$/feature/income" />
+            <option value="$PROJECT_DIR$/feature/setting" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -57,4 +57,5 @@
     <string name="delete_income">Удалить расход</string>
     <string name="error_income_not_found">Заданный доход не найден</string>
     <string name="edit_income">Мои доходы</string>
+    <string name="error_api">Сетевая ошибка</string>
 </resources>

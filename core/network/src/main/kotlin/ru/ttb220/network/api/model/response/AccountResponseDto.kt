@@ -1,9 +1,7 @@
 package ru.ttb220.network.api.model.response
 
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ttb220.model.account.Account
 
 @Serializable
 data class AccountResponseDto(
@@ -29,12 +27,3 @@ data class AccountResponseDto(
     val updatedAt: String,
 )
 
-fun AccountResponseDto.toAccount(): Account = Account(
-    id = id,
-    userId = userId,
-    name = name,
-    balance = balance,
-    currency = currency,
-    createdAt = Instant.parse(createdAt),
-    updatedAt = Instant.parse(updatedAt),
-)

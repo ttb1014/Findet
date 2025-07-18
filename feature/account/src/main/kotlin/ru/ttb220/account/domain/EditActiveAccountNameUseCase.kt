@@ -3,7 +3,7 @@ package ru.ttb220.account.domain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import ru.ttb220.data.api.legacy.AccountsRepository
+import ru.ttb220.data.api.AccountsRepository
 import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.account.toAccountBrief

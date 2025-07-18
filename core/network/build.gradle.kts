@@ -1,21 +1,24 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
+    // di
+    alias(libs.plugins.kotlin.kapt)
+
+    // kotlinx.serialization
     alias(libs.plugins.kotlin.serialization)
-    kotlin("kapt")
+
+    // secrets
+    alias(libs.plugins.secrets)
 }
 
 android {
     namespace = "ru.ttb220.network"
-    compileSdk = 35
-
-    buildFeatures {
-        buildConfig = true
-    }
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -36,22 +39,29 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 secrets {
-    defaultPropertiesFileName = "secrets.defaults.properties"
+    defaultPropertiesFileName = "local.properties"
 }
 
 dependencies {
-    implementation(project(":core:model"))
+    api(project(":core:model"))
 
+    // retrofit +json + kotlinx.serialization impl
     api(libs.retrofit)
     api(libs.kotlinx.serialization.json)
     api(libs.retrofit.kotlin.serialization)
     api(libs.okhttp.logging)
 
-    api(libs.kotlinx.datetime)
-
+    // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 

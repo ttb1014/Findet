@@ -3,13 +3,8 @@ package ru.ttb220.network.api.model.response
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ttb220.model.account.AccountDetailed
-import ru.ttb220.model.transaction.TransactionDetailed
 import ru.ttb220.network.api.model.AccountDto
 import ru.ttb220.network.api.model.CategoryDto
-import ru.ttb220.network.api.model.toAccountState
-import ru.ttb220.network.api.model.toCategory
-import ru.ttb220.network.api.model.toTransactionStat
 
 @Serializable
 data class TransactionDetailedResponseDto(
@@ -37,15 +32,3 @@ data class TransactionDetailedResponseDto(
     @SerialName("updatedAt")
     val updatedAt: Instant,
 )
-
-fun TransactionDetailedResponseDto.toTransactionDetailed(): TransactionDetailed =
-    TransactionDetailed(
-        id = id,
-        account = account.toAccountState(),
-        category = category.toCategory(),
-        amount = amount,
-        transactionDate = transactionDate,
-        comment = comment,
-        createdAt = createdAt,
-        updatedAt = updatedAt
-    )

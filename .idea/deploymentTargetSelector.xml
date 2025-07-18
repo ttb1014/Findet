@@ -4,48 +4,14 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-17T05:41:19.354321600Z">
+        <DropdownSelection timestamp="2025-07-18T17:20:22.995138300Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\0x030C04\.android\avd\Findet_Figma_API_36.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\0x030C04\.android\avd\Findet_Figma.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="demo">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-06-11T10:51:39.682145100Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\0x030C04\.android\avd\Test_Device_2_API_36.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="testAccountsDao()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="RepositoryInstrumentedTest">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-16T04:57:34.749446Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\0x030C04\.android\avd\Findet_Figma_API_36.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="testGetAllTransactionsSuccess()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="updateAccount()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="deleteAllTransactions()">
-        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>

@@ -3,7 +3,7 @@ package ru.ttb220.network.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import ru.ttb220.network.RetrofitNetworkInstrumentedTest
+import ru.ttb220.network.NetworkInstrumentedTest
 import javax.inject.Singleton
 
 @Singleton
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 )
 interface TestAppComponent {
-    fun inject(test: RetrofitNetworkInstrumentedTest)
+    fun inject(test: NetworkInstrumentedTest)
 
     @Component.Factory
     interface Factory {

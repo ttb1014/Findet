@@ -8,9 +8,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.presentation.model.R
 import ru.ttb220.account.presentation.viewmodel.AccountViewModel
-import ru.ttb220.presentation.ui.component.topappbar.EditableTopAppBar
+import ru.ttb220.designsystem.topappbar.EditableTopAppBar
+import ru.ttb220.presentation.model.R
 
 @Composable
 fun AccountEditableTopAppBar(

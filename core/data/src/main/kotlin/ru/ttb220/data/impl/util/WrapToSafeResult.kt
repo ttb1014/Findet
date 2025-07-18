@@ -41,7 +41,7 @@ fun <T> Flow<T>.wrapToSafeResult(): Flow<SafeResult<T>> =
                 }
 
                 is UnauthorizedException -> {
-                    DomainError.Unauthorized
+                    DomainError.ApiError
                 }
 
                 is ClientErrorException -> {
@@ -49,7 +49,7 @@ fun <T> Flow<T>.wrapToSafeResult(): Flow<SafeResult<T>> =
                 }
 
                 is ServerErrorException -> {
-                    DomainError.ServerError
+                    DomainError.ApiError
                 }
 
                 is ApiException -> {

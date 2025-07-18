@@ -2,9 +2,7 @@ package ru.ttb220.network.api.model.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ttb220.model.account.AccountHistory
 import ru.ttb220.network.api.model.AccountHistoryEntryDto
-import ru.ttb220.network.api.model.toAccountHistoryEntry
 
 @Serializable
 data class AccountHistoryResponseDto(
@@ -23,10 +21,3 @@ data class AccountHistoryResponseDto(
     @SerialName("history")
     val history: List<AccountHistoryEntryDto>,
 )
-
-fun AccountHistoryResponseDto.toAccountHistory(): AccountHistory =
-    AccountHistory(accountId = accountId,
-        accountName = accountName,
-        currency = currency,
-        currentBalance = currentBalance,
-        history = history.map { it.toAccountHistoryEntry() })

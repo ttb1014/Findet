@@ -1,12 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    kotlin("kapt")
+
+    // di
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
     namespace = "ru.ttb220.common"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -33,15 +35,10 @@ android {
     }
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
 dependencies {
+    // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
-
-    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

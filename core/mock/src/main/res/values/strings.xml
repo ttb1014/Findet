@@ -1,7 +1,0 @@
-<resources>
-    <string name="expenses">Расходы</string>
-    <string name="incomes">Доходы</string>
-    <string name="account">Счет</string>
-    <string name="articles">Статьи</string>
-    <string name="settings">Настройки</string>
-</resources>

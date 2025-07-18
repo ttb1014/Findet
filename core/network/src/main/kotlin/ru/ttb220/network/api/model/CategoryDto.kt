@@ -2,7 +2,6 @@ package ru.ttb220.network.api.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ttb220.model.Category
 
 @Serializable
 data class CategoryDto(
@@ -17,11 +16,4 @@ data class CategoryDto(
 
     @SerialName("isIncome")
     val isIncome: Boolean
-)
-
-fun CategoryDto.toCategory(): Category = Category(
-    id = id,
-    name = name,
-    emoji = emoji,
-    isIncome = isIncome
 )

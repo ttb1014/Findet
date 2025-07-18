@@ -1,12 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    kotlin("kapt")
+
+    // di
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
     namespace = "ru.ttb220.data"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -33,18 +35,20 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+
+    // room export schema location
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+}
+
 dependencies {
-    api(project(":core:model"))
-    api(project(":core:network"))
-    api(project(":core:mock"))
     api(project(":core:database"))
+    api(project(":core:network"))
 
-    api(libs.androidx.work.ktx)
-
-    api(libs.kotlinx.datetime)
-
-    implementation(libs.kotlinx.coroutines.android)
-
+    // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 
