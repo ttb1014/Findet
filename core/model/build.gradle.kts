@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "ru.ttb220.model"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -33,6 +33,9 @@ android {
 }
 
 dependencies {
+    debugApi(project(":core:mock"))
+
+    // Instant
     api(libs.kotlinx.datetime)
 
     implementation(libs.androidx.core.ktx)

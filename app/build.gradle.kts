@@ -2,17 +2,19 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("kapt")
+
+    // di
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
-    namespace = "ru.ttb220.app"
-    compileSdk = 35
+    namespace = "ru.ttb220.findet"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "ru.ttb220.app"
+        applicationId = "ru.ttb220.findet"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -41,27 +43,25 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:presentation:ui"))
-    implementation(project(":core:presentation:common"))
-    implementation(project(":core:presentation:model"))
-    implementation(project(":core:mock"))
-    implementation(project(":feature:expenses"))
-    implementation(project(":feature:incomes"))
-    implementation(project(":feature:settings"))
-    implementation(project(":feature:account"))
-    implementation(project(":feature:categories"))
-    implementation(project(":feature:bottomsheet"))
-    implementation(project(":core:data"))
+    api(project(":core:sync"))
 
+    api(project(":feature:account"))
+    api(project(":feature:bottomsheet"))
+    api(project(":feature:category"))
+    api(project(":feature:expense"))
+    api(project(":feature:income"))
+    api(project(":feature:setting"))
 
-    implementation(libs.androidx.core.splashscreen)
-
-    implementation(libs.androidx.navigation.compose)
-
-    implementation(libs.androidx.lyfecycle.runtime.compose)
-
+    // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
+
+    // splash
+    implementation(libs.androidx.core.splashscreen)
+
+    // compose + nav
+    implementation(libs.androidx.lyfecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

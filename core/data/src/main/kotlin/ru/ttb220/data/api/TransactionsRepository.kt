@@ -5,26 +5,26 @@ import kotlinx.datetime.LocalDate
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.Transaction
 import ru.ttb220.model.transaction.TransactionBrief
-import ru.ttb220.model.transaction.TransactionDetailed
 
 /**
- * Each method provides either wrapped data or wrapped domain error. Emits single value.
+ * Each method provides either wrapped data or wrapped domain error.
  */
 interface TransactionsRepository {
-    fun createNewTransaction(transaction: TransactionBrief): Flow<SafeResult<Transaction>>
 
-    fun getTransactionById(id: Int): Flow<SafeResult<TransactionDetailed>>
+    fun getTransactionById(id: Int): Flow<SafeResult<Transaction>>
+
+    fun createNewTransaction(transaction: TransactionBrief): Flow<SafeResult<Transaction>>
 
     fun updateTransactionById(
         id: Int,
         transaction: TransactionBrief
-    ): Flow<SafeResult<TransactionDetailed>>
+    ): Flow<SafeResult<Transaction>>
 
     fun deleteTransactionById(id: Int): Flow<SafeResult<Unit>>
 
     fun getAccountTransactionsForPeriod(
         accountId: Int,
-        startDate: LocalDate? = null,
-        endDate: LocalDate? = null,
-    ): Flow<SafeResult<List<TransactionDetailed>>>
+        startDate: LocalDate,
+        endDate: LocalDate,
+    ): Flow<SafeResult<List<Transaction>>>
 }

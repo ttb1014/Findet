@@ -3,12 +3,13 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
-    kotlin("kapt")
+    // di
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
     namespace = "ru.ttb220.account"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -37,31 +38,27 @@ android {
 
 dependencies {
     api(project(":core:data"))
-    api(project(":core:model"))
-    api(project(":core:domain"))
-    api(project(":core:mock"))
-    api(project(":core:presentation:ui"))
-    api(project(":core:presentation:model"))
-    api(project(":core:presentation:common"))
+    api(project(":core:presentation:designsystem"))
 
+    // navigation
+    implementation(libs.androidx.navigation.compose)
+
+    // compose
+    implementation(libs.androidx.lyfecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    debugImplementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
 
+    // coroutines
     implementation(libs.kotlinx.coroutines.android)
 
-    implementation(libs.kotlinx.datetime)
-
-    implementation(libs.androidx.lyfecycle.runtime.compose)
-
+    // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
-
-    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

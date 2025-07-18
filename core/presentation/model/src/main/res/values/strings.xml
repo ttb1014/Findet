@@ -57,4 +57,11 @@
     <string name="delete_income">Удалить расход</string>
     <string name="error_income_not_found">Заданный доход не найден</string>
     <string name="edit_income">Мои доходы</string>
+    <string name="error_api">Сетевая ошибка</string>
+    <string name="begin">Период: начало</string>
+    <string name="period_end">Период: конец</string>
+    <string name="error_empty">Тут пока пусто</string>
+    <string name="analysis">Анализ</string>
+    <string name="last_synced">"Обновлено: "</string>
+    <string name="offline">"Оффлайн с: "</string>
 </resources>

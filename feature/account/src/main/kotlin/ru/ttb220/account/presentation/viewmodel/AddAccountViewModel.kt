@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import ru.ttb220.account.domain.AddAccountUseCase
 import ru.ttb220.model.account.AccountBrief
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class AddAccountViewModel @Inject constructor(
     private val addAccountUseCase: AddAccountUseCase
@@ -21,7 +20,7 @@ class AddAccountViewModel @Inject constructor(
 
     private fun snapshotAccountBrief() = AccountBrief(
         name,
-        balance,
+        balance.toDouble(),
         currency
     )
 
@@ -33,8 +32,8 @@ class AddAccountViewModel @Inject constructor(
     }
 
     companion object {
-        private const val DEFAULT_NAME = "Willy Wonka"
-        private const val DEFAULT_BALANCE = "1000"
-        private const val DEFAULT_CURRENCY = "$"
+        private const val DEFAULT_NAME = ""
+        private const val DEFAULT_BALANCE = ""
+        private const val DEFAULT_CURRENCY = "USD"
     }
 }

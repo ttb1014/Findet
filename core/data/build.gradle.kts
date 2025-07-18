@@ -1,12 +1,17 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    kotlin("kapt")
+
+    // di
+    alias(libs.plugins.kotlin.kapt)
+
+    // secrets
+    alias(libs.plugins.secrets)
 }
 
 android {
     namespace = "ru.ttb220.data"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -31,17 +36,29 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+secrets {
+    defaultPropertiesFileName = "secret.properties"
+}
+
+kapt {
+    correctErrorTypes = true
+
+    // room export schema location
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
 }
 
 dependencies {
-    api(project(":core:model"))
+    api(project(":core:database"))
     api(project(":core:network"))
-    api(project(":core:mock"))
 
-    api(libs.kotlinx.datetime)
-
-    implementation(libs.kotlinx.coroutines.android)
-
+    // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 

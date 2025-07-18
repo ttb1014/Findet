@@ -15,23 +15,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.account.presentation.model.AccountScreenState
+import ru.ttb220.account.presentation.mock.mockAccountScreenData
+import ru.ttb220.account.presentation.mock.mockBarChartData
+import ru.ttb220.account.presentation.state.AccountScreenState
 import ru.ttb220.account.presentation.viewmodel.AccountViewModel
-import ru.ttb220.mock.mockAccountScreenData
-import ru.ttb220.mock.mockBarChartData
+import ru.ttb220.designsystem.BarChart
+import ru.ttb220.designsystem.ColumnListItem
+import ru.ttb220.designsystem.DynamicIconResource
+import ru.ttb220.designsystem.ErrorBox
+import ru.ttb220.designsystem.LoadingWheel
+import ru.ttb220.designsystem.theme.Green
+import ru.ttb220.designsystem.theme.GreenHighlight
+import ru.ttb220.designsystem.theme.Orange
 import ru.ttb220.presentation.model.BarChartData
 import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.AccountScreenData
-import ru.ttb220.presentation.ui.component.BarChart
-import ru.ttb220.presentation.ui.component.ColumnListItem
-import ru.ttb220.presentation.ui.component.DynamicIconResource
-import ru.ttb220.presentation.ui.component.ErrorBox
-import ru.ttb220.presentation.ui.component.LoadingWheel
-import ru.ttb220.presentation.ui.theme.Green
-import ru.ttb220.presentation.ui.theme.GreenHighlight
-import ru.ttb220.presentation.ui.theme.Orange
 
 private val DEFAULT_LIST_ITEM_HEIGHT = 56.dp
 

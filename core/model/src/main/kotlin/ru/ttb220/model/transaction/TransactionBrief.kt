@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 data class TransactionBrief(
     val accountId: Int,
     val categoryId: Int,
-    val amount: String,
+    val amount: Double,
     val transactionDate: Instant,
     val comment: String? = null,
 )

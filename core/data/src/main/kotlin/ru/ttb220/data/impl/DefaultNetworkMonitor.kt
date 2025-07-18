@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest.Builder
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
+import androidx.annotation.RequiresPermission
 import androidx.core.content.getSystemService
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,7 @@ class DefaultNetworkMonitor @Inject constructor(
     private val context: Context,
 ) : NetworkMonitor {
 
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
     override val isOnline: Flow<Boolean> = callbackFlow {
         val connectivityManager = context.getSystemService<ConnectivityManager>()
 

@@ -1,0 +1,73 @@
+package ru.ttb220.income.domain
+
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import ru.ttb220.data.api.AccountsRepository
+import ru.ttb220.data.api.CategoriesRepository
+import ru.ttb220.data.api.SettingsRepository
+import ru.ttb220.data.api.TimeProvider
+import ru.ttb220.data.api.TransactionsRepository
+import ru.ttb220.model.DomainError
+import ru.ttb220.model.SafeResult
+import ru.ttb220.model.transaction.TransactionDetailed
+import ru.ttb220.model.transaction.toTransactionDetailed
+import javax.inject.Inject
+
+class GetTodayIncomesForActiveAccountUseCase @Inject constructor(
+    private val transactionsRepository: TransactionsRepository,
+    private val accountsRepository: AccountsRepository,
+    private val categoriesRepository: CategoriesRepository,
+    private val settingsRepository: SettingsRepository,
+    private val timeProvider: TimeProvider,
+) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    operator fun invoke(): Flow<SafeResult<List<TransactionDetailed>>> {
+        return settingsRepository.getActiveAccountId()
+            .flatMapLatest { activeAccountId ->
+                val today = timeProvider.today()
+
+                val accountFlow = accountsRepository.getAccountById(activeAccountId)
+                val categoriesFlow = categoriesRepository.getAllCategories()
+                val transactionsFlow = transactionsRepository.getAccountTransactionsForPeriod(
+                    accountId = activeAccountId,
+                    startDate = today,
+                    endDate = today
+                )
+
+                combine(
+                    accountFlow,
+                    categoriesFlow,
+                    transactionsFlow
+                ) { accountResult, categoriesResult, transactionsResult ->
+
+                    if (accountResult !is SafeResult.Success) {
+                        return@combine SafeResult.Failure(DomainError.Unknown("Account unavailable"))
+                    }
+
+                    if (categoriesResult !is SafeResult.Success) {
+                        return@combine SafeResult.Failure(DomainError.Unknown("Categories unavailable"))
+                    }
+
+                    if (transactionsResult !is SafeResult.Success) {
+                        return@combine SafeResult.Failure(DomainError.Unknown("Transactions unavailable"))
+                    }
+
+                    val account = accountResult.data
+                    val categories = categoriesResult.data
+                    val transactions = transactionsResult.data
+
+                    val detailed = transactions
+                        .map { it.toTransactionDetailed(account, categories) }
+                        .filter { it.category.isIncome }
+                        .sortedBy { it.transactionDate }
+
+                    SafeResult.Success(detailed)
+                }
+            }
+    }
+
+}

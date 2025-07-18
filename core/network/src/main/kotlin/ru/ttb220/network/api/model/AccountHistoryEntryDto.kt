@@ -3,7 +3,6 @@ package ru.ttb220.network.api.model
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ttb220.model.account.AccountHistoryEntry
 
 @Serializable
 data class AccountHistoryEntryDto(
@@ -27,14 +26,4 @@ data class AccountHistoryEntryDto(
 
     @SerialName("createdAt")
     val createdAt: Instant,
-)
-
-fun AccountHistoryEntryDto.toAccountHistoryEntry() = AccountHistoryEntry(
-    id = id,
-    accountId = accountId,
-    changeType = changeType.toAccountChangeType(),
-    previousState = previousState?.toAccountState(),
-    newState = newState.toAccountState(),
-    changeTimestamp = changeTimeStamp,
-    createdAt = createdAt
 )

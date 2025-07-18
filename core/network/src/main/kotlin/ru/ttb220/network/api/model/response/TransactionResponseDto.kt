@@ -3,7 +3,6 @@ package ru.ttb220.network.api.model.response
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ttb220.model.transaction.Transaction
 
 @Serializable
 data class TransactionResponseDto(
@@ -33,13 +32,3 @@ data class TransactionResponseDto(
 )
 
 
-fun TransactionResponseDto.toTransaction(): Transaction = Transaction(
-    id = id,
-    accountId = accountId,
-    categoryId = categoryId,
-    amount = amount,
-    transactionDate = transactionDate,
-    comment = comment,
-    createdAt = createdAt,
-    updatedAt = updatedAt
-)

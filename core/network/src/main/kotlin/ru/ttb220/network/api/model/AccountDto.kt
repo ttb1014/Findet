@@ -2,7 +2,6 @@ package ru.ttb220.network.api.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.ttb220.model.account.AccountState
 
 @Serializable
 data class AccountDto(
@@ -17,11 +16,4 @@ data class AccountDto(
 
     @SerialName("currency")
     val currency: String,
-)
-
-fun AccountDto.toAccountState(): AccountState = AccountState(
-    id = id,
-    name = name,
-    balance = balance,
-    currency = currency,
 )

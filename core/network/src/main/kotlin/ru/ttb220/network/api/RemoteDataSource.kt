@@ -1,20 +1,20 @@
 package ru.ttb220.network.api
 
 import kotlinx.datetime.LocalDate
-import ru.ttb220.network.api.model.response.AccountResponseDto
-import ru.ttb220.network.api.model.request.AccountCreateRequestDto
-import ru.ttb220.network.api.model.response.AccountDetailedResponseDto
-import ru.ttb220.network.api.model.response.AccountHistoryResponseDto
 import ru.ttb220.network.api.model.CategoryDto
+import ru.ttb220.network.api.model.request.AccountCreateRequestDto
 import ru.ttb220.network.api.model.request.TransactionCreateRequestDto
 import ru.ttb220.network.api.model.request.TransactionUpdateRequestDto
-import ru.ttb220.network.api.model.response.TransactionResponseDto
+import ru.ttb220.network.api.model.response.AccountDetailedResponseDto
+import ru.ttb220.network.api.model.response.AccountHistoryResponseDto
+import ru.ttb220.network.api.model.response.AccountResponseDto
 import ru.ttb220.network.api.model.response.TransactionDetailedResponseDto
+import ru.ttb220.network.api.model.response.TransactionResponseDto
 
 /**
  * Abstraction over network requests
- * @throws ApiException and its inheritors
- * @throws JsonDecodingException
+ * @throws ru.ttb220.network.api.exception.ApiException and its inheritors
+ * @throws ru.ttb220.network.api.exception.JsonDecodingException
  */
 interface RemoteDataSource {
     suspend fun getAllAccounts(): List<AccountResponseDto>

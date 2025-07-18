@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "ru.ttb220.mock"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:presentation:model"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
