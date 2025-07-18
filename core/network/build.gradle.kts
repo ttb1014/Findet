@@ -49,7 +49,7 @@ kapt {
 }
 
 secrets {
-    defaultPropertiesFileName = "local.properties"
+    defaultPropertiesFileName = "secret.properties"
 }
 
 dependencies {

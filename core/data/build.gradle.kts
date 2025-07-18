@@ -4,6 +4,9 @@ plugins {
 
     // di
     alias(libs.plugins.kotlin.kapt)
+
+    // secrets
+    alias(libs.plugins.secrets)
 }
 
 android {
@@ -33,6 +36,13 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+secrets {
+    defaultPropertiesFileName = "secret.properties"
 }
 
 kapt {

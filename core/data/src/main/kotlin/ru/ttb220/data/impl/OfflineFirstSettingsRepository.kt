@@ -11,6 +11,7 @@ import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.sync.Syncable
 import ru.ttb220.data.api.sync.Synchronizer
 import ru.ttb220.data.impl.util.withExpBackoffRetry
+import ru.ttb220.data.BuildConfig
 import ru.ttb220.network.api.RemoteDataSource
 import javax.inject.Inject
 
@@ -66,8 +67,8 @@ class OfflineFirstSettingsRepository @Inject constructor(
     companion object {
         // used as a fallback.
         // TODO: resolve fallback policy
-        private const val DEFAULT_USER_ID = 54
+        private val DEFAULT_USER_ID = BuildConfig.MOCK_USER_ID.toInt()
         private const val DEFAULT_DARK_THEME_MODE = false
-        private const val DEFAULT_ACCOUNT_ID = 722
+        private val DEFAULT_ACCOUNT_ID = BuildConfig.MOCK_ACCOUNT_ID.toInt()
     }
 }
