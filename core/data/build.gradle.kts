@@ -57,6 +57,7 @@ kapt {
 dependencies {
     api(project(":core:database"))
     api(project(":core:network"))
+    debugApi(project(":core:mock"))
 
     // di
     implementation(libs.dagger)

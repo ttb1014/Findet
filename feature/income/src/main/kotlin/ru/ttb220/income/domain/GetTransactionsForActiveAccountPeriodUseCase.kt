@@ -3,9 +3,7 @@ package ru.ttb220.income.domain
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalDate
 import ru.ttb220.data.api.AccountsRepository
 import ru.ttb220.data.api.CategoriesRepository
@@ -14,7 +12,7 @@ import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.model.DomainError
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.model.transaction.toTransactionDetailed
+import ru.ttb220.model.mapper.toTransactionDetailed
 import javax.inject.Inject
 
 class GetTransactionsForActiveAccountPeriodUseCase @Inject constructor(
@@ -46,15 +44,15 @@ class GetTransactionsForActiveAccountPeriodUseCase @Inject constructor(
                 ) { accountResult, categoriesResult, transactionsResult ->
 
                     if (accountResult !is SafeResult.Success) {
-                        return@combine SafeResult.Failure(DomainError.Unknown("Account unavailable"))
+                        return@combine SafeResult.Failure(DomainError.UnknownError("Account unavailable"))
                     }
 
                     if (categoriesResult !is SafeResult.Success) {
-                        return@combine SafeResult.Failure(DomainError.Unknown("Categories unavailable"))
+                        return@combine SafeResult.Failure(DomainError.UnknownError("Categories unavailable"))
                     }
 
                     if (transactionsResult !is SafeResult.Success) {
-                        return@combine SafeResult.Failure(DomainError.Unknown("Transactions unavailable"))
+                        return@combine SafeResult.Failure(DomainError.UnknownError("Transactions unavailable"))
                     }
 
                     val account = accountResult.data

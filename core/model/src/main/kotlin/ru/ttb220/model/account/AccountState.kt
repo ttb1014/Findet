@@ -6,10 +6,3 @@ data class AccountState(
     val balance: Double,
     val currency: String,
 )
-
-fun Account.toAccountState(): AccountState = AccountState(
-    id = id,
-    name = name,
-    balance = balance,
-    currency = currency
-)

@@ -33,8 +33,6 @@ android {
 }
 
 dependencies {
-    debugApi(project(":core:mock"))
-
     // Instant
     api(libs.kotlinx.datetime)
 

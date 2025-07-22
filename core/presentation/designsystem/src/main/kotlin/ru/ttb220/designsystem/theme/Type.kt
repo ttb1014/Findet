@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import ru.ttb220.presentation.model.R
 
-
 val Roboto = FontFamily(
     // ExtraLight
     Font(

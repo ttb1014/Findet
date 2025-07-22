@@ -25,7 +25,7 @@ import ru.ttb220.income.presentation.model.toIncomeScreenData
 import ru.ttb220.income.presentation.model.toTransactionBrief
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.Transaction
-import ru.ttb220.model.transaction.toTransactionDetailed
+import ru.ttb220.model.mapper.toTransactionDetailed
 import ru.ttb220.presentation.model.R
 import javax.inject.Singleton
 

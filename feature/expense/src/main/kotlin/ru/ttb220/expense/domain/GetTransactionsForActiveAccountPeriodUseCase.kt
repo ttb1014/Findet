@@ -12,7 +12,7 @@ import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.model.DomainError
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.model.transaction.toTransactionDetailed
+import ru.ttb220.model.mapper.toTransactionDetailed
 import javax.inject.Inject
 
 class GetTransactionsForActiveAccountPeriodUseCase @Inject constructor(
@@ -48,7 +48,7 @@ class GetTransactionsForActiveAccountPeriodUseCase @Inject constructor(
                     }
 
                     if (categoriesResult !is SafeResult.Success || accountResult !is SafeResult.Success) {
-                        return@combine SafeResult.Failure(DomainError.Unknown("Unknown"))
+                        return@combine SafeResult.Failure(DomainError.UnknownError("Unknown"))
                     }
 
                     val categories = categoriesResult.data

@@ -12,7 +12,7 @@ import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.model.DomainError
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.transaction.TransactionDetailed
-import ru.ttb220.model.transaction.toTransactionDetailed
+import ru.ttb220.model.mapper.toTransactionDetailed
 import javax.inject.Inject
 
 class GetTodayExpensesForActiveAccountUseCase @Inject constructor(
@@ -43,15 +43,15 @@ class GetTodayExpensesForActiveAccountUseCase @Inject constructor(
                 ) { accountResult, categoriesResult, transactionsResult ->
 
                     if (accountResult !is SafeResult.Success) {
-                        return@combine SafeResult.Failure(DomainError.Unknown("Account unavailable"))
+                        return@combine SafeResult.Failure(DomainError.UnknownError("Account unavailable"))
                     }
 
                     if (categoriesResult !is SafeResult.Success) {
-                        return@combine SafeResult.Failure(DomainError.Unknown("Categories unavailable"))
+                        return@combine SafeResult.Failure(DomainError.UnknownError("Categories unavailable"))
                     }
 
                     if (transactionsResult !is SafeResult.Success) {
-                        return@combine SafeResult.Failure(DomainError.Unknown("Transactions unavailable"))
+                        return@combine SafeResult.Failure(DomainError.UnknownError("Transactions unavailable"))
                     }
 
                     val account = accountResult.data

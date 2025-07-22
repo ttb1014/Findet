@@ -11,7 +11,6 @@ import ru.ttb220.account.domain.EditActiveAccountNameUseCase
 import ru.ttb220.account.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.account.presentation.state.AccountScreenState
 import ru.ttb220.data.api.AccountsRepository
-import ru.ttb220.data.api.NetworkMonitor
 import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.model.SafeResult
 import ru.ttb220.presentation.model.R

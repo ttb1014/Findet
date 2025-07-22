@@ -1,7 +1,8 @@
 package ru.ttb220.model.account
 
 import kotlinx.datetime.Instant
-import ru.ttb220.model.Timestamped
+import ru.ttb220.model.util.Timestamped
+import ru.ttb220.model.util.Updatable
 
 data class Account(
     val id: Int,
@@ -11,4 +12,9 @@ data class Account(
     val currency: String,
     override val createdAt: Instant,
     override val updatedAt: Instant,
-) : Timestamped
+) : Timestamped, Updatable<Account> {
+
+    override fun update(instant: Instant) = this.copy(
+        updatedAt = instant
+    )
+}

@@ -11,8 +11,7 @@ object DomainErrorMessageMapper {
         DomainError.NoInternet     -> R.string.error_no_internet
         DomainError.NotFound       -> R.string.error_not_found
         DomainError.InvalidInput   -> R.string.error_invalid_input
-        DomainError.Timeout        -> R.string.error_timeout
-        is DomainError.Unknown     -> R.string.error_unknown
+        is DomainError.UnknownError -> R.string.error_unknown
         DomainError.ApiError -> R.string.error_api
         is DomainError.Exception -> R.string.error_unknown
     }
