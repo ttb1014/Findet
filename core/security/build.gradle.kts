@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.ttb220.datastore"
+    namespace = "ru.ttb220.security"
     compileSdk = 36
 
     defaultConfig {
@@ -36,11 +36,7 @@ android {
 }
 
 dependencies {
-    api(project(":core:model"))
-
-    // datastore
-    api(libs.androidx.datastore.preferences)
-
+    implementation(libs.security.crypto)
     // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
