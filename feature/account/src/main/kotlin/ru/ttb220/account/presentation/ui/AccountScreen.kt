@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -16,18 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.account.presentation.mock.mockAccountScreenData
-import ru.ttb220.account.presentation.mock.mockBarChartData
 import ru.ttb220.account.presentation.state.AccountScreenState
 import ru.ttb220.account.presentation.viewmodel.AccountViewModel
-import ru.ttb220.designsystem.BarChart
-import ru.ttb220.designsystem.ColumnListItem
-import ru.ttb220.designsystem.DynamicIconResource
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
-import ru.ttb220.designsystem.theme.Green
-import ru.ttb220.designsystem.theme.GreenHighlight
-import ru.ttb220.designsystem.theme.Orange
-import ru.ttb220.presentation.model.BarChartData
+import ru.ttb220.chart.api.ui.BarChart
+import ru.ttb220.designsystem.component.ColumnListItem
+import ru.ttb220.designsystem.component.DynamicIconResource
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
 import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.R
@@ -98,16 +94,9 @@ fun AccountScreenContent(
                 Modifier.clickable(onClick = onCurrencyClick)
             )
         }
+        // TODO: replace mock data
         BarChart(
-            barChartData = BarChartData(
-                bars = mockBarChartData.first.map { barData ->
-                    BarChartData.BarData(
-                        fill = barData.first,
-                        color = if (barData.second == 1) Green else Orange,
-                    )
-                },
-                xLabels = mockBarChartData.second
-            ),
+            barChartData = ru.ttb220.chart.impl.mock.mockBarChartData,
             modifier = Modifier.height(233.dp)
         )
     }
@@ -123,7 +112,7 @@ fun BalanceItem(
         title = "Баланс",
         trailingText = balance,
         modifier = modifier.height(DEFAULT_LIST_ITEM_HEIGHT),
-        background = GreenHighlight,
+        background = MaterialTheme.colorScheme.primaryContainer,
         dynamicIconResource = DynamicIconResource.EmojiIconResource(
             emojiData = EmojiData.Resource(leadingIconId),
             background = Color.White
@@ -142,7 +131,7 @@ fun CurrencyItem(
         title = "Валюта",
         trailingText = currencyData.symbol?.toString() ?: "",
         modifier = modifier.height(DEFAULT_LIST_ITEM_HEIGHT),
-        background = GreenHighlight,
+        background = MaterialTheme.colorScheme.primaryContainer,
         trailingIcon = R.drawable.more_right,
     )
 }

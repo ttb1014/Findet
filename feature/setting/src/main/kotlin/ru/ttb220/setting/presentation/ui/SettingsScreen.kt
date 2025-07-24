@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.designsystem.ColumnListItem
-import ru.ttb220.designsystem.Switch
+import ru.ttb220.designsystem.component.ColumnListItem
+import ru.ttb220.designsystem.component.Switch
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.SettingsScreenData
 import ru.ttb220.setting.presentation.mock.mockSettingsScreenContent

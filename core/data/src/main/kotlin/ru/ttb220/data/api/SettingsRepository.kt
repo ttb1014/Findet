@@ -1,7 +1,6 @@
 package ru.ttb220.data.api
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.Instant
 
 /**
  * Each method provides either wrapped data or wrapped domain error.

@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.account.Account
 import ru.ttb220.model.account.AccountBrief
-import ru.ttb220.model.account.AccountDetailed
 
 /**
  * Each method provides either wrapped data or wrapped domain error.

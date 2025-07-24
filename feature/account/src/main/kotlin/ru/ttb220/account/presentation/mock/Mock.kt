@@ -1,7 +1,7 @@
 package ru.ttb220.account.presentation.mock
 
-import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.CurrencyData
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.AccountScreenData
 
 private val fills = listOf(

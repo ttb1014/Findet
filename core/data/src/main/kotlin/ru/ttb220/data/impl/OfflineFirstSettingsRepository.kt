@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import ru.ttb220.data.BuildConfig
 import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.sync.Syncable
 import ru.ttb220.data.api.sync.Synchronizer
 import ru.ttb220.data.impl.util.withExpBackoffRetry
-import ru.ttb220.data.BuildConfig
 import ru.ttb220.network.api.RemoteDataSource
 import javax.inject.Inject
 

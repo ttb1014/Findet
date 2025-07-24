@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.ttb220.bottomsheet.presentation.viewmodel.CurrencyViewModel
-import ru.ttb220.common.di.ViewModelKey
 import ru.ttb220.bottomsheet.presentation.viewmodel.AccountBottomSheetViewModel
 import ru.ttb220.bottomsheet.presentation.viewmodel.CategoryBottomSheetViewModel
+import ru.ttb220.bottomsheet.presentation.viewmodel.CurrencyViewModel
+import ru.ttb220.common.di.ViewModelKey
 
 @Module()
 interface BottomSheetModule {

@@ -16,15 +16,15 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.ttb220.network.BuildConfig
 import ru.ttb220.network.api.RemoteDataSource
-import ru.ttb220.network.api.model.response.AccountResponseDto
-import ru.ttb220.network.api.model.request.AccountCreateRequestDto
-import ru.ttb220.network.api.model.response.AccountDetailedResponseDto
-import ru.ttb220.network.api.model.response.AccountHistoryResponseDto
 import ru.ttb220.network.api.model.CategoryDto
+import ru.ttb220.network.api.model.request.AccountCreateRequestDto
 import ru.ttb220.network.api.model.request.TransactionCreateRequestDto
 import ru.ttb220.network.api.model.request.TransactionUpdateRequestDto
-import ru.ttb220.network.api.model.response.TransactionResponseDto
+import ru.ttb220.network.api.model.response.AccountDetailedResponseDto
+import ru.ttb220.network.api.model.response.AccountHistoryResponseDto
+import ru.ttb220.network.api.model.response.AccountResponseDto
 import ru.ttb220.network.api.model.response.TransactionDetailedResponseDto
+import ru.ttb220.network.api.model.response.TransactionResponseDto
 import javax.inject.Inject
 import javax.inject.Singleton
 

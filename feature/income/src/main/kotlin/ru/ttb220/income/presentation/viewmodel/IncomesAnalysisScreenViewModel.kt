@@ -16,7 +16,7 @@ import ru.ttb220.data.api.AccountsRepository
 import ru.ttb220.data.api.CategoriesRepository
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.TransactionsRepository
-import ru.ttb220.designsystem.DynamicIconResource
+import ru.ttb220.designsystem.component.DynamicIconResource
 import ru.ttb220.income.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.income.domain.GetTransactionsForActiveAccountPeriodUseCase
 import ru.ttb220.income.presentation.model.IncomeAnalysisItemData

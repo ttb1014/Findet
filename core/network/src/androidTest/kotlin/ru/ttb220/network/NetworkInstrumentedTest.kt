@@ -1,23 +1,15 @@
 package ru.ttb220.network
 
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.LocalDate
+import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.serialization.json.Json
-
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import org.junit.Before
 import ru.ttb220.network.api.RemoteDataSource
-import ru.ttb220.network.api.exception.ApiException
-import ru.ttb220.network.api.model.request.AccountCreateRequestDto
-import ru.ttb220.network.api.model.request.TransactionCreateRequestDto
 import ru.ttb220.network.di.TestApplication
-import ru.ttb220.network.test.R
 import javax.inject.Inject
 
 @RunWith(AndroidJUnit4::class)

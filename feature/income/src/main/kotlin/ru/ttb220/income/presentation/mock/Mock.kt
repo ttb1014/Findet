@@ -1,8 +1,8 @@
 package ru.ttb220.income.presentation.mock
 
-import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.IncomeData
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.TransactionHistoryData
 import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.screen.IncomesScreenData

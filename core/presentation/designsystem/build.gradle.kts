@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    api(project(":chart"))
     api(project(":core:presentation:model"))
     api(project(":core:presentation:common"))
 

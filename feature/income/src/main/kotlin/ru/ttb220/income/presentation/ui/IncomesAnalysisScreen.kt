@@ -34,14 +34,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.designsystem.DatePickerDialog
-import ru.ttb220.designsystem.DynamicIcon
-import ru.ttb220.designsystem.DynamicIconResource
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
-import ru.ttb220.designsystem.MonthChip
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.LightGreyIconTint
+import ru.ttb220.designsystem.component.DatePickerDialog
+import ru.ttb220.designsystem.component.DynamicIcon
+import ru.ttb220.designsystem.component.DynamicIconResource
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
+import ru.ttb220.designsystem.component.MonthChip
+import ru.ttb220.designsystem.component.ThreeComponentListItem
+
 import ru.ttb220.income.presentation.model.IncomeAnalysisItemData
 import ru.ttb220.income.presentation.model.IncomesAnalysisScreenState
 import ru.ttb220.income.presentation.viewmodel.IncomesAnalysisScreenViewModel
@@ -235,7 +235,7 @@ fun IncomeAnalysisItem(
                 Spacer(Modifier.width(16.dp))
                 Icon(
                     painterResource(R.drawable.more_right),
-                    tint = LightGreyIconTint,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     contentDescription = null,
                 )
             }

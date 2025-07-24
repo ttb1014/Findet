@@ -6,9 +6,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import ru.ttb220.category.di.CategoriesComponentProvider
 import ru.ttb220.category.presentation.ui.CategoriesScreen
 import ru.ttb220.category.presentation.viewmodel.CategoriesViewModel
-import ru.ttb220.category.di.CategoriesComponentProvider
 
 const val TOP_LEVEL_CATEGORIES_ROUTE = "categories"
 

@@ -1,13 +1,13 @@
 package ru.ttb220.designsystem.topappbar
 
 import androidx.annotation.DrawableRes
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import ru.ttb220.designsystem.theme.Green
 import ru.ttb220.presentation.model.R
 
 @Suppress("FunctionName", "LongParameterList")
@@ -17,7 +17,7 @@ fun TopAppBarWrapper(
     defaultText: String,
     modifier: Modifier = Modifier,
     isConnected: Boolean = true,
-    color: Color = Green,
+    color: Color = MaterialTheme.colorScheme.primary,
     @DrawableRes leadingIcon: Int? = null,
     @DrawableRes trailingIcon: Int? = null,
     onLeadingIconClick: () -> Unit = {},

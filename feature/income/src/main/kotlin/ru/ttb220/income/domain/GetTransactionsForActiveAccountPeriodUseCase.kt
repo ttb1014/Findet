@@ -11,8 +11,8 @@ import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.model.DomainError
 import ru.ttb220.model.SafeResult
-import ru.ttb220.model.transaction.TransactionDetailed
 import ru.ttb220.model.mapper.toTransactionDetailed
+import ru.ttb220.model.transaction.TransactionDetailed
 import javax.inject.Inject
 
 class GetTransactionsForActiveAccountPeriodUseCase @Inject constructor(

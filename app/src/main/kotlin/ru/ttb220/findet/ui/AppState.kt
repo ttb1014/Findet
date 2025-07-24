@@ -322,7 +322,7 @@ class AppState(
         val cachedRoute = currentRoute
 
         // if mapper contains information of visuals for route -> remember and return
-        RouteToTabDataMapper.entries.forEach { (route, data) ->
+        routeToTabDataMapper().entries.forEach { (route, data) ->
             if (cachedRoute?.contains(route) == true)
                 return remember(cachedRoute) { data }
         }

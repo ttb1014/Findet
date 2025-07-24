@@ -29,11 +29,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.designsystem.DatePickerDialog
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.LightGreyIconTint
+import ru.ttb220.designsystem.component.DatePickerDialog
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
+import ru.ttb220.designsystem.component.ThreeComponentListItem
 import ru.ttb220.expense.presentation.model.EditExpenseIntent
 import ru.ttb220.expense.presentation.model.EditExpenseState
 import ru.ttb220.expense.presentation.model.ExpenseScreenData
@@ -168,7 +167,7 @@ private fun Selector(
         Icon(
             painterResource(R.drawable.more_right),
             null,
-            tint = LightGreyIconTint
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

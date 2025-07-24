@@ -31,7 +31,7 @@ import ru.ttb220.bottomsheet.presentation.ui.CurrencyBottomSheet
 import ru.ttb220.bottomsheet.presentation.viewmodel.AccountBottomSheetViewModel
 import ru.ttb220.bottomsheet.presentation.viewmodel.CategoryBottomSheetViewModel
 import ru.ttb220.bottomsheet.presentation.viewmodel.CurrencyViewModel
-import ru.ttb220.designsystem.AddFab
+import ru.ttb220.designsystem.component.AddFab
 import ru.ttb220.designsystem.topappbar.TopAppBar
 import ru.ttb220.designsystem.util.scrim
 import ru.ttb220.expense.di.ExpensesComponentProvider

@@ -1,6 +1,6 @@
 package ru.ttb220.income.presentation.model
 
-import ru.ttb220.designsystem.DynamicIconResource
+import ru.ttb220.designsystem.component.DynamicIconResource
 
 data class IncomeAnalysisItemData(
     val leadingIcon: DynamicIconResource,

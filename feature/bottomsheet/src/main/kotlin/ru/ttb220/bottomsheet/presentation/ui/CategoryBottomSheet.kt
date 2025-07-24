@@ -45,10 +45,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.bottomsheet.presentation.model.CategoryBottomSheetState
 import ru.ttb220.bottomsheet.presentation.model.CategoryData
 import ru.ttb220.bottomsheet.presentation.viewmodel.CategoryBottomSheetViewModel
-import ru.ttb220.designsystem.DynamicIcon
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.KeyError
-import ru.ttb220.designsystem.theme.LightSurfaceContainerLow
+import ru.ttb220.designsystem.component.DynamicIcon
+import ru.ttb220.designsystem.component.ThreeComponentListItem
 import ru.ttb220.presentation.model.R
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -126,7 +124,7 @@ fun CategoryBottomSheet(
                     .only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
             )
             .background(
-                LightSurfaceContainerLow,
+                MaterialTheme.colorScheme.surfaceContainerLow,
                 RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
             )
     ) {
@@ -219,7 +217,7 @@ private fun CancelItem(
         modifier = modifier
             .fillMaxWidth()
             .height(72.dp),
-        background = KeyError,
+        background = MaterialTheme.colorScheme.error,
         shouldShowTrailingDivider = true,
         leadingContent = @Composable {
             Icon(

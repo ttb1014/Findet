@@ -12,8 +12,8 @@ import ru.ttb220.data.impl.DefaultNetworkMonitor
 import ru.ttb220.data.impl.DefaultTimeProvider
 import ru.ttb220.data.impl.OfflineFirstAccountsRepository
 import ru.ttb220.data.impl.OfflineFirstCategoriesRepository
-import ru.ttb220.data.impl.OfflineFirstTransactionsRepository
 import ru.ttb220.data.impl.OfflineFirstSettingsRepository
+import ru.ttb220.data.impl.OfflineFirstTransactionsRepository
 import ru.ttb220.database.di.DatabaseModule
 import ru.ttb220.network.di.NetworkModule
 import javax.inject.Singleton

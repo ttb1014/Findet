@@ -3,7 +3,6 @@ package ru.ttb220.findet
 import android.app.Application
 import ru.ttb220.account.di.AccountComponent
 import ru.ttb220.account.di.AccountComponentProvider
-import ru.ttb220.findet.di.DaggerAppComponent
 import ru.ttb220.bottomsheet.di.BottomSheetComponent
 import ru.ttb220.bottomsheet.di.BottomSheetComponentProvider
 import ru.ttb220.category.di.CategoriesComponent
@@ -11,6 +10,7 @@ import ru.ttb220.category.di.CategoriesComponentProvider
 import ru.ttb220.expense.di.ExpensesComponent
 import ru.ttb220.expense.di.ExpensesComponentProvider
 import ru.ttb220.findet.di.AppComponent
+import ru.ttb220.findet.di.DaggerAppComponent
 import ru.ttb220.income.di.IncomesComponent
 import ru.ttb220.income.di.IncomesComponentProvider
 import ru.ttb220.sync.SyncInitializer

@@ -28,15 +28,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.designsystem.ColumnListItem
-import ru.ttb220.designsystem.DatePickerDialog
-import ru.ttb220.designsystem.DynamicIcon
-import ru.ttb220.designsystem.DynamicIconResource
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.GreenHighlight
-import ru.ttb220.designsystem.theme.LightGreyIconTint
+import ru.ttb220.designsystem.component.ColumnListItem
+import ru.ttb220.designsystem.component.DatePickerDialog
+import ru.ttb220.designsystem.component.DynamicIcon
+import ru.ttb220.designsystem.component.DynamicIconResource
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
+import ru.ttb220.designsystem.component.ThreeComponentListItem
+
 import ru.ttb220.expense.presentation.mock.mockHistoryScreenData
 import ru.ttb220.expense.presentation.model.AlertDatePickerState
 import ru.ttb220.expense.presentation.model.ExpensesHistoryScreenState
@@ -140,7 +139,7 @@ fun ExpensesHistoryScreenContent(
         ColumnListItem(
             title = stringResource(R.string.total),
             modifier = Modifier.height(56.dp),
-            background = GreenHighlight,
+            background = MaterialTheme.colorScheme.primaryContainer,
             trailingText = historyScreenData.totalAmount,
         )
 
@@ -155,7 +154,7 @@ fun ExpensesHistoryScreenContent(
                 val iconResource = expense.emojiData?.let { emoji ->
                     DynamicIconResource.EmojiIconResource(
                         emojiData = emoji,
-                        background = GreenHighlight
+                        background = MaterialTheme.colorScheme.primaryContainer
                     )
                 } ?: DynamicIconResource.TextIconResource(
                     text = expense.name.split(" ").take(2).map { it[0] }.joinToString("")
@@ -215,7 +214,7 @@ private fun HistoryColumnItem(
             Icon(
                 painter = painterResource(R.drawable.more_right),
                 contentDescription = null,
-                tint = LightGreyIconTint,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         },
         centerContent = @Composable { modifierWeight ->
@@ -287,7 +286,7 @@ fun TimeCard(
         modifier = modifier
             .height(56.dp)
             .clickable { onClick() },
-        background = GreenHighlight,
+        background = MaterialTheme.colorScheme.primaryContainer,
         trailingText = date,
         shouldShowTrailingDivider = true,
     )

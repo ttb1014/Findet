@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
-import ru.ttb220.designsystem.ThreeComponentListItem
+import ru.ttb220.designsystem.component.ThreeComponentListItem
 import ru.ttb220.presentation.model.R
 
 @Composable

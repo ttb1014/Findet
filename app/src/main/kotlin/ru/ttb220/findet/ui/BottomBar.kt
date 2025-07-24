@@ -17,7 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ru.ttb220.designsystem.BottomBarItem
+import ru.ttb220.designsystem.component.BottomBarItem
 import ru.ttb220.findet.navigation.TopLevelDestination
 import ru.ttb220.presentation.model.BottomBarItemData
 
