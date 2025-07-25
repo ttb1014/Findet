@@ -7,14 +7,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import ru.ttb220.datastore.api.PreferencesDataSource
+import ru.ttb220.datastore.impl.DataStoreKeys.IS_HAPTICS_ENABLED
+import ru.ttb220.datastore.impl.DataStoreKeys.LAST_SYNC_TIME
 import ru.ttb220.datastore.impl.DataStoreKeys.SYNC_FREQUENCY
 import ru.ttb220.datastore.impl.DataStoreKeys.THEME_STATE
-import ru.ttb220.datastore.impl.DataStoreKeys.IS_HAPTICS_ENABLED
 import ru.ttb220.model.ThemeState
 import javax.inject.Inject
 
 class PreferencesDataSourceImpl @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
 ) : PreferencesDataSource {
 
     override val themeStateFlow: Flow<ThemeState> = dataStore.data
@@ -68,9 +69,26 @@ class PreferencesDataSourceImpl @Inject constructor(
         return prefs[IS_HAPTICS_ENABLED]?.toBoolean() ?: DEFAULT_HAPTICS_ENABLED
     }
 
+    override val lastSyncTimeFlow: Flow<Long> = dataStore.data
+        .map { prefs ->
+            prefs[LAST_SYNC_TIME] ?: DEFAULT_LAST_SYNC_TIME
+        }
+
+    override suspend fun updateLastSyncTime(lastSync: Long) {
+        dataStore.edit { prefs ->
+            prefs[LAST_SYNC_TIME] = lastSync
+        }
+    }
+
+    override suspend fun getLastSyncTime(): Long {
+        val prefs = dataStore.data.first()
+        return prefs[LAST_SYNC_TIME] ?: DEFAULT_LAST_SYNC_TIME
+    }
+
     companion object {
         // TODO: do we really need to specify default sync freq there? 
         private const val DEFAULT_SYNC_FREQUENCY = 6 * 60 * 60 * 1000L
         private const val DEFAULT_HAPTICS_ENABLED = true
+        private const val DEFAULT_LAST_SYNC_TIME = -1L
     }
 }

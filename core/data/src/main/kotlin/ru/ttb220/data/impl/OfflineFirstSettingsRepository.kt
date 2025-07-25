@@ -96,6 +96,19 @@ class OfflineFirstSettingsRepository @Inject constructor(
         preferencesDataSource.setSyncFrequency(freq)
     }
 
+    override fun getLastSyncFlow(): Flow<Long> =
+        preferencesDataSource.lastSyncTimeFlow
+
+
+    override suspend fun getLastSyncTime(): Long =
+        preferencesDataSource.getLastSyncTime()
+
+    override suspend fun setLastSyncTime(syncTime: Long) =
+        preferencesDataSource.updateLastSyncTime(syncTime)
+
+    override fun getSyncFrequencyFlow(): Flow<Long> =
+        preferencesDataSource.syncFrequencyFlow
+
     companion object {
         // used as a fallback.
         // TODO: resolve fallback policy

@@ -36,7 +36,7 @@ class SyncWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val syncedSuccessfully =
             settingsRepository.sync() &&
-            categoriesRepository.sync() &&
+                    categoriesRepository.sync() &&
                     accountsRepository.sync() &&
                     transactionsRepository.sync() &&
                     true
@@ -49,9 +49,9 @@ class SyncWorker @AssistedInject constructor(
     }
 
     companion object {
-        fun periodicSyncWork() = PeriodicWorkRequestBuilder<DelegatingWorker>(
-            repeatInterval = 6,
-            repeatIntervalTimeUnit = TimeUnit.HOURS
+        fun periodicSyncWork(frequency: Long) = PeriodicWorkRequestBuilder<DelegatingWorker>(
+            repeatInterval = frequency,
+            repeatIntervalTimeUnit = TimeUnit.MILLISECONDS
         )
             .setConstraints(
                 SyncConstraints
@@ -71,7 +71,7 @@ class SyncWorker @AssistedInject constructor(
     interface AssistedFactory {
         fun create(
             context: Context,
-            params: WorkerParameters
+            params: WorkerParameters,
         ): SyncWorker
     }
 }

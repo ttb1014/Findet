@@ -17,7 +17,6 @@ import ru.ttb220.pin.di.PinComponent
 import ru.ttb220.pin.di.PinComponentProvider
 import ru.ttb220.setting.di.SettingsComponent
 import ru.ttb220.setting.di.SettingsComponentProvider
-import ru.ttb220.sync.SyncInitializer
 import ru.ttb220.sync.SyncWorkerFactory
 
 class FindetApplication :
@@ -37,7 +36,7 @@ class FindetApplication :
         super.onCreate()
         appComponent = DaggerAppComponent.factory().create(this)
         SyncWorkerFactory.assistedFactory = appComponent.assistedFactory
-        SyncInitializer.initialize(this)
+        appComponent.syncManager.init()
     }
 
     override fun provideAccountComponent(): AccountComponent =

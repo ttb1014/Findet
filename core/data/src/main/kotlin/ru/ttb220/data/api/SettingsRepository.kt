@@ -34,4 +34,12 @@ interface SettingsRepository {
     fun isPinSetup(): Boolean
 
     suspend fun setSyncFrequency(freq: Long)
+
+    fun getLastSyncFlow(): Flow<Long>
+
+    suspend fun getLastSyncTime(): Long
+
+    suspend fun setLastSyncTime(syncTime: Long)
+
+    fun getSyncFrequencyFlow(): Flow<Long>
 }

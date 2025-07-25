@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import ru.ttb220.account.di.AccountComponent
 import ru.ttb220.bottomsheet.di.BottomSheetComponent
 import ru.ttb220.bottomsheet.di.BottomSheetModule
@@ -19,8 +23,8 @@ import ru.ttb220.income.di.IncomesComponent
 import ru.ttb220.income.di.IncomesModule
 import ru.ttb220.pin.di.PinComponent
 import ru.ttb220.setting.di.SettingsComponent
-import ru.ttb220.setting.di.SettingsModule
 import ru.ttb220.sync.di.SyncModule
+import ru.ttb220.sync.di.SyncScope
 
 @Module(
     includes = [
