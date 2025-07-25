@@ -4,4 +4,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 
 object DataStoreKeys {
     val THEME_STATE = stringPreferencesKey("theme_state")
+    val SYNC_FREQUENCY = stringPreferencesKey("sync_frequency")
+    val IS_HAPTICS_ENABLED = stringPreferencesKey("is_haptics_enabled")
 }

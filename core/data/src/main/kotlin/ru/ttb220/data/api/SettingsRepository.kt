@@ -1,6 +1,7 @@
 package ru.ttb220.data.api
 
 import kotlinx.coroutines.flow.Flow
+import ru.ttb220.model.ThemeState
 
 /**
  * Each method provides either wrapped data or wrapped domain error.
@@ -17,4 +18,16 @@ interface SettingsRepository {
     suspend fun setDarkModeEnabled(darkModeEnabled: Boolean): Boolean
 
     fun getActiveUserId(): Flow<Int>
+
+    suspend fun setThemeState(themeState: ThemeState)
+
+    fun getThemeStateFlow(): Flow<ThemeState>
+
+    suspend fun setHapticsEnabled(enabled: Boolean)
+
+    fun getHapticsEnabledFlow(): Flow<Boolean>
+
+    suspend fun setPinCode(pin: Int)
+
+    fun verifyPinCode(pin: Int): Boolean
 }

@@ -12,12 +12,17 @@ import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.sync.Syncable
 import ru.ttb220.data.api.sync.Synchronizer
 import ru.ttb220.data.impl.util.withExpBackoffRetry
+import ru.ttb220.datastore.api.PreferencesDataSource
+import ru.ttb220.model.ThemeState
 import ru.ttb220.network.api.RemoteDataSource
+import ru.ttb220.security.api.EncryptedPreferencesDataSource
 import javax.inject.Inject
 
 // FIXME: impl with datastore
 class OfflineFirstSettingsRepository @Inject constructor(
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val encryptedPreferencesDataSource: EncryptedPreferencesDataSource,
+    private val preferencesDataSource: PreferencesDataSource,
 ) : SettingsRepository, Syncable {
 
     private val isDarkModeEnabled = MutableStateFlow(DEFAULT_DARK_THEME_MODE)
@@ -63,6 +68,26 @@ class OfflineFirstSettingsRepository @Inject constructor(
 
         true
     }
+
+    override suspend fun setThemeState(themeState: ThemeState) {
+        preferencesDataSource.setThemeState(themeState)
+    }
+
+    override fun getThemeStateFlow(): Flow<ThemeState> =
+        preferencesDataSource.themeStateFlow
+
+    override suspend fun setHapticsEnabled(enabled: Boolean) {
+        preferencesDataSource.setHapticsEnabled(enabled)
+    }
+
+    override fun getHapticsEnabledFlow(): Flow<Boolean> =
+        preferencesDataSource.isHapticsEnabledFlow
+
+    override suspend fun setPinCode(pin: Int) =
+        encryptedPreferencesDataSource.setPinCode(pin)
+
+    override fun verifyPinCode(pin: Int): Boolean =
+        encryptedPreferencesDataSource.verifyPin(pin)
 
     companion object {
         // used as a fallback.

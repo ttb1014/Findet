@@ -15,7 +15,9 @@ import ru.ttb220.data.impl.OfflineFirstCategoriesRepository
 import ru.ttb220.data.impl.OfflineFirstSettingsRepository
 import ru.ttb220.data.impl.OfflineFirstTransactionsRepository
 import ru.ttb220.database.di.DatabaseModule
+import ru.ttb220.datastore.di.PreferencesModule
 import ru.ttb220.network.di.NetworkModule
+import ru.ttb220.security.di.EncryptedPreferencesModule
 import javax.inject.Singleton
 
 @Module(
@@ -23,6 +25,8 @@ import javax.inject.Singleton
         TimeModule::class,
         NetworkModule::class,
         DatabaseModule::class,
+        PreferencesModule::class,
+        EncryptedPreferencesModule::class
     ]
 )
 interface DataModule {

@@ -32,6 +32,7 @@
             <option value="$PROJECT_DIR$/feature/category" />
             <option value="$PROJECT_DIR$/feature/expense" />
             <option value="$PROJECT_DIR$/feature/income" />
+            <option value="$PROJECT_DIR$/feature/pin" />
             <option value="$PROJECT_DIR$/feature/setting" />
           </set>
         </option>

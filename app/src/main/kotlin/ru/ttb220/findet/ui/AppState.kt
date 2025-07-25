@@ -1,5 +1,6 @@
 package ru.ttb220.findet.ui
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -23,6 +24,7 @@ import ru.ttb220.account.presentation.navigation.navigateToAddAccount
 import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
 import ru.ttb220.category.presentation.navigation.navigateToCategories
 import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.sync.SyncManager
 import ru.ttb220.expense.di.ExpensesComponentProvider
 import ru.ttb220.expense.presentation.navigation.ADD_EXPENSE_SCREEN_ROUTE_BASE
@@ -59,6 +61,7 @@ fun rememberAppState(
     navController: NavHostController = rememberNavController(),
     networkMonitor: NetworkMonitor,
     syncManager: SyncManager,
+    settingsRepository: SettingsRepository,
     timeZone: TimeZone,
 ) = remember {
     AppState(
@@ -66,6 +69,7 @@ fun rememberAppState(
         navHostController = navController,
         networkMonitor = networkMonitor,
         syncManager = syncManager,
+        settingsRepository = settingsRepository,
         timeZone = timeZone,
     )
 }
@@ -80,6 +84,7 @@ class AppState(
     val navHostController: NavHostController,
     val networkMonitor: NetworkMonitor,
     val syncManager: SyncManager,
+    val settingsRepository: SettingsRepository,
     val timeZone: TimeZone
 ) {
     var isAccountSelectorShown: Boolean by mutableStateOf(false)
@@ -92,6 +97,8 @@ class AppState(
     val lastSyncTimeFormatted = syncManager.lastSyncTimeFlow.map {
         it.toLocalDateTime(timeZone).date.toString()
     }
+
+    val shouldPlayHapticsFlow = settingsRepository.getHapticsEnabledFlow()
 
     private fun hideBottomSheets() {
         isAccountSelectorShown = false
@@ -324,7 +331,7 @@ class AppState(
         // if mapper contains information of visuals for route -> remember and return
         routeToTabDataMapper().entries.forEach { (route, data) ->
             if (cachedRoute?.contains(route) == true)
-                return remember(cachedRoute) { data }
+                return remember(cachedRoute, MaterialTheme.colorScheme) { data }
         }
 
         // while splash screen is shown, currentRoute is null

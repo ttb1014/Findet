@@ -36,7 +36,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.security.crypto)
+    api(libs.security.crypto)
+
     // di
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)

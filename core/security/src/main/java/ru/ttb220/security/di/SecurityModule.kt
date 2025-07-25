@@ -4,8 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import ru.ttb220.security.api.EncryptedPreferencesDataSource
+import ru.ttb220.security.impl.EncryptedPreferencesDataSourceImpl
 import javax.inject.Singleton
 
 @Module

@@ -51,6 +51,7 @@ dependencies {
     api(project(":feature:expense"))
     api(project(":feature:income"))
     api(project(":feature:setting"))
+    api(project(":feature:pin"))
 
     // di
     implementation(libs.dagger)

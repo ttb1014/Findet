@@ -9,9 +9,11 @@ import ru.ttb220.account.di.AccountComponent
 import ru.ttb220.bottomsheet.di.BottomSheetComponent
 import ru.ttb220.category.di.CategoriesComponent
 import ru.ttb220.data.api.NetworkMonitor
+import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.sync.SyncManager
 import ru.ttb220.expense.di.ExpensesComponent
 import ru.ttb220.income.di.IncomesComponent
+import ru.ttb220.setting.di.SettingsComponent
 import ru.ttb220.sync.SyncWorker
 import javax.inject.Singleton
 
@@ -36,6 +38,7 @@ interface AppComponent {
     val bottomSheetComponentFactory: BottomSheetComponent.Factory
     val expensesComponentFactory: ExpensesComponent.Factory
     val incomesComponentFactory: IncomesComponent.Factory
+    val settingsComponentFactory: SettingsComponent.Factory
 
     val assistedFactory: SyncWorker.AssistedFactory
 
@@ -43,4 +46,5 @@ interface AppComponent {
 
     val syncManager: SyncManager
     val timeZone: TimeZone
+    val settingsRepository: SettingsRepository
 }

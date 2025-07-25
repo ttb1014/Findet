@@ -16,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -71,6 +73,9 @@ fun FindetApp(
 
     val isConnected by appState.isConnected.collectAsStateWithLifecycle(false)
     val lastSyncTimeFormatted by appState.lastSyncTimeFormatted.collectAsStateWithLifecycle("")
+
+    val haptic = LocalHapticFeedback.current
+    val shouldPlayHaptic by appState.shouldPlayHapticsFlow.collectAsStateWithLifecycle(false)
 
     Scaffold(
         modifier = modifier,
@@ -138,6 +143,10 @@ fun FindetApp(
                     destinations = TopLevelDestination.entries,
                     currentTopLevelDestination = currentTopLevelDestination,
                     onNavigateTo = {
+                        if (shouldPlayHaptic) {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        }
+
                         if (currentTopLevelDestination != it)
                             appState.navigateTo(it)
                     }

@@ -64,4 +64,10 @@
     <string name="analysis">Анализ</string>
     <string name="last_synced">"Обновлено: "</string>
     <string name="offline">"Оффлайн с: "</string>
+
+    <string name="light_dark">"Светлая тёмная"</string>
+    <string name="haptics_on">"Включены"</string>
+    <string name="haptics_off">"Выключены"</string>
+    <string name="enter_password">Введите пин-код</string>
+    <string name="repeat_password">Повторите пин-код</string>
 </resources>

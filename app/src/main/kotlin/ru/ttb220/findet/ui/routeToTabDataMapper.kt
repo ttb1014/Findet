@@ -77,6 +77,8 @@ fun routeToTabDataMapper() = RouteToTabTextMapper.mapValues { (route, _) ->
         RouteToTabTextMapper[route]!!,
         RouteToTabLeadingIconMapper[route],
         RouteToTabTrailingIconMapper[route],
-        if (route == ANALYSE_EXPENSE_SCREEN_ROUTE_BASE || route == ANALYSE_INCOME_SCREEN_ROUTE_BASE) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.primary
+        if (route == ANALYSE_EXPENSE_SCREEN_ROUTE_BASE ||
+            route == ANALYSE_INCOME_SCREEN_ROUTE_BASE
+        ) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.primary
     )
 }
