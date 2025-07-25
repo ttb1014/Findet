@@ -1,4 +1,4 @@
-package ru.ttb220.findet.ui
+package ru.ttb220.findet.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

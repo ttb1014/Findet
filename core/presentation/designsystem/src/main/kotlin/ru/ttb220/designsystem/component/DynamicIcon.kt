@@ -29,16 +29,16 @@ import ru.ttb220.presentation.model.R
 // Либо эмодзи либо текст
 @Immutable
 sealed class DynamicIconResource(
-    val background: Color
+    val background: Color,
 ) {
     class EmojiIconResource(
         val emojiData: EmojiData,
-        background: Color = Color.Unspecified
+        background: Color = Color.Unspecified,
     ) : DynamicIconResource(background)
 
     class TextIconResource(
         val text: String,
-        background: Color = Color.Unspecified
+        background: Color = Color.Unspecified,
     ) : DynamicIconResource(
         background
     )
@@ -68,13 +68,16 @@ private fun EmojiIcon(
     modifier: Modifier = Modifier,
 ) {
     // Эмодзи сама по себе либо текстовая-дефолтная, либо из ресурсов (сделал, чтобы отображение совпадало с макетом)
+    val backgroundColor =
+        if (emojiIconResource.background == Color.Unspecified)
+            MaterialTheme.colorScheme.primaryContainer else emojiIconResource.background
     when (emojiIconResource.emojiData) {
         is EmojiData.Resource -> Image(
             painter = painterResource(emojiIconResource.emojiData.emojiId),
             contentDescription = null,
             modifier = modifier
                 .size(24.dp)
-                .background(emojiIconResource.background, CircleShape),
+                .background(backgroundColor, CircleShape),
             alignment = Alignment.Center
         )
 
@@ -83,7 +86,7 @@ private fun EmojiIcon(
             text = emojiIconResource.emojiData.emojiString,
             modifier = Modifier
                 .size(24.dp)
-                .background(emojiIconResource.background, RoundedCornerShape(100.dp)),
+                .background(backgroundColor, RoundedCornerShape(100.dp)),
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp,
             textAlign = TextAlign.Center,
@@ -124,10 +127,13 @@ private fun TextIcon(
     textIconResource: DynamicIconResource.TextIconResource,
     modifier: Modifier = Modifier,
 ) {
+    val backgroundColor =
+        if (textIconResource.background == Color.Unspecified)
+            MaterialTheme.colorScheme.primaryContainer else textIconResource.background
     Box(
         modifier = modifier
             .size(24.dp)
-            .background(textIconResource.background, CircleShape),
+            .background(backgroundColor, CircleShape),
         contentAlignment = Alignment.Center,
     ) {
         Text(

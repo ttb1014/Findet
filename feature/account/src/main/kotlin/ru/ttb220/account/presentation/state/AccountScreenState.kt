@@ -1,7 +1,7 @@
 package ru.ttb220.account.presentation.state
 
 import androidx.annotation.StringRes
-import ru.ttb220.presentation.model.screen.AccountScreenData
+import ru.ttb220.account.presentation.model.AccountScreenData
 
 sealed interface AccountScreenState {
 

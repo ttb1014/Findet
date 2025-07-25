@@ -72,4 +72,9 @@
     <string name="repeat_password">Повторите пин-код</string>
     <string name="sync_frequency">Частота синхронизации</string>
     <string name="hour_symbol">ч</string>
+    <string name="version">Версия приложения</string>
+    <string name="tab_info">Информация</string>
+    <string name="last_update">Последнее обновление</string>
+    <string name="show_axis">Показать оси</string>
+    <string name="linear_chart">Линейный график</string>
 </resources>

@@ -1,6 +1,7 @@
 package ru.ttb220.expense.presentation.model
 
 import androidx.annotation.StringRes
+import ru.ttb220.chart.api.model.CircleDiagramData
 
 sealed interface ExpensesAnalysisScreenState {
     data object Loading : ExpensesAnalysisScreenState
@@ -10,6 +11,7 @@ sealed interface ExpensesAnalysisScreenState {
         val endMonthWithYear: String,
         val totalAmount: String,
         val items: List<ExpenseAnalysisItemData>,
+        val circleDiagramData: CircleDiagramData,
     ) : ExpensesAnalysisScreenState
 
     data class ErrorResource(

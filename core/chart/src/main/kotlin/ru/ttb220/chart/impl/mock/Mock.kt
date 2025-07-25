@@ -12,7 +12,7 @@ val mockBarChartData = BarChartData(
     barColorResolver = { max, value ->
         Color.Black
     },
-    isAxisShown = false,
+    isAxisShown = true,
     labels = labels
 )
 

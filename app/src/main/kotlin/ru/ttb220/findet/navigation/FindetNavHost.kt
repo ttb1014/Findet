@@ -13,25 +13,29 @@ import ru.ttb220.expense.presentation.navigation.analyseExpenseScreen
 import ru.ttb220.expense.presentation.navigation.editExpenseScreen
 import ru.ttb220.expense.presentation.navigation.expensesHistoryScreen
 import ru.ttb220.expense.presentation.navigation.expensesTodayScreen
-import ru.ttb220.findet.ui.AppState
+import ru.ttb220.findet.presentation.ui.AppState
 import ru.ttb220.income.presentation.navigation.addIncomeScreen
 import ru.ttb220.income.presentation.navigation.analyseIncomeScreen
 import ru.ttb220.income.presentation.navigation.editIncomeScreen
 import ru.ttb220.income.presentation.navigation.incomesHistoryScreen
 import ru.ttb220.income.presentation.navigation.incomesTodayScreen
+import ru.ttb220.pin.presentation.navigation.ENTER_PIN_SCREEN_ROUTE_BASE
 import ru.ttb220.pin.presentation.navigation.SETUP_PIN_SCREEN_ROUTE_BASE
 import ru.ttb220.pin.presentation.navigation.enterPinScreen
 import ru.ttb220.pin.presentation.navigation.setupPinScreen
 import ru.ttb220.setting.presentation.navigation.SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE
+import ru.ttb220.setting.presentation.navigation.navigateToSettingsInfo
+import ru.ttb220.setting.presentation.navigation.settingsInfoScreen
 import ru.ttb220.setting.presentation.navigation.settingsMainScreen
 import ru.ttb220.setting.presentation.navigation.settingsSyncScreen
+import ru.ttb220.splash.navigation.splashScreen
 
 @Composable
 fun FindetNavHost(
     appState: AppState,
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    startRoute: String = ACCOUNT_SCREEN_ROUTE_BASE
+    startRoute: String = ACCOUNT_SCREEN_ROUTE_BASE,
 ) {
     // adds all available fragments to nav graph
     NavHost(
@@ -39,6 +43,14 @@ fun FindetNavHost(
         startDestination = startRoute,
         modifier = modifier
     ) {
+        splashScreen(
+            onNext = {
+                appState.navigateTo(
+                    if (appState.isPinSetup) ENTER_PIN_SCREEN_ROUTE_BASE else SETUP_PIN_SCREEN_ROUTE_BASE
+                )
+            }
+        )
+
         expensesTodayScreen(
             navigateToEditExpense = appState::navigateToEditExpense
         )
@@ -104,9 +116,13 @@ fun FindetNavHost(
             },
             navigateToSyncFrequency = {
                 appState.navigateTo(SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE)
+            },
+            navigateToInfo = {
+                appState.navHostController.navigateToSettingsInfo()
             }
         )
         settingsSyncScreen()
+        settingsInfoScreen()
 
         enterPinScreen(
             navigateToContent = appState::authorizeAndNavigateToAccount

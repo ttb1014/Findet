@@ -80,22 +80,6 @@ fun PinInputScreen(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.NumberPassword),
             visualTransformation = PasswordVisualTransformation(),
         )
-//        TextField(
-//            value = pin,
-//            onValueChange = {
-//                if (it.length <= 4 && it.all { c -> c.isDigit() }) {
-//                    pin = it
-//                    if (it.length == 4)
-//                        onPinEntered(
-//                            it.toInt(),
-//                            onSuccess
-//                        )
-//                }
-//            },
-//            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.NumberPassword),
-//            visualTransformation = PasswordVisualTransformation(),
-//            label = { Text("PIN") }
-//        )
     }
 }
 

@@ -7,14 +7,18 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.ttb220.data.api.SettingsRepository
+import ru.ttb220.model.SupportedLanguage
 import ru.ttb220.model.ThemeState
 import ru.ttb220.presentation.model.screen.SettingsScreenData
+import ru.ttb220.setting.BuildConfig
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
+    val appVersion = BuildConfig.APP_VERSION
+    val lastUpdateTime = BuildConfig.APP_LAST_UPDATE
     val isDarkThemeEnabled = settingsRepository.isDarkModeEnabled()
 
     val settingsScreenData = isDarkThemeEnabled.map {
@@ -40,6 +44,18 @@ class SettingsViewModel @Inject constructor(
     fun onSyncFreqSelected(freq: Int) {
         viewModelScope.launch {
             settingsRepository.setSyncFrequency(freq.hourToMillis())
+        }
+    }
+
+    fun onLanguageSelected(language: SupportedLanguage) {
+        viewModelScope.launch {
+            settingsRepository.setActiveLanguage(language)
+        }
+    }
+
+    fun onDarkModeClick(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setDarkModeEnabled(enabled)
         }
     }
 

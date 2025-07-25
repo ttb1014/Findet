@@ -1,6 +1,7 @@
 package ru.ttb220.data.api
 
 import kotlinx.coroutines.flow.Flow
+import ru.ttb220.model.SupportedLanguage
 import ru.ttb220.model.ThemeState
 
 /**
@@ -42,4 +43,8 @@ interface SettingsRepository {
     suspend fun setLastSyncTime(syncTime: Long)
 
     fun getSyncFrequencyFlow(): Flow<Long>
+
+    fun activeLanguageFlow(): Flow<SupportedLanguage>
+    suspend fun getActiveLanguage(): SupportedLanguage
+    suspend fun setActiveLanguage(language: SupportedLanguage)
 }

@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Switch(
     isEnabled: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
@@ -53,4 +55,40 @@ fun Switch(
                 }
         )
     }
+}
+
+@Composable
+fun Switch(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val trackColor = if (checked) {
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+    } else {
+        MaterialTheme.colorScheme.surfaceContainerHighest
+    }
+
+    val borderColor = MaterialTheme.colorScheme.outline
+    val thumbColor = if (checked) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.outline
+    }
+
+    Switch(
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        modifier = modifier
+            .size(width = 52.dp, height = 32.dp),
+        thumbContent = {},
+        colors = SwitchDefaults.colors(
+            checkedTrackColor = trackColor,
+            uncheckedTrackColor = trackColor,
+            checkedThumbColor = thumbColor,
+            uncheckedThumbColor = thumbColor,
+            uncheckedBorderColor = borderColor,
+            checkedBorderColor = borderColor,
+        )
+    )
 }

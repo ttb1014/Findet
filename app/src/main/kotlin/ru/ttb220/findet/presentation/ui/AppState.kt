@@ -1,4 +1,4 @@
-package ru.ttb220.findet.ui
+package ru.ttb220.findet.presentation.ui
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -40,7 +40,9 @@ import ru.ttb220.expense.presentation.navigation.navigateToExpensesHistory
 import ru.ttb220.expense.presentation.navigation.navigateToExpensesToday
 import ru.ttb220.expense.presentation.viewmodel.AddExpenseViewModel
 import ru.ttb220.expense.presentation.viewmodel.EditExpenseViewModel
+import ru.ttb220.expense.presentation.viewmodel.factory.AssistedViewModelFactory
 import ru.ttb220.findet.navigation.TopLevelDestination
+import ru.ttb220.findet.util.routeToTabDataMapper
 import ru.ttb220.income.di.IncomesComponentProvider
 import ru.ttb220.income.presentation.navigation.ADD_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.ANALYSE_INCOME_SCREEN_ROUTE_BASE
@@ -269,7 +271,7 @@ class AppState(
                 (context as ExpensesComponentProvider).provideExpensesComponent().assistedFactory
             val editExpenseViewModel = viewModel<EditExpenseViewModel>(
                 viewModelStoreOwner = cachedNavEntry!!,
-                factory = ru.ttb220.expense.presentation.viewmodel.factory.AssistedViewModelFactory(
+                factory = AssistedViewModelFactory(
                     factory
                 )
             )

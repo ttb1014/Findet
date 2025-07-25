@@ -13,12 +13,13 @@ import ru.ttb220.setting.presentation.viewmodel.SettingsViewModel
 const val SETTINGS_MAIN_SCREEN_ROUTE_BASE = "$TOP_LEVEL_SETTINGS_ROUTE/main"
 
 fun NavController.navigateToSettingsMain(
-    navOptions: NavOptions? = null
+    navOptions: NavOptions? = null,
 ) = navigate(SETTINGS_MAIN_SCREEN_ROUTE_BASE, navOptions)
 
 fun NavGraphBuilder.settingsMainScreen(
     navigateToSetupPin: () -> Unit = {},
-    navigateToSyncFrequency: () -> Unit = {}
+    navigateToSyncFrequency: () -> Unit = {},
+    navigateToInfo: () -> Unit = {},
 ) {
     composable(
         route = SETTINGS_MAIN_SCREEN_ROUTE_BASE,
@@ -35,6 +36,7 @@ fun NavGraphBuilder.settingsMainScreen(
             viewModel,
             navigateToSetupPin = navigateToSetupPin,
             navigateToSyncFrequency = navigateToSyncFrequency,
+            navigateToInfo = navigateToInfo
         )
     }
 }

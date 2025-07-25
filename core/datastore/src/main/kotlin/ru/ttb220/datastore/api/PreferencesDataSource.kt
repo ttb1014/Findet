@@ -1,7 +1,7 @@
 package ru.ttb220.datastore.api
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.Instant
+import ru.ttb220.model.SupportedLanguage
 import ru.ttb220.model.ThemeState
 
 interface PreferencesDataSource {
@@ -21,4 +21,12 @@ interface PreferencesDataSource {
     val lastSyncTimeFlow: Flow<Long>
     suspend fun updateLastSyncTime(lastSync: Long)
     suspend fun getLastSyncTime(): Long
+
+    val selectedLanguageFlow: Flow<SupportedLanguage>
+    suspend fun setLanguage(language: SupportedLanguage)
+    suspend fun getLanguage(): SupportedLanguage
+
+    val isDarkModeEnabledFlow: Flow<Boolean>
+    suspend fun setDarkMode(enabled: Boolean)
+    suspend fun getDarkMode(): Boolean
 }

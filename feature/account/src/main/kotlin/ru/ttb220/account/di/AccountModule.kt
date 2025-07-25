@@ -8,10 +8,7 @@ import ru.ttb220.account.presentation.viewmodel.AccountViewModel
 import ru.ttb220.account.presentation.viewmodel.AddAccountViewModel
 import ru.ttb220.common.di.ViewModelKey
 
-@Module(
-    includes = [
-    ]
-)
+@Module()
 interface AccountModule {
 
     @Binds

@@ -22,13 +22,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.designsystem.component.ColumnListItem
 import ru.ttb220.designsystem.component.Switch
-import ru.ttb220.model.SupportedLanguages
+import ru.ttb220.model.SupportedLanguage
 import ru.ttb220.model.ThemeState
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.SettingsScreenData
@@ -42,6 +43,7 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     navigateToSetupPin: () -> Unit = {},
     navigateToSyncFrequency: () -> Unit = {},
+    navigateToInfo: () -> Unit = {},
 ) {
     val settingsScreenData by settingsViewModel.settingsScreenData.collectAsStateWithLifecycle()
 
@@ -50,7 +52,10 @@ fun SettingsScreen(
         modifier,
         onThemeSelected = settingsViewModel::onThemeSelected,
         onPinCodeClick = navigateToSetupPin,
-        onSyncClick = navigateToSyncFrequency
+        onDarkModeClick = settingsViewModel::onDarkModeClick,
+        onSyncClick = navigateToSyncFrequency,
+        onLanguageSelected = settingsViewModel::onLanguageSelected,
+        onInfoClicked = navigateToInfo
     )
 }
 
@@ -58,11 +63,12 @@ fun SettingsScreen(
 fun SettingsScreen(
     settingsScreenData: SettingsScreenData,
     modifier: Modifier = Modifier,
+    onDarkModeClick: (Boolean) -> Unit = {},
     onThemeSelected: (ThemeState) -> Unit = {},
     onHapticsSet: (Boolean) -> Unit = {},
     onPinCodeClick: () -> Unit = {},
     onSyncClick: () -> Unit = {},
-    onLanguageSelected: (SupportedLanguages) -> Unit = {},
+    onLanguageSelected: (SupportedLanguage) -> Unit = {},
     onInfoClicked: () -> Unit = {},
 ) {
     var expandedColors by remember { mutableStateOf(false) }
@@ -74,7 +80,8 @@ fun SettingsScreen(
             .background(MaterialTheme.colorScheme.surface),
     ) {
         LightDarkTheme(
-            settingsScreenData.isDarkThemeEnabled
+            settingsScreenData.isDarkThemeEnabled,
+            onDarkModeChange = onDarkModeClick,
         )
         // color item wrapper
         Box() {
@@ -166,7 +173,7 @@ fun SettingsScreen(
 @Composable
 fun InfoItem(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     ColumnListItem(
         title = stringResource(R.string.information),
@@ -182,7 +189,7 @@ fun InfoItem(
 @Composable
 fun LangItem(
     modifier: Modifier = Modifier,
-    onLanguageSelected: (SupportedLanguages) -> Unit,
+    onLanguageSelected: (SupportedLanguage) -> Unit,
 ) {
     var expandedLanguages by remember { mutableStateOf(false) }
 
@@ -190,6 +197,7 @@ fun LangItem(
         ColumnListItem(
             title = stringResource(R.string.language),
             modifier = modifier
+                .testTag("language_item")
                 .height(56.dp)
                 .clickable {
                     expandedLanguages = true
@@ -200,10 +208,11 @@ fun LangItem(
         )
 
         DropdownMenu(
+            modifier = Modifier.testTag("language_dropdown"),
             expanded = expandedLanguages,
             onDismissRequest = { expandedLanguages = false },
         ) {
-            SupportedLanguages.entries.forEach { theme ->
+            SupportedLanguage.entries.forEach { theme ->
                 DropdownMenuItem(
                     text = {
                         Text(
@@ -274,7 +283,7 @@ fun HapticsItem(
 
 @Composable
 fun SoundsItem(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     ColumnListItem(
         title = stringResource(R.string.sounds),
@@ -290,6 +299,7 @@ fun SoundsItem(
 fun LightDarkTheme(
     isDarkThemeEnabled: Boolean,
     modifier: Modifier = Modifier,
+    onDarkModeChange: (Boolean) -> Unit = {},
 ) {
     Column(
         modifier
@@ -313,7 +323,10 @@ fun LightDarkTheme(
                 style = MaterialTheme.typography.bodyLarge
             )
 
-            Switch(isDarkThemeEnabled)
+            Switch(
+                isDarkThemeEnabled,
+                onDarkModeChange
+            )
         }
         HorizontalDivider(
             modifier = Modifier.fillMaxWidth(),
@@ -326,7 +339,7 @@ fun LightDarkTheme(
 @Composable
 private fun SettingsItem(
     settingsDestination: SettingsDestination,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     ColumnListItem(
         title = stringResource(settingsDestination.textId),

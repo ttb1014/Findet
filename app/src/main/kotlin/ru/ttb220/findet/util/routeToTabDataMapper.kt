@@ -1,4 +1,4 @@
-package ru.ttb220.findet.ui
+package ru.ttb220.findet.util
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,6 +15,7 @@ import ru.ttb220.income.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.presentation.model.R
+import ru.ttb220.setting.presentation.navigation.SETTINGS_INFO_SCREEN_ROUTE_BASE
 import ru.ttb220.setting.presentation.navigation.SETTINGS_MAIN_SCREEN_ROUTE_BASE
 import ru.ttb220.setting.presentation.navigation.SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE
 
@@ -35,6 +36,7 @@ val RouteToTabTextMapper = mapOf(
     "categories" to R.string.my_categories,
     SETTINGS_MAIN_SCREEN_ROUTE_BASE to R.string.settings,
     SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE to R.string.synchronization,
+    SETTINGS_INFO_SCREEN_ROUTE_BASE to R.string.tab_info
 )
 
 // maps screen route to its visual
@@ -54,6 +56,7 @@ val RouteToTabLeadingIconMapper = mapOf(
     "categories" to null,
     SETTINGS_MAIN_SCREEN_ROUTE_BASE to null,
     SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE to null,
+    SETTINGS_INFO_SCREEN_ROUTE_BASE to null
 )
 
 // maps screen route to its visual
@@ -73,12 +76,13 @@ val RouteToTabTrailingIconMapper = mapOf(
     "categories" to null,
     SETTINGS_MAIN_SCREEN_ROUTE_BASE to null,
     SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE to null,
+    SETTINGS_INFO_SCREEN_ROUTE_BASE to null
 )
 
 // maps screen route to its visuals
 @Composable
 fun routeToTabDataMapper() = RouteToTabTextMapper.mapValues { (route, _) ->
-    TopAppBarData(
+    _root_ide_package_.ru.ttb220.findet.presentation.ui.TopAppBarData(
         RouteToTabTextMapper[route]!!,
         RouteToTabLeadingIconMapper[route],
         RouteToTabTrailingIconMapper[route],

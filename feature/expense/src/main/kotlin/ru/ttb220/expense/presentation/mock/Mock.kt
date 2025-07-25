@@ -1,5 +1,7 @@
 package ru.ttb220.expense.presentation.mock
 
+import androidx.compose.ui.graphics.Color
+import ru.ttb220.chart.api.model.CircleDiagramData
 import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.ExpenseData
 import ru.ttb220.presentation.model.R
@@ -105,3 +107,9 @@ val mockExpensesScreenData = ExpensesScreenData(
     totalAmount = "436 558 ₽"
 )
 
+val mockCircleDiagramData = CircleDiagramData(
+    data = listOf(
+        Triple("Ремонт квартиры", 20, Color.Green),
+        Triple("На собачку", 80, Color.Yellow)
+    )
+)

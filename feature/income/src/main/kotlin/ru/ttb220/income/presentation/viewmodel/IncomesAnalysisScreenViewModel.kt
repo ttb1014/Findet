@@ -19,6 +19,7 @@ import ru.ttb220.data.api.TransactionsRepository
 import ru.ttb220.designsystem.component.DynamicIconResource
 import ru.ttb220.income.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.income.domain.GetTransactionsForActiveAccountPeriodUseCase
+import ru.ttb220.income.domain.MakeCircleDiagramDataUseCase
 import ru.ttb220.income.presentation.model.IncomeAnalysisItemData
 import ru.ttb220.income.presentation.model.IncomesAnalysisScreenState
 import ru.ttb220.model.SafeResult
@@ -36,6 +37,7 @@ class IncomesAnalysisScreenViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val categoriesRepository: CategoriesRepository,
     private val getTransactionsForActiveAccountPeriodUseCase: GetTransactionsForActiveAccountPeriodUseCase,
+    private val makeCircleDiagramDataUseCase: MakeCircleDiagramDataUseCase,
     private val timeProvider: TimeProvider,
     private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,
     private val timeZone: TimeZone,
@@ -128,7 +130,7 @@ class IncomesAnalysisScreenViewModel @Inject constructor(
                         CurrencyMapper.getSymbol(currencyCode)
                     )
                     val percentage =
-                        NumberToStringMapper.mapPercentage(totalAmountDouble / totalApplicableDouble)
+                        NumberToStringMapper.mapPercentage(totalApplicableDouble/ totalAmountDouble)
 
                     AnalysisData(
                         emojiData = EmojiMapper.getEmojiData(category.emoji),
@@ -159,7 +161,11 @@ class IncomesAnalysisScreenViewModel @Inject constructor(
                     beginMonthWithYear = startMonthLong.asMonthWithYear(),
                     endMonthWithYear = endMonthLong.asMonthWithYear(),
                     totalAmount = totalStringWithCurrencySymbol,
-                    items = analysedIncomes.map { it.toIncomeAnalysisItemData() }
+                    items = analysedIncomes.map { it.toIncomeAnalysisItemData() },
+                    circleDiagramData = makeCircleDiagramDataUseCase(
+                        transactions,
+                        categories
+                    ),
                 )
             }.collect { }
         }

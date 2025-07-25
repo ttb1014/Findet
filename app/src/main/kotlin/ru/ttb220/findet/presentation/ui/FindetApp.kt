@@ -1,4 +1,4 @@
-package ru.ttb220.findet.ui
+package ru.ttb220.findet.presentation.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -52,14 +52,13 @@ import ru.ttb220.income.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.TOP_LEVEL_INCOMES_ROUTE
 import ru.ttb220.income.presentation.viewmodel.AddIncomeViewModel
 import ru.ttb220.income.presentation.viewmodel.EditIncomeViewModel
-import ru.ttb220.pin.presentation.navigation.ENTER_PIN_SCREEN_ROUTE_BASE
-import ru.ttb220.pin.presentation.navigation.SETUP_PIN_SCREEN_ROUTE_BASE
 import ru.ttb220.pin.presentation.navigation.TOP_LEVEL_PIN_ROUTE
+import ru.ttb220.splash.navigation.TOP_LEVEL_SPLASH_ROUTE
 
 @Composable
 fun FindetApp(
     appState: AppState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val currentRoute = appState.currentRoute
     val currentTopLevelDestination = appState.currentTopLevelDestination
@@ -142,7 +141,8 @@ fun FindetApp(
         },
         bottomBar = bottomBar@{
             if (appState.isCurrencyBottomSheetShown.not() &&
-                currentRoute?.contains(TOP_LEVEL_PIN_ROUTE) != true
+                currentRoute?.contains(TOP_LEVEL_PIN_ROUTE) != true &&
+                currentRoute?.contains(TOP_LEVEL_SPLASH_ROUTE) != true
             ) {
                 BottomBar(
                     destinations = TopLevelDestination.entries,
@@ -191,7 +191,7 @@ fun FindetApp(
                     else
                         it
                 },
-            startRoute = if (appState.isPinSetup) ENTER_PIN_SCREEN_ROUTE_BASE else SETUP_PIN_SCREEN_ROUTE_BASE,
+            startRoute = TOP_LEVEL_SPLASH_ROUTE,
         )
     }
 
