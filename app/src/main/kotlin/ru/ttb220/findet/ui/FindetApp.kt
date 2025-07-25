@@ -52,6 +52,9 @@ import ru.ttb220.income.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.TOP_LEVEL_INCOMES_ROUTE
 import ru.ttb220.income.presentation.viewmodel.AddIncomeViewModel
 import ru.ttb220.income.presentation.viewmodel.EditIncomeViewModel
+import ru.ttb220.pin.presentation.navigation.ENTER_PIN_SCREEN_ROUTE_BASE
+import ru.ttb220.pin.presentation.navigation.SETUP_PIN_SCREEN_ROUTE_BASE
+import ru.ttb220.pin.presentation.navigation.TOP_LEVEL_PIN_ROUTE
 
 @Composable
 fun FindetApp(
@@ -138,7 +141,9 @@ fun FindetApp(
             }
         },
         bottomBar = bottomBar@{
-            if (appState.isCurrencyBottomSheetShown.not()) {
+            if (appState.isCurrencyBottomSheetShown.not() &&
+                currentRoute?.contains(TOP_LEVEL_PIN_ROUTE) != true
+            ) {
                 BottomBar(
                     destinations = TopLevelDestination.entries,
                     currentTopLevelDestination = currentTopLevelDestination,
@@ -186,6 +191,7 @@ fun FindetApp(
                     else
                         it
                 },
+            startRoute = if (appState.isPinSetup) ENTER_PIN_SCREEN_ROUTE_BASE else SETUP_PIN_SCREEN_ROUTE_BASE,
         )
     }
 

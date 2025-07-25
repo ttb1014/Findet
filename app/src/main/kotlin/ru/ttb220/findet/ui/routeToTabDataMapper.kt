@@ -15,6 +15,8 @@ import ru.ttb220.income.presentation.navigation.EDIT_INCOME_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_HISTORY_SCREEN_ROUTE_BASE
 import ru.ttb220.income.presentation.navigation.INCOMES_TODAY_SCREEN_ROUTE_BASE
 import ru.ttb220.presentation.model.R
+import ru.ttb220.setting.presentation.navigation.SETTINGS_MAIN_SCREEN_ROUTE_BASE
+import ru.ttb220.setting.presentation.navigation.SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE
 
 // maps screen route to its visual
 val RouteToTabTextMapper = mapOf(
@@ -31,7 +33,8 @@ val RouteToTabTextMapper = mapOf(
     ANALYSE_EXPENSE_SCREEN_ROUTE_BASE to R.string.analysis,
     ANALYSE_INCOME_SCREEN_ROUTE_BASE to R.string.analysis,
     "categories" to R.string.my_categories,
-    "settings" to R.string.settings,
+    SETTINGS_MAIN_SCREEN_ROUTE_BASE to R.string.settings,
+    SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE to R.string.synchronization,
 )
 
 // maps screen route to its visual
@@ -49,7 +52,8 @@ val RouteToTabLeadingIconMapper = mapOf(
     ANALYSE_EXPENSE_SCREEN_ROUTE_BASE to R.drawable.back,
     ANALYSE_INCOME_SCREEN_ROUTE_BASE to R.drawable.back,
     "categories" to null,
-    "settings" to null,
+    SETTINGS_MAIN_SCREEN_ROUTE_BASE to null,
+    SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE to null,
 )
 
 // maps screen route to its visual
@@ -67,7 +71,8 @@ val RouteToTabTrailingIconMapper = mapOf(
     ANALYSE_EXPENSE_SCREEN_ROUTE_BASE to null,
     ANALYSE_INCOME_SCREEN_ROUTE_BASE to null,
     "categories" to null,
-    "settings" to null,
+    SETTINGS_MAIN_SCREEN_ROUTE_BASE to null,
+    SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE to null,
 )
 
 // maps screen route to its visuals

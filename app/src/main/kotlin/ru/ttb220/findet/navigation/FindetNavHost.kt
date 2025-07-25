@@ -19,7 +19,12 @@ import ru.ttb220.income.presentation.navigation.analyseIncomeScreen
 import ru.ttb220.income.presentation.navigation.editIncomeScreen
 import ru.ttb220.income.presentation.navigation.incomesHistoryScreen
 import ru.ttb220.income.presentation.navigation.incomesTodayScreen
-import ru.ttb220.setting.presentation.navigation.settingsScreen
+import ru.ttb220.pin.presentation.navigation.SETUP_PIN_SCREEN_ROUTE_BASE
+import ru.ttb220.pin.presentation.navigation.enterPinScreen
+import ru.ttb220.pin.presentation.navigation.setupPinScreen
+import ru.ttb220.setting.presentation.navigation.SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE
+import ru.ttb220.setting.presentation.navigation.settingsMainScreen
+import ru.ttb220.setting.presentation.navigation.settingsSyncScreen
 
 @Composable
 fun FindetNavHost(
@@ -93,6 +98,21 @@ fun FindetNavHost(
 
         categoriesScreen()
 
-        settingsScreen()
+        settingsMainScreen(
+            navigateToSetupPin = {
+                appState.navigateTo(SETUP_PIN_SCREEN_ROUTE_BASE)
+            },
+            navigateToSyncFrequency = {
+                appState.navigateTo(SETTINGS_SYNCHRONIZATION_SCREEN_ROUTE_BASE)
+            }
+        )
+        settingsSyncScreen()
+
+        enterPinScreen(
+            navigateToContent = appState::authorizeAndNavigateToAccount
+        )
+        setupPinScreen(
+            navigateToContent = appState::authorizeAndNavigateToAccount
+        )
     }
 }

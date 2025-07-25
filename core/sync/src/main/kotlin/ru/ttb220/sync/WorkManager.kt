@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Instant
+import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.sync.SyncManager
 import java.util.concurrent.atomic.AtomicReference
@@ -21,6 +22,7 @@ import javax.inject.Singleton
 class WorkManager @Inject constructor(
     private val context: Context,
     private val timeProvider: TimeProvider,
+    private val settingsRepository: SettingsRepository,
 ) : SyncManager {
 
     override val isSyncing: Flow<Boolean> =
@@ -59,6 +61,8 @@ class WorkManager @Inject constructor(
             SyncWorker.Companion.startUpSyncWork(),
         )
     }
+
+
 
     companion object {
         private val DEFAULT_LAST_SYNC_TIME = Instant.DISTANT_PAST

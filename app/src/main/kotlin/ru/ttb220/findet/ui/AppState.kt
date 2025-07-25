@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.account.di.AccountComponentProvider
+import ru.ttb220.account.presentation.navigation.ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.presentation.navigation.ACCOUNT_SCREEN_ROUTE_BASE
 import ru.ttb220.account.presentation.navigation.ADD_ACCOUNT_SCREEN_ROUTE
 import ru.ttb220.account.presentation.navigation.navigateToAccount
@@ -53,7 +54,7 @@ import ru.ttb220.income.presentation.navigation.navigateToIncomesHistory
 import ru.ttb220.income.presentation.navigation.navigateToIncomesToday
 import ru.ttb220.income.presentation.viewmodel.AddIncomeViewModel
 import ru.ttb220.income.presentation.viewmodel.EditIncomeViewModel
-import ru.ttb220.setting.presentation.navigation.navigateToSettings
+import ru.ttb220.setting.presentation.navigation.navigateToSettingsMain
 
 @Composable
 fun rememberAppState(
@@ -106,6 +107,8 @@ class AppState(
         isCurrencyBottomSheetShown = false
     }
 
+    val isPinSetup = settingsRepository.isPinSetup()
+
     val currentBackStackEntry: NavBackStackEntry?
         @Composable get() = navHostController.currentBackStackEntryAsState().value
 
@@ -124,6 +127,17 @@ class AppState(
     fun popBackStack() {
         hideBottomSheets()
         navHostController.popBackStack()
+    }
+
+    fun authorizeAndNavigateToAccount() {
+        navHostController.navigateToAccount(
+            activeAccountId
+        )
+
+        navHostController.popBackStack(
+            route = ACCOUNT_SCREEN_ROUTE,
+            inclusive = false
+        )
     }
 
     fun navigateTo(topLevelDestination: TopLevelDestination) {
@@ -149,7 +163,7 @@ class AppState(
                 navHostController.navigateToCategories()
 
             TopLevelDestination.SETTINGS ->
-                navHostController.navigateToSettings()
+                navHostController.navigateToSettingsMain()
         }
     }
 

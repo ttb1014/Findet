@@ -89,6 +89,13 @@ class OfflineFirstSettingsRepository @Inject constructor(
     override fun verifyPinCode(pin: Int): Boolean =
         encryptedPreferencesDataSource.verifyPin(pin)
 
+    override fun isPinSetup(): Boolean =
+        encryptedPreferencesDataSource.isPinCodeSet()
+
+    override suspend fun setSyncFrequency(freq: Long) {
+        preferencesDataSource.setSyncFrequency(freq)
+    }
+
     companion object {
         // used as a fallback.
         // TODO: resolve fallback policy

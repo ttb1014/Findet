@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.designsystem.component.ColumnListItem
 import ru.ttb220.designsystem.component.Switch
+import ru.ttb220.model.SupportedLanguages
 import ru.ttb220.model.ThemeState
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.SettingsScreenData
@@ -38,15 +39,18 @@ import ru.ttb220.setting.presentation.viewmodel.SettingsViewModel
 @Composable
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToSetupPin: () -> Unit = {},
+    navigateToSyncFrequency: () -> Unit = {},
 ) {
     val settingsScreenData by settingsViewModel.settingsScreenData.collectAsStateWithLifecycle()
 
     SettingsScreen(
         settingsScreenData,
         modifier,
-        settingsViewModel::onThemeSelected,
-
+        onThemeSelected = settingsViewModel::onThemeSelected,
+        onPinCodeClick = navigateToSetupPin,
+        onSyncClick = navigateToSyncFrequency
     )
 }
 
@@ -56,6 +60,10 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     onThemeSelected: (ThemeState) -> Unit = {},
     onHapticsSet: (Boolean) -> Unit = {},
+    onPinCodeClick: () -> Unit = {},
+    onSyncClick: () -> Unit = {},
+    onLanguageSelected: (SupportedLanguages) -> Unit = {},
+    onInfoClicked: () -> Unit = {},
 ) {
     var expandedColors by remember { mutableStateOf(false) }
     var expandedHaptics by remember { mutableStateOf(false) }
@@ -138,13 +146,114 @@ fun SettingsScreen(
                 )
             }
         }
+        PinItem(
+            modifier = Modifier,
+            onClick = onPinCodeClick
+        )
+        SyncItem(
+            modifier = Modifier,
+            onSyncClick
+        )
+        LangItem(
+            onLanguageSelected = onLanguageSelected
+        )
+        InfoItem(
+            onClick = onInfoClicked
+        )
+    }
+}
 
+@Composable
+fun InfoItem(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    ColumnListItem(
+        title = stringResource(R.string.information),
+        modifier = modifier
+            .height(56.dp)
+            .clickable(onClick = onClick),
+        trailingIcon = R.drawable.more_right_solid,
+        trailingIconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+        shouldShowTrailingDivider = true,
+    )
+}
 
+@Composable
+fun LangItem(
+    modifier: Modifier = Modifier,
+    onLanguageSelected: (SupportedLanguages) -> Unit,
+) {
+    var expandedLanguages by remember { mutableStateOf(false) }
 
-        SettingsDestination.entries.forEach {
-            SettingsItem(it)
+    Box() {
+        ColumnListItem(
+            title = stringResource(R.string.language),
+            modifier = modifier
+                .height(56.dp)
+                .clickable {
+                    expandedLanguages = true
+                },
+            trailingIcon = R.drawable.more_right_solid,
+            trailingIconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+            shouldShowTrailingDivider = true,
+        )
+
+        DropdownMenu(
+            expanded = expandedLanguages,
+            onDismissRequest = { expandedLanguages = false },
+        ) {
+            SupportedLanguages.entries.forEach { theme ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            theme.name,
+                            softWrap = false,
+                            maxLines = 1,
+                            minLines = 1,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    onClick = {
+                        onLanguageSelected(theme)
+                        expandedLanguages = false
+                    }
+                )
+            }
         }
     }
+}
+
+@Composable
+fun SyncItem(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    ColumnListItem(
+        title = stringResource(R.string.synchronization),
+        modifier = modifier
+            .height(56.dp)
+            .clickable(onClick = onClick),
+        trailingIcon = R.drawable.more_right_solid,
+        trailingIconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+        shouldShowTrailingDivider = true,
+    )
+}
+
+@Composable
+fun PinItem(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    ColumnListItem(
+        title = stringResource(R.string.password),
+        modifier = modifier
+            .height(56.dp)
+            .clickable(onClick = onClick),
+        trailingIcon = R.drawable.more_right_solid,
+        trailingIconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+        shouldShowTrailingDivider = true,
+    )
 }
 
 @Composable

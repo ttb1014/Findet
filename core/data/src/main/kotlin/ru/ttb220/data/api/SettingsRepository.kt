@@ -30,4 +30,8 @@ interface SettingsRepository {
     suspend fun setPinCode(pin: Int)
 
     fun verifyPinCode(pin: Int): Boolean
+
+    fun isPinSetup(): Boolean
+
+    suspend fun setSyncFrequency(freq: Long)
 }

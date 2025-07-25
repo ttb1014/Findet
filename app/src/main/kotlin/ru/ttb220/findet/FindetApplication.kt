@@ -13,6 +13,8 @@ import ru.ttb220.findet.di.AppComponent
 import ru.ttb220.findet.di.DaggerAppComponent
 import ru.ttb220.income.di.IncomesComponent
 import ru.ttb220.income.di.IncomesComponentProvider
+import ru.ttb220.pin.di.PinComponent
+import ru.ttb220.pin.di.PinComponentProvider
 import ru.ttb220.setting.di.SettingsComponent
 import ru.ttb220.setting.di.SettingsComponentProvider
 import ru.ttb220.sync.SyncInitializer
@@ -25,6 +27,7 @@ class FindetApplication :
     ExpensesComponentProvider,
     IncomesComponentProvider,
     SettingsComponentProvider,
+    PinComponentProvider,
 
     Application() {
 
@@ -54,4 +57,7 @@ class FindetApplication :
 
     override fun provideSettingsComponent(): SettingsComponent =
         appComponent.settingsComponentFactory.create()
+
+    override fun providePinComponent(): PinComponent =
+        appComponent.pinComponentFactory.create()
 }

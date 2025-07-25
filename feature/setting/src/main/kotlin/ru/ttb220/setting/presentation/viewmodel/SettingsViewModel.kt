@@ -37,6 +37,15 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onSyncFreqSelected(freq: Int) {
+        viewModelScope.launch {
+            settingsRepository.setSyncFrequency(freq.hourToMillis())
+        }
+    }
+
+    fun Int.hourToMillis() =
+        this * 60 * 60 * 1000L
+
     companion object {
         private const val SUBSCRIPTION_DELAY = 5000L
     }

@@ -17,6 +17,7 @@ import ru.ttb220.expense.di.ExpensesModule
 import ru.ttb220.findet.ui.viewmodel.MainViewModel
 import ru.ttb220.income.di.IncomesComponent
 import ru.ttb220.income.di.IncomesModule
+import ru.ttb220.pin.di.PinComponent
 import ru.ttb220.setting.di.SettingsComponent
 import ru.ttb220.setting.di.SettingsModule
 import ru.ttb220.sync.di.SyncModule
@@ -36,6 +37,7 @@ import ru.ttb220.sync.di.SyncModule
         ExpensesComponent::class,
         IncomesComponent::class,
         SettingsComponent::class,
+        PinComponent::class
     ]
 )
 interface AppModule {

@@ -70,4 +70,6 @@
     <string name="haptics_off">"Выключены"</string>
     <string name="enter_password">Введите пин-код</string>
     <string name="repeat_password">Повторите пин-код</string>
+    <string name="sync_frequency">Частота синхронизации</string>
+    <string name="hour_symbol">ч</string>
 </resources>
