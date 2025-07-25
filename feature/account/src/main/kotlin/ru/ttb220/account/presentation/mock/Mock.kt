@@ -1,8 +1,11 @@
 package ru.ttb220.account.presentation.mock
 
-import ru.ttb220.presentation.model.R
+import ru.ttb220.account.presentation.model.AccountScreenData
+import ru.ttb220.account.presentation.model.ChartType
+import ru.ttb220.account.presentation.model.defaultBarColorResolver
+import ru.ttb220.chart.api.model.BarChartData
 import ru.ttb220.presentation.model.CurrencyData
-import ru.ttb220.presentation.model.screen.AccountScreenData
+import ru.ttb220.presentation.model.R
 
 private val fills = listOf(
     9f,
@@ -34,7 +37,7 @@ private val fills = listOf(
     24f,
     24f
 )
-    .map { it / 220 }
+    .map { it / 188f }
 private val indices = listOf(10, 11, 18, 19, 20, 21, 22, 23)
 private val xLabels = listOf("01.02", "14.01", "28.02")
 
@@ -46,5 +49,12 @@ internal val mockAccountScreenData = AccountScreenData(
     accountName = "Сбербанк",
     leadingIconId = R.drawable.money_bag,
     balance = "-670 000 ₽",
-    currencyData = CurrencyData.RUSSIAN_RUBLE
+    currencyData = CurrencyData.RUSSIAN_RUBLE,
+    barChartData = BarChartData(
+        isAxisShown = false,
+        barValues = fills,
+        barColorResolver = defaultBarColorResolver,
+        labels = xLabels,
+    ),
+    chartType = ChartType.BAR
 )

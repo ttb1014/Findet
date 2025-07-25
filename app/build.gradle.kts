@@ -44,6 +44,7 @@ android {
 
 dependencies {
     api(project(":core:sync"))
+    api(project(":core:splash"))
 
     api(project(":feature:account"))
     api(project(":feature:bottomsheet"))
@@ -51,6 +52,7 @@ dependencies {
     api(project(":feature:expense"))
     api(project(":feature:income"))
     api(project(":feature:setting"))
+    api(project(":feature:pin"))
 
     // di
     implementation(libs.dagger)
@@ -62,6 +64,8 @@ dependencies {
     // compose + nav
     implementation(libs.androidx.lyfecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

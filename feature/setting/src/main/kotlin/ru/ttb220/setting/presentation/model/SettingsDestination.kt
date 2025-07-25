@@ -7,15 +7,6 @@ import ru.ttb220.presentation.model.R
 enum class SettingsDestination(
     @StringRes val textId: Int
 ) {
-    MAIN_COLOR(
-        R.string.main_color
-    ),
-    SOUNDS(
-        R.string.sounds
-    ),
-    HAPTICS(
-        R.string.haptics
-    ),
     PASSWORD(
         R.string.password
     ),

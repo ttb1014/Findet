@@ -35,6 +35,7 @@ android {
 dependencies {
     api(project(":core:model"))
 
+    // graphics
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
 

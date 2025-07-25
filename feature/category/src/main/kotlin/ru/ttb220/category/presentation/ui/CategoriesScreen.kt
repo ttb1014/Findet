@@ -35,13 +35,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.category.presentation.viewmodel.CategoriesViewModel
 import ru.ttb220.category.presentation.mock.mockCategoriesScreenContent
 import ru.ttb220.category.presentation.model.CategoriesScreenState
-import ru.ttb220.designsystem.ColumnListItem
-import ru.ttb220.designsystem.DynamicIconResource
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
+import ru.ttb220.category.presentation.viewmodel.CategoriesViewModel
+import ru.ttb220.designsystem.component.ColumnListItem
+import ru.ttb220.designsystem.component.DynamicIconResource
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
 import ru.ttb220.presentation.model.CategoryData
 import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.CategoriesScreenData
@@ -196,14 +196,16 @@ fun CategoryItem(
         modifier = modifier.height(70.dp),
         dynamicIconResource = categoryData.emojiData?.let {
             DynamicIconResource.EmojiIconResource(
-                it
+                emojiData = it,
+                background = MaterialTheme.colorScheme.primaryContainer
             )
         } ?: DynamicIconResource.TextIconResource(
-            categoryData.name
+            text = categoryData.name
                 .split(" ")
                 .map { it[0] }
                 .joinToString("")
-                .uppercase()
+                .uppercase(),
+            background = MaterialTheme.colorScheme.primaryContainer
         ),
         shouldShowLeadingDivider = shouldShowLeadingDivider,
         shouldShowTrailingDivider = true

@@ -24,8 +24,8 @@ import ru.ttb220.expense.presentation.model.EditExpenseState
 import ru.ttb220.expense.presentation.model.toExpenseScreenData
 import ru.ttb220.expense.presentation.model.toTransactionBrief
 import ru.ttb220.model.SafeResult
+import ru.ttb220.model.mapper.toTransactionDetailed
 import ru.ttb220.model.transaction.Transaction
-import ru.ttb220.model.transaction.toTransactionDetailed
 import ru.ttb220.presentation.model.R
 import javax.inject.Singleton
 

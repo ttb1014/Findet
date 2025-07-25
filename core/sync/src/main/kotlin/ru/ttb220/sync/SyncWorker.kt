@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.sync.Syncable
 import ru.ttb220.data.api.sync.Synchronizer
+import ru.ttb220.datastore.api.PreferencesDataSource
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
@@ -29,14 +30,13 @@ class SyncWorker @AssistedInject constructor(
     @Named("settingsRepository")
     private val settingsRepository: Syncable,
     private val timeProvider: TimeProvider,
+    private val preferencesDataSource: PreferencesDataSource,
 ) : CoroutineWorker(context, params), Synchronizer {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        // sequentially
-        // FIXME: make in parallel
         val syncedSuccessfully =
             settingsRepository.sync() &&
-            categoriesRepository.sync() &&
+                    categoriesRepository.sync() &&
                     accountsRepository.sync() &&
                     transactionsRepository.sync() &&
                     true
@@ -49,9 +49,9 @@ class SyncWorker @AssistedInject constructor(
     }
 
     companion object {
-        fun periodicSyncWork() = PeriodicWorkRequestBuilder<DelegatingWorker>(
-            repeatInterval = 6,
-            repeatIntervalTimeUnit = TimeUnit.HOURS
+        fun periodicSyncWork(frequency: Long) = PeriodicWorkRequestBuilder<DelegatingWorker>(
+            repeatInterval = frequency,
+            repeatIntervalTimeUnit = TimeUnit.MILLISECONDS
         )
             .setConstraints(
                 SyncConstraints
@@ -71,7 +71,7 @@ class SyncWorker @AssistedInject constructor(
     interface AssistedFactory {
         fun create(
             context: Context,
-            params: WorkerParameters
+            params: WorkerParameters,
         ): SyncWorker
     }
 }

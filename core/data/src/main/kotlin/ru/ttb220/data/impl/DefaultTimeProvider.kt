@@ -3,16 +3,18 @@ package ru.ttb220.data.impl
 import android.os.Build
 import androidx.annotation.RequiresApi
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import ru.ttb220.data.api.TimeProvider
 import javax.inject.Inject
 
 class DefaultTimeProvider @Inject constructor(
-    private val timeZone: TimeZone
+    private val timeZone: TimeZone,
 ) : TimeProvider {
 
     override fun now(): Instant {
@@ -42,6 +44,10 @@ class DefaultTimeProvider @Inject constructor(
         val isLeap = isLeapYear(year)
         val lastDay = month.length(isLeap)
         return LocalDate(year, month, lastDay)
+    }
+
+    override fun dayMonthAgo(): LocalDate {
+        return today().minus(1, DateTimeUnit.MONTH)
     }
 
     private fun isLeapYear(year: Int): Boolean {

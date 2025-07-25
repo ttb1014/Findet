@@ -6,8 +6,3 @@ data class AccountBrief(
     val currency: String,
 )
 
-fun Account.toAccountBrief(): AccountBrief = AccountBrief(
-    name = name,
-    balance = balance,
-    currency = currency
-)

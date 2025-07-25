@@ -40,9 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import ru.ttb220.bottomsheet.presentation.viewmodel.CurrencyViewModel
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.KeyError
-import ru.ttb220.designsystem.theme.LightSurfaceContainerLow
+import ru.ttb220.designsystem.component.ThreeComponentListItem
 import ru.ttb220.presentation.model.CurrencyData
 import ru.ttb220.presentation.model.R
 import kotlin.math.max
@@ -99,7 +97,7 @@ fun CurrencyBottomSheet(
                 )
             }
             .background(
-                LightSurfaceContainerLow,
+                MaterialTheme.colorScheme.surfaceContainerLow,
                 RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
             )
             .windowInsetsPadding(
@@ -132,7 +130,7 @@ private fun CancelItem(
         modifier = modifier
             .fillMaxWidth()
             .height(DEFAULT_ITEM_HEIGHT),
-        background = KeyError,
+        background = MaterialTheme.colorScheme.error,
         shouldShowTrailingDivider = true,
         leadingContent = @Composable {
             Icon(

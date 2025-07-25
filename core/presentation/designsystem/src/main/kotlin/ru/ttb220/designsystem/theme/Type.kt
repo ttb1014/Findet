@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import ru.ttb220.presentation.model.R
 
-
 val Roboto = FontFamily(
     // ExtraLight
     Font(
@@ -203,13 +202,21 @@ val LabelMedium = TextStyle(
     letterSpacing = 0.5.sp,
 )
 
+//val LabelSmall = TextStyle(
+//    fontFamily = Roboto,
+//    fontWeight = FontWeight.Medium,
+//    fontStyle = FontStyle.Normal,
+//    fontSize = 11.sp,
+//    lineHeight = 16.sp,
+//    letterSpacing = 0.5.sp,
+//)
 val LabelSmall = TextStyle(
     fontFamily = Roboto,
-    fontWeight = FontWeight.Medium,
+    fontWeight = FontWeight.Normal,
     fontStyle = FontStyle.Normal,
-    fontSize = 11.sp,
-    lineHeight = 16.sp,
-    letterSpacing = 0.5.sp,
+    fontSize = 7.sp,
+    lineHeight = 7.sp,
+    letterSpacing = 0.sp,
 )
 
 val TitleLarge = robotoRegularTextStyle(

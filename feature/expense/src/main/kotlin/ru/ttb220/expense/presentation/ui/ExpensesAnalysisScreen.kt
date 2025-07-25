@@ -34,14 +34,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.designsystem.DatePickerDialog
-import ru.ttb220.designsystem.DynamicIcon
-import ru.ttb220.designsystem.DynamicIconResource
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
-import ru.ttb220.designsystem.MonthChip
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.LightGreyIconTint
+import ru.ttb220.chart.api.model.CircleDiagramData
+import ru.ttb220.chart.api.ui.CircleDiagram
+import ru.ttb220.designsystem.component.DatePickerDialog
+import ru.ttb220.designsystem.component.DynamicIcon
+import ru.ttb220.designsystem.component.DynamicIconResource
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
+import ru.ttb220.designsystem.component.MonthChip
+import ru.ttb220.designsystem.component.ThreeComponentListItem
+import ru.ttb220.expense.presentation.mock.mockCircleDiagramData
 import ru.ttb220.expense.presentation.model.ExpenseAnalysisItemData
 import ru.ttb220.expense.presentation.model.ExpensesAnalysisScreenState
 import ru.ttb220.expense.presentation.viewmodel.ExpensesAnalysisScreenViewModel
@@ -94,6 +96,7 @@ fun ExpensesAnalysisScreen(
                     endMonthWithYear,
                     totalAmount,
                     items,
+                    circleDiagramData = circleDiagramData,
                     modifier = modifier,
                     onStartDateSelected = onStartDateSelected,
                     onEndDateSelected = onEndDateSelected
@@ -130,7 +133,7 @@ private fun EmptyPlaceholder() =
 private fun PeriodColumnListItem(
     @StringRes title: Int,
     monthWithYear: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     ThreeComponentListItem(
         modifier = modifier.height(56.dp),
@@ -158,7 +161,7 @@ private fun PeriodColumnListItem(
 @Composable
 private fun TotalAmountItem(
     amount: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     ThreeComponentListItem(
         modifier = modifier.height(56.dp),
@@ -233,7 +236,7 @@ fun ExpenseAnalysisItem(
                 Spacer(Modifier.width(16.dp))
                 Icon(
                     painterResource(R.drawable.more_right),
-                    tint = LightGreyIconTint,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     contentDescription = null,
                 )
             }
@@ -281,9 +284,10 @@ fun ExpensesAnalysisScreen(
     endMonthWithYear: String,
     totalAmount: String,
     items: List<ExpenseAnalysisItemData>,
+    circleDiagramData: CircleDiagramData,
     modifier: Modifier = Modifier,
     onStartDateSelected: (Long?) -> Unit = {},
-    onEndDateSelected: (Long?) -> Unit = {}
+    onEndDateSelected: (Long?) -> Unit = {},
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
@@ -312,17 +316,15 @@ fun ExpensesAnalysisScreen(
         TotalAmountItem(
             totalAmount,
         )
-        Spacer(Modifier.height(17.dp))
         Box(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp, bottom = 20.dp),
+            Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painterResource(ru.ttb220.expense.R.drawable.mock_circle_diagram),
-                null,
-                contentScale = ContentScale.None
+            CircleDiagram(
+                circleDiagramData = circleDiagramData,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .size(150.dp)
             )
         }
         LazyColumn {
@@ -368,7 +370,7 @@ fun ExpensesAnalysisScreen(
     totalAmount: String,
     modifier: Modifier = Modifier,
     onStartDateSelected: (Long?) -> Unit = {},
-    onEndDateSelected: (Long?) -> Unit = {}
+    onEndDateSelected: (Long?) -> Unit = {},
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
@@ -397,19 +399,7 @@ fun ExpensesAnalysisScreen(
         TotalAmountItem(
             totalAmount,
         )
-        Spacer(Modifier.height(17.dp))
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp, bottom = 20.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painterResource(ru.ttb220.expense.R.drawable.mock_circle_diagram),
-                null,
-                contentScale = ContentScale.None
-            )
-        }
+        Spacer(Modifier.height(16.dp))
         EmptyPlaceholder()
     }
 
@@ -450,5 +440,6 @@ private fun ExpensesAnalysisScreenPreview() {
                 expenseAmount = "20 000 ₽"
             )
         ),
+        circleDiagramData = mockCircleDiagramData
     )
 }

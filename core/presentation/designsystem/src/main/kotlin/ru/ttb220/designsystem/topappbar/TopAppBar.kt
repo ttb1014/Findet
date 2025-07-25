@@ -32,8 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.designsystem.theme.Green
-import ru.ttb220.designsystem.theme.KeyError
 import ru.ttb220.presentation.model.R
 
 /**
@@ -49,9 +47,9 @@ fun TopAppBar(
     onTrailingIconClick: () -> Unit = {},
     isConnected: Boolean = true,
     lastSyncFormattedTime: String,
-    color: Color = Green
+    color: Color = MaterialTheme.colorScheme.primary
 ) {
-    val surfaceColor = if (!isConnected) KeyError else color
+    val surfaceColor = if (!isConnected) MaterialTheme.colorScheme.error else color
 
     Surface(
         modifier = modifier,

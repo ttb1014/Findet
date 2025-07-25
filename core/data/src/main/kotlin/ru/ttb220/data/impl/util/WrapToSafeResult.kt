@@ -25,7 +25,7 @@ fun <T> Flow<T>.wrapToSafeResult(): Flow<SafeResult<T>> =
         .catch { e ->
             val domainError: DomainError = when (e) {
                 is ForbiddenException -> {
-                    DomainError.Unknown(e.message)
+                    DomainError.UnknownError(e.message)
                 }
 
                 is IncorrectInputFormatException -> {
@@ -45,7 +45,7 @@ fun <T> Flow<T>.wrapToSafeResult(): Flow<SafeResult<T>> =
                 }
 
                 is ClientErrorException -> {
-                    DomainError.Unknown(e.message)
+                    DomainError.UnknownError(e.message)
                 }
 
                 is ServerErrorException -> {
@@ -53,11 +53,11 @@ fun <T> Flow<T>.wrapToSafeResult(): Flow<SafeResult<T>> =
                 }
 
                 is ApiException -> {
-                    DomainError.Unknown(e.message)
+                    DomainError.UnknownError(e.message)
                 }
 
                 else -> {
-                    DomainError.Unknown(e.message)
+                    DomainError.UnknownError(e.message)
                 }
             }
 

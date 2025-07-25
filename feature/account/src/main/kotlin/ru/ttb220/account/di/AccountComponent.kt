@@ -2,7 +2,6 @@ package ru.ttb220.account.di
 
 import androidx.lifecycle.ViewModelProvider
 import dagger.Subcomponent
-import javax.inject.Singleton
 
 @Subcomponent(
     modules = [

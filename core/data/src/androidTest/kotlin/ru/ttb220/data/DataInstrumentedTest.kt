@@ -31,7 +31,7 @@ import ru.ttb220.database.mapper.toAccountEntity
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.account.Account
 import ru.ttb220.model.account.AccountBrief
-import ru.ttb220.model.account.toAccountBrief
+import ru.ttb220.model.mapper.toAccountBrief
 import ru.ttb220.network.api.RemoteDataSource
 import ru.ttb220.network.api.mapper.toAccount
 import ru.ttb220.network.api.mapper.toAccountCreateRequestDto

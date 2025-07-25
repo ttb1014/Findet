@@ -8,7 +8,6 @@ import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.model.SafeResult
 import ru.ttb220.model.account.Account
 import ru.ttb220.model.account.AccountBrief
-import ru.ttb220.model.account.AccountDetailed
 import javax.inject.Inject
 
 class SetActiveAccountCurrencyUseCase @Inject constructor(

@@ -5,8 +5,8 @@ import dagger.Module
 import ru.ttb220.data.api.sync.Syncable
 import ru.ttb220.data.impl.OfflineFirstAccountsRepository
 import ru.ttb220.data.impl.OfflineFirstCategoriesRepository
-import ru.ttb220.data.impl.OfflineFirstTransactionsRepository
 import ru.ttb220.data.impl.OfflineFirstSettingsRepository
+import ru.ttb220.data.impl.OfflineFirstTransactionsRepository
 import javax.inject.Named
 
 @Module

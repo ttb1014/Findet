@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 import ru.ttb220.bottomsheet.domain.SetActiveAccountCurrencyUseCase
 import ru.ttb220.presentation.model.CurrencyData
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class CurrencyViewModel @Inject constructor(
     private val setActiveAccountCurrencyUseCase: SetActiveAccountCurrencyUseCase,

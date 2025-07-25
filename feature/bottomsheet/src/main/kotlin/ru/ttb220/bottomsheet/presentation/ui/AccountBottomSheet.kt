@@ -45,9 +45,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.ttb220.bottomsheet.presentation.model.AccountBottomSheetState
 import ru.ttb220.bottomsheet.presentation.model.AccountData
 import ru.ttb220.bottomsheet.presentation.viewmodel.AccountBottomSheetViewModel
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.KeyError
-import ru.ttb220.designsystem.theme.LightSurfaceContainerLow
+import ru.ttb220.designsystem.component.ThreeComponentListItem
 import ru.ttb220.presentation.model.R
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -121,7 +119,7 @@ fun AccountBottomSheet(
                 )
             }
             .background(
-                LightSurfaceContainerLow,
+                MaterialTheme.colorScheme.surfaceContainerLow,
                 RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
             )
             .windowInsetsPadding(
@@ -222,7 +220,7 @@ private fun CancelItem(
         modifier = modifier
             .fillMaxWidth()
             .height(DEFAULT_ITEM_HEIGHT),
-        background = KeyError,
+        background = MaterialTheme.colorScheme.error,
         shouldShowTrailingDivider = true,
         leadingContent = @Composable {
             Icon(

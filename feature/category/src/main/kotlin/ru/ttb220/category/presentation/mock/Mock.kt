@@ -1,8 +1,8 @@
 package ru.ttb220.category.presentation.mock
 
-import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.CategoryData
 import ru.ttb220.presentation.model.EmojiData
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.screen.CategoriesScreenData
 
 val mockCategoriesScreenContent = CategoriesScreenData(

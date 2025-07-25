@@ -1,7 +1,6 @@
 package ru.ttb220.data.di
 
 import android.app.Application
-import ru.ttb220.data.di.DaggerTestAppComponent
 
 class TestApplication : Application() {
     lateinit var testComponent: TestAppComponent

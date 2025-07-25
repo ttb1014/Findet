@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 import ru.ttb220.data.api.AccountsRepository
 import ru.ttb220.data.api.SettingsRepository
 import ru.ttb220.model.SafeResult
-import ru.ttb220.model.account.toAccountBrief
+import ru.ttb220.model.mapper.toAccountBrief
 import javax.inject.Inject
 
 class EditActiveAccountNameUseCase @Inject constructor(

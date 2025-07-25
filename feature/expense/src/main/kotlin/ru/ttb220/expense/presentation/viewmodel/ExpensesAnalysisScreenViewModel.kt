@@ -16,9 +16,10 @@ import ru.ttb220.data.api.AccountsRepository
 import ru.ttb220.data.api.CategoriesRepository
 import ru.ttb220.data.api.TimeProvider
 import ru.ttb220.data.api.TransactionsRepository
-import ru.ttb220.designsystem.DynamicIconResource
+import ru.ttb220.designsystem.component.DynamicIconResource
 import ru.ttb220.expense.domain.GetActiveAccountCurrencyUseCase
 import ru.ttb220.expense.domain.GetTransactionsForActiveAccountPeriodUseCase
+import ru.ttb220.expense.domain.MakeCircleDiagramDataUseCase
 import ru.ttb220.expense.presentation.model.ExpenseAnalysisItemData
 import ru.ttb220.expense.presentation.model.ExpensesAnalysisScreenState
 import ru.ttb220.model.SafeResult
@@ -35,6 +36,7 @@ class ExpensesAnalysisScreenViewModel @Inject constructor(
     private val transactionsRepository: TransactionsRepository,
     private val categoriesRepository: CategoriesRepository,
     private val getTransactionsForActiveAccountPeriodUseCase: GetTransactionsForActiveAccountPeriodUseCase,
+    private val makeCircleDiagramDataUseCase: MakeCircleDiagramDataUseCase,
     private val timeProvider: TimeProvider,
     private val getActiveAccountCurrencyUseCase: GetActiveAccountCurrencyUseCase,
     private val timeZone: TimeZone,
@@ -127,7 +129,7 @@ class ExpensesAnalysisScreenViewModel @Inject constructor(
                         CurrencyMapper.getSymbol(currencyCode)
                     )
                     val percentage =
-                        NumberToStringMapper.mapPercentage(totalAmountDouble / totalApplicableDouble)
+                        NumberToStringMapper.mapPercentage(totalApplicableDouble / totalAmountDouble)
 
                     AnalysisData(
                         emojiData = EmojiMapper.getEmojiData(category.emoji),
@@ -151,7 +153,11 @@ class ExpensesAnalysisScreenViewModel @Inject constructor(
                     beginMonthWithYear = startMonthLong.asMonthWithYear(),
                     endMonthWithYear = endMonthLong.asMonthWithYear(),
                     totalAmount = totalStringWithCurrencySymbol,
-                    items = analysedExpenses.map { it.toExpenseAnalysisItemData() }
+                    items = analysedExpenses.map { it.toExpenseAnalysisItemData() },
+                    circleDiagramData = makeCircleDiagramDataUseCase(
+                        transactions,
+                        categories
+                    )
                 )
             }.collect { }
         }

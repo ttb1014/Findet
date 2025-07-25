@@ -1,9 +1,8 @@
 package ru.ttb220.model.transaction
 
 import kotlinx.datetime.Instant
-import ru.ttb220.model.Timestamped
-import ru.ttb220.model.account.Account
-import ru.ttb220.model.account.AccountState
+import ru.ttb220.model.util.Timestamped
+import ru.ttb220.model.util.Updatable
 
 data class Transaction(
     val id: Int,
@@ -14,4 +13,8 @@ data class Transaction(
     val comment: String? = null,
     override val createdAt: Instant,
     override val updatedAt: Instant,
-) : Timestamped
+) : Timestamped, Updatable<Transaction> {
+
+    override fun update(instant: Instant): Transaction =
+        this.copy(updatedAt = instant)
+}

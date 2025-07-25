@@ -2,59 +2,29 @@ package ru.ttb220.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-
-private val DarkColorScheme = darkColorScheme()
-
-private val LightColorScheme = lightColorScheme(
-    primary = LightPrimary,
-    onPrimary = LightOnPrimary,
-    primaryContainer = LightPrimaryContainer,
-    onPrimaryContainer = LightOnPrimaryContainer,
-    inversePrimary = LightInversePrimary,
-    secondary = LightSecondary,
-    onSecondary = LightOnSecondary,
-    secondaryContainer = LightSecondaryContainer,
-    onSecondaryContainer = LightOnSecondaryContainer,
-    tertiary = LightTertiary,
-    onTertiary = LightOnTertiary,
-    tertiaryContainer = LightTertiaryContainer,
-    onTertiaryContainer = LightOnTertiaryContainer,
-    background = LightBackground,
-    onBackground = LightOnBackground,
-    surface = LightSurface,
-    onSurface = LightOnSurface,
-    surfaceVariant = LightSurfaceVariant,
-    onSurfaceVariant = LightOnSurfaceVariant,
-    surfaceTint = LightSurfaceTint,
-    inverseSurface = LightInverseSurface,
-    inverseOnSurface = LightInverseOnSurface,
-    error = LightError,
-    onError = LightOnError,
-    errorContainer = LightErrorContainer,
-    onErrorContainer = LightOnErrorContainer,
-    outline = LightOutline,
-    outlineVariant = LightOutlineVariant,
-    scrim = LightScrim,
-    surfaceBright = LightSurfaceBright,
-    surfaceContainer = LightSurfaceContainer,
-    surfaceContainerHigh = LightSurfaceContainerHigh,
-    surfaceContainerHighest = LightSurfaceContainerHighest,
-    surfaceContainerLow = LightSurfaceContainerLow,
-    surfaceContainerLowest = LightSurfaceContainerLowest,
-    surfaceDim = LightSurfaceDim
-)
+import ru.ttb220.model.ThemeState
 
 @Composable
 fun FindetTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    themeState: ThemeState = ThemeState.ORIGINAL,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colorScheme = when (darkTheme) {
+        true -> when (themeState) {
+            ThemeState.ORIGINAL -> OriginalDarkColorScheme
+            ThemeState.GOLD -> GoldDarkColorScheme
+            ThemeState.OCEAN -> OceanDarkColorScheme
+            ThemeState.PURPLE -> PurpleDarkColorScheme
+        }
+
+        false -> when (themeState) {
+            ThemeState.ORIGINAL -> OriginalLightColorScheme
+            ThemeState.GOLD -> GoldLightColorScheme
+            ThemeState.OCEAN -> OceanLightColorScheme
+            ThemeState.PURPLE -> PurpleLightColorScheme
+        }
     }
 
     MaterialTheme(

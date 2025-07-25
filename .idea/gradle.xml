@@ -12,8 +12,10 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/chart" />
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/database" />
+            <option value="$PROJECT_DIR$/core/datastore" />
             <option value="$PROJECT_DIR$/core/mock" />
             <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/core/network" />
@@ -21,6 +23,8 @@
             <option value="$PROJECT_DIR$/core/presentation/common" />
             <option value="$PROJECT_DIR$/core/presentation/designsystem" />
             <option value="$PROJECT_DIR$/core/presentation/model" />
+            <option value="$PROJECT_DIR$/core/security" />
+            <option value="$PROJECT_DIR$/core/splash" />
             <option value="$PROJECT_DIR$/core/sync" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/account" />
@@ -28,6 +32,7 @@
             <option value="$PROJECT_DIR$/feature/category" />
             <option value="$PROJECT_DIR$/feature/expense" />
             <option value="$PROJECT_DIR$/feature/income" />
+            <option value="$PROJECT_DIR$/feature/pin" />
             <option value="$PROJECT_DIR$/feature/setting" />
           </set>
         </option>

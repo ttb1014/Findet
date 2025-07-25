@@ -38,8 +38,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.ttb220.designsystem.theme.Green
-import ru.ttb220.designsystem.theme.KeyError
 import ru.ttb220.presentation.model.R
 
 @Suppress("LongParameterList", "FunctionNaming")
@@ -49,7 +47,7 @@ fun EditableTopAppBar(
     text: String,
     modifier: Modifier = Modifier,
     isConnected: Boolean = true,
-    color: Color = Green,
+    color: Color = MaterialTheme.colorScheme.primary,
     @DrawableRes leadingIcon: Int? = R.drawable.cross,
     @DrawableRes trailingIcon: Int? = R.drawable.check,
     onTextEdited: (String) -> Unit = {},
@@ -61,7 +59,7 @@ fun EditableTopAppBar(
         onLeadingIconClick()
     }
 
-    val surfaceColor = if (!isConnected) KeyError else color
+    val surfaceColor = if (!isConnected) MaterialTheme.colorScheme.error else color
     Surface(
         modifier = modifier,
         color = surfaceColor,
@@ -102,7 +100,7 @@ fun EditableTopAppBar(
                 )
                 .height(64.dp)
                 .fillMaxWidth()
-                .background(Green)
+                .background(MaterialTheme.colorScheme.primary)
                 .padding(horizontal = 4.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically

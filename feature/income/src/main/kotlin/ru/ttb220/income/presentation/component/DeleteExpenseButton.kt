@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.ttb220.designsystem.theme.KeyError
 import ru.ttb220.presentation.model.R
 
 @Composable
@@ -27,7 +26,7 @@ fun DeleteIncomeButton(
         modifier = modifier
             .fillMaxWidth()
             .height(40.dp)
-            .background(KeyError, RoundedCornerShape(100.dp))
+            .background(MaterialTheme.colorScheme.error, RoundedCornerShape(100.dp))
             .clickable(onClick = onClick)
     ) {
         Text(

@@ -1,8 +1,10 @@
 package ru.ttb220.income.presentation.mock
 
-import ru.ttb220.presentation.model.R
+import androidx.compose.ui.graphics.Color
+import ru.ttb220.chart.api.model.CircleDiagramData
 import ru.ttb220.presentation.model.EmojiData
 import ru.ttb220.presentation.model.IncomeData
+import ru.ttb220.presentation.model.R
 import ru.ttb220.presentation.model.TransactionHistoryData
 import ru.ttb220.presentation.model.screen.HistoryScreenData
 import ru.ttb220.presentation.model.screen.IncomesScreenData
@@ -64,4 +66,11 @@ val mockIncomesScreenData = IncomesScreenData(
         )
     ),
     totalAmount = "600 000 ₽"
+)
+
+val mockCircleDiagramData = CircleDiagramData(
+    data = listOf(
+        Triple("Ремонт квартиры", 20, Color.Green),
+        Triple("На собачку", 80, Color.Yellow)
+    )
 )

@@ -1,7 +1,6 @@
 package ru.ttb220.income.presentation.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,20 +27,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.designsystem.DatePickerDialog
-import ru.ttb220.designsystem.DynamicIcon
-import ru.ttb220.designsystem.DynamicIconResource
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
-import ru.ttb220.designsystem.MonthChip
-import ru.ttb220.designsystem.ThreeComponentListItem
-import ru.ttb220.designsystem.theme.LightGreyIconTint
+import ru.ttb220.chart.api.model.CircleDiagramData
+import ru.ttb220.chart.api.ui.CircleDiagram
+import ru.ttb220.designsystem.component.DatePickerDialog
+import ru.ttb220.designsystem.component.DynamicIcon
+import ru.ttb220.designsystem.component.DynamicIconResource
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
+import ru.ttb220.designsystem.component.MonthChip
+import ru.ttb220.designsystem.component.ThreeComponentListItem
+import ru.ttb220.designsystem.theme.FindetTheme
+import ru.ttb220.income.presentation.mock.mockCircleDiagramData
 import ru.ttb220.income.presentation.model.IncomeAnalysisItemData
 import ru.ttb220.income.presentation.model.IncomesAnalysisScreenState
 import ru.ttb220.income.presentation.viewmodel.IncomesAnalysisScreenViewModel
@@ -67,7 +68,7 @@ fun IncomesAnalysisScreen(
     incomeAnalysisScreenState: IncomesAnalysisScreenState,
     modifier: Modifier = Modifier,
     onStartDateSelected: (Long?) -> Unit = {},
-    onEndDateSelected: (Long?) -> Unit = {}
+    onEndDateSelected: (Long?) -> Unit = {},
 ) {
     when (incomeAnalysisScreenState) {
         is IncomesAnalysisScreenState.ErrorResource -> Box(
@@ -94,6 +95,7 @@ fun IncomesAnalysisScreen(
                     endMonthWithYear,
                     totalAmount,
                     items,
+                    circleDiagramData = circleDiagramData,
                     modifier = modifier,
                     onStartDateSelected = onStartDateSelected,
                     onEndDateSelected = onEndDateSelected
@@ -132,7 +134,7 @@ private fun EmptyPlaceholder() =
 private fun PeriodColumnListItem(
     @StringRes title: Int,
     monthWithYear: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     ThreeComponentListItem(
         modifier = modifier.height(56.dp),
@@ -160,7 +162,7 @@ private fun PeriodColumnListItem(
 @Composable
 private fun TotalAmountItem(
     amount: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     ThreeComponentListItem(
         modifier = modifier.height(56.dp),
@@ -235,7 +237,7 @@ fun IncomeAnalysisItem(
                 Spacer(Modifier.width(16.dp))
                 Icon(
                     painterResource(R.drawable.more_right),
-                    tint = LightGreyIconTint,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     contentDescription = null,
                 )
             }
@@ -283,9 +285,10 @@ fun IncomesAnalysisScreen(
     endMonthWithYear: String,
     totalAmount: String,
     items: List<IncomeAnalysisItemData>,
+    circleDiagramData: CircleDiagramData,
     modifier: Modifier = Modifier,
     onStartDateSelected: (Long?) -> Unit = {},
-    onEndDateSelected: (Long?) -> Unit = {}
+    onEndDateSelected: (Long?) -> Unit = {},
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
@@ -314,17 +317,15 @@ fun IncomesAnalysisScreen(
         TotalAmountItem(
             totalAmount,
         )
-        Spacer(Modifier.height(17.dp))
         Box(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp, bottom = 20.dp),
+            Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painterResource(ru.ttb220.income.R.drawable.mock_circle_diagram),
-                null,
-                contentScale = ContentScale.None
+            CircleDiagram(
+                circleDiagramData = circleDiagramData,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .size(150.dp)
             )
         }
         LazyColumn {
@@ -370,7 +371,7 @@ fun IncomesAnalysisScreen(
     totalAmount: String,
     modifier: Modifier = Modifier,
     onStartDateSelected: (Long?) -> Unit = {},
-    onEndDateSelected: (Long?) -> Unit = {}
+    onEndDateSelected: (Long?) -> Unit = {},
 ) {
     var showStartDatePicker by remember { mutableStateOf(false) }
     var showEndDatePicker by remember { mutableStateOf(false) }
@@ -399,19 +400,7 @@ fun IncomesAnalysisScreen(
         TotalAmountItem(
             totalAmount,
         )
-        Spacer(Modifier.height(17.dp))
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 36.dp, bottom = 20.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painterResource(ru.ttb220.income.R.drawable.mock_circle_diagram),
-                null,
-                contentScale = ContentScale.None
-            )
-        }
+        Spacer(Modifier.height(16.dp))
         EmptyPlaceholder()
     }
 
@@ -439,18 +428,21 @@ fun IncomesAnalysisScreen(
 @Preview
 @Composable
 private fun IncomesAnalysisScreenPreview() {
-    IncomesAnalysisScreen(
-        beginMonthWithYear = "февраль 2025",
-        endMonthWithYear = "март 2025",
-        totalAmount = "20 000 ₽",
-        items = listOf(
-            IncomeAnalysisItemData(
-                leadingIcon = DynamicIconResource.TextIconResource("РК"),
-                incomeName = "Ремонт квартиры",
-                incomeDescription = "Ремонт - фурнитура для дверей",
-                incomePercentage = "80%",
-                incomeAmount = "20 000 ₽"
-            )
-        ),
-    )
+    FindetTheme {
+        IncomesAnalysisScreen(
+            beginMonthWithYear = "февраль 2025",
+            endMonthWithYear = "март 2025",
+            totalAmount = "20 000 ₽",
+            items = listOf(
+                IncomeAnalysisItemData(
+                    leadingIcon = DynamicIconResource.TextIconResource("РК"),
+                    incomeName = "Ремонт квартиры",
+                    incomeDescription = "Ремонт - фурнитура для дверей",
+                    incomePercentage = "80%",
+                    incomeAmount = "20 000 ₽"
+                )
+            ),
+            circleDiagramData = mockCircleDiagramData
+        )
+    }
 }

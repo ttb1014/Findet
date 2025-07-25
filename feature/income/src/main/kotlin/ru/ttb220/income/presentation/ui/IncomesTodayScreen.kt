@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -16,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.ttb220.designsystem.ColumnListItem
-import ru.ttb220.designsystem.ErrorBox
-import ru.ttb220.designsystem.LoadingWheel
-import ru.ttb220.designsystem.theme.GreenHighlight
+import ru.ttb220.designsystem.component.ColumnListItem
+import ru.ttb220.designsystem.component.ErrorBox
+import ru.ttb220.designsystem.component.LoadingWheel
+
 import ru.ttb220.income.presentation.mock.mockIncomesScreenData
 import ru.ttb220.income.presentation.model.IncomesTodayScreenState
 import ru.ttb220.income.presentation.viewmodel.IncomesTodayViewModel
@@ -110,7 +111,7 @@ private fun TotalAmountHeader(
         title = "Всего",
         trailingText = totalAmount,
         modifier = modifier.height(56.dp),
-        background = GreenHighlight
+        background = MaterialTheme.colorScheme.primaryContainer
     )
 }
 

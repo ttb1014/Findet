@@ -6,12 +6,14 @@ package ru.ttb220.model
 sealed interface DomainError {
 
     data object NoInternet : DomainError
-    data object ApiError : DomainError
-    data object NotFound : DomainError
-    data object InvalidInput : DomainError
-    data object Timeout : DomainError
 
-    data class Unknown(
+    data object InvalidInput : DomainError
+
+    data object ApiError : DomainError
+
+    data object NotFound : DomainError
+
+    data class UnknownError(
         val message: String? = null
     ) : DomainError
 
