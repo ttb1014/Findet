@@ -2,7 +2,6 @@ package ru.ttb220.findet
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,7 +22,6 @@ import ru.ttb220.findet.util.appComponent
 import ru.ttb220.model.SupportedLanguage
 import ru.ttb220.model.ThemeState
 import javax.inject.Inject
-import kotlinx.coroutines.flow.onEach
 
 class MainActivity : ComponentActivity() {
 
