@@ -3,8 +3,10 @@ package ru.ttb220.datastore.impl
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.ttb220.datastore.api.PreferencesDataSource
 import ru.ttb220.datastore.impl.DataStoreKeys.DARK_MODE_KEY
@@ -140,7 +142,7 @@ class PreferencesDataSourceImpl @Inject constructor(
         private const val DEFAULT_SYNC_FREQUENCY = 6 * 60 * 60 * 1000L
         private const val DEFAULT_HAPTICS_ENABLED = true
         private const val DEFAULT_LAST_SYNC_TIME = -1L
-        private val DEFAULT_LANGUAGE = SupportedLanguage.RUSSIAN
+        private val DEFAULT_LANGUAGE = SupportedLanguage.ENGLISH
         private const val DEFAULT_DARK_MODE = false
     }
 }

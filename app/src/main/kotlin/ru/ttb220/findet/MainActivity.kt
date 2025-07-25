@@ -70,8 +70,7 @@ class MainActivity : ComponentActivity() {
                 .collectAsStateWithLifecycle(
                     isSystemInDarkTheme()
                 )
-            val activeLanguage by mainViewModel
-                .activeLanguageFlow()
+            val activeLanguage by mainViewModel.activeLanguageFlow()
                 .collectAsStateWithLifecycle(
                     SupportedLanguage.RUSSIAN
                 )
